@@ -1,0 +1,6 @@
+- These are todos:
+
+
+1) Firstly, make sure the fSaveNames flag is enabled during IoCommandReadBlif using the flag -m
+	Currently, pyyosis doesn't enable this by default. This needs to be added in the design.run() pass API for ABC.
+

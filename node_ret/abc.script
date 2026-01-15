@@ -1,4 +1,4 @@
-read_blif -m "node/ret/input.blif";
+read_blif -m "node_ret/input.blif";
 read_library node_ret/stdcells.genlib;
 print_level -n;
 &get -n;

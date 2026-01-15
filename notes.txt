@@ -4,3 +4,39 @@
 1) Firstly, make sure the fSaveNames flag is enabled during IoCommandReadBlif using the flag -m
 	Currently, pyyosis doesn't enable this by default. This needs to be added in the design.run() pass API for ABC.
 
+
+
+A list of TODOs and steps taken for changing
+1) The initial state of the read_blif -m command is an Abc_ntk_t with the type of ABC_NTK_NETLIST.
+2) Firstly, we need to ovverride these functions:
+
+	        pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
+            pAig = Abc_NtkToDar( pStrash, 0, 0 );
+            Abc_NtkDelete( pStrash );
+            pGia = Gia_ManFromAig( pAig );
+            Aig_ManStop( pAig );
+	Meaning, there's a conversion into the Aig_man_t as well.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Scratchpad
+	Name manager files:
+		advaysingh:~/dev/abc (node_retention)% find . -name "*nm*"
+		./src/misc/nm
+		./src/misc/nm/nmInt.h
+		./src/misc/nm/nmTable.c
+		./src/misc/nm/nm.h
+		./src/misc/nm/nmApi.c

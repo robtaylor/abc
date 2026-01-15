@@ -40,3 +40,9 @@ Scratchpad
 		./src/misc/nm/nmTable.c
 		./src/misc/nm/nm.h
 		./src/misc/nm/nmApi.c
+
+	Function to print out the Name Manager info:
+	void Nm_ManProfile( Nm_Man_t * p );
+
+Change log:
+1) Add the Nm_ManProfile function as a decleration to nmInt.h

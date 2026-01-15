@@ -1,0 +1,89 @@
+# Benchmark "netlist" written by ABC on Thu Jan 15 11:05:19 2026
+.model netlist
+.inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
+ ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \
+ ys__n73 ys__n75 ys__n81 ys__n83 ys__n89 ys__n91 ys__n97 ys__n99 ys__n105 \
+ ys__n107 ys__n113 ys__n115 ys__n121 ys__n123 ys__n129 ys__n131 ys__n137 \
+ ys__n139 ys__n145 ys__n147 ys__n153 ys__n155 ys__n161 ys__n163 ys__n169 \
+ ys__n171 ys__n177 ys__n179 ys__n185 ys__n187 ys__n193 ys__n195 ys__n201 \
+ ys__n203 ys__n209 ys__n211 ys__n217 ys__n219 ys__n225 ys__n227 ys__n233 \
+ ys__n235 ys__n241 ys__n243 ys__n249 ys__n251 ys__n257 ys__n259 ys__n260 \
+ ys__n264 ys__n267 ys__n279 ys__n293 ys__n304 ys__n314 ys__n324 ys__n334 \
+ ys__n342 ys__n350 ys__n363 ys__n373 ys__n383 ys__n393 ys__n403 ys__n411 \
+ ys__n419 ys__n431 ys__n439 ys__n447 ys__n521 ys__n522
+.outputs ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 \
+ ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 \
+ ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 \
+ ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 \
+ ys__n265 ys__n268 ys__n270 ys__n506
+.gate NOT  A=ys__n293 Y=new_n125
+.gate NOT  A=ys__n304 Y=new_n126
+.gate NOT  A=ys__n363 Y=new_n127
+.gate NOT  A=ys__n393 Y=new_n128
+.gate NOT  A=ys__n403 Y=new_n129
+.gate NOT  A=ys__n431 Y=new_n130
+.gate NOT  A=ys__n439 Y=new_n131
+.gate MUX  A=ys__n11 B=ys__n8 S=ys__n7 Y=ys__n3
+.gate MUX  A=ys__n19 B=ys__n17 S=ys__n7 Y=ys__n13
+.gate MUX  A=ys__n27 B=ys__n25 S=ys__n7 Y=ys__n21
+.gate MUX  A=ys__n35 B=ys__n33 S=ys__n7 Y=ys__n29
+.gate MUX  A=ys__n43 B=ys__n41 S=ys__n7 Y=ys__n37
+.gate MUX  A=ys__n51 B=ys__n49 S=ys__n7 Y=ys__n45
+.gate MUX  A=ys__n59 B=ys__n57 S=ys__n7 Y=ys__n53
+.gate MUX  A=ys__n67 B=ys__n65 S=ys__n7 Y=ys__n61
+.gate MUX  A=ys__n75 B=ys__n73 S=ys__n7 Y=ys__n69
+.gate MUX  A=ys__n83 B=ys__n81 S=ys__n7 Y=ys__n77
+.gate MUX  A=ys__n91 B=ys__n89 S=ys__n7 Y=ys__n85
+.gate MUX  A=ys__n99 B=ys__n97 S=ys__n7 Y=ys__n93
+.gate MUX  A=ys__n107 B=ys__n105 S=ys__n7 Y=ys__n101
+.gate MUX  A=ys__n115 B=ys__n113 S=ys__n7 Y=ys__n109
+.gate MUX  A=ys__n123 B=ys__n121 S=ys__n7 Y=ys__n117
+.gate MUX  A=ys__n131 B=ys__n129 S=ys__n7 Y=ys__n125
+.gate MUX  A=ys__n139 B=ys__n137 S=ys__n7 Y=ys__n133
+.gate MUX  A=ys__n147 B=ys__n145 S=ys__n7 Y=ys__n141
+.gate MUX  A=ys__n155 B=ys__n153 S=ys__n7 Y=ys__n149
+.gate MUX  A=ys__n163 B=ys__n161 S=ys__n7 Y=ys__n157
+.gate MUX  A=ys__n171 B=ys__n169 S=ys__n7 Y=ys__n165
+.gate MUX  A=ys__n179 B=ys__n177 S=ys__n7 Y=ys__n173
+.gate MUX  A=ys__n187 B=ys__n185 S=ys__n7 Y=ys__n181
+.gate MUX  A=ys__n195 B=ys__n193 S=ys__n7 Y=ys__n189
+.gate MUX  A=ys__n203 B=ys__n201 S=ys__n7 Y=ys__n197
+.gate MUX  A=ys__n211 B=ys__n209 S=ys__n7 Y=ys__n205
+.gate MUX  A=ys__n219 B=ys__n217 S=ys__n7 Y=ys__n213
+.gate MUX  A=ys__n227 B=ys__n225 S=ys__n7 Y=ys__n221
+.gate MUX  A=ys__n235 B=ys__n233 S=ys__n7 Y=ys__n229
+.gate MUX  A=ys__n243 B=ys__n241 S=ys__n7 Y=ys__n237
+.gate MUX  A=ys__n251 B=ys__n249 S=ys__n7 Y=ys__n245
+.gate MUX  A=ys__n259 B=ys__n257 S=ys__n7 Y=ys__n253
+.gate AND  A=ys__n383 B=new_n128 Y=new_n164
+.gate AND  A=ys__n419 B=new_n130 Y=new_n165
+.gate AND  A=new_n129 B=ys__n411 Y=new_n166
+.gate AND  A=new_n165 B=new_n166 Y=new_n167
+.gate AND  A=new_n164 B=new_n167 Y=new_n168
+.gate AND  A=new_n127 B=ys__n373 Y=new_n169
+.gate AND  A=new_n126 B=ys__n350 Y=new_n170
+.gate AND  A=new_n169 B=new_n170 Y=new_n171
+.gate AND  A=new_n168 B=new_n171 Y=new_n172
+.gate OR   A=ys__n334 B=ys__n342 Y=new_n173
+.gate OR   A=ys__n314 B=ys__n324 Y=new_n174
+.gate OR   A=new_n173 B=new_n174 Y=new_n175
+.gate NOT  A=new_n175 Y=new_n176
+.gate AND  A=ys__n260 B=ys__n279 Y=new_n177
+.gate AND  A=new_n125 B=new_n177 Y=new_n178
+.gate AND  A=new_n176 B=new_n178 Y=new_n179
+.gate AND  A=ys__n264 B=ys__n447 Y=new_n180
+.gate AND  A=new_n131 B=new_n180 Y=new_n181
+.gate AND  A=new_n179 B=new_n181 Y=new_n182
+.gate AND  A=new_n172 B=new_n182 Y=ys__n265
+.gate XOR  A=ys__n439 B=ys__n447 Y=new_n184
+.gate AND  A=ys__n267 B=new_n184 Y=new_n185
+.gate AND  A=new_n179 B=new_n185 Y=new_n186
+.gate AND  A=new_n172 B=new_n186 Y=ys__n268
+.gate OR   A=ys__n521 B=ys__n522 Y=new_n188
+.gate NOT  A=new_n188 Y=new_n189
+.gate AND  A=new_n179 B=new_n189 Y=new_n190
+.gate AND  A=new_n172 B=new_n190 Y=ys__n270
+.gate OR   A=ys__n439 B=ys__n447 Y=new_n192
+.gate AND  A=new_n179 B=new_n192 Y=new_n193
+.gate AND  A=new_n172 B=new_n193 Y=ys__n506
+.end

@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run ABC Script",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/abc",
+            "args": [
+                "-f",
+                "node_ret/abc.script"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": null
+        }
+    ]
+}

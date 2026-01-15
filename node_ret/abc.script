@@ -32,4 +32,4 @@ print_level -n;
 &nf -v;
 &put;
 print_level -n;
-write_blif "node/ret/output.blif";
+write_blif "node_ret/output.blif";

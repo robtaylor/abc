@@ -108,3 +108,61 @@ Scratchpad
 
 Change log:
 1) Add the Nm_ManProfile function as a decleration to nmInt.h
+
+
+
+
+
+
+
+
+
+
+
+TODO:
+need to go over this function to see if there's a cleaner way of understanding how the nodes are copied***********************************************************************/
+void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNodes, int fRecord )
+{
+    Vec_Ptr_t * vNodes;
+    Abc_Obj_t * pNodeOld;
+    Abc_Frame_t * pAbc;
+    Nr_Man_t * pRetOld, * pRetNew;
+    Vec_Ptr_t * vOrigins;
+    Nr_Origin_t * pOrigin;
+    int i, j;
+    assert( Abc_NtkIsLogic(pNtkOld) );
+    assert( Abc_NtkIsStrash(pNtkNew) );
+//    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );
+    vNodes = Abc_NtkDfsIter( pNtkOld, fAllNodes );
+//printf( "Nodes = %d. ", Vec_PtrSize(vNodes) );
+//ABC_PRT( "Time", Abc_Clock() - clk );
+    // get retention managers (new one should already be set in frame)
+    pAbc = Abc_FrameGetGlobalFrame();
+    pRetNew = pAbc ? pAbc->pNodeRetention : NULL;
+    pRetOld = pAbc ? pAbc->pNodeRetentionOld : NULL; // get old one from frame
+    Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
+    {
+        if ( Abc_ObjIsBarBuf(pNodeOld) )
+            pNodeOld->pCopy = Abc_ObjChild0Copy(pNodeOld);
+        else
+            pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
+        // track mapping: copy origins from old node to new node
+        if ( pRetNew && pNodeOld->pCopy )
+        {
+            Abc_Obj_t * pNodeNew = Abc_ObjRegular(pNodeOld->pCopy);
+            int NodeIdNew = Abc_ObjId(pNodeNew);
+            int NodeIdOld = Abc_ObjId(pNodeOld);
+            // only track if both IDs are valid (non-negative)
+            if ( NodeIdNew >= 0 && NodeIdOld >= 0 && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
+            {
+                Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                    Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->OriginId, pOrigin->pName );
+                
+                printf( "DEBUG: Node %d copied to %d with origin %s\n", NodeIdOld, NodeIdNew, pOrigin->pName );
+            }
+        }
+    }
+    Vec_PtrFree( vNodes );
+}
+
+

@@ -1071,3 +1071,560 @@ Nodes by level:
 19 :  ys__n268 ys__n506 ys__n511
 20 :  ys__n269
 21 :  ys__n270
+DEBUG: Node 135 copied to 1 with origin ys__n267
+DEBUG: Node 131 copied to 125 with origin ys__n260
+DEBUG: Node 133 copied to 126 with origin ys__n264
+DEBUG: Node 129 copied to 127 with origin ys__n259
+DEBUG: Node 141 copied to 128 with origin ys__n304
+DEBUG: Node 139 copied to 129 with origin ys__n293
+DEBUG: Node 137 copied to 130 with origin ys__n279
+DEBUG: Node 147 copied to 131 with origin ys__n334
+DEBUG: Node 145 copied to 132 with origin ys__n324
+DEBUG: Node 143 copied to 133 with origin ys__n314
+DEBUG: Node 153 copied to 134 with origin ys__n363
+DEBUG: Node 151 copied to 135 with origin ys__n350
+DEBUG: Node 149 copied to 136 with origin ys__n342
+DEBUG: Node 159 copied to 137 with origin ys__n393
+DEBUG: Node 157 copied to 138 with origin ys__n383
+DEBUG: Node 155 copied to 139 with origin ys__n373
+DEBUG: Node 165 copied to 140 with origin ys__n419
+DEBUG: Node 163 copied to 141 with origin ys__n411
+DEBUG: Node 161 copied to 142 with origin ys__n403
+DEBUG: Node 171 copied to 143 with origin ys__n447
+DEBUG: Node 169 copied to 144 with origin ys__n439
+DEBUG: Node 167 copied to 145 with origin ys__n431
+DEBUG: Node 177 copied to 146 with origin ys__n3
+DEBUG: Node 175 copied to 147 with origin ys__n522
+DEBUG: Node 173 copied to 148 with origin ys__n521
+DEBUG: Node 183 copied to 149 with origin ys__n29
+DEBUG: Node 181 copied to 150 with origin ys__n21
+DEBUG: Node 179 copied to 151 with origin ys__n13
+DEBUG: Node 189 copied to 152 with origin ys__n53
+DEBUG: Node 187 copied to 153 with origin ys__n45
+DEBUG: Node 185 copied to 154 with origin ys__n37
+DEBUG: Node 195 copied to 155 with origin ys__n77
+DEBUG: Node 193 copied to 156 with origin ys__n69
+DEBUG: Node 191 copied to 157 with origin ys__n61
+DEBUG: Node 201 copied to 158 with origin ys__n101
+DEBUG: Node 199 copied to 159 with origin ys__n93
+DEBUG: Node 197 copied to 160 with origin ys__n85
+DEBUG: Node 207 copied to 161 with origin ys__n125
+DEBUG: Node 205 copied to 162 with origin ys__n117
+DEBUG: Node 203 copied to 163 with origin ys__n109
+DEBUG: Node 213 copied to 164 with origin ys__n149
+DEBUG: Node 211 copied to 165 with origin ys__n141
+DEBUG: Node 209 copied to 166 with origin ys__n133
+DEBUG: Node 219 copied to 167 with origin ys__n173
+DEBUG: Node 217 copied to 168 with origin ys__n165
+DEBUG: Node 215 copied to 169 with origin ys__n157
+DEBUG: Node 225 copied to 170 with origin ys__n197
+DEBUG: Node 223 copied to 171 with origin ys__n189
+DEBUG: Node 221 copied to 172 with origin ys__n181
+DEBUG: Node 231 copied to 173 with origin ys__n221
+DEBUG: Node 229 copied to 174 with origin ys__n213
+DEBUG: Node 227 copied to 175 with origin ys__n205
+DEBUG: Node 237 copied to 176 with origin ys__n245
+DEBUG: Node 235 copied to 177 with origin ys__n237
+DEBUG: Node 233 copied to 178 with origin ys__n229
+DEBUG: Node 243 copied to 179 with origin ys__n268
+DEBUG: Node 241 copied to 180 with origin ys__n265
+DEBUG: Node 239 copied to 181 with origin ys__n253
+DEBUG: Node 249 copied to 182 with origin ys__n294
+DEBUG: Node 247 copied to 183 with origin ys__n506
+DEBUG: Node 245 copied to 184 with origin ys__n270
+DEBUG: Node 255 copied to 185 with origin ys__n518
+DEBUG: Node 253 copied to 186 with origin ys__n0
+DEBUG: Node 251 copied to 187 with origin ys__n351
+DEBUG: Node 261 copied to 188 with origin ys__n5
+DEBUG: Node 258 copied to 188 with origin ys__n2
+DEBUG: Node 260 copied to 189 with origin ys__n4
+DEBUG: Node 256 copied to 190 with origin ys__n1
+DEBUG: Node 264 copied to 191 with origin ys__n9
+DEBUG: Node 266 copied to 192 with origin ys__n6
+DEBUG: Node 273 copied to 194 with origin ys__n14
+DEBUG: Node 271 copied to 195 with origin ys__n12
+DEBUG: Node 269 copied to 196 with origin ys__n10
+DEBUG: Node 279 copied to 197 with origin ys__n16
+DEBUG: Node 277 copied to 198 with origin ys__n18
+DEBUG: Node 274 copied to 199 with origin ys__n15
+DEBUG: Node 285 copied to 200 with origin ys__n23
+DEBUG: Node 282 copied to 200 with origin ys__n20
+DEBUG: Node 284 copied to 201 with origin ys__n22
+DEBUG: Node 288 copied to 203 with origin ys__n26
+DEBUG: Node 290 copied to 204 with origin ys__n24
+DEBUG: Node 296 copied to 207 with origin ys__n31
+DEBUG: Node 295 copied to 207 with origin ys__n30
+DEBUG: Node 293 copied to 208 with origin ys__n28
+DEBUG: Node 301 copied to 210 with origin ys__n32
+DEBUG: Node 299 copied to 211 with origin ys__n34
+DEBUG: Node 306 copied to 212 with origin ys__n38
+DEBUG: Node 307 copied to 213 with origin ys__n39
+DEBUG: Node 304 copied to 214 with origin ys__n36
+DEBUG: Node 315 copied to 215 with origin ys__n44
+DEBUG: Node 312 copied to 215 with origin ys__n40
+DEBUG: Node 310 copied to 217 with origin ys__n42
+DEBUG: Node 321 copied to 218 with origin ys__n50
+DEBUG: Node 318 copied to 218 with origin ys__n47
+DEBUG: Node 317 copied to 220 with origin ys__n46
+DEBUG: Node 461 copied to 83 with origin ys__n151
+DEBUG: Node 460 copied to 0 with origin ys__n150
+DEBUG: Node 458 copied to 0 with origin ys__n148
+DEBUG: Node 455 copied to 83 with origin ys__n144
+DEBUG: Node 442 copied to 83 with origin ys__n138
+DEBUG: Node 449 copied to 82 with origin ys__n142
+DEBUG: Node 453 copied to 0 with origin ys__n146
+DEBUG: Node 450 copied to 0 with origin ys__n143
+DEBUG: Node 433 copied to 221 with origin ys__n128
+DEBUG: Node 125 copied to 0 with origin ys__n251
+DEBUG: Node 447 copied to 0 with origin ys__n140
+DEBUG: Node 444 copied to 81 with origin ys__n136
+DEBUG: Node 439 copied to 81 with origin ys__n135
+DEBUG: Node 438 copied to 0 with origin ys__n134
+DEBUG: Node 431 copied to 0 with origin ys__n130
+DEBUG: Node 436 copied to 80 with origin ys__n132
+DEBUG: Node 425 copied to 80 with origin ys__n124
+DEBUG: Node 422 copied to 79 with origin ys__n120
+DEBUG: Node 427 copied to 79 with origin ys__n126
+DEBUG: Node 428 copied to 0 with origin ys__n127
+DEBUG: Node 416 copied to 79 with origin ys__n118
+DEBUG: Node 406 copied to 224 with origin ys__n111
+DEBUG: Node 420 copied to 78 with origin ys__n122
+DEBUG: Node 417 copied to 0 with origin ys__n119
+DEBUG: Node 414 copied to 0 with origin ys__n116
+DEBUG: Node 411 copied to 0 with origin ys__n112
+DEBUG: Node 409 copied to 77 with origin ys__n114
+DEBUG: Node 405 copied to 77 with origin ys__n110
+DEBUG: Node 403 copied to 77 with origin ys__n108
+DEBUG: Node 323 copied to 227 with origin ys__n48
+DEBUG: Node 400 copied to 76 with origin ys__n104
+DEBUG: Node 395 copied to 76 with origin ys__n103
+DEBUG: Node 398 copied to 76 with origin ys__n106
+DEBUG: Node 394 copied to 76 with origin ys__n102
+DEBUG: Node 381 copied to 76 with origin ys__n92
+DEBUG: Node 392 copied to 0 with origin ys__n100
+DEBUG: Node 389 copied to 75 with origin ys__n96
+DEBUG: Node 387 copied to 75 with origin ys__n98
+DEBUG: Node 372 copied to 228 with origin ys__n86
+DEBUG: Node 384 copied to 74 with origin ys__n95
+DEBUG: Node 383 copied to 74 with origin ys__n94
+DEBUG: Node 378 copied to 74 with origin ys__n88
+DEBUG: Node 373 copied to 74 with origin ys__n87
+DEBUG: Node 370 copied to 0 with origin ys__n84
+DEBUG: Node 376 copied to 0 with origin ys__n90
+DEBUG: Node 354 copied to 230 with origin ys__n74
+DEBUG: Node 361 copied to 0 with origin ys__n78
+DEBUG: Node 367 copied to 0 with origin ys__n80
+DEBUG: Node 365 copied to 72 with origin ys__n82
+DEBUG: Node 362 copied to 72 with origin ys__n79
+DEBUG: Node 345 copied to 231 with origin ys__n64
+DEBUG: Node 359 copied to 0 with origin ys__n76
+DEBUG: Node 356 copied to 71 with origin ys__n72
+DEBUG: Node 351 copied to 71 with origin ys__n71
+DEBUG: Node 340 copied to 232 with origin ys__n63
+DEBUG: Node 350 copied to 0 with origin ys__n70
+DEBUG: Node 343 copied to 0 with origin ys__n66
+DEBUG: Node 348 copied to 70 with origin ys__n68
+DEBUG: Node 339 copied to 233 with origin ys__n62
+DEBUG: Node 535 copied to 0 with origin ys__n204
+DEBUG: Node 532 copied to 0 with origin ys__n200
+DEBUG: Node 530 copied to 86 with origin ys__n202
+DEBUG: Node 524 copied to 0 with origin ys__n196
+DEBUG: Node 527 copied to 85 with origin ys__n199
+DEBUG: Node 526 copied to 85 with origin ys__n198
+DEBUG: Node 515 copied to 0 with origin ys__n190
+DEBUG: Node 521 copied to 0 with origin ys__n192
+DEBUG: Node 519 copied to 84 with origin ys__n194
+DEBUG: Node 516 copied to 84 with origin ys__n191
+DEBUG: Node 513 copied to 84 with origin ys__n188
+DEBUG: Node 510 copied to 0 with origin ys__n184
+DEBUG: Node 508 copied to 86 with origin ys__n186
+DEBUG: Node 505 copied to 86 with origin ys__n183
+DEBUG: Node 504 copied to 85 with origin ys__n182
+DEBUG: Node 499 copied to 85 with origin ys__n176
+DEBUG: Node 502 copied to 85 with origin ys__n180
+DEBUG: Node 493 copied to 85 with origin ys__n174
+DEBUG: Node 497 copied to 0 with origin ys__n178
+DEBUG: Node 494 copied to 84 with origin ys__n175
+DEBUG: Node 491 copied to 84 with origin ys__n172
+DEBUG: Node 488 copied to 84 with origin ys__n168
+DEBUG: Node 334 copied to 242 with origin ys__n56
+DEBUG: Node 543 copied to 242 with origin ys__n208
+DEBUG: Node 541 copied to 243 with origin ys__n210
+DEBUG: Node 326 copied to 243 with origin ys__n52
+DEBUG: Node 537 copied to 84 with origin ys__n206
+DEBUG: Node 538 copied to 245 with origin ys__n207
+DEBUG: Node 337 copied to 247 with origin ys__n60
+DEBUG: Node 486 copied to 86 with origin ys__n170
+DEBUG: Node 483 copied to 0 with origin ys__n167
+DEBUG: Node 482 copied to 0 with origin ys__n166
+DEBUG: Node 480 copied to 86 with origin ys__n164
+DEBUG: Node 477 copied to 85 with origin ys__n160
+DEBUG: Node 475 copied to 0 with origin ys__n162
+DEBUG: Node 472 copied to 0 with origin ys__n159
+DEBUG: Node 471 copied to 0 with origin ys__n158
+DEBUG: Node 469 copied to 84 with origin ys__n156
+DEBUG: Node 466 copied to 84 with origin ys__n152
+DEBUG: Node 464 copied to 84 with origin ys__n154
+DEBUG: Node 332 copied to 250 with origin ys__n58
+DEBUG: Node 554 copied to 251 with origin ys__n216
+DEBUG: Node 552 copied to 252 with origin ys__n218
+DEBUG: Node 328 copied to 253 with origin ys__n54
+DEBUG: Node 559 copied to 87 with origin ys__n222
+DEBUG: Node 557 copied to 254 with origin ys__n220
+DEBUG: Node 127 copied to 254 with origin ys__n257
+DEBUG: Node 329 copied to 255 with origin ys__n55
+DEBUG: Node 546 copied to 238 with origin ys__n212
+DEBUG: Node 548 copied to 242 with origin ys__n214
+DEBUG: Node 549 copied to 250 with origin ys__n215
+DEBUG: Node retention after strash:
+Printing all origins (127 entries):
+Node 0 has 32 origin(s):
+  [0] Origin ID: 460, Name: ys__n150
+  [1] Origin ID: 458, Name: ys__n148
+  [2] Origin ID: 453, Name: ys__n146
+  [3] Origin ID: 450, Name: ys__n143
+  [4] Origin ID: 125, Name: ys__n251
+  [5] Origin ID: 447, Name: ys__n140
+  [6] Origin ID: 438, Name: ys__n134
+  [7] Origin ID: 431, Name: ys__n130
+  [8] Origin ID: 428, Name: ys__n127
+  [9] Origin ID: 417, Name: ys__n119
+  [10] Origin ID: 414, Name: ys__n116
+  [11] Origin ID: 411, Name: ys__n112
+  [12] Origin ID: 392, Name: ys__n100
+  [13] Origin ID: 370, Name: ys__n84
+  [14] Origin ID: 376, Name: ys__n90
+  [15] Origin ID: 361, Name: ys__n78
+  [16] Origin ID: 367, Name: ys__n80
+  [17] Origin ID: 359, Name: ys__n76
+  [18] Origin ID: 350, Name: ys__n70
+  [19] Origin ID: 343, Name: ys__n66
+  [20] Origin ID: 535, Name: ys__n204
+  [21] Origin ID: 532, Name: ys__n200
+  [22] Origin ID: 524, Name: ys__n196
+  [23] Origin ID: 515, Name: ys__n190
+  [24] Origin ID: 521, Name: ys__n192
+  [25] Origin ID: 510, Name: ys__n184
+  [26] Origin ID: 497, Name: ys__n178
+  [27] Origin ID: 483, Name: ys__n167
+  [28] Origin ID: 482, Name: ys__n166
+  [29] Origin ID: 475, Name: ys__n162
+  [30] Origin ID: 472, Name: ys__n159
+  [31] Origin ID: 471, Name: ys__n158
+Node 1 has 1 origin(s):
+  [0] Origin ID: 135, Name: ys__n267
+Node 70 has 1 origin(s):
+  [0] Origin ID: 348, Name: ys__n68
+Node 71 has 2 origin(s):
+  [0] Origin ID: 356, Name: ys__n72
+  [1] Origin ID: 351, Name: ys__n71
+Node 72 has 2 origin(s):
+  [0] Origin ID: 365, Name: ys__n82
+  [1] Origin ID: 362, Name: ys__n79
+Node 74 has 4 origin(s):
+  [0] Origin ID: 384, Name: ys__n95
+  [1] Origin ID: 383, Name: ys__n94
+  [2] Origin ID: 378, Name: ys__n88
+  [3] Origin ID: 373, Name: ys__n87
+Node 75 has 2 origin(s):
+  [0] Origin ID: 389, Name: ys__n96
+  [1] Origin ID: 387, Name: ys__n98
+Node 76 has 5 origin(s):
+  [0] Origin ID: 400, Name: ys__n104
+  [1] Origin ID: 395, Name: ys__n103
+  [2] Origin ID: 398, Name: ys__n106
+  [3] Origin ID: 394, Name: ys__n102
+  [4] Origin ID: 381, Name: ys__n92
+Node 77 has 3 origin(s):
+  [0] Origin ID: 409, Name: ys__n114
+  [1] Origin ID: 405, Name: ys__n110
+  [2] Origin ID: 403, Name: ys__n108
+Node 78 has 1 origin(s):
+  [0] Origin ID: 420, Name: ys__n122
+Node 79 has 3 origin(s):
+  [0] Origin ID: 422, Name: ys__n120
+  [1] Origin ID: 427, Name: ys__n126
+  [2] Origin ID: 416, Name: ys__n118
+Node 80 has 2 origin(s):
+  [0] Origin ID: 436, Name: ys__n132
+  [1] Origin ID: 425, Name: ys__n124
+Node 81 has 2 origin(s):
+  [0] Origin ID: 444, Name: ys__n136
+  [1] Origin ID: 439, Name: ys__n135
+Node 82 has 1 origin(s):
+  [0] Origin ID: 449, Name: ys__n142
+Node 83 has 3 origin(s):
+  [0] Origin ID: 461, Name: ys__n151
+  [1] Origin ID: 455, Name: ys__n144
+  [2] Origin ID: 442, Name: ys__n138
+Node 84 has 10 origin(s):
+  [0] Origin ID: 519, Name: ys__n194
+  [1] Origin ID: 516, Name: ys__n191
+  [2] Origin ID: 513, Name: ys__n188
+  [3] Origin ID: 494, Name: ys__n175
+  [4] Origin ID: 491, Name: ys__n172
+  [5] Origin ID: 488, Name: ys__n168
+  [6] Origin ID: 537, Name: ys__n206
+  [7] Origin ID: 469, Name: ys__n156
+  [8] Origin ID: 466, Name: ys__n152
+  [9] Origin ID: 464, Name: ys__n154
+Node 85 has 7 origin(s):
+  [0] Origin ID: 527, Name: ys__n199
+  [1] Origin ID: 526, Name: ys__n198
+  [2] Origin ID: 504, Name: ys__n182
+  [3] Origin ID: 499, Name: ys__n176
+  [4] Origin ID: 502, Name: ys__n180
+  [5] Origin ID: 493, Name: ys__n174
+  [6] Origin ID: 477, Name: ys__n160
+Node 86 has 5 origin(s):
+  [0] Origin ID: 530, Name: ys__n202
+  [1] Origin ID: 508, Name: ys__n186
+  [2] Origin ID: 505, Name: ys__n183
+  [3] Origin ID: 486, Name: ys__n170
+  [4] Origin ID: 480, Name: ys__n164
+Node 87 has 1 origin(s):
+  [0] Origin ID: 559, Name: ys__n222
+Node 125 has 1 origin(s):
+  [0] Origin ID: 131, Name: ys__n260
+Node 126 has 1 origin(s):
+  [0] Origin ID: 133, Name: ys__n264
+Node 127 has 1 origin(s):
+  [0] Origin ID: 129, Name: ys__n259
+Node 128 has 1 origin(s):
+  [0] Origin ID: 141, Name: ys__n304
+Node 129 has 1 origin(s):
+  [0] Origin ID: 139, Name: ys__n293
+Node 130 has 1 origin(s):
+  [0] Origin ID: 137, Name: ys__n279
+Node 131 has 1 origin(s):
+  [0] Origin ID: 147, Name: ys__n334
+Node 132 has 1 origin(s):
+  [0] Origin ID: 145, Name: ys__n324
+Node 133 has 1 origin(s):
+  [0] Origin ID: 143, Name: ys__n314
+Node 134 has 1 origin(s):
+  [0] Origin ID: 153, Name: ys__n363
+Node 135 has 1 origin(s):
+  [0] Origin ID: 151, Name: ys__n350
+Node 136 has 1 origin(s):
+  [0] Origin ID: 149, Name: ys__n342
+Node 137 has 1 origin(s):
+  [0] Origin ID: 159, Name: ys__n393
+Node 138 has 1 origin(s):
+  [0] Origin ID: 157, Name: ys__n383
+Node 139 has 1 origin(s):
+  [0] Origin ID: 155, Name: ys__n373
+Node 140 has 1 origin(s):
+  [0] Origin ID: 165, Name: ys__n419
+Node 141 has 1 origin(s):
+  [0] Origin ID: 163, Name: ys__n411
+Node 142 has 1 origin(s):
+  [0] Origin ID: 161, Name: ys__n403
+Node 143 has 1 origin(s):
+  [0] Origin ID: 171, Name: ys__n447
+Node 144 has 1 origin(s):
+  [0] Origin ID: 169, Name: ys__n439
+Node 145 has 1 origin(s):
+  [0] Origin ID: 167, Name: ys__n431
+Node 146 has 1 origin(s):
+  [0] Origin ID: 177, Name: ys__n3
+Node 147 has 1 origin(s):
+  [0] Origin ID: 175, Name: ys__n522
+Node 148 has 1 origin(s):
+  [0] Origin ID: 173, Name: ys__n521
+Node 149 has 1 origin(s):
+  [0] Origin ID: 183, Name: ys__n29
+Node 150 has 1 origin(s):
+  [0] Origin ID: 181, Name: ys__n21
+Node 151 has 1 origin(s):
+  [0] Origin ID: 179, Name: ys__n13
+Node 152 has 1 origin(s):
+  [0] Origin ID: 189, Name: ys__n53
+Node 153 has 1 origin(s):
+  [0] Origin ID: 187, Name: ys__n45
+Node 154 has 1 origin(s):
+  [0] Origin ID: 185, Name: ys__n37
+Node 155 has 1 origin(s):
+  [0] Origin ID: 195, Name: ys__n77
+Node 156 has 1 origin(s):
+  [0] Origin ID: 193, Name: ys__n69
+Node 157 has 1 origin(s):
+  [0] Origin ID: 191, Name: ys__n61
+Node 158 has 1 origin(s):
+  [0] Origin ID: 201, Name: ys__n101
+Node 159 has 1 origin(s):
+  [0] Origin ID: 199, Name: ys__n93
+Node 160 has 1 origin(s):
+  [0] Origin ID: 197, Name: ys__n85
+Node 161 has 1 origin(s):
+  [0] Origin ID: 207, Name: ys__n125
+Node 162 has 1 origin(s):
+  [0] Origin ID: 205, Name: ys__n117
+Node 163 has 1 origin(s):
+  [0] Origin ID: 203, Name: ys__n109
+Node 164 has 1 origin(s):
+  [0] Origin ID: 213, Name: ys__n149
+Node 165 has 1 origin(s):
+  [0] Origin ID: 211, Name: ys__n141
+Node 166 has 1 origin(s):
+  [0] Origin ID: 209, Name: ys__n133
+Node 167 has 1 origin(s):
+  [0] Origin ID: 219, Name: ys__n173
+Node 168 has 1 origin(s):
+  [0] Origin ID: 217, Name: ys__n165
+Node 169 has 1 origin(s):
+  [0] Origin ID: 215, Name: ys__n157
+Node 170 has 1 origin(s):
+  [0] Origin ID: 225, Name: ys__n197
+Node 171 has 1 origin(s):
+  [0] Origin ID: 223, Name: ys__n189
+Node 172 has 1 origin(s):
+  [0] Origin ID: 221, Name: ys__n181
+Node 173 has 1 origin(s):
+  [0] Origin ID: 231, Name: ys__n221
+Node 174 has 1 origin(s):
+  [0] Origin ID: 229, Name: ys__n213
+Node 175 has 1 origin(s):
+  [0] Origin ID: 227, Name: ys__n205
+Node 176 has 1 origin(s):
+  [0] Origin ID: 237, Name: ys__n245
+Node 177 has 1 origin(s):
+  [0] Origin ID: 235, Name: ys__n237
+Node 178 has 1 origin(s):
+  [0] Origin ID: 233, Name: ys__n229
+Node 179 has 1 origin(s):
+  [0] Origin ID: 243, Name: ys__n268
+Node 180 has 1 origin(s):
+  [0] Origin ID: 241, Name: ys__n265
+Node 181 has 1 origin(s):
+  [0] Origin ID: 239, Name: ys__n253
+Node 182 has 1 origin(s):
+  [0] Origin ID: 249, Name: ys__n294
+Node 183 has 1 origin(s):
+  [0] Origin ID: 247, Name: ys__n506
+Node 184 has 1 origin(s):
+  [0] Origin ID: 245, Name: ys__n270
+Node 185 has 1 origin(s):
+  [0] Origin ID: 255, Name: ys__n518
+Node 186 has 1 origin(s):
+  [0] Origin ID: 253, Name: ys__n0
+Node 187 has 1 origin(s):
+  [0] Origin ID: 251, Name: ys__n351
+Node 188 has 2 origin(s):
+  [0] Origin ID: 261, Name: ys__n5
+  [1] Origin ID: 258, Name: ys__n2
+Node 189 has 1 origin(s):
+  [0] Origin ID: 260, Name: ys__n4
+Node 190 has 1 origin(s):
+  [0] Origin ID: 256, Name: ys__n1
+Node 191 has 1 origin(s):
+  [0] Origin ID: 264, Name: ys__n9
+Node 192 has 1 origin(s):
+  [0] Origin ID: 266, Name: ys__n6
+Node 194 has 1 origin(s):
+  [0] Origin ID: 273, Name: ys__n14
+Node 195 has 1 origin(s):
+  [0] Origin ID: 271, Name: ys__n12
+Node 196 has 1 origin(s):
+  [0] Origin ID: 269, Name: ys__n10
+Node 197 has 1 origin(s):
+  [0] Origin ID: 279, Name: ys__n16
+Node 198 has 1 origin(s):
+  [0] Origin ID: 277, Name: ys__n18
+Node 199 has 1 origin(s):
+  [0] Origin ID: 274, Name: ys__n15
+Node 200 has 2 origin(s):
+  [0] Origin ID: 285, Name: ys__n23
+  [1] Origin ID: 282, Name: ys__n20
+Node 201 has 1 origin(s):
+  [0] Origin ID: 284, Name: ys__n22
+Node 203 has 1 origin(s):
+  [0] Origin ID: 288, Name: ys__n26
+Node 204 has 1 origin(s):
+  [0] Origin ID: 290, Name: ys__n24
+Node 207 has 2 origin(s):
+  [0] Origin ID: 296, Name: ys__n31
+  [1] Origin ID: 295, Name: ys__n30
+Node 208 has 1 origin(s):
+  [0] Origin ID: 293, Name: ys__n28
+Node 210 has 1 origin(s):
+  [0] Origin ID: 301, Name: ys__n32
+Node 211 has 1 origin(s):
+  [0] Origin ID: 299, Name: ys__n34
+Node 212 has 1 origin(s):
+  [0] Origin ID: 306, Name: ys__n38
+Node 213 has 1 origin(s):
+  [0] Origin ID: 307, Name: ys__n39
+Node 214 has 1 origin(s):
+  [0] Origin ID: 304, Name: ys__n36
+Node 215 has 2 origin(s):
+  [0] Origin ID: 315, Name: ys__n44
+  [1] Origin ID: 312, Name: ys__n40
+Node 217 has 1 origin(s):
+  [0] Origin ID: 310, Name: ys__n42
+Node 218 has 2 origin(s):
+  [0] Origin ID: 321, Name: ys__n50
+  [1] Origin ID: 318, Name: ys__n47
+Node 220 has 1 origin(s):
+  [0] Origin ID: 317, Name: ys__n46
+Node 221 has 1 origin(s):
+  [0] Origin ID: 433, Name: ys__n128
+Node 224 has 1 origin(s):
+  [0] Origin ID: 406, Name: ys__n111
+Node 227 has 1 origin(s):
+  [0] Origin ID: 323, Name: ys__n48
+Node 228 has 1 origin(s):
+  [0] Origin ID: 372, Name: ys__n86
+Node 230 has 1 origin(s):
+  [0] Origin ID: 354, Name: ys__n74
+Node 231 has 1 origin(s):
+  [0] Origin ID: 345, Name: ys__n64
+Node 232 has 1 origin(s):
+  [0] Origin ID: 340, Name: ys__n63
+Node 233 has 1 origin(s):
+  [0] Origin ID: 339, Name: ys__n62
+Node 238 has 1 origin(s):
+  [0] Origin ID: 546, Name: ys__n212
+Node 242 has 3 origin(s):
+  [0] Origin ID: 334, Name: ys__n56
+  [1] Origin ID: 543, Name: ys__n208
+  [2] Origin ID: 548, Name: ys__n214
+Node 243 has 2 origin(s):
+  [0] Origin ID: 541, Name: ys__n210
+  [1] Origin ID: 326, Name: ys__n52
+Node 245 has 1 origin(s):
+  [0] Origin ID: 538, Name: ys__n207
+Node 247 has 1 origin(s):
+  [0] Origin ID: 337, Name: ys__n60
+Node 250 has 2 origin(s):
+  [0] Origin ID: 332, Name: ys__n58
+  [1] Origin ID: 549, Name: ys__n215
+Node 251 has 1 origin(s):
+  [0] Origin ID: 554, Name: ys__n216
+Node 252 has 1 origin(s):
+  [0] Origin ID: 552, Name: ys__n218
+Node 253 has 1 origin(s):
+  [0] Origin ID: 328, Name: ys__n54
+Node 254 has 2 origin(s):
+  [0] Origin ID: 557, Name: ys__n220
+  [1] Origin ID: 127, Name: ys__n257
+Node 255 has 1 origin(s):
+  [0] Origin ID: 329, Name: ys__n55
+DEBUG: Number of entries: 127
+LutSize = 6  CutNum = 16  Iter = 4  Coarse = 0   Cells = 8  Funcs = 289  Matches = 68  And = 134  Choices = 4  
+Computing cuts...CutPair = 1577  Merge = 766 (5.7)  Eval = 665 (5.0)  Cut = 414 (3.1)  Use = 172 (1.3)  Mat = 504 (3.8)  
+Gia = 0.01 MB  Man = 0.02 MB  Cut = 0.25 MB   TT = 0.03 MB  Total = 0.31 MB   Time =     0.00 sec
+Delay :  Delay =    6.00  Area =      271.00  Gate =    74  Inv =    13  Edge =    167  Time =     0.00 sec
+Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
+Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
+Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
+Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
+Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
+Nodes by level:
+ 0 : 
+ 1 :  n125 n126 n127 n128 n129 n130 n131 ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 n173 n174 n177 n180 n184 n188 n192
+ 2 :  n164 n165 n166 n169 n170 n175 n178 n181 n185 n189
+ 3 :  n167 n171 n176
+ 4 :  n168 n179
+ 5 :  n172 n182 n186 n190 n193
+ 6 :  ys__n265 ys__n268 ys__n270 ys__n506

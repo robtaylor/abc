@@ -120,8 +120,10 @@ static Nr_Entry_t * Nr_ManTableLookup( Nr_Man_t * p, int NodeId )
     Nr_Entry_t * pEntry;
     int i = NodeId % p->nBins;
     pEntry = p->pBins[i];
-    while ( pEntry && pEntry->NodeId != NodeId )
+    while ( pEntry != NULL && pEntry->NodeId != NodeId )
+    {
         pEntry = pEntry->pNext;
+    }
     return pEntry;
 }
 

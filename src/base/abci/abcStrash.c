@@ -439,12 +439,19 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
         else
             pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
         // track mapping: copy origins from old node to new node
-        if ( pRetNew && pNodeOld->pCopy && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, Abc_ObjId(pNodeOld) )) )
+        if ( pRetNew && pNodeOld->pCopy )
         {
-            Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                Nr_ManAddOrigin( pRetNew, Abc_ObjId(pNodeOld->pCopy), pOrigin->OriginId, pOrigin->pName );
-            
-            printf( "DEBUG: Node %d copied to %d with origin %s\n", Abc_ObjId(pNodeOld), Abc_ObjId(pNodeOld->pCopy), pOrigin->pName );
+            Abc_Obj_t * pNodeNew = Abc_ObjRegular(pNodeOld->pCopy);
+            int NodeIdNew = Abc_ObjId(pNodeNew);
+            int NodeIdOld = Abc_ObjId(pNodeOld);
+            // only track if both IDs are valid (non-negative)
+            if ( NodeIdNew >= 0 && NodeIdOld >= 0 && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
+            {
+                Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                    Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->OriginId, pOrigin->pName );
+                
+                printf( "DEBUG: Node %d copied to %d with origin %s\n", NodeIdOld, NodeIdNew, pOrigin->pName );
+            }
         }
     }
     Vec_PtrFree( vNodes );

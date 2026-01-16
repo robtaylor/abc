@@ -74,6 +74,7 @@ extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId, ch
 extern Vec_Ptr_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManHasEntry( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManNumEntries( Nr_Man_t * p );
+extern int           Nr_ManNumOriginalNodes( Nr_Man_t * p );
 extern void          Nr_ManClear( Nr_Man_t * p );
 extern void          Nr_ManProfile( Nr_Man_t * p );
 extern void          Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId );

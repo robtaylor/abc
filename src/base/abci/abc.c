@@ -34496,6 +34496,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
                 printf( "DEBUG: Node retention after strash:\n" );
                 Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
                 printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( pAbc->pNodeRetention ) );
+                printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( pAbc->pNodeRetention ) );
             }
             // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );

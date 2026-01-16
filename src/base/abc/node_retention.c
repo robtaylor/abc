@@ -329,6 +329,59 @@ int Nr_ManNumEntries( Nr_Man_t * p )
 }
 
 /**Function*************************************************************
+ *
+ *  Synopsis    [Returns the number of unique original nodes mapped.]
+ *
+ *  Description [Counts the number of unique OriginIds across all entries.]
+ *               
+ *  SideEffects []
+ *
+ *  SeeAlso     []
+ *
+***********************************************************************/
+int Nr_ManNumOriginalNodes( Nr_Man_t * p )
+{
+    Nr_Entry_t * pEntry;
+    Nr_Origin_t * pOrigin;
+    Vec_Ptr_t * vOrigins;
+    Vec_Int_t * vUniqueIds;
+    int i, j, OriginId, nUnique = 0;
+    if ( p == NULL || p->nEntries == 0 )
+        return 0;
+    // collect all unique origin IDs
+    vUniqueIds = Vec_IntAlloc( 100 );
+    for ( i = 0; i < p->nBins; i++ )
+    {
+        pEntry = p->pBins[i];
+        while ( pEntry )
+        {
+            if ( pEntry->vOrigins )
+            {
+                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
+                {
+                    OriginId = pOrigin->OriginId;
+                    // check if already in vector
+                    for ( int k = 0; k < Vec_IntSize(vUniqueIds); k++ )
+                    {
+                        if ( Vec_IntEntry(vUniqueIds, k) == OriginId )
+                        {
+                            OriginId = -1; // mark as found
+                            break;
+                        }
+                    }
+                    if ( OriginId >= 0 )
+                        Vec_IntPush( vUniqueIds, OriginId );
+                }
+            }
+            pEntry = pEntry->pNext;
+        }
+    }
+    nUnique = Vec_IntSize(vUniqueIds);
+    Vec_IntFree( vUniqueIds );
+    return nUnique;
+}
+
+/**Function*************************************************************
 
   Synopsis    [Clears all entries but keeps the structure.]
 

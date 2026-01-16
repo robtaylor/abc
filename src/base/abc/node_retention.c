@@ -99,7 +99,7 @@ void Nr_ManFree( Nr_Man_t * p )
         }
     }
     if ( p->pMem )
-        Extra_MmFlexStop( p->pMem, 0 );
+        Extra_MmFlexStop( p->pMem );
     ABC_FREE( p->pBins );
     ABC_FREE( p );
 }
@@ -363,7 +363,7 @@ void Nr_ManClear( Nr_Man_t * p )
     }
     if ( p->pMem )
     {
-        Extra_MmFlexStop( p->pMem, 0 );
+        Extra_MmFlexStop( p->pMem );
         p->pMem = Extra_MmFlexStart();
     }
     p->nEntries = 0;
@@ -459,6 +459,43 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
             printf( "  [%d] Origin ID: %d, Name: %s\n", i, pOrigin->OriginId, pOrigin->pName );
         else
             printf( "  [%d] Origin ID: %d, Name: (none)\n", i, pOrigin->OriginId );
+    }
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Prints origins for all nodes in the manager.]
+
+  Description []
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManPrintAllOrigins( Nr_Man_t * p )
+{
+    Nr_Entry_t * pEntry;
+    int i;
+    if ( p == NULL )
+    {
+        printf( "Nr_ManPrintAllOrigins: Manager is NULL.\n" );
+        return;
+    }
+    if ( p->nEntries == 0 )
+    {
+        printf( "Node retention manager is empty.\n" );
+        return;
+    }
+    printf( "Printing all origins (%d entries):\n", p->nEntries );
+    for ( i = 0; i < p->nBins; i++ )
+    {
+        pEntry = p->pBins[i];
+        while ( pEntry )
+        {
+            Nr_ManPrintOrigins( p, pEntry->NodeId );
+            pEntry = pEntry->pNext;
+        }
     }
 }
 

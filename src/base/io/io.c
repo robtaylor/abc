@@ -20,6 +20,7 @@
 
 #include "ioAbc.h"
 #include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "aig/saig/saig.h"
 #include "proof/abs/abs.h"
 #include "sat/bmc/bmc.h"
@@ -561,6 +562,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
         pNtk = Io_ReadBlifAsAig( pFileName, fCheck );
     else if ( fUseNewParser )
         pNtk = Io_Read( pFileName, IO_FILE_BLIF, fCheck, 0 );
+    
     else
     {
         Abc_Ntk_t * pTemp;
@@ -579,6 +581,13 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     // replace the current network
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
+    // debug: print origin nodes from retention manager
+    if ( pAbc->pNodeRetention )
+    {
+        printf( "DEBUG: Node retention origins after read_blif:\n" );
+        Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
+    }
+    // # DEBUG advay
     Abc_FrameClearVerifStatus( pAbc );
     return 0;
 

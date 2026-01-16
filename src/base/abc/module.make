@@ -17,6 +17,7 @@ SRC +=    src/base/abc/abcAig.c \
     src/base/abc/abcNetlist.c \
     src/base/abc/abcNtk.c \
     src/base/abc/abcObj.c \
+    src/base/abc/node_retention.c \
     src/base/abc/abcRefs.c \
     src/base/abc/abcShow.c \
     src/base/abc/abcSop.c \

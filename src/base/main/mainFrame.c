@@ -19,6 +19,7 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
+#include "base/abc/node_retention.h"
 #include "mainInt.h"
 #include "bool/dec/dec.h"
 #include "map/if/if.h"
@@ -190,6 +191,8 @@ Abc_Frame_t * Abc_FrameAllocate()
     // initialize the trace manager
 //    Abc_HManStart();
     p->vPlugInComBinPairs = Vec_PtrAlloc( 100 );
+    // initialize node retention manager
+    p->pNodeRetention = Nr_ManCreate( 1000 );
     return p;
 }
 
@@ -260,7 +263,8 @@ void Abc_FrameDeallocate( Abc_Frame_t * p )
     Vec_IntFreeP( &p->vCopyMiniLut );
     ABC_FREE( p->pArray );
     ABC_FREE( p->pBoxes );
-    
+    if ( p->pNodeRetention )
+        Nr_ManFree( p->pNodeRetention );
 
     ABC_FREE( p );
     s_GlobalFrame = NULL;

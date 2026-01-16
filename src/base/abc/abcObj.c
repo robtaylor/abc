@@ -20,7 +20,8 @@
 
 #include "abc.h"
 #include "abcInt.h"
-#include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "map/mio/mio.h"
 
 #ifdef ABC_USE_CUDD
@@ -587,6 +588,7 @@ Abc_Obj_t * Abc_NtkFindCo( Abc_Ntk_t * pNtk, char * pName )
 Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
 {
     Abc_Obj_t * pNet;
+    Abc_Frame_t * pAbc;
     assert( Abc_NtkIsNetlist(pNtk) );
     if ( pName && (pNet = Abc_NtkFindNet( pNtk, pName )) )
         return pNet;
@@ -594,7 +596,13 @@ Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
     // create a new net
     pNet = Abc_NtkCreateNet( pNtk );
     if ( pName )
+    {
         Nm_ManStoreIdName( pNtk->pManName, pNet->Id, pNet->Type, pName, NULL );
+        // track in node retention manager
+        pAbc = Abc_FrameGetGlobalFrame();
+        if ( pAbc && pAbc->pNodeRetention )
+            Nr_ManAddOrigin( pAbc->pNodeRetention, pNet->Id, pNet->Id, pName );
+    }
     return pNet;
 }
 

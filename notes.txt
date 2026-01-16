@@ -18,12 +18,65 @@ A list of TODOs and steps taken for changing
 	Meaning, there's a conversion into the Aig_man_t as well.
 
 
+	Functions 1: Abc_NtkStrash function reduces the nENtires int the network from 559 to 124.
+		Changes:
+			Need to keep a structure for node retention within the Abc_Ntk_t type itself.
 
 
 
 
+void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNodes, int fRecord )
+{
+    Vec_Ptr_t * vNodes;
+    Abc_Obj_t * pNodeOld;
+    int i; //, clk = Abc_Clock();
+    assert( Abc_NtkIsLogic(pNtkOld) );
+    assert( Abc_NtkIsStrash(pNtkNew) );
+//    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );
+    vNodes = Abc_NtkDfsIter( pNtkOld, fAllNodes );
+//printf( "Nodes = %d. ", Vec_PtrSize(vNodes) );
+//ABC_PRT( "Time", Abc_Clock() - clk );
+    Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
+    {
+        if ( Abc_ObjIsBarBuf(pNodeOld) )
+            pNodeOld->pCopy = Abc_ObjChild0Copy(pNodeOld);
+        else
+            pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
+    }
+    Vec_PtrFree( vNodes );
+}
+Changing this function to append things to the hashmap when nodes are created
 
 
+Abc_NtkToAig
+This function and how it works is now known
+It converts the pData in the nodes to the Hop_man_t which is
+a hashtable and each of the nodes have a pointer to this hashtable
+
+So far, each of the nodes are still unique but once the
+pNtkAig = Abc_NtkStartFrom( pNtk, ABC_NTK_STRASH, ABC_FUNC_AIG );
+function is called, then since they start from the hashtable, they loose
+the node retention
+
+Steps taken are first converting to the AIG (which doesn't mean Strashed network per say)
+Then converting into the strash network (in which the PIs are actual PIs)
+
+
+            pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
+            pAig = Abc_NtkToDar( pStrash, 0, 0 );
+            Abc_NtkDelete( pStrash );
+            pGia = Gia_ManFromAig( pAig );
+            Aig_ManStop( pAig );
+
+			Because of this code above, it's likely better to store the new created hashmap
+			somewhere else, likely in the frame rather than the network since the network can
+			be deleted but the frame will always have the object
+
+			The mapping in certain cases can be 1-1
+
+
+
+Only the CIs and the COs are still remembered
 
 
 
@@ -50,6 +103,8 @@ Scratchpad
 
 	Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName ) function calls
 	Nm_ManStoreIdName and initializes the name manager
+
+
 
 Change log:
 1) Add the Nm_ManProfile function as a decleration to nmInt.h

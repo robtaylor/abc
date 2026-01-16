@@ -20,6 +20,8 @@
 
 #include "abc.h"
 #include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 //#include "seq.h"
 
 ABC_NAMESPACE_IMPL_START
@@ -67,8 +69,18 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     // duplicate the nodes 
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
+        Abc_Frame_t * pAbc;
+        char * pName;
         Abc_NtkDupObj(pNtkNew, pObj, 0);
-        Abc_ObjAssignName( pObj->pCopy, Abc_ObjName(Abc_ObjFanout0(pObj)), NULL );
+        pName = Abc_ObjName(Abc_ObjFanout0(pObj));
+        Abc_ObjAssignName( pObj->pCopy, pName, NULL );
+        // map to node retention manager
+        if ( pName )
+        {
+            pAbc = Abc_FrameGetGlobalFrame();
+            if ( pAbc && pAbc->pNodeRetention )
+                Nr_ManAddOrigin( pAbc->pNodeRetention, pObj->pCopy->Id, pName );
+        }
     }
     // reconnect the internal nodes in the new network
     Abc_NtkForEachNode( pNtk, pObj, i )

@@ -343,6 +343,9 @@ void Abc_NtkDeleteAll_rec( Abc_Obj_t * pObj )
 Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName )
 {
     Abc_Obj_t * pObjNew;
+    char * pName;
+    Abc_Frame_t * pAbc;
+    pAbc = Abc_FrameGetGlobalFrame();
     // create the new object
     pObjNew = Abc_NtkCreateObj( pNtkNew, (Abc_ObjType_t)pObj->Type );
     // transfer names of the terminal objects
@@ -351,18 +354,35 @@ Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName 
         if ( Abc_ObjIsCi(pObj) )
         {
             if ( !Abc_NtkIsNetlist(pNtkNew) )
-                Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanout0Ntk(pObj)), NULL );
+            {
+                pName = Abc_ObjName(Abc_ObjFanout0Ntk(pObj));
+                Abc_ObjAssignName( pObjNew, pName, NULL );
+                // map to node retention manager
+                if ( pName )
+                {
+                    if ( pAbc && pAbc->pNodeRetention )
+                        Nr_ManAddOrigin( pAbc->pNodeRetention, pObjNew->Id, pName );
+                }
+            }
         }
         else if ( Abc_ObjIsCo(pObj) )
         {
             if ( !Abc_NtkIsNetlist(pNtkNew) )
             {
+                char * pName;
                 if ( Abc_ObjIsPo(pObj) )
-                    Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanin0Ntk(pObj)), NULL );
+                    pName = Abc_ObjName(Abc_ObjFanin0Ntk(pObj));
                 else
                 {
                     assert( Abc_ObjIsLatch(Abc_ObjFanout0(pObj)) );
-                    Abc_ObjAssignName( pObjNew, Abc_ObjName(pObj), NULL );
+                    pName = Abc_ObjName(pObj);
+                }
+                Abc_ObjAssignName( pObjNew, pName, NULL );
+                // map to node retention manager
+                if ( pName )
+                {
+                    if ( pAbc && pAbc->pNodeRetention )
+                        Nr_ManAddOrigin( pAbc->pNodeRetention, pObjNew->Id, pName );
                 }
             }
         }
@@ -588,7 +608,6 @@ Abc_Obj_t * Abc_NtkFindCo( Abc_Ntk_t * pNtk, char * pName )
 Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
 {
     Abc_Obj_t * pNet;
-    Abc_Frame_t * pAbc;
     assert( Abc_NtkIsNetlist(pNtk) );
     if ( pName && (pNet = Abc_NtkFindNet( pNtk, pName )) )
         return pNet;
@@ -598,10 +617,6 @@ Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
     if ( pName )
     {
         Nm_ManStoreIdName( pNtk->pManName, pNet->Id, pNet->Type, pName, NULL );
-        // track in node retention manager
-        pAbc = Abc_FrameGetGlobalFrame();
-        if ( pAbc && pAbc->pNodeRetention )
-            Nr_ManAddOrigin( pAbc->pNodeRetention, pNet->Id, pName );
     }
     return pNet;
 }

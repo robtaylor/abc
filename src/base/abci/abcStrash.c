@@ -448,7 +448,7 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
             if ( NodeIdNew >= 0 && NodeIdOld >= 0 && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
             {
                 Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                    Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->OriginId, pOrigin->pName );
+                    Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->pName );
                 
                 printf( "DEBUG: Node %d copied to %d with origin %s\n", NodeIdOld, NodeIdNew, pOrigin->pName );
             }

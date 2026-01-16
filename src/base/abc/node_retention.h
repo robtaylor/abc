@@ -37,7 +37,6 @@ ABC_NAMESPACE_HEADER_START
 typedef struct Nr_Origin_t_ Nr_Origin_t;
 struct Nr_Origin_t_
 {
-    int              OriginId;       // original node ID
     char *           pName;          // original node name (can be NULL)
 };
 
@@ -45,7 +44,7 @@ typedef struct Nr_Entry_t_ Nr_Entry_t;
 struct Nr_Entry_t_
 {
     int              NodeId;         // current node ID
-    Vec_Ptr_t *      vOrigins;       // list of Nr_Origin_t* (ID and name pairs)
+    Vec_Ptr_t *      vOrigins;       // list of Nr_Origin_t* (name pairs)
     Nr_Entry_t *     pNext;          // next entry in hash table
 };
 
@@ -70,7 +69,7 @@ struct Nr_Man_t_
 /*=== node_retention.c ================================================*/
 extern Nr_Man_t *    Nr_ManCreate( int nSize );
 extern void          Nr_ManFree( Nr_Man_t * p );
-extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId, char * pOriginName );
+extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName );
 extern Vec_Ptr_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManHasEntry( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManNumEntries( Nr_Man_t * p );

@@ -601,7 +601,7 @@ Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
         // track in node retention manager
         pAbc = Abc_FrameGetGlobalFrame();
         if ( pAbc && pAbc->pNodeRetention )
-            Nr_ManAddOrigin( pAbc->pNodeRetention, pNet->Id, pNet->Id, pName );
+            Nr_ManAddOrigin( pAbc->pNodeRetention, pNet->Id, pName );
     }
     return pNet;
 }

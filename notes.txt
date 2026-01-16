@@ -166,3 +166,14 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
 }
 
 
+
+
+
+Originally, the names are of the fanin nets when it's a netlist type network
+    if ( fCopyName )
+    {
+        if ( Abc_ObjIsCi(pObj) )
+        {
+            if ( !Abc_NtkIsNetlist(pNtkNew) )
+                Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanout0Ntk(pObj)), NULL );
+        }

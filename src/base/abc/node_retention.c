@@ -237,7 +237,7 @@ static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
 
 /**Function*************************************************************
 
-  Synopsis    [Adds an origin (ID and name) to a node's origin list.]
+  Synopsis    [Adds an origin (name) to a node's origin list.]
 
   Description []
                
@@ -246,7 +246,7 @@ static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
   SeeAlso     []
 
 ***********************************************************************/
-void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId, char * pOriginName )
+void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
 {
     Nr_Entry_t * pEntry;
     Nr_Origin_t * pOrigin;
@@ -263,7 +263,6 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId, char * pOriginName
     }
     // create origin entry
     pOrigin = ABC_ALLOC( Nr_Origin_t, 1 );
-    pOrigin->OriginId = OriginId;
     // copy name if provided
     if ( pOriginName && p->pMem )
     {
@@ -332,7 +331,7 @@ int Nr_ManNumEntries( Nr_Man_t * p )
  *
  *  Synopsis    [Returns the number of unique original nodes mapped.]
  *
- *  Description [Counts the number of unique OriginIds across all entries.]
+ *  Description [Counts the number of unique origin names across all entries.]
  *               
  *  SideEffects []
  *
@@ -343,13 +342,13 @@ int Nr_ManNumOriginalNodes( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry;
     Nr_Origin_t * pOrigin;
-    Vec_Ptr_t * vOrigins;
-    Vec_Int_t * vUniqueIds;
-    int i, j, OriginId, nUnique = 0;
+    Vec_Ptr_t * vUniqueNames;
+    int i, j, nUnique = 0;
+    char * pName;
     if ( p == NULL || p->nEntries == 0 )
         return 0;
-    // collect all unique origin IDs
-    vUniqueIds = Vec_IntAlloc( 100 );
+    // collect all unique origin names
+    vUniqueNames = Vec_PtrAlloc( 100 );
     for ( i = 0; i < p->nBins; i++ )
     {
         pEntry = p->pBins[i];
@@ -359,25 +358,27 @@ int Nr_ManNumOriginalNodes( Nr_Man_t * p )
             {
                 Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
                 {
-                    OriginId = pOrigin->OriginId;
+                    pName = pOrigin->pName;
+                    if ( pName == NULL )
+                        continue;
                     // check if already in vector
-                    for ( int k = 0; k < Vec_IntSize(vUniqueIds); k++ )
+                    for ( int k = 0; k < Vec_PtrSize(vUniqueNames); k++ )
                     {
-                        if ( Vec_IntEntry(vUniqueIds, k) == OriginId )
+                        if ( strcmp( (char *)Vec_PtrEntry(vUniqueNames, k), pName ) == 0 )
                         {
-                            OriginId = -1; // mark as found
+                            pName = NULL; // mark as found
                             break;
                         }
                     }
-                    if ( OriginId >= 0 )
-                        Vec_IntPush( vUniqueIds, OriginId );
+                    if ( pName != NULL )
+                        Vec_PtrPush( vUniqueNames, pName );
                 }
             }
             pEntry = pEntry->pNext;
         }
     }
-    nUnique = Vec_IntSize(vUniqueIds);
-    Vec_IntFree( vUniqueIds );
+    nUnique = Vec_PtrSize(vUniqueNames);
+    Vec_PtrFree( vUniqueNames );
     return nUnique;
 }
 
@@ -511,9 +512,9 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
     Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, i )
     {
         if ( pOrigin->pName )
-            printf( "  [%d] Origin ID: %d, Name: %s\n", i, pOrigin->OriginId, pOrigin->pName );
+            printf( "  [%d] Name: %s\n", i, pOrigin->pName );
         else
-            printf( "  [%d] Origin ID: %d, Name: (none)\n", i, pOrigin->OriginId );
+            printf( "  [%d] Name: (none)\n", i );
     }
 }
 

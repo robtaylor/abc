@@ -75,7 +75,7 @@ void Nr_ManFree( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry, * pNext;
     Nr_Origin_t * pOrigin;
-    int i;
+    int i, j;
     if ( p == NULL )
         return;
     // free all entries and their origins
@@ -87,7 +87,7 @@ void Nr_ManFree( Nr_Man_t * p )
             pNext = pEntry->pNext;
             if ( pEntry->vOrigins )
             {
-                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, i )
+                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
                 {
                     // names are stored in pMem, will be freed with pMem
                     ABC_FREE( pOrigin );
@@ -397,7 +397,7 @@ void Nr_ManClear( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry, * pNext;
     Nr_Origin_t * pOrigin;
-    int i;
+    int i, j;
     if ( p == NULL )
         return;
     for ( i = 0; i < p->nBins; i++ )
@@ -408,7 +408,7 @@ void Nr_ManClear( Nr_Man_t * p )
             pNext = pEntry->pNext;
             if ( pEntry->vOrigins )
             {
-                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, i )
+                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
                     ABC_FREE( pOrigin );
                 Vec_PtrFree( pEntry->vOrigins );
             }
@@ -553,6 +553,27 @@ void Nr_ManPrintAllOrigins( Nr_Man_t * p )
             pEntry = pEntry->pNext;
         }
     }
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Prints debug information about node retention manager.]
+
+  Description [Takes a function name and prints node retention info after that function.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName )
+{
+    if ( p == NULL )
+        return;
+    printf( "DEBUG: Node retention after %s:\n", pFuncName );
+    Nr_ManPrintAllOrigins( p );
+    printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( p ) );
+    printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( p ) );
 }
 
 ABC_NAMESPACE_IMPL_END

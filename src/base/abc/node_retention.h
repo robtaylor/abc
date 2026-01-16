@@ -78,6 +78,7 @@ extern void          Nr_ManClear( Nr_Man_t * p );
 extern void          Nr_ManProfile( Nr_Man_t * p );
 extern void          Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId );
 extern void          Nr_ManPrintAllOrigins( Nr_Man_t * p );
+extern void          Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName );
 
 ABC_NAMESPACE_HEADER_END
 

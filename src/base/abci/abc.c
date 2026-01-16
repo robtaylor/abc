@@ -34485,22 +34485,31 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             pRetOld = pAbc->pNodeRetention;
             pRetNew = Nr_ManCreate( 1000 );
             pAbc->pNodeRetention = pRetNew;
-            pAbc->pNodeRetentionOld = pRetOld; // store old one in frame buffer
+            pAbc->pNodeRetentionOld = pRetOld;
             // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
-            // clear old buffer
-            pAbc->pNodeRetentionOld = NULL;
             // debug: print strashed network retention info
+
+            Nr_ManFree( pRetOld );
+            pAbc->pNodeRetentionOld = NULL;
             if ( pAbc->pNodeRetention )
-            {
-                printf( "DEBUG: Node retention after strash:\n" );
-                Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
-                printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( pAbc->pNodeRetention ) );
-                printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( pAbc->pNodeRetention ) );
-            }
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "strash" );
+
+            // save/restore node retention before Abc_NtkToDar
+            pRetOld = pAbc->pNodeRetention;
+            pRetNew = Nr_ManCreate( 1000 );
+            pAbc->pNodeRetention = pRetNew;
+            pAbc->pNodeRetentionOld = pRetOld;
             // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
+            // debug: print node retention after Abc_NtkToDar
+            Nr_ManFree( pRetOld );
+            pAbc->pNodeRetentionOld = NULL;
+            if ( pAbc->pNodeRetention )
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkToDar" );
+
             Abc_NtkDelete( pStrash );
+            
             pGia = Gia_ManFromAig( pAig );
             Aig_ManStop( pAig );
             // perform undc/zero

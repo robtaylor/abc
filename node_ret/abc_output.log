@@ -2397,6 +2397,753 @@ Node 255 has 1 origin(s):
   [0] Name: ys__n270
 DEBUG: Number of entries: 256
 DEBUG: Number of original nodes mapped: 523
+DEBUG: Node retention after Abc_NtkToDar:
+Printing all origins (255 entries):
+Node 1 has 2 origin(s):
+  [0] Name: ys__n7
+  [1] Name: ys__n10
+Node 2 has 1 origin(s):
+  [0] Name: ys__n8
+Node 3 has 1 origin(s):
+  [0] Name: ys__n11
+Node 4 has 1 origin(s):
+  [0] Name: ys__n17
+Node 5 has 1 origin(s):
+  [0] Name: ys__n19
+Node 6 has 1 origin(s):
+  [0] Name: ys__n25
+Node 7 has 1 origin(s):
+  [0] Name: ys__n27
+Node 8 has 1 origin(s):
+  [0] Name: ys__n33
+Node 9 has 1 origin(s):
+  [0] Name: ys__n35
+Node 10 has 1 origin(s):
+  [0] Name: ys__n41
+Node 11 has 1 origin(s):
+  [0] Name: ys__n43
+Node 12 has 1 origin(s):
+  [0] Name: ys__n49
+Node 13 has 1 origin(s):
+  [0] Name: ys__n51
+Node 14 has 1 origin(s):
+  [0] Name: ys__n57
+Node 15 has 1 origin(s):
+  [0] Name: ys__n59
+Node 16 has 1 origin(s):
+  [0] Name: ys__n65
+Node 17 has 1 origin(s):
+  [0] Name: ys__n67
+Node 18 has 1 origin(s):
+  [0] Name: ys__n73
+Node 19 has 1 origin(s):
+  [0] Name: ys__n75
+Node 20 has 1 origin(s):
+  [0] Name: ys__n81
+Node 21 has 1 origin(s):
+  [0] Name: ys__n83
+Node 22 has 1 origin(s):
+  [0] Name: ys__n89
+Node 23 has 1 origin(s):
+  [0] Name: ys__n91
+Node 24 has 1 origin(s):
+  [0] Name: ys__n97
+Node 25 has 1 origin(s):
+  [0] Name: ys__n99
+Node 26 has 1 origin(s):
+  [0] Name: ys__n105
+Node 27 has 1 origin(s):
+  [0] Name: ys__n107
+Node 28 has 1 origin(s):
+  [0] Name: ys__n113
+Node 29 has 1 origin(s):
+  [0] Name: ys__n115
+Node 30 has 1 origin(s):
+  [0] Name: ys__n121
+Node 31 has 1 origin(s):
+  [0] Name: ys__n123
+Node 32 has 1 origin(s):
+  [0] Name: ys__n129
+Node 33 has 1 origin(s):
+  [0] Name: ys__n131
+Node 34 has 1 origin(s):
+  [0] Name: ys__n137
+Node 35 has 1 origin(s):
+  [0] Name: ys__n139
+Node 36 has 1 origin(s):
+  [0] Name: ys__n145
+Node 37 has 1 origin(s):
+  [0] Name: ys__n147
+Node 38 has 1 origin(s):
+  [0] Name: ys__n153
+Node 39 has 1 origin(s):
+  [0] Name: ys__n155
+Node 40 has 1 origin(s):
+  [0] Name: ys__n161
+Node 41 has 1 origin(s):
+  [0] Name: ys__n163
+Node 42 has 1 origin(s):
+  [0] Name: ys__n169
+Node 43 has 1 origin(s):
+  [0] Name: ys__n171
+Node 44 has 1 origin(s):
+  [0] Name: ys__n177
+Node 45 has 1 origin(s):
+  [0] Name: ys__n179
+Node 46 has 1 origin(s):
+  [0] Name: ys__n185
+Node 47 has 1 origin(s):
+  [0] Name: ys__n187
+Node 48 has 1 origin(s):
+  [0] Name: ys__n193
+Node 49 has 1 origin(s):
+  [0] Name: ys__n195
+Node 50 has 1 origin(s):
+  [0] Name: ys__n201
+Node 51 has 1 origin(s):
+  [0] Name: ys__n203
+Node 52 has 1 origin(s):
+  [0] Name: ys__n209
+Node 53 has 1 origin(s):
+  [0] Name: ys__n211
+Node 54 has 1 origin(s):
+  [0] Name: ys__n217
+Node 55 has 1 origin(s):
+  [0] Name: ys__n219
+Node 56 has 1 origin(s):
+  [0] Name: ys__n225
+Node 57 has 1 origin(s):
+  [0] Name: ys__n227
+Node 58 has 1 origin(s):
+  [0] Name: ys__n233
+Node 59 has 1 origin(s):
+  [0] Name: ys__n235
+Node 60 has 1 origin(s):
+  [0] Name: ys__n241
+Node 61 has 1 origin(s):
+  [0] Name: ys__n243
+Node 62 has 1 origin(s):
+  [0] Name: ys__n249
+Node 63 has 1 origin(s):
+  [0] Name: ys__n251
+Node 64 has 1 origin(s):
+  [0] Name: ys__n257
+Node 65 has 1 origin(s):
+  [0] Name: ys__n259
+Node 66 has 1 origin(s):
+  [0] Name: ys__n260
+Node 67 has 1 origin(s):
+  [0] Name: ys__n264
+Node 68 has 1 origin(s):
+  [0] Name: ys__n267
+Node 69 has 1 origin(s):
+  [0] Name: ys__n279
+Node 70 has 6 origin(s):
+  [0] Name: ys__n293
+  [1] Name: ys__n290
+  [2] Name: ys__n289
+  [3] Name: ys__n286
+  [4] Name: ys__n284
+  [5] Name: ys__n283
+Node 71 has 6 origin(s):
+  [0] Name: ys__n304
+  [1] Name: ys__n301
+  [2] Name: ys__n300
+  [3] Name: ys__n297
+  [4] Name: ys__n295
+  [5] Name: ys__n288
+Node 72 has 6 origin(s):
+  [0] Name: ys__n314
+  [1] Name: ys__n311
+  [2] Name: ys__n310
+  [3] Name: ys__n307
+  [4] Name: ys__n305
+  [5] Name: ys__n299
+Node 73 has 6 origin(s):
+  [0] Name: ys__n324
+  [1] Name: ys__n321
+  [2] Name: ys__n320
+  [3] Name: ys__n317
+  [4] Name: ys__n315
+  [5] Name: ys__n309
+Node 74 has 6 origin(s):
+  [0] Name: ys__n334
+  [1] Name: ys__n331
+  [2] Name: ys__n330
+  [3] Name: ys__n327
+  [4] Name: ys__n325
+  [5] Name: ys__n319
+Node 75 has 6 origin(s):
+  [0] Name: ys__n342
+  [1] Name: ys__n339
+  [2] Name: ys__n338
+  [3] Name: ys__n337
+  [4] Name: ys__n335
+  [5] Name: ys__n329
+Node 76 has 6 origin(s):
+  [0] Name: ys__n350
+  [1] Name: ys__n349
+  [2] Name: ys__n344
+  [3] Name: ys__n347
+  [4] Name: ys__n343
+  [5] Name: ys__n328
+Node 77 has 6 origin(s):
+  [0] Name: ys__n363
+  [1] Name: ys__n360
+  [2] Name: ys__n359
+  [3] Name: ys__n356
+  [4] Name: ys__n354
+  [5] Name: ys__n353
+Node 78 has 6 origin(s):
+  [0] Name: ys__n373
+  [1] Name: ys__n372
+  [2] Name: ys__n365
+  [3] Name: ys__n370
+  [4] Name: ys__n364
+  [5] Name: ys__n358
+Node 79 has 6 origin(s):
+  [0] Name: ys__n383
+  [1] Name: ys__n382
+  [2] Name: ys__n375
+  [3] Name: ys__n380
+  [4] Name: ys__n374
+  [5] Name: ys__n368
+Node 80 has 6 origin(s):
+  [0] Name: ys__n393
+  [1] Name: ys__n390
+  [2] Name: ys__n389
+  [3] Name: ys__n386
+  [4] Name: ys__n384
+  [5] Name: ys__n378
+Node 81 has 6 origin(s):
+  [0] Name: ys__n403
+  [1] Name: ys__n400
+  [2] Name: ys__n399
+  [3] Name: ys__n396
+  [4] Name: ys__n394
+  [5] Name: ys__n388
+Node 82 has 6 origin(s):
+  [0] Name: ys__n411
+  [1] Name: ys__n410
+  [2] Name: ys__n405
+  [3] Name: ys__n408
+  [4] Name: ys__n404
+  [5] Name: ys__n398
+Node 83 has 6 origin(s):
+  [0] Name: ys__n419
+  [1] Name: ys__n418
+  [2] Name: ys__n413
+  [3] Name: ys__n416
+  [4] Name: ys__n412
+  [5] Name: ys__n397
+Node 84 has 17 origin(s):
+  [0] Name: ys__n431
+  [1] Name: ys__n481
+  [2] Name: ys__n480
+  [3] Name: ys__n477
+  [4] Name: ys__n475
+  [5] Name: ys__n474
+  [6] Name: ys__n456
+  [7] Name: ys__n455
+  [8] Name: ys__n452
+  [9] Name: ys__n450
+  [10] Name: ys__n449
+  [11] Name: ys__n498
+  [12] Name: ys__n428
+  [13] Name: ys__n427
+  [14] Name: ys__n424
+  [15] Name: ys__n422
+  [16] Name: ys__n421
+Node 85 has 17 origin(s):
+  [0] Name: ys__n439
+  [1] Name: ys__n488
+  [2] Name: ys__n487
+  [3] Name: ys__n486
+  [4] Name: ys__n484
+  [5] Name: ys__n479
+  [6] Name: ys__n465
+  [7] Name: ys__n460
+  [8] Name: ys__n463
+  [9] Name: ys__n459
+  [10] Name: ys__n454
+  [11] Name: ys__n500
+  [12] Name: ys__n438
+  [13] Name: ys__n433
+  [14] Name: ys__n436
+  [15] Name: ys__n432
+  [16] Name: ys__n426
+Node 86 has 17 origin(s):
+  [0] Name: ys__n447
+  [1] Name: ys__n497
+  [2] Name: ys__n492
+  [3] Name: ys__n495
+  [4] Name: ys__n491
+  [5] Name: ys__n478
+  [6] Name: ys__n470
+  [7] Name: ys__n469
+  [8] Name: ys__n468
+  [9] Name: ys__n466
+  [10] Name: ys__n453
+  [11] Name: ys__n501
+  [12] Name: ys__n446
+  [13] Name: ys__n441
+  [14] Name: ys__n444
+  [15] Name: ys__n440
+  [16] Name: ys__n425
+Node 87 has 2 origin(s):
+  [0] Name: ys__n521
+  [1] Name: ys__n520
+Node 88 has 2 origin(s):
+  [0] Name: ys__n522
+  [1] Name: ys__n519
+Node 89 has 2 origin(s):
+  [0] Name: ys__n9
+  [1] Name: ys__n4
+Node 90 has 2 origin(s):
+  [0] Name: ys__n6
+  [1] Name: ys__n5
+Node 91 has 2 origin(s):
+  [0] Name: ys__n2
+  [1] Name: ys__n3
+Node 92 has 2 origin(s):
+  [0] Name: ys__n18
+  [1] Name: ys__n14
+Node 93 has 2 origin(s):
+  [0] Name: ys__n16
+  [1] Name: ys__n15
+Node 94 has 2 origin(s):
+  [0] Name: ys__n12
+  [1] Name: ys__n13
+Node 95 has 2 origin(s):
+  [0] Name: ys__n26
+  [1] Name: ys__n22
+Node 96 has 2 origin(s):
+  [0] Name: ys__n24
+  [1] Name: ys__n23
+Node 97 has 2 origin(s):
+  [0] Name: ys__n20
+  [1] Name: ys__n21
+Node 98 has 2 origin(s):
+  [0] Name: ys__n34
+  [1] Name: ys__n30
+Node 99 has 2 origin(s):
+  [0] Name: ys__n32
+  [1] Name: ys__n31
+Node 100 has 2 origin(s):
+  [0] Name: ys__n28
+  [1] Name: ys__n29
+Node 101 has 2 origin(s):
+  [0] Name: ys__n42
+  [1] Name: ys__n38
+Node 102 has 2 origin(s):
+  [0] Name: ys__n40
+  [1] Name: ys__n39
+Node 103 has 2 origin(s):
+  [0] Name: ys__n36
+  [1] Name: ys__n37
+Node 104 has 2 origin(s):
+  [0] Name: ys__n50
+  [1] Name: ys__n46
+Node 105 has 2 origin(s):
+  [0] Name: ys__n48
+  [1] Name: ys__n47
+Node 106 has 2 origin(s):
+  [0] Name: ys__n44
+  [1] Name: ys__n45
+Node 107 has 2 origin(s):
+  [0] Name: ys__n58
+  [1] Name: ys__n54
+Node 108 has 2 origin(s):
+  [0] Name: ys__n56
+  [1] Name: ys__n55
+Node 109 has 2 origin(s):
+  [0] Name: ys__n52
+  [1] Name: ys__n53
+Node 110 has 2 origin(s):
+  [0] Name: ys__n66
+  [1] Name: ys__n62
+Node 111 has 2 origin(s):
+  [0] Name: ys__n64
+  [1] Name: ys__n63
+Node 112 has 2 origin(s):
+  [0] Name: ys__n60
+  [1] Name: ys__n61
+Node 113 has 2 origin(s):
+  [0] Name: ys__n74
+  [1] Name: ys__n70
+Node 114 has 2 origin(s):
+  [0] Name: ys__n72
+  [1] Name: ys__n71
+Node 115 has 2 origin(s):
+  [0] Name: ys__n68
+  [1] Name: ys__n69
+Node 116 has 2 origin(s):
+  [0] Name: ys__n82
+  [1] Name: ys__n78
+Node 117 has 2 origin(s):
+  [0] Name: ys__n80
+  [1] Name: ys__n79
+Node 118 has 2 origin(s):
+  [0] Name: ys__n76
+  [1] Name: ys__n77
+Node 119 has 2 origin(s):
+  [0] Name: ys__n90
+  [1] Name: ys__n86
+Node 120 has 2 origin(s):
+  [0] Name: ys__n88
+  [1] Name: ys__n87
+Node 121 has 2 origin(s):
+  [0] Name: ys__n84
+  [1] Name: ys__n85
+Node 122 has 2 origin(s):
+  [0] Name: ys__n98
+  [1] Name: ys__n94
+Node 123 has 2 origin(s):
+  [0] Name: ys__n96
+  [1] Name: ys__n95
+Node 124 has 2 origin(s):
+  [0] Name: ys__n92
+  [1] Name: ys__n93
+Node 125 has 2 origin(s):
+  [0] Name: ys__n106
+  [1] Name: ys__n102
+Node 126 has 2 origin(s):
+  [0] Name: ys__n104
+  [1] Name: ys__n103
+Node 127 has 2 origin(s):
+  [0] Name: ys__n100
+  [1] Name: ys__n101
+Node 128 has 2 origin(s):
+  [0] Name: ys__n114
+  [1] Name: ys__n110
+Node 129 has 2 origin(s):
+  [0] Name: ys__n112
+  [1] Name: ys__n111
+Node 130 has 2 origin(s):
+  [0] Name: ys__n108
+  [1] Name: ys__n109
+Node 131 has 2 origin(s):
+  [0] Name: ys__n122
+  [1] Name: ys__n118
+Node 132 has 2 origin(s):
+  [0] Name: ys__n120
+  [1] Name: ys__n119
+Node 133 has 2 origin(s):
+  [0] Name: ys__n116
+  [1] Name: ys__n117
+Node 134 has 2 origin(s):
+  [0] Name: ys__n130
+  [1] Name: ys__n126
+Node 135 has 2 origin(s):
+  [0] Name: ys__n128
+  [1] Name: ys__n127
+Node 136 has 2 origin(s):
+  [0] Name: ys__n124
+  [1] Name: ys__n125
+Node 137 has 2 origin(s):
+  [0] Name: ys__n138
+  [1] Name: ys__n134
+Node 138 has 2 origin(s):
+  [0] Name: ys__n136
+  [1] Name: ys__n135
+Node 139 has 2 origin(s):
+  [0] Name: ys__n132
+  [1] Name: ys__n133
+Node 140 has 2 origin(s):
+  [0] Name: ys__n146
+  [1] Name: ys__n142
+Node 141 has 2 origin(s):
+  [0] Name: ys__n144
+  [1] Name: ys__n143
+Node 142 has 2 origin(s):
+  [0] Name: ys__n140
+  [1] Name: ys__n141
+Node 143 has 2 origin(s):
+  [0] Name: ys__n154
+  [1] Name: ys__n150
+Node 144 has 2 origin(s):
+  [0] Name: ys__n152
+  [1] Name: ys__n151
+Node 145 has 2 origin(s):
+  [0] Name: ys__n148
+  [1] Name: ys__n149
+Node 146 has 2 origin(s):
+  [0] Name: ys__n162
+  [1] Name: ys__n158
+Node 147 has 2 origin(s):
+  [0] Name: ys__n160
+  [1] Name: ys__n159
+Node 148 has 2 origin(s):
+  [0] Name: ys__n156
+  [1] Name: ys__n157
+Node 149 has 2 origin(s):
+  [0] Name: ys__n170
+  [1] Name: ys__n166
+Node 150 has 2 origin(s):
+  [0] Name: ys__n168
+  [1] Name: ys__n167
+Node 151 has 2 origin(s):
+  [0] Name: ys__n164
+  [1] Name: ys__n165
+Node 152 has 2 origin(s):
+  [0] Name: ys__n178
+  [1] Name: ys__n174
+Node 153 has 2 origin(s):
+  [0] Name: ys__n176
+  [1] Name: ys__n175
+Node 154 has 2 origin(s):
+  [0] Name: ys__n172
+  [1] Name: ys__n173
+Node 155 has 2 origin(s):
+  [0] Name: ys__n186
+  [1] Name: ys__n182
+Node 156 has 2 origin(s):
+  [0] Name: ys__n184
+  [1] Name: ys__n183
+Node 157 has 2 origin(s):
+  [0] Name: ys__n180
+  [1] Name: ys__n181
+Node 158 has 2 origin(s):
+  [0] Name: ys__n194
+  [1] Name: ys__n190
+Node 159 has 2 origin(s):
+  [0] Name: ys__n192
+  [1] Name: ys__n191
+Node 160 has 2 origin(s):
+  [0] Name: ys__n188
+  [1] Name: ys__n189
+Node 161 has 2 origin(s):
+  [0] Name: ys__n202
+  [1] Name: ys__n198
+Node 162 has 2 origin(s):
+  [0] Name: ys__n200
+  [1] Name: ys__n199
+Node 163 has 2 origin(s):
+  [0] Name: ys__n196
+  [1] Name: ys__n197
+Node 164 has 2 origin(s):
+  [0] Name: ys__n210
+  [1] Name: ys__n206
+Node 165 has 2 origin(s):
+  [0] Name: ys__n208
+  [1] Name: ys__n207
+Node 166 has 2 origin(s):
+  [0] Name: ys__n204
+  [1] Name: ys__n205
+Node 167 has 2 origin(s):
+  [0] Name: ys__n218
+  [1] Name: ys__n214
+Node 168 has 2 origin(s):
+  [0] Name: ys__n216
+  [1] Name: ys__n215
+Node 169 has 2 origin(s):
+  [0] Name: ys__n212
+  [1] Name: ys__n213
+Node 170 has 2 origin(s):
+  [0] Name: ys__n226
+  [1] Name: ys__n222
+Node 171 has 2 origin(s):
+  [0] Name: ys__n224
+  [1] Name: ys__n223
+Node 172 has 2 origin(s):
+  [0] Name: ys__n220
+  [1] Name: ys__n221
+Node 173 has 2 origin(s):
+  [0] Name: ys__n234
+  [1] Name: ys__n230
+Node 174 has 2 origin(s):
+  [0] Name: ys__n232
+  [1] Name: ys__n231
+Node 175 has 2 origin(s):
+  [0] Name: ys__n228
+  [1] Name: ys__n229
+Node 176 has 2 origin(s):
+  [0] Name: ys__n242
+  [1] Name: ys__n238
+Node 177 has 2 origin(s):
+  [0] Name: ys__n240
+  [1] Name: ys__n239
+Node 178 has 2 origin(s):
+  [0] Name: ys__n236
+  [1] Name: ys__n237
+Node 179 has 2 origin(s):
+  [0] Name: ys__n250
+  [1] Name: ys__n246
+Node 180 has 2 origin(s):
+  [0] Name: ys__n248
+  [1] Name: ys__n247
+Node 181 has 2 origin(s):
+  [0] Name: ys__n244
+  [1] Name: ys__n245
+Node 182 has 2 origin(s):
+  [0] Name: ys__n258
+  [1] Name: ys__n254
+Node 183 has 2 origin(s):
+  [0] Name: ys__n256
+  [1] Name: ys__n255
+Node 184 has 2 origin(s):
+  [0] Name: ys__n252
+  [1] Name: ys__n253
+Node 185 has 1 origin(s):
+  [0] Name: ys__n387
+Node 186 has 1 origin(s):
+  [0] Name: ys__n377
+Node 187 has 1 origin(s):
+  [0] Name: ys__n367
+Node 188 has 1 origin(s):
+  [0] Name: ys__n357
+Node 189 has 1 origin(s):
+  [0] Name: ys__n352
+Node 190 has 1 origin(s):
+  [0] Name: ys__n261
+Node 191 has 1 origin(s):
+  [0] Name: ys__n262
+Node 192 has 1 origin(s):
+  [0] Name: ys__n318
+Node 193 has 1 origin(s):
+  [0] Name: ys__n308
+Node 194 has 1 origin(s):
+  [0] Name: ys__n298
+Node 195 has 1 origin(s):
+  [0] Name: ys__n287
+Node 196 has 1 origin(s):
+  [0] Name: ys__n282
+Node 197 has 1 origin(s):
+  [0] Name: ys__n281
+Node 198 has 1 origin(s):
+  [0] Name: ys__n280
+Node 199 has 1 origin(s):
+  [0] Name: ys__n271
+Node 200 has 1 origin(s):
+  [0] Name: ys__n473
+Node 201 has 1 origin(s):
+  [0] Name: ys__n276
+Node 202 has 4 origin(s):
+  [0] Name: ys__n263
+  [1] Name: ys__n503
+  [2] Name: ys__n514
+  [3] Name: ys__n507
+Node 203 has 1 origin(s):
+  [0] Name: ys__n265
+Node 204 has 1 origin(s):
+  [0] Name: ys__n448
+Node 205 has 1 origin(s):
+  [0] Name: ys__n274
+Node 206 has 4 origin(s):
+  [0] Name: ys__n275
+  [1] Name: ys__n504
+  [2] Name: ys__n516
+  [3] Name: ys__n509
+Node 207 has 2 origin(s):
+  [0] Name: ys__n502
+  [1] Name: ys__n266
+Node 208 has 1 origin(s):
+  [0] Name: ys__n268
+Node 209 has 1 origin(s):
+  [0] Name: ys__n499
+Node 210 has 1 origin(s):
+  [0] Name: ys__n277
+Node 211 has 2 origin(s):
+  [0] Name: ys__n278
+  [1] Name: ys__n512
+Node 212 has 1 origin(s):
+  [0] Name: ys__n420
+Node 213 has 1 origin(s):
+  [0] Name: ys__n272
+Node 214 has 3 origin(s):
+  [0] Name: ys__n273
+  [1] Name: ys__n517
+  [2] Name: ys__n510
+Node 215 has 2 origin(s):
+  [0] Name: ys__n515
+  [1] Name: ys__n508
+Node 216 has 3 origin(s):
+  [0] Name: ys__n513
+  [1] Name: ys__n505
+  [2] Name: ys__n506
+Node 217 has 2 origin(s):
+  [0] Name: ys__n511
+  [1] Name: ys__n269
+Node 218 has 3 origin(s):
+  [0] Name: ys__n518
+  [1] Name: ys__n0
+  [2] Name: ys__n1
+Node 219 has 1 origin(s):
+  [0] Name: ys__n270
+Node 220 has 1 origin(s):
+  [0] Name: ys__n3
+Node 221 has 1 origin(s):
+  [0] Name: ys__n13
+Node 222 has 1 origin(s):
+  [0] Name: ys__n21
+Node 223 has 1 origin(s):
+  [0] Name: ys__n29
+Node 224 has 1 origin(s):
+  [0] Name: ys__n37
+Node 225 has 1 origin(s):
+  [0] Name: ys__n45
+Node 226 has 1 origin(s):
+  [0] Name: ys__n53
+Node 227 has 1 origin(s):
+  [0] Name: ys__n61
+Node 228 has 1 origin(s):
+  [0] Name: ys__n69
+Node 229 has 1 origin(s):
+  [0] Name: ys__n77
+Node 230 has 1 origin(s):
+  [0] Name: ys__n85
+Node 231 has 1 origin(s):
+  [0] Name: ys__n93
+Node 232 has 1 origin(s):
+  [0] Name: ys__n101
+Node 233 has 1 origin(s):
+  [0] Name: ys__n109
+Node 234 has 1 origin(s):
+  [0] Name: ys__n117
+Node 235 has 1 origin(s):
+  [0] Name: ys__n125
+Node 236 has 1 origin(s):
+  [0] Name: ys__n133
+Node 237 has 1 origin(s):
+  [0] Name: ys__n141
+Node 238 has 1 origin(s):
+  [0] Name: ys__n149
+Node 239 has 1 origin(s):
+  [0] Name: ys__n157
+Node 240 has 1 origin(s):
+  [0] Name: ys__n165
+Node 241 has 1 origin(s):
+  [0] Name: ys__n173
+Node 242 has 1 origin(s):
+  [0] Name: ys__n181
+Node 243 has 1 origin(s):
+  [0] Name: ys__n189
+Node 244 has 1 origin(s):
+  [0] Name: ys__n197
+Node 245 has 1 origin(s):
+  [0] Name: ys__n205
+Node 246 has 1 origin(s):
+  [0] Name: ys__n213
+Node 247 has 1 origin(s):
+  [0] Name: ys__n221
+Node 248 has 1 origin(s):
+  [0] Name: ys__n229
+Node 249 has 1 origin(s):
+  [0] Name: ys__n237
+Node 250 has 1 origin(s):
+  [0] Name: ys__n245
+Node 251 has 1 origin(s):
+  [0] Name: ys__n253
+Node 252 has 1 origin(s):
+  [0] Name: ys__n265
+Node 253 has 1 origin(s):
+  [0] Name: ys__n268
+Node 254 has 1 origin(s):
+  [0] Name: ys__n270
+Node 255 has 1 origin(s):
+  [0] Name: ys__n506
+DEBUG: Number of entries: 255
+DEBUG: Number of original nodes mapped: 452
 LutSize = 6  CutNum = 16  Iter = 4  Coarse = 0   Cells = 8  Funcs = 289  Matches = 68  And = 134  Choices = 4  
 Computing cuts...CutPair = 1577  Merge = 766 (5.7)  Eval = 665 (5.0)  Cut = 414 (3.1)  Use = 172 (1.3)  Mat = 504 (3.8)  
 Gia = 0.01 MB  Man = 0.02 MB  Cut = 0.25 MB   TT = 0.03 MB  Total = 0.31 MB   Time =     0.00 sec

@@ -181,3 +181,18 @@ Originally, the names are of the fanin nets when it's a netlist type network
 
 
 Abc_NtkStrash
+
+
+
+During this functionAbc_NtkToDar
+
+    Setting the copy of the old one to the new one
+    Abc_NtkForEachCi( pNtk, pObj, i )
+    {
+        pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCi(pMan);
+        // initialize logic level of the CIs
+        ((Aig_Obj_t *)pObj->pCopy)->Level = pObj->Level;
+    }
+
+
+    LATCHES -> Might have to see what needs to be edited for that later on as well

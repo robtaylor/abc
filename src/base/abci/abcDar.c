@@ -23,6 +23,8 @@
 
 #include "base/abc/abc.h"
 #include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "aig/gia/giaAig.h"
 #include "opt/dar/dar.h"
 #include "sat/cnf/cnf.h"
@@ -314,7 +316,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
     pMan->fAddStrash = 0;
     // create the POs
     Abc_NtkForEachCo( pNtk, pObj, i )
-        Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
+        pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
     // complement the 1-valued registers
     Aig_ManSetRegNum( pMan, Abc_NtkLatchNum(pNtk) );
     if ( fRegisters )
@@ -341,6 +343,66 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
         Abc_Print( 1, "Abc_NtkToDar: AIG check has failed.\n" );
         Aig_ManStop( pMan );
         return NULL;
+    }
+    // map names from original ABC objects to new AIG objects
+    // TODO Advay, move this within initial logic to avoid repreat
+    {
+        Abc_Frame_t * pAbc;
+        Vec_Ptr_t * vOrigins;
+        Nr_Origin_t * pOrigin;
+        Aig_Obj_t * pAigObj;
+        int i, j;
+        pAbc = Abc_FrameGetGlobalFrame();
+        if ( pAbc && pAbc->pNodeRetention )
+        {
+            // map CIs
+            Abc_NtkForEachCi( pNtk, pObj, i )
+            {
+                if ( pObj->pCopy )
+                {
+                    pAigObj = (Aig_Obj_t *)pObj->pCopy;
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
+                    }
+                }
+            }
+            // map internal nodes
+            vNodes = Abc_NtkDfs( pNtk, 0 );
+            Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pObj, i )
+            {
+                if ( pObj->pCopy )
+                {
+                    pAigObj = (Aig_Obj_t *)pObj->pCopy;
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
+                    }
+                }
+            }
+            Vec_PtrFree( vNodes );
+            // map COs
+            Abc_NtkForEachCo( pNtk, pObj, i )
+            {
+                if ( pObj->pCopy )
+                {
+                    pAigObj = (Aig_Obj_t *)pObj->pCopy;
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
+                    }
+                }
+            }
+        }
     }
     return pMan;
 }

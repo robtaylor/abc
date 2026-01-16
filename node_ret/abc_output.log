@@ -1070,20 +1070,3 @@ Nodes by level:
 19 :  ys__n268 ys__n506 ys__n511
 20 :  ys__n269
 21 :  ys__n270
-LutSize = 6  CutNum = 16  Iter = 4  Coarse = 0   Cells = 8  Funcs = 289  Matches = 68  And = 134  Choices = 4  
-Computing cuts...CutPair = 1577  Merge = 766 (5.7)  Eval = 665 (5.0)  Cut = 414 (3.1)  Use = 172 (1.3)  Mat = 504 (3.8)  
-Gia = 0.01 MB  Man = 0.02 MB  Cut = 0.25 MB   TT = 0.03 MB  Total = 0.31 MB   Time =     0.00 sec
-Delay :  Delay =    6.00  Area =      271.00  Gate =    74  Inv =    13  Edge =    167  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Nodes by level:
- 0 : 
- 1 :  n125 n126 n127 n128 n129 n130 n131 ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 n173 n174 n177 n180 n184 n188 n192
- 2 :  n164 n165 n166 n169 n170 n175 n178 n181 n185 n189
- 3 :  n167 n171 n176
- 4 :  n168 n179
- 5 :  n172 n182 n186 n190 n193
- 6 :  ys__n265 ys__n268 ys__n270 ys__n506

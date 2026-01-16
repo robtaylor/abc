@@ -193,6 +193,7 @@ Abc_Frame_t * Abc_FrameAllocate()
     p->vPlugInComBinPairs = Vec_PtrAlloc( 100 );
     // initialize node retention manager
     p->pNodeRetention = Nr_ManCreate( 1000 );
+    p->pNodeRetentionOld = NULL;
     return p;
 }
 

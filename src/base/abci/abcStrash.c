@@ -19,6 +19,9 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
+#include "base/abc/node_retention.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
 #include "bool/dec/dec.h"
 
 ABC_NAMESPACE_IMPL_START
@@ -414,19 +417,35 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
 {
     Vec_Ptr_t * vNodes;
     Abc_Obj_t * pNodeOld;
-    int i; //, clk = Abc_Clock();
+    Abc_Frame_t * pAbc;
+    Nr_Man_t * pRetOld, * pRetNew;
+    Vec_Ptr_t * vOrigins;
+    Nr_Origin_t * pOrigin;
+    int i, j;
     assert( Abc_NtkIsLogic(pNtkOld) );
     assert( Abc_NtkIsStrash(pNtkNew) );
 //    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );
     vNodes = Abc_NtkDfsIter( pNtkOld, fAllNodes );
 //printf( "Nodes = %d. ", Vec_PtrSize(vNodes) );
 //ABC_PRT( "Time", Abc_Clock() - clk );
+    // get retention managers (new one should already be set in frame)
+    pAbc = Abc_FrameGetGlobalFrame();
+    pRetNew = pAbc ? pAbc->pNodeRetention : NULL;
+    pRetOld = pAbc ? pAbc->pNodeRetentionOld : NULL; // get old one from frame
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
     {
         if ( Abc_ObjIsBarBuf(pNodeOld) )
             pNodeOld->pCopy = Abc_ObjChild0Copy(pNodeOld);
         else
             pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
+        // track mapping: copy origins from old node to new node
+        if ( pRetNew && pNodeOld->pCopy && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, Abc_ObjId(pNodeOld) )) )
+        {
+            Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                Nr_ManAddOrigin( pRetNew, Abc_ObjId(pNodeOld->pCopy), pOrigin->OriginId, pOrigin->pName );
+            
+            printf( "DEBUG: Node %d copied to %d with origin %s\n", Abc_ObjId(pNodeOld), Abc_ObjId(pNodeOld->pCopy), pOrigin->pName );
+        }
     }
     Vec_PtrFree( vNodes );
 }

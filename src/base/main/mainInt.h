@@ -169,7 +169,8 @@ struct Abc_Frame_t_
     int *           pBoxes;
     void *          pNdr;
     int *           pNdrArray;
-    Nr_Man_t *      pNodeRetention;  // node retention manager
+    Nr_Man_t *      pNodeRetention;      // node retention manager
+    Nr_Man_t *      pNodeRetentionOld;   // old copy buffer for node retention during transformations
 
     Abc_Frame_Callback_BmcFrameDone_Func pFuncOnFrameDone;
 };

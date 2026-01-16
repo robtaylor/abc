@@ -19,6 +19,7 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
+#include "base/abc/node_retention.h"
 #include "base/main/main.h"
 #include "base/main/mainInt.h"
 #include "proof/fraig/fraig.h"
@@ -34442,6 +34443,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
     Aig_Man_t * pAig;
     Gia_Man_t * pGia, * pTemp;
     char * pInits;
+    Nr_Man_t * pRetOld, * pRetNew;
     int c, fGiaSimple = 0, fMapped = 0, fNames = 0, fVerbose = 0;
     Extra_UtilGetoptReset();
     while ( ( c = Extra_UtilGetopt( argc, argv, "cmnvh" ) ) != EOF )
@@ -34479,8 +34481,22 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
         else
         {
+            // create temporary retention manager for strashed network
+            pRetOld = pAbc->pNodeRetention;
+            pRetNew = Nr_ManCreate( 1000 );
+            pAbc->pNodeRetention = pRetNew;
+            pAbc->pNodeRetentionOld = pRetOld; // store old one in frame buffer
             // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
+            // clear old buffer
+            pAbc->pNodeRetentionOld = NULL;
+            // debug: print strashed network retention info
+            if ( pAbc->pNodeRetention )
+            {
+                printf( "DEBUG: Node retention after strash:\n" );
+                Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
+            }
+            // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
             Abc_NtkDelete( pStrash );
             pGia = Gia_ManFromAig( pAig );

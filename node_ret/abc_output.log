@@ -1047,6 +1047,7 @@ Node 1006 has 1 origin(s):
   [0] Origin ID: 1006, Name: ys__n480
 Node 1008 has 1 origin(s):
   [0] Origin ID: 1008, Name: ys__n491
+DEBUG: Number of entries: 523
 Nodes by level:
  0 :  ys__n294 ys__n351
  1 :  ys__n6 ys__n10 ys__n16 ys__n24 ys__n32 ys__n40 ys__n48 ys__n56 ys__n64 ys__n72 ys__n80 ys__n88 ys__n96 ys__n104 ys__n112 ys__n120 ys__n128 ys__n136 ys__n144 ys__n152 ys__n160 ys__n168 ys__n176 ys__n184 ys__n192 ys__n200 ys__n208 ys__n216 ys__n224 ys__n232 ys__n240 ys__n248 ys__n256 ys__n290 ys__n291 ys__n292 ys__n301 ys__n302 ys__n303 ys__n311 ys__n312 ys__n313 ys__n321 ys__n322 ys__n323 ys__n331 ys__n332 ys__n333 ys__n339 ys__n340 ys__n341 ys__n347 ys__n348 ys__n349 ys__n360 ys__n361 ys__n362 ys__n370 ys__n371 ys__n372 ys__n380 ys__n381 ys__n382 ys__n390 ys__n391 ys__n392 ys__n400 ys__n401 ys__n402 ys__n408 ys__n409 ys__n410 ys__n416 ys__n417 ys__n418 ys__n428 ys__n429 ys__n430 ys__n436 ys__n437 ys__n438 ys__n444 ys__n445 ys__n446 ys__n456 ys__n457 ys__n458 ys__n463 ys__n464 ys__n465 ys__n470 ys__n471 ys__n472 ys__n481 ys__n482 ys__n483 ys__n488 ys__n489 ys__n490 ys__n495 ys__n496 ys__n497 ys__n498 ys__n500 ys__n501 ys__n519 ys__n520

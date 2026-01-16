@@ -586,6 +586,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     {
         printf( "DEBUG: Node retention origins after read_blif:\n" );
         Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
+        printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( pAbc->pNodeRetention ) );
     }
     // # DEBUG advay
     Abc_FrameClearVerifStatus( pAbc );

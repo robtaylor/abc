@@ -445,7 +445,7 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
             int NodeIdNew = Abc_ObjId(pNodeNew);
             int NodeIdOld = Abc_ObjId(pNodeOld);
             // only track if both IDs are valid (non-negative)
-            if ( NodeIdNew >= 0 && NodeIdOld >= 0 && pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
+            if ( pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
             {
                 Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
                     Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->pName );

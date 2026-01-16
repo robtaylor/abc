@@ -177,3 +177,7 @@ Originally, the names are of the fanin nets when it's a netlist type network
             if ( !Abc_NtkIsNetlist(pNtkNew) )
                 Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanout0Ntk(pObj)), NULL );
         }
+
+
+
+Abc_NtkStrash

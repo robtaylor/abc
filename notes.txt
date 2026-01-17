@@ -196,3 +196,6 @@ During this functionAbc_NtkToDar
 
 
     LATCHES -> Might have to see what needs to be edited for that later on as well
+
+    The number of nodes also seem to be decreasing (the orignal nodes count). 
+    Not sure if this should be happening in Abc_NtkToDar

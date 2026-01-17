@@ -199,3 +199,11 @@ During this functionAbc_NtkToDar
 
     The number of nodes also seem to be decreasing (the orignal nodes count). 
     Not sure if this should be happening in Abc_NtkToDar
+
+
+
+    Initially, for the Gia_Man_t, the hashmap is not used and the pObjs
+    array is used to keep track of relative distances. When this is hashed
+    is when the structral hashing actually happens
+
+    Gia_ManFromAig

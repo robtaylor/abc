@@ -34510,8 +34510,19 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
 
             Abc_NtkDelete( pStrash );
             
+            // save/restore node retention before Gia_ManFromAig
+            pRetOld = pAbc->pNodeRetention;
+            pRetNew = Nr_ManCreate( 1000 );
+            pAbc->pNodeRetention = pRetNew;
+            pAbc->pNodeRetentionOld = pRetOld;
             pGia = Gia_ManFromAig( pAig );
+            // debug: print node retention after Gia_ManFromAig
+            if ( pAbc->pNodeRetention )
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "Gia_ManFromAig" );
+
+            
             Aig_ManStop( pAig );
+
             // perform undc/zero
             pInits = Abc_NtkCollectLatchValuesStr( pAbc->pNtkCur );
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );

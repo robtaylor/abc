@@ -210,3 +210,24 @@ During this functionAbc_NtkToDar
 
 
     Get doesn't require the -n flag
+
+
+
+Cone:
+For a node n:
+
+cone(n) = all nodes that can reach n
+         until you hit a boundary
+
+
+That boundary is usually:
+
+a node with fanout > 1, or
+
+a size limit (like 16), or
+
+a primary input / latch
+
+So a cone is:
+
+“The chunk of logic that computes this node and is safe to replace.”

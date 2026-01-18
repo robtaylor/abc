@@ -2,6 +2,7 @@ read_blif -m "node_ret/input.blif";
 read_library node_ret/stdcells.genlib;
 print_level -n;
 &get -n;
+&nf;
 &put;
 print_level -n;
-write_blif "node_ret/output.blif";
+write_blif "node_ret/get_and_put_output.blif";

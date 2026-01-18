@@ -207,3 +207,6 @@ During this functionAbc_NtkToDar
     is when the structral hashing actually happens
 
     Gia_ManFromAig
+
+
+    Get doesn't require the -n flag

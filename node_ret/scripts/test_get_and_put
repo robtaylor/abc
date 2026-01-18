@@ -1,0 +1,2 @@
+#!/bin/bash
+./abc -f node_ret/get_and_put.script 2>&1 | tee node_ret/abc_get_and_putoutput.log

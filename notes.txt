@@ -289,3 +289,6 @@ It is likely that the only commands which cause a change in the actual Gia nodes
 &put
 &st
 &syn
+
+
+Abc_NtkFromCellMappedGia

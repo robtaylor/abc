@@ -34594,6 +34594,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     Aig_Man_t * pMan;
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
+    Nr_Man_t * pRetOld, * pRetNew;
     int fStatusClear = 1;
     int fFindEnables = 0;
     int fUseBuffs    = 0;
@@ -34630,7 +34631,21 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fFindEnables )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 1, fUseBuffs );
     else if ( Gia_ManHasCellMapping(pAbc->pGia) )
+    {
+        // save/restore node retention before Abc_NtkFromCellMappedGia
+        // TODO Advay: consider adding this on multiple paths for &put
+        Nr_ManFree( pAbc->pNodeRetentionOld );
+        pRetOld = pAbc->pNodeRetention;
+        pRetNew = Nr_ManCreate( 1000 );
+        pAbc->pNodeRetention = pRetNew;
+        pAbc->pNodeRetentionOld = pRetOld;
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
+        // debug: print node retention after Abc_NtkFromCellMappedGia
+        Nr_ManFree( pRetOld );
+        pAbc->pNodeRetentionOld = NULL;
+        if ( pAbc->pNodeRetention )
+            Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkFromCellMappedGia" );
+    }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
     else if ( Gia_ManHasDangling(pAbc->pGia) == 0 )

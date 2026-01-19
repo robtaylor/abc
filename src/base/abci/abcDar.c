@@ -1196,6 +1196,97 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     assert( Gia_ManPiNum(p) == Abc_NtkPiNum(pNtkNew) );
     assert( Gia_ManPoNum(p) == Abc_NtkPoNum(pNtkNew) );
     assert( Gia_ManRegNum(p) == Abc_NtkLatchNum(pNtkNew) );
+
+    // map names from original GIA objects to new ABC network objects
+    {
+        Abc_Frame_t * pAbc;
+        Vec_Ptr_t * vOrigins;
+        Nr_Origin_t * pOrigin;
+        int i, j, iGiaId, iAbcId;
+        pAbc = Abc_FrameGetGlobalFrame();
+        if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
+        {
+            // map CIs
+            Gia_ManForEachPi( p, pObj, i )
+            {
+                iGiaId = Gia_ObjId(p, pObj);
+                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+                if ( iAbcId >= 0 )
+                {
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
+                    }
+                }
+            }
+            // map COs
+            Gia_ManForEachPo( p, pObj, i )
+            {
+                iGiaId = Gia_ObjId(p, pObj);
+                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+                if ( iAbcId >= 0 )
+                {
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
+                    }
+                }
+            }
+            // map Ri/Ro (register inputs/outputs)
+            Gia_ManForEachRiRo( p, pObjLi, pObjLo, i )
+            {
+                // map Ri (register input)
+                iGiaId = Gia_ObjId(p, pObjLi);
+                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+                if ( iAbcId >= 0 )
+                {
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
+                    }
+                }
+                // map Ro (register output)
+                iGiaId = Gia_ObjId(p, pObjLo);
+                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+                if ( iAbcId >= 0 )
+                {
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
+                    }
+                }
+            }
+            // map internal nodes (iLits)
+            Gia_ManForEachCell( p, iLit )
+            {
+                iGiaId = Abc_Lit2Var(iLit);
+                iAbcId = Vec_IntEntry( vCopyLits, iLit );
+                if ( iAbcId >= 0 )
+                {
+                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
+                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+                    {
+                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+                            if ( pOrigin && pOrigin->pName )
+                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
+                    }
+                }
+            }
+        }
+    }
+
     Vec_IntFree( vCopyLits );
     ABC_FREE( pCells );
 

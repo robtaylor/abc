@@ -275,3 +275,17 @@ Why integers instead of pointers:
 - Memory efficient: 4 bytes vs 8 bytes on 64-bit systems
 - Relocatable: Pages can be reallocated without updating pointers
 - Compact encoding: Packs page and offset into single 32-bit value
+
+
+
+The pNfObjs field within the Nf_Man_t_ has the same Ids as the Ids in the Gia_Man_t (which is their position in the vector)
+These can be set after computing the best techmapping during this function: Nf_ManDeriveMapping
+
+Turns out that even after the &nf function, there's no change to the original Gia nodes. However, there's a newly populated
+vMapping field.
+
+It is likely that the only commands which cause a change in the actual Gia nodes are the following:
+&get -n
+&put
+&st
+&syn

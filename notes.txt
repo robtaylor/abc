@@ -230,4 +230,48 @@ a primary input / latch
 
 So a cone is:
 
-“The chunk of logic that computes this node and is safe to replace.”
+"The chunk of logic that computes this node and is safe to replace."
+
+
+================================================================================
+Cut Storage Architecture in giaNf.c (Nf_Man_t)
+================================================================================
+
+Cut Storage Hierarchy:
+- Cuts are stored in Nf_Man_t, NOT in Gia_Man_t
+- Gia_Man_t is referenced via Nf_Man_t->pGia but doesn't store cuts
+
+Structure:
+1. Nf_Obj_t (one per GIA object):
+   - p->pNfObjs[i] = mapping structure for GIA object i
+   - Contains M[2][2] = 4 Nf_Mat_t entries (2 choices × 2 objectives: delay/area)
+   - Each Nf_Mat_t has a CutH field pointing to a specific cut
+
+2. Cut Storage (vPages):
+   - Vec_Ptr_t vPages: Vector of memory pages, each 64KB (2^16 ints = 2^18 bytes)
+   - Vec_Int_t vCutSets: Stores cut set handle for each GIA object
+   - Each integer encodes: upper 16 bits = page index, lower 16 bits = offset within page
+
+3. Cutset Structure:
+   - Each GIA object has its own cutset (indexed by GIA object ID)
+   - Format: [count] [cut1] [cut2] ... [cutN]
+   - Each cut: [size|func] [leaf1] [leaf2] ... [leafN]
+   - Max cuts per object: NF_CUT_MAX = 32
+   - Max leaves per cut: NF_LEAF_MAX = 6
+   - Each cut takes (1 + nLeaves) ints
+
+4. CutH Field (10 bits):
+   - Local offset within the object's cutset (not a global handle)
+   - Can index up to 1024 ints within a cutset
+   - Max cutset size: ~225 ints (1 count + 32 cuts × 7 ints max)
+   - 10 bits provides sufficient headroom
+
+Key Functions:
+- Nf_ObjCutSet(p, i): Gets cutset pointer for GIA object i
+- Nf_CutFromHandle(pCutSet, CutH): Converts handle to cut pointer (pCutSet + CutH)
+- Nf_ManCutSet(p, i): Decodes handle i into pointer (page + offset)
+
+Why integers instead of pointers:
+- Memory efficient: 4 bytes vs 8 bytes on 64-bit systems
+- Relocatable: Pages can be reallocated without updating pointers
+- Compact encoding: Packs page and offset into single 32-bit value

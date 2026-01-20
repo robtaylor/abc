@@ -292,3 +292,7 @@ It is likely that the only commands which cause a change in the actual Gia nodes
 
 
 Abc_NtkFromCellMappedGia
+
+
+Abc_NtkLogicToNetlist structure
+1) Abc_NtkStartFrom. This already goes ahead and creates new IDs. TODO: add a config manager within the Nr_Man_t which outputs when this is being called

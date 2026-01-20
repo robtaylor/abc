@@ -34483,7 +34483,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         {
             // create temporary retention manager for strashed network
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000 );
+            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash" );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             // derive comb GIA
@@ -34497,7 +34497,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
 
             // save/restore node retention before Abc_NtkToDar
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000 );
+            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar" );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             // # DEBUG advay
@@ -34512,7 +34512,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             
             // save/restore node retention before Gia_ManFromAig
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000 );
+            pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig" );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             pGia = Gia_ManFromAig( pAig );
@@ -34636,7 +34636,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         // TODO Advay: consider adding this on multiple paths for &put
         Nr_ManFree( pAbc->pNodeRetentionOld );
         pRetOld = pAbc->pNodeRetention;
-        pRetNew = Nr_ManCreate( 1000 );
+        pRetNew = Nr_ManCreate( 1000, "&put:Abc_NtkFromCellMappedGia" );
         pAbc->pNodeRetention = pRetNew;
         pAbc->pNodeRetentionOld = pRetOld;
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );

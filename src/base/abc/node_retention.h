@@ -56,6 +56,7 @@ struct Nr_Man_t_
     int              nEntries;       // number of entries
     int              nSizeFactor;    // determines when to resize (default: 2)
     Extra_MmFlex_t * pMem;           // memory manager for origin names
+    char *           calling_cmd;     // command that created this manager
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,7 @@ struct Nr_Man_t_
 ////////////////////////////////////////////////////////////////////////
 
 /*=== node_retention.c ================================================*/
-extern Nr_Man_t *    Nr_ManCreate( int nSize );
+extern Nr_Man_t *    Nr_ManCreate( int nSize, char * calling_cmd );
 extern void          Nr_ManFree( Nr_Man_t * p );
 extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName );
 extern Vec_Ptr_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );

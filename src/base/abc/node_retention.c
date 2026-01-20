@@ -681,7 +681,7 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
         vOrigins = Nr_ManGetOrigins( p, NetId );
         if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
         {
-            fprintf( pFile, "# %s SRC", Abc_ObjName(pNet) );
+            fprintf( pFile, "%s SRC", Abc_ObjName(pNet) );
             Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
             {
                 if ( pOrigin && pOrigin->pName )

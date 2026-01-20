@@ -2588,11 +2588,39 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         goto usage;
     // get the output file name
     pFileName = argv[globalUtilOptind];
-    // call the corresponding file writer
-    if ( fSpecial || pLutStruct )
-        Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
-    else
-        Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
+    
+    // save/restore node retention before writing (similar to &get)
+    {
+        Nr_Man_t * pRetOld, * pRetNew;
+        if ( !Abc_NtkIsNetlist(pAbc->pNtkCur) )
+        {
+            // create temporary retention manager for netlist conversion
+            pRetOld = pAbc->pNodeRetention;
+            pRetNew = Nr_ManCreate( 1000, "write_blif:Abc_NtkToNetlist", 1, 1 );
+            pAbc->pNodeRetention = pRetNew;
+            pAbc->pNodeRetentionOld = pRetOld;
+        }
+        
+        // call the corresponding file writer
+        if ( fSpecial || pLutStruct )
+            Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
+        else
+            Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
+        
+        if ( !Abc_NtkIsNetlist(pAbc->pNtkCur) )
+        {
+            // unset flags after usage
+            if ( pAbc->pNodeRetention )
+            {
+                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "write_blif" );
+            }
+            Nr_ManFree( pRetOld );
+            pAbc->pNodeRetentionOld = NULL;
+        }
+    }
+    
     return 0;
 
 usage:

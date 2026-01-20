@@ -1,4 +1,4 @@
-# Benchmark "netlist" written by ABC on Tue Jan 20 12:44:36 2026
+# Benchmark "netlist" written by ABC on Tue Jan 20 12:47:16 2026
 .model netlist
 .inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
  ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \
@@ -94,8 +94,7 @@
 .gate NOT  A=new_n199 Y=new_n200
 .gate AND  A=new_n198 B=new_n200 Y=ys__n270
 .end
-
-# Node retention map
+.node_retention_begin
 # ys__n7 SRC ys__n7 ys__n10
 # ys__n8 SRC ys__n8
 # ys__n11 SRC ys__n11
@@ -261,3 +260,4 @@
 # new_n198 SRC ys__n511 ys__n269
 # new_n199 SRC ys__n518 ys__n0 ys__n1
 # new_n200 SRC ys__n518 ys__n0 ys__n1
+.node_retention_end

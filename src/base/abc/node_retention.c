@@ -674,7 +674,7 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
     if ( pFile == NULL || pNtk == NULL || p == NULL )
         return;
     
-    fprintf( pFile, "\n# Node retention map\n" );
+    fprintf( pFile, ".node_retention_begin\n" );
     Abc_NtkForEachNet( pNtk, pNet, i )
     {
         int NetId = Abc_ObjId(pNet);
@@ -690,6 +690,7 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
             fprintf( pFile, "\n" );
         }
     }
+    fprintf( pFile, ".node_retention_end\n" );
 }
 
 ABC_NAMESPACE_IMPL_END

@@ -110,7 +110,28 @@ Change log:
 1) Add the Nm_ManProfile function as a decleration to nmInt.h
 
 
+    // copy functionality/names
+    if ( Abc_ObjIsNode(pObj) ) // copy the function if functionality is compatible
+    {
+        if ( pNtkNew->ntkFunc == pObj->pNtk->ntkFunc ) 
+        {
+            if ( Abc_NtkIsStrash(pNtkNew) ) 
+            {}
+            else if ( Abc_NtkHasSop(pNtkNew) || Abc_NtkHasBlifMv(pNtkNew) )
+                pObjNew->pData = Abc_SopRegister( (Mem_Flex_t *)pNtkNew->pManFunc, (char *)pObj->pData );
+#ifdef ABC_USE_CUDD
+            else if ( Abc_NtkHasBdd(pNtkNew) )
+                pObjNew->pData = Cudd_bddTransfer((DdManager *)pObj->pNtk->pManFunc, (DdManager *)pNtkNew->pManFunc, (DdNode *)pObj->pData), Cudd_Ref((DdNode *)pObjNew->pData);
+#endif
+            else if ( Abc_NtkHasAig(pNtkNew) )
+                pObjNew->pData = Hop_Transfer((Hop_Man_t *)pObj->pNtk->pManFunc, (Hop_Man_t *)pNtkNew->pManFunc, (Hop_Obj_t *)pObj->pData, Abc_ObjFaninNum(pObj));
+            else if ( Abc_NtkHasMapping(pNtkNew) )
+                pObjNew->pData = pObj->pData, pNtkNew->nBarBufs2 += !pObj->pData;
+            else assert( 0 );
+        }
+    }
 
+    Need to do the node copying here as well
 
 
 

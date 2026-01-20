@@ -419,9 +419,7 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
     Abc_Obj_t * pNodeOld;
     Abc_Frame_t * pAbc;
     Nr_Man_t * pRetOld, * pRetNew;
-    Vec_Ptr_t * vOrigins;
-    Nr_Origin_t * pOrigin;
-    int i, j;
+    int i;
     assert( Abc_NtkIsLogic(pNtkOld) );
     assert( Abc_NtkIsStrash(pNtkNew) );
 //    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );
@@ -445,13 +443,8 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
             int NodeIdNew = Abc_ObjId(pNodeNew);
             int NodeIdOld = Abc_ObjId(pNodeOld);
             // only track if both IDs are valid (non-negative)
-            if ( pRetOld && (vOrigins = Nr_ManGetOrigins( pRetOld, NodeIdOld )) )
-            {
-                Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                    Nr_ManAddOrigin( pRetNew, NodeIdNew, pOrigin->pName );
-                
-                printf( "DEBUG: Node %d copied to %d with origin %s\n", NodeIdOld, NodeIdNew, pOrigin->pName );
-            }
+            if ( NodeIdNew >= 0 && NodeIdOld >= 0 )
+                Nr_ManCopyOrigins( pRetNew, pRetOld, NodeIdNew, NodeIdOld );
         }
     }
     Vec_PtrFree( vNodes );

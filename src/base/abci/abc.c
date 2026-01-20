@@ -34656,12 +34656,9 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pNodeRetentionOld = pRetOld;
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
         // debug: print node retention after Abc_NtkFromCellMappedGia
-        // unset flags after usage
-        if ( pAbc->pNodeRetention )
-        {
-            Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-            Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-            Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkFromCellMappedGia" );
+        Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+        Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+        Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkFromCellMappedGia" );
         Nr_ManFree( pRetOld );
         pAbc->pNodeRetentionOld = NULL;
     }

@@ -561,8 +561,11 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fReadAsAig )
         pNtk = Io_ReadBlifAsAig( pFileName, fCheck );
     else if ( fUseNewParser )
+    {
+        Nr_ManSetCanModify(pAbc->pNodeRetention, 1);
         pNtk = Io_Read( pFileName, IO_FILE_BLIF, fCheck, 0 );
-    
+        Nr_ManSetCanModify(pAbc->pNodeRetention, 0);
+    }
     else
     {
         Abc_Ntk_t * pTemp;

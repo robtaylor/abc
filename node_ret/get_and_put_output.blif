@@ -1,4 +1,4 @@
-# Benchmark "netlist" written by ABC on Tue Jan 20 10:48:36 2026
+# Benchmark "netlist" written by ABC on Tue Jan 20 11:04:50 2026
 .model netlist
 .inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
  ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \

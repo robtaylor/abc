@@ -348,10 +348,8 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
     // TODO Advay, move this within initial logic to avoid repreat
     {
         Abc_Frame_t * pAbc;
-        Vec_Ptr_t * vOrigins;
-        Nr_Origin_t * pOrigin;
         Aig_Obj_t * pAigObj;
-        int i, j;
+        int i;
         pAbc = Abc_FrameGetGlobalFrame();
         if ( pAbc && pAbc->pNodeRetention )
         {
@@ -361,13 +359,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
                 if ( pObj->pCopy )
                 {
                     pAigObj = (Aig_Obj_t *)pObj->pCopy;
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, pAigObj->Id, pObj->Id );
                 }
             }
             // map internal nodes
@@ -377,13 +369,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
                 if ( pObj->pCopy )
                 {
                     pAigObj = (Aig_Obj_t *)pObj->pCopy;
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, pAigObj->Id, pObj->Id );
                 }
             }
             Vec_PtrFree( vNodes );
@@ -393,13 +379,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
                 if ( pObj->pCopy )
                 {
                     pAigObj = (Aig_Obj_t *)pObj->pCopy;
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, pObj->Id );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, pAigObj->Id, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, pAigObj->Id, pObj->Id );
                 }
             }
         }
@@ -1200,9 +1180,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     // map names from original GIA objects to new ABC network objects
     {
         Abc_Frame_t * pAbc;
-        Vec_Ptr_t * vOrigins;
-        Nr_Origin_t * pOrigin;
-        int i, j, iGiaId, iAbcId;
+        int i, iGiaId, iAbcId;
         pAbc = Abc_FrameGetGlobalFrame();
         if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
         {
@@ -1213,13 +1191,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
                 if ( iAbcId >= 0 )
                 {
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
                 }
             }
             // map COs
@@ -1229,13 +1201,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
                 if ( iAbcId >= 0 )
                 {
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
                 }
             }
             // map Ri/Ro (register inputs/outputs)
@@ -1246,26 +1212,14 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
                 if ( iAbcId >= 0 )
                 {
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
                 }
                 // map Ro (register output)
                 iGiaId = Gia_ObjId(p, pObjLo);
                 iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
                 if ( iAbcId >= 0 )
                 {
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
                 }
             }
             // map internal nodes (iLits)
@@ -1275,13 +1229,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 iAbcId = Vec_IntEntry( vCopyLits, iLit );
                 if ( iAbcId >= 0 )
                 {
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, iGiaId );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iAbcId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
                 }
             }
         }

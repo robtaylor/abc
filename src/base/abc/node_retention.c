@@ -47,7 +47,7 @@ static void         Nr_ManTableResize( Nr_Man_t * p );
   SeeAlso     []
 
 ***********************************************************************/
-Nr_Man_t * Nr_ManCreate( int nSize, char * calling_cmd )
+Nr_Man_t * Nr_ManCreate( int nSize, char * calling_cmd, int fCanModify, int fCanCopyFromOld )
 {
     Nr_Man_t * p;
     p = ABC_ALLOC( Nr_Man_t, 1 );
@@ -58,7 +58,43 @@ Nr_Man_t * Nr_ManCreate( int nSize, char * calling_cmd )
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
     p->pMem = Extra_MmFlexStart();
     p->calling_cmd = calling_cmd ? Extra_UtilStrsav( calling_cmd ) : NULL;
+    p->fCanModify = fCanModify;
+    p->fCanCopyFromOld = fCanCopyFromOld;
     return p;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Sets the fCanModify flag.]
+
+  Description []
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManSetCanModify( Nr_Man_t * p, int fCanModify )
+{
+    if ( p )
+        p->fCanModify = fCanModify;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Sets the fCanCopyFromOld flag.]
+
+  Description []
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld )
+{
+    if ( p )
+        p->fCanCopyFromOld = fCanCopyFromOld;
 }
 
 /**Function*************************************************************
@@ -254,6 +290,9 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
     Nr_Entry_t * pEntry;
     Nr_Origin_t * pOrigin;
     char * pNameCopy;
+    // check if modification is allowed
+    if ( !p || !p->fCanModify )
+        return;
     // find or create entry
     pEntry = Nr_ManTableLookup( p, NodeId );
     if ( pEntry == NULL )
@@ -281,6 +320,36 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
     // output the calling command
     if ( p->calling_cmd )
         printf( "Nr_ManAddOrigin: called by %s\n", p->calling_cmd );
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Copies origins from old manager to new manager.]
+
+  Description [Copies all origins associated with OldId in pOld to NewId in pNew.
+               Only copies if pNew->fCanCopyFromOld is true.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
+{
+    Vec_Ptr_t * vOrigins;
+    Nr_Origin_t * pOrigin;
+    int j;
+    // check if copying is allowed
+    if ( !pNew || !pNew->fCanCopyFromOld || !pOld )
+        return;
+    // get origins from old manager
+    vOrigins = Nr_ManGetOrigins( pOld, OldId );
+    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+    {
+        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+            if ( pOrigin && pOrigin->pName )
+                Nr_ManAddOrigin( pNew, NewId, pOrigin->pName );
+    }
 }
 
 /**Function*************************************************************

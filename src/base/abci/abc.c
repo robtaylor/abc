@@ -34483,42 +34483,57 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         {
             // create temporary retention manager for strashed network
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash" );
+            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash", 1, 1 );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
             // debug: print strashed network retention info
 
+            // unset flags after usage
+            if ( pAbc->pNodeRetention )
+            {
+                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "strash" );
+            }
             Nr_ManFree( pRetOld );
             pAbc->pNodeRetentionOld = NULL;
-            if ( pAbc->pNodeRetention )
-                Nr_ManPrintDebug( pAbc->pNodeRetention, "strash" );
 
             // save/restore node retention before Abc_NtkToDar
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar" );
+            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar", 1, 1 );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
             // debug: print node retention after Abc_NtkToDar
+            // unset flags after usage
+            if ( pAbc->pNodeRetention )
+            {
+                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkToDar" );
+            }
             Nr_ManFree( pRetOld );
             pAbc->pNodeRetentionOld = NULL;
-            if ( pAbc->pNodeRetention )
-                Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkToDar" );
 
             Abc_NtkDelete( pStrash );
             
             // save/restore node retention before Gia_ManFromAig
             pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig" );
+            pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig", 1, 1 );
             pAbc->pNodeRetention = pRetNew;
             pAbc->pNodeRetentionOld = pRetOld;
             pGia = Gia_ManFromAig( pAig );
             // debug: print node retention after Gia_ManFromAig
+            // unset flags after usage
             if ( pAbc->pNodeRetention )
+            {
+                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
                 Nr_ManPrintDebug( pAbc->pNodeRetention, "Gia_ManFromAig" );
+            }
 
             
             Aig_ManStop( pAig );
@@ -34636,15 +34651,19 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         // TODO Advay: consider adding this on multiple paths for &put
         Nr_ManFree( pAbc->pNodeRetentionOld );
         pRetOld = pAbc->pNodeRetention;
-        pRetNew = Nr_ManCreate( 1000, "&put:Abc_NtkFromCellMappedGia" );
+        pRetNew = Nr_ManCreate( 1000, "&put:Abc_NtkFromCellMappedGia", 1, 1 );
         pAbc->pNodeRetention = pRetNew;
         pAbc->pNodeRetentionOld = pRetOld;
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
         // debug: print node retention after Abc_NtkFromCellMappedGia
+        // unset flags after usage
+        if ( pAbc->pNodeRetention )
+        {
+            Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+            Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+            Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkFromCellMappedGia" );
         Nr_ManFree( pRetOld );
         pAbc->pNodeRetentionOld = NULL;
-        if ( pAbc->pNodeRetention )
-            Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkFromCellMappedGia" );
     }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );

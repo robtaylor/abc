@@ -106,9 +106,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
     // map names from original AIG objects to new GIA objects
     {
         Abc_Frame_t * pAbc;
-        Vec_Ptr_t * vOrigins;
-        Nr_Origin_t * pOrigin;
-        int i, j, iGiaId;
+        int i, iGiaId;
         pAbc = Abc_FrameGetGlobalFrame();
         if ( pAbc && pAbc->pNodeRetention )
         {
@@ -118,14 +116,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, Aig_ObjId(pObj) );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iGiaId, pOrigin->pName );
-                            printf( "DEBUG: CI %d mapped to %d with origin %s\n", Aig_ObjId(pObj), iGiaId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map internal nodes
@@ -134,14 +125,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, Aig_ObjId(pObj) );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iGiaId, pOrigin->pName );
-                            printf( "DEBUG: Node %d mapped to %d with origin %s\n", Aig_ObjId(pObj), iGiaId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map COs
@@ -150,14 +134,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    vOrigins = Nr_ManGetOrigins( pAbc->pNodeRetentionOld, Aig_ObjId(pObj) );
-                    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
-                    {
-                        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-                            if ( pOrigin && pOrigin->pName )
-                                Nr_ManAddOrigin( pAbc->pNodeRetention, iGiaId, pOrigin->pName );
-                            printf( "DEBUG: CO %d mapped to %d with origin %s\n", Aig_ObjId(pObj), iGiaId, pOrigin->pName );
-                    }
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
         }

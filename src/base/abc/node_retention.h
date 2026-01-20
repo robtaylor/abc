@@ -25,9 +25,9 @@
 ///                          INCLUDES                                ///
 ////////////////////////////////////////////////////////////////////////
 
+#include "abc.h"
 #include "misc/vec/vec.h"
 #include "misc/extra/extra.h"
-
 ABC_NAMESPACE_HEADER_START
 
 ////////////////////////////////////////////////////////////////////////
@@ -85,6 +85,7 @@ extern void          Nr_ManProfile( Nr_Man_t * p );
 extern void          Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId );
 extern void          Nr_ManPrintAllOrigins( Nr_Man_t * p );
 extern void          Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName );
+extern void          Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p );
 
 ABC_NAMESPACE_HEADER_END
 

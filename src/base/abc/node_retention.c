@@ -651,6 +651,47 @@ void Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName )
     printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( p ) );
 }
 
+/**Function*************************************************************
+
+  Synopsis    [Prints node retention map for nets to a file.]
+
+  Description [Iterates through all nets in the netlist and prints
+               their retention information in the format:
+               # net_name SRC origin1 origin2 ...]
+               
+  SideEffects []
+  
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
+{
+    Abc_Obj_t * pNet;
+    Vec_Ptr_t * vOrigins;
+    Nr_Origin_t * pOrigin;
+    int i, j;
+    
+    if ( pFile == NULL || pNtk == NULL || p == NULL )
+        return;
+    
+    fprintf( pFile, "\n# Node retention map\n" );
+    Abc_NtkForEachNet( pNtk, pNet, i )
+    {
+        int NetId = Abc_ObjId(pNet);
+        vOrigins = Nr_ManGetOrigins( p, NetId );
+        if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+        {
+            fprintf( pFile, "# %s SRC", Abc_ObjName(pNet) );
+            Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+            {
+                if ( pOrigin && pOrigin->pName )
+                    fprintf( pFile, " %s", pOrigin->pName );
+            }
+            fprintf( pFile, "\n" );
+        }
+    }
+}
+
 ABC_NAMESPACE_IMPL_END
 
 ////////////////////////////////////////////////////////////////////////

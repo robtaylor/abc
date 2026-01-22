@@ -1,4 +1,4 @@
-======== ABC command line "source node_ret/v2.script"
+======== ABC command line "source node_ret/v3.script"
 DEBUG: Node retention origins after read_blif:
 Printing all origins (559 entries):
 Node 1 has 1 origin(s):

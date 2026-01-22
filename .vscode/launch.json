@@ -64,6 +64,38 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": null
+        },
+        {
+            "name": "Run V4 Script",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/abc",
+            "args": [
+                "-f",
+                "node_ret/v4.script"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": null
+        },
+        {
+            "name": "Run V5 Script",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/abc",
+            "args": [
+                "-f",
+                "node_ret/v5.script"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": null
         }
     ]
 }

@@ -36384,6 +36384,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManDupMuxRestructure( Gia_Man_t * p );
     Gia_Man_t * pTemp;
+    Nr_Man_t * pRetOld, * pRetNew;
     int c, Limit = 2;
     int Multi = 0;
     int fAddBuffs  = 0;
@@ -36528,7 +36529,18 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
+        // save/restore node retention before Gia_ManRehash
+        pRetOld = pAbc->pNodeRetention;
+        pRetNew = Nr_ManCreate( 1000, "&st:Gia_ManRehash", 1, 1 );
+        pAbc->pNodeRetention = pRetNew;
+        pAbc->pNodeRetentionOld = pRetOld;
         pTemp = Gia_ManRehash( pAbc->pGia, fAddStrash );
+        // unset flags after usage
+        Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+        Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+        Nr_ManPrintDebug( pAbc->pNodeRetention, "Gia_ManRehash" );
+        Nr_ManFree( pRetOld );
+        pAbc->pNodeRetentionOld = NULL;
 //        if ( !Abc_FrameReadFlag("silentmode") )
 //            printf( "Rehashed the current AIG.\n" );
     }

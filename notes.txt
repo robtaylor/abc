@@ -317,3 +317,10 @@ Abc_NtkFromCellMappedGia
 
 Abc_NtkLogicToNetlist structure
 1) Abc_NtkStartFrom. This already goes ahead and creates new IDs. TODO: add a config manager within the Nr_Man_t which outputs when this is being called
+
+
+
+Abc_CommandAbc9Strash approach:
+    - Calls Gia_ManRehash which hashes each of the nodes. If the node is already found in the hashtable, it returns it's ID. Found in the hashtable
+    means that it structurally hashed to the same location. While doing this, the pObj->Value field is updated. Hence, while doing this, we update
+    the pNodeRetention based on the value field's IDs.

@@ -21,6 +21,9 @@
 #include "gia.h"
 #include "proof/cec/cec.h"
 #include "sat/bmc/bmc.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -718,7 +721,24 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
     {
 //        Abc_Print( 1, "Gia_ManEquivReduce(): There are no equivalences to reduce.\n" );
 //        return NULL;
-        return Gia_ManDup( p );
+        pNew = Gia_ManDup( p );
+        // copy origins from old manager to new manager
+        Gia_ManForEachObj( p, pObj, i )
+        {
+            if ( Gia_ObjValue(pObj) >= 0 )
+            {
+                Abc_Frame_t * pAbc;
+                int iOldId, iNewId;
+                pAbc = Abc_FrameGetGlobalFrame();
+                if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
+                {
+                    iOldId = i;
+                    iNewId = Abc_Lit2Var( pObj->Value );
+                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iNewId, iOldId );
+                }
+            }
+        }
+        return pNew;
     }
 /*
     if ( !Gia_ManCheckTopoOrder( p ) )
@@ -727,6 +747,8 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
         return NULL;
     }
 */
+
+    printf("HEREHERE Called this first");
     if ( !fSkipPhase )
         Gia_ManSetPhase( p );
     if ( fDualOut )
@@ -744,6 +766,23 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
     Gia_ManForEachCo( p, pObj, i )
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
     Gia_ManHashStop( pNew );
+    // copy origins from old manager to new manager
+    Gia_ManForEachObj( p, pObj, i )
+    {
+        // TODO: Advay check And/Ci/Co is correct
+        if ( Gia_ObjValue(pObj) >= 0 )
+        {
+            Abc_Frame_t * pAbc;
+            int iOldId, iNewId;
+            pAbc = Abc_FrameGetGlobalFrame();
+            if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
+            {
+                iOldId = i;
+                iNewId = Abc_Lit2Var( Gia_ObjValue(pObj) );
+                Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iNewId, iOldId );
+            }
+        }
+    }
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     return pNew;
 }

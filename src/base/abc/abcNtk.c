@@ -94,6 +94,8 @@ Abc_Ntk_t * Abc_NtkAlloc( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan
     pNtk->vAttrs = Vec_PtrStart( VEC_ATTR_TOTAL_NUM );
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
+    // node retention manager
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, "", 1, 1 );
     return pNtk;
 }
 Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan, int nVars )
@@ -140,6 +142,8 @@ Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMem
     pNtk->vAttrs = Vec_PtrStart( VEC_ATTR_TOTAL_NUM );
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
+    // node retention manager
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, "", 1, 1 );
     return pNtk;
 }
 
@@ -1540,6 +1544,7 @@ void Abc_NtkDelete( Abc_Ntk_t * pNtk )
     Vec_IntFreeP( &pNtk->vTopo );
     Vec_IntFreeP( &pNtk->vFins );
     Vec_IntFreeP( &pNtk->vOrigNodeIds );
+    Nr_ManFree( pNtk->pNodeRetention );
     ABC_FREE( pNtk );
 }
 

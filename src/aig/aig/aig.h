@@ -33,6 +33,7 @@
 
 #include "misc/vec/vec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -169,6 +170,7 @@ struct Aig_Man_t_
   Vec_Ptr_t *      unfold2_type_I;
   Vec_Ptr_t *      unfold2_type_II;
   //-- jlong -- end
+  Nr_Man_t *      pNodeRetention; // node retention manager
 };
 
 // cut computation

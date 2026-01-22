@@ -34,6 +34,7 @@
 #include "misc/vec/vec.h"
 #include "misc/vec/vecWec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -256,6 +257,7 @@ struct Gia_Man_t_
     Vec_Int_t *    vMFFCsInfo;    // MFFC information
     Vec_Int_t *    vMFFCsLuts;        // MFFCs for each lut
     Vec_Ptr_t *    vLutsRankings;     // LUTs rankings of inputs
+    Nr_Man_t *      pNodeRetention;    // node retention manager
 };
 
 

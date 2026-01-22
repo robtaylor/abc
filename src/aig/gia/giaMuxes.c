@@ -138,6 +138,8 @@ Gia_Man_t * Gia_ManDupMuxes( Gia_Man_t * p, int Limit )
         pSiblNew = Gia_ManObj( pNew, Abc_Lit2Var(Gia_ObjSiblObj(p, i)->Value) );
         if ( Gia_ObjIsAnd(pObjNew) && Gia_ObjIsAnd(pSiblNew) && Gia_ObjId(pNew, pObjNew) > Gia_ObjId(pNew, pSiblNew) )
             pNew->pSibls[Gia_ObjId(pNew, pObjNew)] = Gia_ObjId(pNew, pSiblNew);
+        // copy origins from old manager to new manager
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );

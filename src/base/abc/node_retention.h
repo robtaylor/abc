@@ -25,10 +25,13 @@
 ///                          INCLUDES                                ///
 ////////////////////////////////////////////////////////////////////////
 
-#include "abc.h"
 #include "misc/vec/vec.h"
-#include "misc/extra/extra.h"
 ABC_NAMESPACE_HEADER_START
+
+// Forward declaration for Extra_MmFlex_t (defined in misc/extra/extra.h)
+typedef struct Extra_MmFlex_t_ Extra_MmFlex_t;
+
+typedef struct Abc_Ntk_t_ Abc_Ntk_t;
 
 ////////////////////////////////////////////////////////////////////////
 ///                         BASIC TYPES                              ///

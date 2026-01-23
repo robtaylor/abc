@@ -66,7 +66,7 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     assert( Abc_NtkBlackboxNum(pNtk) == 0 );
     // start the network
     pNtkNew = Abc_NtkStartFrom( pNtk, ABC_NTK_LOGIC, pNtk->ntkFunc );
-    // duplicate the nodes 
+    // duplicate the nodes (the CIs and COs are already duplicated and copied in Abc_NtkDupObj called by Abc_NtkStartFrom)
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
         char * pName;

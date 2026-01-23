@@ -34538,8 +34538,8 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );
             if ( pGia->pNodeRetention )
             {
-                Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
-                Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
+                // Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
+                // Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
                 Nr_ManPrintDebug( pGia->pNodeRetention, "Gia_ManDupZeroUndc" );
             }
             Gia_ManStop( pTemp );
@@ -34610,7 +34610,6 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
 
     Aig_Man_t * pMan;
     Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
-    Nr_Man_t * pRetOld, * pRetNew;
     int fStatusClear = 1;
     int fFindEnables = 0;
     int fUseBuffs    = 0;
@@ -36383,7 +36382,6 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     extern Gia_Man_t * Gia_ManDupMuxRestructure( Gia_Man_t * p );
     Gia_Man_t * pTemp;
-    Nr_Man_t * pRetOld, * pRetNew;
     int c, Limit = 2;
     int Multi = 0;
     int fAddBuffs  = 0;
@@ -43284,7 +43282,6 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
 {
     Gia_Man_t * pTemp;
     Dch_Pars_t Pars, * pPars = &Pars;
-    Nr_Man_t * pRetOld, * pRetNew;
     int c;
     Dch_ManSetDefaultParams( pPars );
     Extra_UtilGetoptReset();

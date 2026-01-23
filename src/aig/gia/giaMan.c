@@ -181,8 +181,8 @@ void Gia_ManStop( Gia_Man_t * p )
     ABC_FREE( p->pObjs );
     ABC_FREE( p->pSpec );
     ABC_FREE( p->pName );
-    ABC_FREE( p );
     Nr_ManFree( p->pNodeRetention );
+    ABC_FREE( p );
 }
 
 /**Function*************************************************************

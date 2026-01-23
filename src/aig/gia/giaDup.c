@@ -1497,6 +1497,8 @@ Gia_Man_t * Gia_ManDupMarked( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
             nRis += Gia_ObjIsRi(p, pObj);
         }
+        // copy origins from old manager to new manager
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     assert( pNew->nObjsAlloc == pNew->nObjs );
     assert( nRos == nRis );

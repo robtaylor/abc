@@ -295,7 +295,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
         pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCi(pMan);
         // initialize logic level of the CIs
         ((Aig_Obj_t *)pObj->pCopy)->Level = pObj->Level;
-        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
     }
 
     // complement the 1-values registers
@@ -311,15 +311,15 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
 //    Abc_NtkForEachNode( pNtk, pObj, i )
     {
         pObj->pCopy = (Abc_Obj_t *)Aig_And( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj), (Aig_Obj_t *)Abc_ObjChild1Copy(pObj) );
-        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
 //        Abc_Print( 1, "%d->%d ", pObj->Id, ((Aig_Obj_t *)pObj->pCopy)->Id );
-    }
+    }     
     Vec_PtrFree( vNodes );
     pMan->fAddStrash = 0;
     // create the POs
     Abc_NtkForEachCo( pNtk, pObj, i )
         pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
-        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
     // complement the 1-valued registers
     Aig_ManSetRegNum( pMan, Abc_NtkLatchNum(pNtk) );
     if ( fRegisters )

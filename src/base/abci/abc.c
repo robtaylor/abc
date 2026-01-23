@@ -34537,6 +34537,12 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             // perform undc/zero
             pInits = Abc_NtkCollectLatchValuesStr( pAbc->pNtkCur );
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );
+            if ( pGia->pNodeRetention )
+            {
+                Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pGia->pNodeRetention, "Gia_ManDupZeroUndc" );
+            }
             Gia_ManStop( pTemp );
             ABC_FREE( pInits );
         }

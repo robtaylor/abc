@@ -3599,7 +3599,10 @@ Gia_Man_t * Gia_ManDupZeroUndc( Gia_Man_t * p, char * pInit, int nNewPis, int fG
     Gia_ManConst0(p)->Value = 0;
     // create primary inputs
     Gia_ManForEachPi( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCi( pNew );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create additional primary inputs
     for ( i = Gia_ManPiNum(p); i < CountPis; i++ )
         Gia_ManAppendCi( pNew );
@@ -3625,20 +3628,31 @@ Gia_Man_t * Gia_ManDupZeroUndc( Gia_Man_t * p, char * pInit, int nNewPis, int fG
         }
         else if ( pInit[i] != '0' )
             assert( 0 );
+        // copy origins for flop outputs (after potential modifications)
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManCleanMark0( p );
     // build internal nodes
     Gia_ManForEachAnd( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create POs
     Gia_ManForEachPo( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create flop inputs
     Gia_ManForEachRi( p, pObj, i )
+    {
         if ( pInit[i] == '1' )
             pObj->Value = Gia_ManAppendCo( pNew, Abc_LitNot(Gia_ObjFanin0Copy(pObj)) );
         else
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create reset flop input
     if ( CountPis > Gia_ManPiNum(p) )
         Gia_ManAppendCo( pNew, 1 );

@@ -160,7 +160,7 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
     // get retention managers (new one should already be set in frame)
     pAbc = Abc_FrameGetGlobalFrame();
     pRetNew = pAbc ? pAbc->pNodeRetention : NULL;
-    pRetOld = pAbc ? pAbc->pNodeRetentionOld : NULL; // get old one from frame
+    pRetOld = pAbc ? pAbc->pNodeRetention : NULL; // get old one from frame
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
     {
         if ( Abc_ObjIsBarBuf(pNodeOld) )

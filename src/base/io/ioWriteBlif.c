@@ -146,11 +146,7 @@ void Io_NtkWrite( FILE * pFile, Abc_Ntk_t * pNtk, int fWriteLatches, int fBb2Wb,
     fprintf( pFile, ".end\n" );
     
     // print node retention map for nets
-    {
-        Abc_Frame_t * pAbc = Abc_FrameGetGlobalFrame();
-        if ( pAbc && pAbc->pNodeRetention )
-            Nr_ManPrintRetentionMap( pFile, pNtk, pAbc->pNodeRetention );
-    }
+    Nr_ManPrintRetentionMap( pFile, pNtk, pNtk->pNodeRetention );
 }
 
 /**Function*************************************************************

@@ -263,14 +263,14 @@ Abc_Ntk_t * Abc_NtkLogicToNetlist( Abc_Ntk_t * pNtk )
                 {
                     int NetIdNew = Abc_ObjId(pDriver->pCopy->pCopy);
                     int NodeIdOld = Abc_ObjId(pObj);
-                    Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
+                    Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, NetIdNew, NodeIdOld );
                 }
             }
             else if ( Abc_ObjIsNode(pDriver) && pDriver->pCopy && pDriver->pCopy->pCopy )
             {
                 int NetIdNew = Abc_ObjId(pDriver->pCopy->pCopy);
                 int NodeIdOld = Abc_ObjId(pObj);
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, NetIdNew, NodeIdOld );
             }
         }
         // copy origins for internal node nets
@@ -280,7 +280,7 @@ Abc_Ntk_t * Abc_NtkLogicToNetlist( Abc_Ntk_t * pNtk )
             {
                 int NetIdNew = Abc_ObjId(pObj->pCopy->pCopy);
                 int NodeIdOld = Abc_ObjId(pObj);
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, NetIdNew, NodeIdOld );
             }
         }
     

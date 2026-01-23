@@ -585,12 +585,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     // replace the current network
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     // debug: print origin nodes from retention manager
-    if ( pAbc->pNodeRetention )
-    {
-        printf( "DEBUG: Node retention origins after read_blif:\n" );
-        Nr_ManPrintAllOrigins( pAbc->pNodeRetention );
-        printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( pAbc->pNodeRetention ) );
-    }
+    Nr_ManPrintDebug( pAbc->pNtkCur->pNodeRetention, "read_blif" );
     // # DEBUG advay
     Abc_FrameClearVerifStatus( pAbc );
     return 0;
@@ -2591,14 +2586,13 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
     
     // save/restore node retention before writing (similar to &get)
     {
-        Nr_Man_t * pRetOld, * pRetNew;
         if ( !Abc_NtkIsNetlist(pAbc->pNtkCur) )
         {
             // create temporary retention manager for netlist conversion
             // pRetOld = pAbc->pNodeRetention;
             // pRetNew = Nr_ManCreate( 1000, "write_blif:Abc_NtkToNetlist", 1, 1 );
             // pAbc->pNodeRetention = pRetNew;
-            // pAbc->pNodeRetentionOld = pRetOld;
+            // pAbc->pNodeRetention = pRetOld;
         }
         
         // call the corresponding file writer
@@ -2612,8 +2606,8 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
             // unset flags after usage
             if ( pAbc->pNtkCur->pNodeRetention )
             {
-                Nr_ManSetCanModify( pAbc->pNtkCur->pNodeRetention, 0 );
-                Nr_ManSetCanCopyFromOld( pAbc->pNtkCur->pNodeRetention, 0 );
+                // Nr_ManSetCanModify( pAbc->pNtkCur->pNodeRetention, 0 );
+                // Nr_ManSetCanCopyFromOld( pAbc->pNtkCur->pNodeRetention, 0 );
                 Nr_ManPrintDebug( pAbc->pNtkCur->pNodeRetention, "write_blif" );
             }
         }

@@ -725,7 +725,7 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
         // copy origins from old manager to new manager
         Gia_ManForEachObj( p, pObj, i )
             if ( Gia_ObjValue(pObj) >= 0 )
-                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, Abc_Lit2Var( pObj->Value ), i );
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->Value ), i );
         return pNew;
     }
 /*
@@ -757,7 +757,7 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
     // copy origins from old manager to new manager
     Gia_ManForEachObj( p, pObj, i )
         if ( Gia_ObjValue(pObj) >= 0 )
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, Abc_Lit2Var( pObj->Value ), i );
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->Value ), i );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     return pNew;
 }

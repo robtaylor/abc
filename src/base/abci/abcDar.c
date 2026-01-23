@@ -1150,7 +1150,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
             if ( iAbcId >= 0 )
             {
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, iAbcId, iGiaId );
             }
         }
         // map COs
@@ -1160,7 +1160,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
             if ( iAbcId >= 0 )
             {
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, iAbcId, iGiaId );
             }
         }
         // map Ri/Ro (register inputs/outputs)
@@ -1171,14 +1171,14 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
             if ( iAbcId >= 0 )
             {
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, iAbcId, iGiaId );
             }
             // map Ro (register output)
             iGiaId = Gia_ObjId(p, pObjLo);
             iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
             if ( iAbcId >= 0 )
             {
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, iAbcId, iGiaId );
             }
         }
         // map internal nodes (iLits)
@@ -1188,7 +1188,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             iAbcId = Vec_IntEntry( vCopyLits, iLit );
             if ( iAbcId >= 0 )
             {
-                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, iAbcId, iGiaId );
             }
         }
     }

@@ -115,7 +115,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map internal nodes
@@ -124,7 +124,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map COs
@@ -133,7 +133,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, iGiaId, Aig_ObjId(pObj) );
                 }
             }
         }

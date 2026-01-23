@@ -407,8 +407,7 @@ Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName 
     pObj->pCopy = pObjNew;
 //    pObjNew->pEquiv = pObj->pEquiv;
     // map to node retention manager (once, at the end)
-    if ( pName && pAbc && pAbc->pNodeRetention )
-        Nr_ManAddOrigin( pAbc->pNodeRetention, pObjNew->Id, pName );
+    Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObjNew->Id, pName );
     return pObjNew;
 }
 

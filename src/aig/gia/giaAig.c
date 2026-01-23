@@ -105,18 +105,17 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
         Gia_ManDeriveReprs( pNew );
     // map names from original AIG objects to new GIA objects
     {
-        Abc_Frame_t * pAbc;
         int i, iGiaId;
-        pAbc = Abc_FrameGetGlobalFrame();
-        if ( pAbc && pAbc->pNodeRetention )
+        if ( pNew->pNodeRetention )
         {
+            // TODO: Do this iteration for each obj to avoid repreat
             // map CIs
             Aig_ManForEachCi( p, pObj, i )
             {
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map internal nodes
@@ -125,7 +124,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
             // map COs
@@ -134,7 +133,7 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
                 if ( pObj->iData )
                 {
                     iGiaId = Abc_Lit2Var( pObj->iData );
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, iGiaId, Aig_ObjId(pObj) );
                 }
             }
         }

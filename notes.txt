@@ -344,3 +344,15 @@ Abc_CommandAbc9Sweep approach:
     the node IDs stay the same. Hence, nothing needs to be changed in this case.
     Otherwirse, since we are using the pReps to populate the hashtable, we update the pNodeRetention based on the
     new post &sweep nodes
+
+
+
+Gia_ManDupZeroUndc
+
+Code refactor:
+    - Move the Nr_Man_t within the individual managers and network. This is Because
+    it's harder to manage a more central Nr_Man_t (since it may change multiple times in a function).
+    Solution: need to explictly copy the Nr_Man_t when it is to be used
+
+    Still doesn't work for a lot of ABC since there's functions when node retention is not added.
+    This needs to be manually added for all of the commands needed to implement.

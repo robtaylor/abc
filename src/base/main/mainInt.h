@@ -34,7 +34,6 @@
 #include "proof/ssw/ssw.h"
 #include "proof/fra/fra.h"
 #include "misc/vec/vecHsh.h"
-#include "base/abc/node_retention.h"
 
 #ifdef ABC_USE_CUDD
 #include "bdd/extrab/extraBdd.h"
@@ -169,8 +168,6 @@ struct Abc_Frame_t_
     int *           pBoxes;
     void *          pNdr;
     int *           pNdrArray;
-    Nr_Man_t *      pNodeRetention;      // node retention manager
-    Nr_Man_t *      pNodeRetentionOld;   // old copy buffer for node retention during transformations
 
     Abc_Frame_Callback_BmcFrameDone_Func pFuncOnFrameDone;
 };

@@ -34482,57 +34482,53 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         else
         {
             // create temporary retention manager for strashed network
-            pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash", 1, 1 );
-            pAbc->pNodeRetention = pRetNew;
-            pAbc->pNodeRetentionOld = pRetOld;
-            // derive comb GIA
+            // pRetOld = pAbc->pNodeRetention;
+            // pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash", 1, 1 );
+            // pAbc->pNodeRetention = pRetNew;
+            // pAbc->pNodeRetentionOld = pRetOld;
+            // // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
             // debug: print strashed network retention info
 
             // unset flags after usage
-            if ( pAbc->pNodeRetention )
+            if ( pStrash->pNodeRetention )
             {
-                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pAbc->pNodeRetention, "strash" );
+                Nr_ManSetCanModify( pStrash->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pStrash->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pStrash->pNodeRetention, "strash" );
             }
-            Nr_ManFree( pRetOld );
-            pAbc->pNodeRetentionOld = NULL;
 
             // save/restore node retention before Abc_NtkToDar
-            pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar", 1, 1 );
-            pAbc->pNodeRetention = pRetNew;
-            pAbc->pNodeRetentionOld = pRetOld;
+            // pRetOld = pAbc->pNodeRetention;
+            // pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar", 1, 1 );
+            // pAbc->pNodeRetention = pRetNew;
+            // pAbc->pNodeRetentionOld = pRetOld;
             // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
             // debug: print node retention after Abc_NtkToDar
             // unset flags after usage
-            if ( pAbc->pNodeRetention )
+            if ( pAig->pNodeRetention )
             {
-                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pAbc->pNodeRetention, "Abc_NtkToDar" );
+                Nr_ManSetCanModify( pAig->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pAig->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pAig->pNodeRetention, "Abc_NtkToDar" );
             }
-            Nr_ManFree( pRetOld );
-            pAbc->pNodeRetentionOld = NULL;
 
             Abc_NtkDelete( pStrash );
             
             // save/restore node retention before Gia_ManFromAig
-            pRetOld = pAbc->pNodeRetention;
-            pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig", 1, 1 );
-            pAbc->pNodeRetention = pRetNew;
-            pAbc->pNodeRetentionOld = pRetOld;
+            // pRetOld = pAbc->pNodeRetention;
+            // pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig", 1, 1 );
+            // pAbc->pNodeRetention = pRetNew;
+            // pAbc->pNodeRetentionOld = pRetOld;
             pGia = Gia_ManFromAig( pAig );
             // debug: print node retention after Gia_ManFromAig
             // unset flags after usage
-            if ( pAbc->pNodeRetention )
+            if ( pGia->pNodeRetention )
             {
-                Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-                Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pAbc->pNodeRetention, "Gia_ManFromAig" );
+                Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
+                Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
+                Nr_ManPrintDebug( pGia->pNodeRetention, "Gia_ManFromAig" );
             }
 
             

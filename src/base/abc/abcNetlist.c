@@ -69,18 +69,13 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     // duplicate the nodes 
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
-        Abc_Frame_t * pAbc;
         char * pName;
         Abc_NtkDupObj(pNtkNew, pObj, 0);
         pName = Abc_ObjName(Abc_ObjFanout0(pObj));
         Abc_ObjAssignName( pObj->pCopy, pName, NULL );
-        // map to node retention manager
+        // map to node retention manager (TODO: check if pName check is arbitrary)
         if ( pName )
-        {
-            pAbc = Abc_FrameGetGlobalFrame();
-            if ( pAbc && pAbc->pNodeRetention )
-                Nr_ManAddOrigin( pAbc->pNodeRetention, pObj->pCopy->Id, pName );
-        }
+            Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pName );
     }
     // reconnect the internal nodes in the new network
     Abc_NtkForEachNode( pNtk, pObj, i )
@@ -247,52 +242,47 @@ Abc_Ntk_t * Abc_NtkLogicToNetlist( Abc_Ntk_t * pNtk )
         pNtkNew->pExdc = Abc_NtkToNetlist( pNtk->pExdc );
     
     // copy node retention: add all nets (from CIs, COs, and internal nodes) to retention manager
-    {
-        Abc_Frame_t * pAbc = Abc_FrameGetGlobalFrame();
-        if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
+    // TODO: consider moving this to the end of the function to avoid repeating code
+        // copy origins for CI nets
+        Abc_NtkForEachCi( pNtk, pObj, i )
         {
-            // copy origins for CI nets
-            Abc_NtkForEachCi( pNtk, pObj, i )
+            if ( pObj->pCopy && pObj->pCopy->pCopy )
             {
-                if ( pObj->pCopy && pObj->pCopy->pCopy )
-                {
-                    int NetIdNew = Abc_ObjId(pObj->pCopy->pCopy);
-                    int NodeIdOld = Abc_ObjId(pObj);
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, NetIdNew, NodeIdOld );
-                }
+                int NetIdNew = Abc_ObjId(pObj->pCopy->pCopy);
+                int NodeIdOld = Abc_ObjId(pObj);
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, NetIdNew, NodeIdOld );
             }
-            // copy origins for CO nets
-            Abc_NtkForEachCo( pNtk, pObj, i )
+        }
+        // copy origins for CO nets
+        Abc_NtkForEachCo( pNtk, pObj, i )
+        {
+            pDriver = Abc_ObjFanin0(pObj);
+            if ( Abc_ObjIsCi(pDriver) )
             {
-                pDriver = Abc_ObjFanin0(pObj);
-                if ( Abc_ObjIsCi(pDriver) )
-                {
-                    if ( pDriver->pCopy && pDriver->pCopy->pCopy )
-                    {
-                        int NetIdNew = Abc_ObjId(pDriver->pCopy->pCopy);
-                        int NodeIdOld = Abc_ObjId(pObj);
-                        Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, NetIdNew, NodeIdOld );
-                    }
-                }
-                else if ( Abc_ObjIsNode(pDriver) && pDriver->pCopy && pDriver->pCopy->pCopy )
+                if ( pDriver->pCopy && pDriver->pCopy->pCopy )
                 {
                     int NetIdNew = Abc_ObjId(pDriver->pCopy->pCopy);
                     int NodeIdOld = Abc_ObjId(pObj);
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, NetIdNew, NodeIdOld );
+                    Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
                 }
             }
-            // copy origins for internal node nets
-            Abc_NtkForEachNode( pNtk, pObj, i )
+            else if ( Abc_ObjIsNode(pDriver) && pDriver->pCopy && pDriver->pCopy->pCopy )
             {
-                if ( pObj->pCopy && pObj->pCopy->pCopy )
-                {
-                    int NetIdNew = Abc_ObjId(pObj->pCopy->pCopy);
-                    int NodeIdOld = Abc_ObjId(pObj);
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, NetIdNew, NodeIdOld );
-                }
+                int NetIdNew = Abc_ObjId(pDriver->pCopy->pCopy);
+                int NodeIdOld = Abc_ObjId(pObj);
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
             }
         }
-    }
+        // copy origins for internal node nets
+        Abc_NtkForEachNode( pNtk, pObj, i )
+        {
+            if ( pObj->pCopy && pObj->pCopy->pCopy )
+            {
+                int NetIdNew = Abc_ObjId(pObj->pCopy->pCopy);
+                int NodeIdOld = Abc_ObjId(pObj);
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetentionOld, NetIdNew, NodeIdOld );
+            }
+        }
     
     if ( !Abc_NtkCheck( pNtkNew ) )
         fprintf( stdout, "Abc_NtkLogicToNetlist(): Network check has failed.\n" );

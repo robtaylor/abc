@@ -1750,19 +1750,36 @@ Gia_Man_t * Lf_ManDeriveMappingCoarse( Lf_Man_t * p )
     Gia_ManForEachObj1( pGia, pObj, i )
     {
         if ( Gia_ObjIsCi(pObj) )
-            { pObj->Value = Gia_ManAppendCi( pNew ); continue; }
+            {
+                pObj->Value = Gia_ManAppendCi( pNew ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsCo(pObj) )
-            { pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) ); continue; }
+            { 
+                pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsBuf(pObj) )
-            { pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) ); continue; }
+            { pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsMuxId(pGia, i) )
-            pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+            { pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            }
         else if ( Gia_ObjIsXor(pObj) )
-            pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        else 
+            { pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            }
+        else {
             pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        if (pObj->Value)
             Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            }
         if ( !Lf_ObjMapRefNum(p, i) )
             continue;
         pCut = Lf_ObjCutBest( p, i );

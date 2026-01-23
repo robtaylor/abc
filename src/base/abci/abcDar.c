@@ -1142,58 +1142,53 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
 
     // map names from original GIA objects to new ABC network objects
     {
-        Abc_Frame_t * pAbc;
         int i, iGiaId, iAbcId;
-        pAbc = Abc_FrameGetGlobalFrame();
-        if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
+        // map CIs
+        Gia_ManForEachPi( p, pObj, i )
         {
-            // map CIs
-            Gia_ManForEachPi( p, pObj, i )
+            iGiaId = Gia_ObjId(p, pObj);
+            iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+            if ( iAbcId >= 0 )
             {
-                iGiaId = Gia_ObjId(p, pObj);
-                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
-                if ( iAbcId >= 0 )
-                {
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
-                }
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
             }
-            // map COs
-            Gia_ManForEachPo( p, pObj, i )
+        }
+        // map COs
+        Gia_ManForEachPo( p, pObj, i )
+        {
+            iGiaId = Gia_ObjId(p, pObj);
+            iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+            if ( iAbcId >= 0 )
             {
-                iGiaId = Gia_ObjId(p, pObj);
-                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
-                if ( iAbcId >= 0 )
-                {
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
-                }
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
             }
-            // map Ri/Ro (register inputs/outputs)
-            Gia_ManForEachRiRo( p, pObjLi, pObjLo, i )
+        }
+        // map Ri/Ro (register inputs/outputs)
+        Gia_ManForEachRiRo( p, pObjLi, pObjLo, i )
+        {
+            // map Ri (register input) -> TODO:Should not be needed as latches are not copied
+            iGiaId = Gia_ObjId(p, pObjLi);
+            iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+            if ( iAbcId >= 0 )
             {
-                // map Ri (register input)
-                iGiaId = Gia_ObjId(p, pObjLi);
-                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
-                if ( iAbcId >= 0 )
-                {
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
-                }
-                // map Ro (register output)
-                iGiaId = Gia_ObjId(p, pObjLo);
-                iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
-                if ( iAbcId >= 0 )
-                {
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
-                }
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
             }
-            // map internal nodes (iLits)
-            Gia_ManForEachCell( p, iLit )
+            // map Ro (register output)
+            iGiaId = Gia_ObjId(p, pObjLo);
+            iAbcId = Vec_IntEntry( vCopyLits, Abc_Var2Lit(iGiaId, 0) );
+            if ( iAbcId >= 0 )
             {
-                iGiaId = Abc_Lit2Var(iLit);
-                iAbcId = Vec_IntEntry( vCopyLits, iLit );
-                if ( iAbcId >= 0 )
-                {
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iAbcId, iGiaId );
-                }
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
+            }
+        }
+        // map internal nodes (iLits)
+        Gia_ManForEachCell( p, iLit )
+        {
+            iGiaId = Abc_Lit2Var(iLit);
+            iAbcId = Vec_IntEntry( vCopyLits, iLit );
+            if ( iAbcId >= 0 )
+            {
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetentionOld, iAbcId, iGiaId );
             }
         }
     }

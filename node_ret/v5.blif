@@ -1,4 +1,4 @@
-# Benchmark "netlist" written by ABC on Fri Jan 23 14:27:50 2026
+# Benchmark "netlist" written by ABC on Fri Jan 23 14:51:13 2026
 .model netlist
 .inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
  ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \
@@ -86,4 +86,100 @@
 .gate AND  A=new_n181 B=new_n191 Y=ys__n506
 .end
 .node_retention_begin
+ys__n7 SRC ys__n7 ys__n10 ys__n7 ys__n10
+ys__n8 SRC ys__n8 ys__n8
+ys__n11 SRC ys__n11 ys__n11
+ys__n17 SRC ys__n17 ys__n17
+ys__n19 SRC ys__n19 ys__n19
+ys__n25 SRC ys__n25 ys__n25
+ys__n27 SRC ys__n27 ys__n27
+ys__n33 SRC ys__n33 ys__n33
+ys__n35 SRC ys__n35 ys__n35
+ys__n41 SRC ys__n41 ys__n41
+ys__n43 SRC ys__n43 ys__n43
+ys__n49 SRC ys__n49 ys__n49
+ys__n51 SRC ys__n51 ys__n51
+ys__n57 SRC ys__n57 ys__n57
+ys__n59 SRC ys__n59 ys__n59
+ys__n65 SRC ys__n65 ys__n65
+ys__n67 SRC ys__n67 ys__n67
+ys__n73 SRC ys__n73 ys__n73
+ys__n75 SRC ys__n75 ys__n75
+ys__n81 SRC ys__n81 ys__n81
+ys__n83 SRC ys__n83 ys__n83
+ys__n89 SRC ys__n89 ys__n89
+ys__n91 SRC ys__n91 ys__n91
+ys__n97 SRC ys__n97 ys__n97
+ys__n99 SRC ys__n99 ys__n99
+ys__n105 SRC ys__n105 ys__n105
+ys__n107 SRC ys__n107 ys__n107
+ys__n113 SRC ys__n113 ys__n113
+ys__n115 SRC ys__n115 ys__n115
+ys__n121 SRC ys__n121 ys__n121
+ys__n123 SRC ys__n123 ys__n123
+ys__n129 SRC ys__n129 ys__n129
+ys__n131 SRC ys__n131 ys__n131
+ys__n137 SRC ys__n137 ys__n137
+ys__n139 SRC ys__n139 ys__n139
+ys__n145 SRC ys__n145 ys__n145
+ys__n147 SRC ys__n147 ys__n147
+ys__n153 SRC ys__n153 ys__n153
+ys__n155 SRC ys__n155 ys__n155
+ys__n161 SRC ys__n161 ys__n161
+ys__n163 SRC ys__n163 ys__n163
+ys__n169 SRC ys__n169 ys__n169
+ys__n171 SRC ys__n171 ys__n171
+ys__n177 SRC ys__n177 ys__n177
+ys__n179 SRC ys__n179 ys__n179
+ys__n185 SRC ys__n185 ys__n185
+ys__n187 SRC ys__n187 ys__n187
+ys__n193 SRC ys__n193 ys__n193
+ys__n195 SRC ys__n195 ys__n195
+ys__n201 SRC ys__n201 ys__n201
+ys__n203 SRC ys__n203 ys__n203
+ys__n209 SRC ys__n209 ys__n209
+ys__n211 SRC ys__n211 ys__n211
+ys__n217 SRC ys__n217 ys__n217
+ys__n219 SRC ys__n219 ys__n219
+ys__n225 SRC ys__n225 ys__n225
+ys__n227 SRC ys__n227 ys__n227
+ys__n233 SRC ys__n233 ys__n233
+ys__n235 SRC ys__n235 ys__n235
+ys__n241 SRC ys__n241 ys__n241
+ys__n243 SRC ys__n243 ys__n243
+ys__n249 SRC ys__n249 ys__n249
+ys__n251 SRC ys__n251 ys__n251
+ys__n257 SRC ys__n257 ys__n257
+ys__n259 SRC ys__n259 ys__n259
+ys__n260 SRC ys__n260 ys__n260
+ys__n264 SRC ys__n264 ys__n264
+ys__n267 SRC ys__n267 ys__n267
+ys__n279 SRC ys__n279 ys__n279
+ys__n293 SRC ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283 ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283
+ys__n304 SRC ys__n304 ys__n301 ys__n300 ys__n297 ys__n295 ys__n288 ys__n304 ys__n301 ys__n300 ys__n297 ys__n295 ys__n288
+ys__n314 SRC ys__n314 ys__n311 ys__n310 ys__n307 ys__n305 ys__n299 ys__n314 ys__n311 ys__n310 ys__n307 ys__n305 ys__n299
+ys__n324 SRC ys__n324 ys__n321 ys__n320 ys__n317 ys__n315 ys__n309 ys__n324 ys__n321 ys__n320 ys__n317 ys__n315 ys__n309
+ys__n334 SRC ys__n334 ys__n331 ys__n330 ys__n327 ys__n325 ys__n319 ys__n334 ys__n331 ys__n330 ys__n327 ys__n325 ys__n319
+ys__n342 SRC ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329 ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329
+ys__n350 SRC ys__n350 ys__n349 ys__n344 ys__n347 ys__n343 ys__n328 ys__n350 ys__n349 ys__n344 ys__n347 ys__n343 ys__n328
+ys__n363 SRC ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353 ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353
+ys__n373 SRC ys__n373 ys__n372 ys__n365 ys__n370 ys__n364 ys__n358 ys__n373 ys__n372 ys__n365 ys__n370 ys__n364 ys__n358
+ys__n383 SRC ys__n383 ys__n382 ys__n375 ys__n380 ys__n374 ys__n368 ys__n383 ys__n382 ys__n375 ys__n380 ys__n374 ys__n368
+ys__n393 SRC ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378 ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378
+ys__n403 SRC ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388 ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388
+ys__n411 SRC ys__n411 ys__n410 ys__n405 ys__n408 ys__n404 ys__n398 ys__n411 ys__n410 ys__n405 ys__n408 ys__n404 ys__n398
+ys__n419 SRC ys__n419 ys__n418 ys__n413 ys__n416 ys__n412 ys__n397 ys__n419 ys__n418 ys__n413 ys__n416 ys__n412 ys__n397
+ys__n431 SRC ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421 ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421
+ys__n439 SRC ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426 ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426
+ys__n447 SRC ys__n447 ys__n497 ys__n492 ys__n495 ys__n491 ys__n478 ys__n470 ys__n469 ys__n468 ys__n466 ys__n453 ys__n501 ys__n446 ys__n441 ys__n444 ys__n440 ys__n425 ys__n447 ys__n497 ys__n492 ys__n495 ys__n491 ys__n478 ys__n470 ys__n469 ys__n468 ys__n466 ys__n453 ys__n501 ys__n446 ys__n441 ys__n444 ys__n440 ys__n425
+ys__n521 SRC ys__n521 ys__n520 ys__n521 ys__n520
+ys__n522 SRC ys__n522 ys__n519 ys__n522 ys__n519
+ys__n506 SRC ys__n506 ys__n506
+new_n125 SRC ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283 ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283
+new_n126 SRC ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329 ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329
+new_n127 SRC ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353 ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353
+new_n128 SRC ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378 ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378
+new_n129 SRC ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388 ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388
+new_n130 SRC ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421 ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421
+new_n131 SRC ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426 ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426
 .node_retention_end

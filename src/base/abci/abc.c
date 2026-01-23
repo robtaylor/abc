@@ -34658,15 +34658,18 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         // debug: print node retention after Abc_NtkFromCellMappedGia
         // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
         // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-        Nr_ManPrintDebug( pNtk->pNodeRetention, "Abc_NtkFromCellMappedGia" );
+        Nr_ManPrintDebug( pNtk->pNodeRetention, "&put v1: Abc_NtkFromCellMappedGia" );
     }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
     else if ( Gia_ManHasDangling(pAbc->pGia) == 0 )
     {
         pMan = Gia_ManToAig( pAbc->pGia, 0 );
+        Nr_ManPrintDebug( pMan->pNodeRetention, "&put v2: Gia_ManToAig" );
         pNtk = Abc_NtkFromAigPhase( pMan );
+        Nr_ManPrintDebug( pNtk->pNodeRetention, "&put v2: Abc_NtkFromAigPhase" );
         pNtk->pName = Extra_UtilStrsav(pMan->pName);
+        
         Aig_ManStop( pMan );
     }
     else

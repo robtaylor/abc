@@ -660,6 +660,14 @@ Abc_Ntk_t * Abc_NtkFromAigPhase( Aig_Man_t * pMan )
     Abc_NtkAddDummyPoNames( pNtkNew );
     Abc_NtkAddDummyBoxNames( pNtkNew );
 
+    // node retnetion information
+    Aig_ManForEachCi( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId(pObj->pData), Aig_ObjId(pObj) );
+    Aig_ManForEachNode( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId(pObj->pData), Aig_ObjId(pObj) );
+    Aig_ManForEachCo( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId(pObj->pData), Aig_ObjId(pObj) );
+
     // check the resulting AIG
     if ( !Abc_NtkCheck( pNtkNew ) )
         Abc_Print( 1, "Abc_NtkFromAigPhase(): Network check has failed.\n" );

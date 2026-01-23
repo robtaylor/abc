@@ -2599,6 +2599,7 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         if ( fSpecial || pLutStruct )
             Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
         else
+            Nr_ManPrintDebug( pAbc->pNtkCur->pNodeRetention, "write_blif way before conversion" );
             Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
         
         if ( !Abc_NtkIsNetlist(pAbc->pNtkCur) )

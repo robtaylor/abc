@@ -43350,21 +43350,19 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "Timing manager is given but there is no GIA of boxes.\n" );
         return 0;
     }
-    Nr_ManFree( pAbc->pNodeRetentionOld );
-    pRetOld = pAbc->pNodeRetention;
-    pRetNew = Nr_ManCreate( 1000, "&sweep:Gia_ManFraigSweepSimple", 1, 1 );
-    pAbc->pNodeRetention = pRetNew;
-    pAbc->pNodeRetentionOld = pRetOld;
+    // Nr_ManFree( pAbc->pNodeRetentionOld );
+    // pRetOld = pAbc->pNodeRetention;
+    // pRetNew = Nr_ManCreate( 1000, "&sweep:Gia_ManFraigSweepSimple", 1, 1 );
+    // pAbc->pNodeRetention = pRetNew;
+    // pAbc->pNodeRetentionOld = pRetOld;
     if ( Gia_ManBoxNum(pAbc->pGia) )
         pTemp = Gia_ManSweepWithBoxes( pAbc->pGia, pPars, NULL, 0, 0, pPars->fVerbose, 0 );
     else
         pTemp = Gia_ManFraigSweepSimple( pAbc->pGia, pPars );
     Abc_FrameUpdateGia( pAbc, pTemp );
-    Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-    Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
+    // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
+    // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
     Nr_ManPrintDebug( pAbc->pNodeRetention, "Gia_ManFraigSweepSimple" );
-    Nr_ManFree( pRetOld );
-    pAbc->pNodeRetentionOld = NULL;
     return 0;
 
 usage:

@@ -724,20 +724,8 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
         pNew = Gia_ManDup( p );
         // copy origins from old manager to new manager
         Gia_ManForEachObj( p, pObj, i )
-        {
             if ( Gia_ObjValue(pObj) >= 0 )
-            {
-                Abc_Frame_t * pAbc;
-                int iOldId, iNewId;
-                pAbc = Abc_FrameGetGlobalFrame();
-                if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
-                {
-                    iOldId = i;
-                    iNewId = Abc_Lit2Var( pObj->Value );
-                    Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iNewId, iOldId );
-                }
-            }
-        }
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, Abc_Lit2Var( pObj->Value ), i );
         return pNew;
     }
 /*
@@ -768,21 +756,8 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
     Gia_ManHashStop( pNew );
     // copy origins from old manager to new manager
     Gia_ManForEachObj( p, pObj, i )
-    {
-        // TODO: Advay check And/Ci/Co is correct
         if ( Gia_ObjValue(pObj) >= 0 )
-        {
-            Abc_Frame_t * pAbc;
-            int iOldId, iNewId;
-            pAbc = Abc_FrameGetGlobalFrame();
-            if ( pAbc && pAbc->pNodeRetention && pAbc->pNodeRetentionOld )
-            {
-                iOldId = i;
-                iNewId = Abc_Lit2Var( Gia_ObjValue(pObj) );
-                Nr_ManCopyOrigins( pAbc->pNodeRetention, pAbc->pNodeRetentionOld, iNewId, iOldId );
-            }
-        }
-    }
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetentionOld, Abc_Lit2Var( pObj->Value ), i );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     return pNew;
 }

@@ -155,6 +155,7 @@ struct Abc_Obj_t_     // 48/72 bytes (32-bits/64-bits)
 
 struct Abc_Ntk_t_ 
 {
+    Nr_Man_t *        pNodeRetention; // node retention manager
     // general information 
     Abc_NtkType_t     ntkType;       // type of the network
     Abc_NtkFunc_t     ntkFunc;       // functionality of the network
@@ -218,7 +219,6 @@ struct Abc_Ntk_t_
     Vec_Int_t *       vNameIds;      // name IDs
     Vec_Int_t *       vFins;         // obj/type info
     Vec_Int_t *       vOrigNodeIds;  // original node IDs
-    Nr_Man_t *        pNodeRetention; // node retention manager
 };
 
 struct Abc_Des_t_ 

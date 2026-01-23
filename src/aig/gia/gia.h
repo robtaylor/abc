@@ -97,6 +97,7 @@ struct Gia_Obj_t_
 typedef struct Gia_Man_t_ Gia_Man_t;
 struct Gia_Man_t_
 {
+    Nr_Man_t *      pNodeRetention;    // node retention manager
     char *         pName;         // name of the AIG
     char *         pSpec;         // name of the input file
     int            nRegs;         // number of registers
@@ -257,7 +258,6 @@ struct Gia_Man_t_
     Vec_Int_t *    vMFFCsInfo;    // MFFC information
     Vec_Int_t *    vMFFCsLuts;        // MFFCs for each lut
     Vec_Ptr_t *    vLutsRankings;     // LUTs rankings of inputs
-    Nr_Man_t *      pNodeRetention;    // node retention manager
 };
 
 

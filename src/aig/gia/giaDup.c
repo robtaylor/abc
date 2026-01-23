@@ -742,6 +742,8 @@ Gia_Man_t * Gia_ManDup( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCi( pNew );
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     if ( p->pCexSeq )

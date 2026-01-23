@@ -132,6 +132,8 @@ Gia_Man_t * Gia_ManDupMuxes( Gia_Man_t * p, int Limit )
             pFanC = Gia_ObjRecognizeMux( pObj, &pFan1, &pFan0 );
             pObj->Value = Gia_ManHashMuxReal( pNew, Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFanC)), Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFan1)), Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFan0)) );
         }
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
         if ( !Gia_ObjSibl(p, i) )
             continue;
         pObjNew  = Gia_ManObj( pNew, Abc_Lit2Var(pObj->Value) );
@@ -139,7 +141,6 @@ Gia_Man_t * Gia_ManDupMuxes( Gia_Man_t * p, int Limit )
         if ( Gia_ObjIsAnd(pObjNew) && Gia_ObjIsAnd(pSiblNew) && Gia_ObjId(pNew, pObjNew) > Gia_ObjId(pNew, pSiblNew) )
             pNew->pSibls[Gia_ObjId(pNew, pObjNew)] = Gia_ObjId(pNew, pSiblNew);
         // copy origins from old manager to new manager
-        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
@@ -253,6 +254,8 @@ Gia_Man_t * Gia_ManDupNoMuxes( Gia_Man_t * p, int fSkipBufs )
             pObj->Value = Gia_ManHashXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else 
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );

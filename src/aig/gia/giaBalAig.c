@@ -803,6 +803,7 @@ Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
     {
         pObj->Value = Gia_ManAppendCi( pNew );
         Vec_IntWriteEntry( pNew->vLevels, Abc_Lit2Var(pObj->Value), Gia_ObjLevel(p, pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     // create internal nodes
     Gia_ManHashStart( pNew );
@@ -811,11 +812,13 @@ Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) );
         Gia_ObjSetGateLevel( pNew, Gia_ManObj(pNew, Abc_Lit2Var(pObj->Value)) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManForEachCo( p, pObj, i )
     {
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
 //    assert( Gia_ManObjNum(pNew) <= Gia_ManObjNum(p) );
     Gia_ManHashStop( pNew );

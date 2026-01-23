@@ -359,8 +359,9 @@ Aig_Man_t * Gia_ManToAig( Gia_Man_t * p, int fChoices )
         ppNodes[Gia_ObjId(p, pObj)] = Aig_ObjCreateCo( pNew, Gia_ObjChild0Copy2(ppNodes, pObj, Gia_ObjId(p, pObj)) );
     }
     Aig_ManSetRegNum( pNew, Gia_ManRegNum(p) );
-    for ( i = 0; i < Vec_IntSize(ppNodes); i++ )
-        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(ppNodes[i]), i );
+    for ( i = 0; i < Gia_ManObjNum(p); i++ )
+        if ( ppNodes[i] )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(ppNodes[i]), i );
     ABC_FREE( ppNodes );
     return pNew;
 }

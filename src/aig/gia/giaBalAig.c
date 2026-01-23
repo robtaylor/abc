@@ -785,6 +785,8 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
     }
     // create balanced gate
     pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
+    if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
 }
 Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
 {

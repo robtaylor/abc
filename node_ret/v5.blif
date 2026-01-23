@@ -1,4 +1,4 @@
-# Benchmark "netlist" written by ABC on Fri Jan 23 15:34:35 2026
+# Benchmark "netlist" written by ABC on Fri Jan 23 15:47:23 2026
 .model netlist
 .inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
  ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \
@@ -206,7 +206,10 @@ ys__n229 SRC ys__n228 ys__n229 ys__n228 ys__n229
 ys__n237 SRC ys__n236 ys__n237 ys__n236 ys__n237
 ys__n245 SRC ys__n244 ys__n245 ys__n244 ys__n245
 ys__n253 SRC ys__n252 ys__n253 ys__n252 ys__n253
-ys__n506 SRC ys__n506 ys__n506
+ys__n265 SRC ys__n265 ys__n265
+ys__n268 SRC ys__n268 ys__n268
+ys__n270 SRC ys__n270 ys__n270
+ys__n506 SRC ys__n506 ys__n506 ys__n513 ys__n505 ys__n506 ys__n513 ys__n505 ys__n506
 new_n125 SRC ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283 ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283
 new_n126 SRC ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329 ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329
 new_n127 SRC ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353 ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353

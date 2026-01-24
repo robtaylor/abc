@@ -761,6 +761,7 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
     {
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin1(pObj) );
+        int nObjsBefore = Gia_ManObjNum(pNew);
         if ( Gia_ObjIsMux(p, pObj) )
         {
             Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin2(p, pObj) );
@@ -770,8 +771,13 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
             pObj->Value = Gia_ManHashXorReal( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else 
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        if (pObj->Value)
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        int nObjsAfter = Gia_ManObjNum(pNew);
+        int j;
+        if ( pNew->pNodeRetention && p->pNodeRetention )
+        {
+            for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+        }
         Gia_ObjSetGateLevel( pNew, Gia_ManObj(pNew, Abc_Lit2Var(pObj->Value)) );
         return;
     }
@@ -784,9 +790,15 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         pSet[i] = Abc_LitNotCond( pTemp->Value, Abc_LitIsCompl(pSet[i]) );
     }
     // create balanced gate
+    int nObjsBefore = Gia_ManObjNum(pNew);
     pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
-    if (pObj->Value)
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    int nObjsAfter = Gia_ManObjNum(pNew);
+    int j;
+    if ( pNew->pNodeRetention && p->pNodeRetention )
+    {
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+    }
 }
 Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
 {

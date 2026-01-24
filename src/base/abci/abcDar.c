@@ -300,9 +300,11 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
 
     // complement the 1-values registers
     if ( fRegisters ) {
-        Abc_NtkForEachLatch( pNtk, pObj, i )
+        Abc_NtkForEachLatch( pNtk, pObj, i ) {
             if ( Abc_LatchIsInit1(pObj) )
                 Abc_ObjFanout0(pObj)->pCopy = Abc_ObjNot(Abc_ObjFanout0(pObj)->pCopy);
+                Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId((Abc_Obj_t *)Abc_ObjFanout0(pObj)->pCopy), Abc_ObjId(pObj) );
+        }
     }
     // perform the conversion of the internal nodes (assumes DFS ordering)
 //    pMan->fAddStrash = 1;
@@ -310,16 +312,21 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pObj, i )
 //    Abc_NtkForEachNode( pNtk, pObj, i )
     {
+        int nObjsBefore = Aig_ManObjNum(pMan);
         pObj->pCopy = (Abc_Obj_t *)Aig_And( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj), (Aig_Obj_t *)Abc_ObjChild1Copy(pObj) );
-        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
+        int nObjsAfter = Aig_ManObjNum(pMan);
+        int j;
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, j, pObj->Id );
 //        Abc_Print( 1, "%d->%d ", pObj->Id, ((Aig_Obj_t *)pObj->pCopy)->Id );
     }     
     Vec_PtrFree( vNodes );
     pMan->fAddStrash = 0;
     // create the POs
-    Abc_NtkForEachCo( pNtk, pObj, i )
+    Abc_NtkForEachCo( pNtk, pObj, i ) {
         pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
         Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
+    }
     // complement the 1-valued registers
     Aig_ManSetRegNum( pMan, Abc_NtkLatchNum(pNtk) );
     if ( fRegisters )

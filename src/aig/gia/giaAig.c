@@ -162,13 +162,19 @@ void Gia_ManCheckChoices( Gia_Man_t * p )
 ***********************************************************************/
 void Gia_ManFromAigChoices_rec( Gia_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj )
 {
+    int nNodesBefore, nNodesAfter, i;
     if ( pObj == NULL || pObj->iData )
         return;
     assert( Aig_ObjIsNode(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin0(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin1(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjEquiv(p, pObj) );
+    nNodesBefore = Aig_ManNodeNum(pNew);
     pObj->iData = Gia_ManAppendAnd( pNew, Gia_ObjChild0Copy(pObj), Gia_ObjChild1Copy(pObj) );
+    nNodesAfter = Aig_ManNodeNum(pNew);
+    for ( i = nNodesBefore; i < nNodesAfter; i++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, i, Aig_ObjId(pObj) );
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
     if ( Aig_ObjEquiv(p, pObj) )
     {
         int iObjNew, iNextNew;
@@ -195,13 +201,17 @@ Gia_Man_t * Gia_ManFromAigChoices( Aig_Man_t * p )
     // create the PIs
     Aig_ManCleanData( p );
     Aig_ManConst1(p)->iData = 1;
-    Aig_ManForEachCi( p, pObj, i )
+    Aig_ManForEachCi( p, pObj, i )  {
         pObj->iData = Gia_ManAppendCi( pNew );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
+    }
     // add logic for the POs
     Aig_ManForEachCo( p, pObj, i )
         Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin0(pObj) );        
-    Aig_ManForEachCo( p, pObj, i )
-        Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
+    Aig_ManForEachCo( p, pObj, i ) {
+        pObj->iData = Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
+    }
     Gia_ManSetRegNum( pNew, Aig_ManRegNum(p) );
     //assert( Gia_ManObjNum(pNew) == Aig_ManObjNum(p) );
     //Gia_ManCheckChoices( pNew );

@@ -931,6 +931,8 @@ If_Man_t * Gia_ManToIf( Gia_Man_t * p, If_Par_t * pPars )
         else assert( 0 );
         assert( i == If_ObjId(pIfObj) );
         Gia_ObjSetValue( pObj, If_ObjId(pIfObj) );
+        // copy node retention origins
+        Nr_ManCopyOrigins( pIfMan->pNodeRetention, p->pNodeRetention, If_ObjId(pIfObj), i );
         // set up the choice node
         if ( Gia_ObjSibl(p, i) && pObj->fMark0 )
         {
@@ -1037,7 +1039,7 @@ Gia_Man_t * Gia_ManFromIfAig( If_Man_t * pIfMan )
     If_Cut_t * pCutBest;
     Vec_Int_t * vLeaves;
     Vec_Int_t * vAig;
-    int i, k;
+    int i, k, nNodesStart, nNodesEnd, j;
     assert( pIfMan->pPars->pLutStruct == NULL );
     assert( pIfMan->pPars->fDelayOpt || pIfMan->pPars->fDsdBalance || pIfMan->pPars->fUserRecLib || pIfMan->pPars->fUserSesLib );
     // create new manager
@@ -1052,6 +1054,7 @@ Gia_Man_t * Gia_ManFromIfAig( If_Man_t * pIfMan )
     {
         if ( pIfObj->nRefs == 0 && !If_ObjIsTerm(pIfObj) )
             continue;
+        nNodesStart = Gia_ManObjNum(pNew);
         if ( If_ObjIsAnd(pIfObj) )
         {
             pCutBest = If_ObjCutBest( pIfObj );
@@ -1081,6 +1084,10 @@ Gia_Man_t * Gia_ManFromIfAig( If_Man_t * pIfMan )
         else if ( If_ObjIsConst1(pIfObj) )
             pIfObj->iCopy = 1;
         else assert( 0 );
+        nNodesEnd = Gia_ManObjNum(pNew);
+        // copy node retention origins for newly created nodes
+        for ( j = nNodesStart; j < nNodesEnd; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pIfMan->pNodeRetention, j, pIfObj->Id );
     }
     Vec_IntFree( vAig );
     Vec_IntFree( vLeaves );

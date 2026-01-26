@@ -517,8 +517,15 @@ Aig_Man_t * Dch_DeriveChoiceAigInt( Aig_Man_t * pAig, int fSkipRedSupps )
     Aig_ManForEachNode( pAig, pObj, i ) 
         Dch_DeriveChoiceAigNode( pChoices, pAig, pObj, fSkipRedSupps );
     Aig_ManForEachCo( pAig, pObj, i )
-        Aig_ObjCreateCo( pChoices, Aig_ObjChild0CopyRepr(pChoices, pObj) );
+        pObj->pData = Aig_ObjCreateCo( pChoices, Aig_ObjChild0CopyRepr(pChoices, pObj) );
     Aig_ManSetRegNum( pChoices, Aig_ManRegNum(pAig) );
+    // copy node retention mapping
+    Aig_ManForEachCi( pAig, pObj, i )
+        Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
+    Aig_ManForEachNode( pAig, pObj, i )
+        Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
+    Aig_ManForEachCo( pAig, pObj, i )
+        Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
     return pChoices;
 }
 Aig_Man_t * Dch_DeriveChoiceAig( Aig_Man_t * pAig, int fSkipRedSupps )

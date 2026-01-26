@@ -3817,16 +3817,68 @@ Gia_Man_t * Gia_ManMiter2( Gia_Man_t * pStart, char * pInit, int fVerbose )
   SeeAlso     []
 
 ***********************************************************************/
+// int Gia_ManChoiceMiter_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
+// {
+//     int iNode, nNodesBefore, nNodesAfter, j;
+//     if ( ~pObj->Value )
+//         return pObj->Value;
+//     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin0(pObj) );
+//     if ( Gia_ObjIsCo(pObj) )
+//     {
+//         iNode = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+//         Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+//         return pObj->Value = iNode;
+//     }
+//     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin1(pObj) );
+//     nNodesBefore = Gia_ManObjNum(pNew);
+//     iNode = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+//     nNodesAfter = Gia_ManObjNum(pNew);
+//     // if memoization hit, copy origins from the old manager
+//     if (nNodesAfter > nNodesBefore)
+//         for ( j = nNodesBefore; j < nNodesAfter; j++ )
+//             Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+//     Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+//     return pObj->Value = iNode;
+// } 
+
 int Gia_ManChoiceMiter_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 {
+    int iNode, nNodesBefore, nNodesAfter, j;
     if ( ~pObj->Value )
         return pObj->Value;
+    
+    // Record node count before processing fanins
+    nNodesBefore = Gia_ManObjNum(pNew);
+    
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin0(pObj) );
     if ( Gia_ObjIsCo(pObj) )
-        return pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+    {
+        iNode = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+        return pObj->Value = iNode;
+    }
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin1(pObj) );
-    return pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-} 
+    
+    // Record node count before Gia_ManHashAnd
+    int nNodesBeforeHash = Gia_ManObjNum(pNew);
+    
+    iNode = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+    nNodesAfter = Gia_ManObjNum(pNew);
+    
+    // Copy origins for all nodes created by recursive calls (if any)
+    if (nNodesBeforeHash > nNodesBefore)
+        for ( j = nNodesBefore; j < nNodesBeforeHash; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+    
+    // Copy origins for nodes created by Gia_ManHashAnd (if any)
+    if (nNodesAfter > nNodesBeforeHash)
+        for ( j = nNodesBeforeHash; j < nNodesAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+    
+    // Always copy origins for the final node (in case of hash hit)
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+    return pObj->Value = iNode;
+}
 
 /**Function*************************************************************
 
@@ -3862,8 +3914,10 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
     for ( k = 0; k < Gia_ManCiNum(pGia0); k++ )
     {
         iNode = Gia_ManAppendCi(pNew);
-        Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i )
-            Gia_ManCi( pGia, k )->Value = iNode; 
+        Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i ) {
+            Gia_ManCi( pGia, k )->Value = iNode;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, iNode, Gia_ObjId(pGia, Gia_ManCi(pGia, k)) );
+        }
     }
     // create internal nodes
     Gia_ManHashAlloc( pNew );

@@ -3843,40 +3843,46 @@ Gia_Man_t * Gia_ManMiter2( Gia_Man_t * pStart, char * pInit, int fVerbose )
 
 int Gia_ManChoiceMiter_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 {
-    int iNode, nNodesBefore, nNodesAfter, j;
+    int iNode, iLit0, iLit1;
+    
+    // Already processed
     if ( ~pObj->Value )
         return pObj->Value;
     
-    // Record node count before processing fanins
-    nNodesBefore = Gia_ManObjNum(pNew);
-    
+    // Process fanin0 recursively
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin0(pObj) );
+    
+    // Handle CO nodes
     if ( Gia_ObjIsCo(pObj) )
     {
         iNode = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
-        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, 
+                          Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
         return pObj->Value = iNode;
     }
+    
+    // Process fanin1 recursively (only for AND nodes)
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin1(pObj) );
     
-    // Record node count before Gia_ManHashAnd
-    int nNodesBeforeHash = Gia_ManObjNum(pNew);
+    // Get the fanin literals
+    iLit0 = Gia_ObjFanin0Copy(pObj);
+    iLit1 = Gia_ObjFanin1Copy(pObj);
     
-    iNode = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-    nNodesAfter = Gia_ManObjNum(pNew);
+    // Create AND node - this may create new nodes or return existing one
+    int nNodesBefore = Gia_ManObjNum(pNew);
+    iNode = Gia_ManHashAnd( pNew, iLit0, iLit1 );
+    int nNodesAfter = Gia_ManObjNum(pNew);
     
-    // Copy origins for all nodes created by recursive calls (if any)
-    if (nNodesBeforeHash > nNodesBefore)
-        for ( j = nNodesBefore; j < nNodesBeforeHash; j++ )
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+    // Copy origins for any new nodes created by Gia_ManHashAnd
+    // (structural hashing may create intermediate nodes)
+    for ( int j = nNodesBefore; j < nNodesAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, 
+                          j, Gia_ObjId(p, pObj) );
     
-    // Copy origins for nodes created by Gia_ManHashAnd (if any)
-    if (nNodesAfter > nNodesBeforeHash)
-        for ( j = nNodesBeforeHash; j < nNodesAfter; j++ )
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+    // Always copy origin for the result node (whether new or hash hit)
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, 
+                      Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
     
-    // Always copy origins for the final node (in case of hash hit)
-    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
     return pObj->Value = iNode;
 }
 

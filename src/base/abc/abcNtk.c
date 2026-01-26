@@ -95,7 +95,7 @@ Abc_Ntk_t * Abc_NtkAlloc( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
     // node retention manager
-    pNtk->pNodeRetention = Nr_ManCreate( 1000, "", 1, 1 );
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     return pNtk;
 }
 Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan, int nVars )
@@ -143,7 +143,7 @@ Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMem
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
     // node retention manager
-    pNtk->pNodeRetention = Nr_ManCreate( 1000, "", 1, 1 );
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     return pNtk;
 }
 

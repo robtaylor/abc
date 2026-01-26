@@ -59,7 +59,6 @@ struct Nr_Man_t_
     int              nEntries;       // number of entries
     int              nSizeFactor;    // determines when to resize (default: 2)
     Extra_MmFlex_t * pMem;           // memory manager for origin names
-    char *           calling_cmd;     // command that created this manager
     int              fCanModify;     // whether this manager can be modified
     int              fCanCopyFromOld;// whether we can copy from old manager
 };
@@ -73,7 +72,7 @@ struct Nr_Man_t_
 ////////////////////////////////////////////////////////////////////////
 
 /*=== node_retention.c ================================================*/
-extern Nr_Man_t *    Nr_ManCreate( int nSize, char * calling_cmd, int fCanModify, int fCanCopyFromOld );
+extern Nr_Man_t *    Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld );
 extern void          Nr_ManFree( Nr_Man_t * p );
 extern void          Nr_ManSetCanModify( Nr_Man_t * p, int fCanModify );
 extern void          Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld );

@@ -47,7 +47,7 @@ static void         Nr_ManTableResize( Nr_Man_t * p );
   SeeAlso     []
 
 ***********************************************************************/
-Nr_Man_t * Nr_ManCreate( int nSize, char * calling_cmd, int fCanModify, int fCanCopyFromOld )
+Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
 {
     Nr_Man_t * p;
     p = ABC_ALLOC( Nr_Man_t, 1 );
@@ -57,7 +57,6 @@ Nr_Man_t * Nr_ManCreate( int nSize, char * calling_cmd, int fCanModify, int fCan
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
     p->pMem = Extra_MmFlexStart();
-    p->calling_cmd = calling_cmd ? Extra_UtilStrsav( calling_cmd ) : NULL;
     p->fCanModify = fCanModify;
     p->fCanCopyFromOld = fCanCopyFromOld;
     return p;
@@ -137,8 +136,6 @@ void Nr_ManFree( Nr_Man_t * p )
     }
     if ( p->pMem )
         Extra_MmFlexStop( p->pMem );
-    if ( p->calling_cmd )
-        ABC_FREE( p->calling_cmd );
     ABC_FREE( p->pBins );
     ABC_FREE( p );
 }
@@ -317,9 +314,6 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
         pOrigin->pName = NULL;
     }
     Vec_PtrPush( pEntry->vOrigins, pOrigin );
-    // output the calling command
-    if ( p->calling_cmd )
-        printf( "Nr_ManAddOrigin: called by %s\n", p->calling_cmd );
 }
 
 /**Function*************************************************************
@@ -606,28 +600,28 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
 ***********************************************************************/
 void Nr_ManPrintAllOrigins( Nr_Man_t * p )
 {
-    Nr_Entry_t * pEntry;
-    int i;
-    if ( p == NULL )
-    {
-        printf( "Nr_ManPrintAllOrigins: Manager is NULL.\n" );
-        return;
-    }
-    if ( p->nEntries == 0 )
-    {
-        printf( "Node retention manager is empty.\n" );
-        return;
-    }
-    printf( "Printing all origins (%d entries):\n", p->nEntries );
-    for ( i = 0; i < p->nBins; i++ )
-    {
-        pEntry = p->pBins[i];
-        while ( pEntry )
-        {
-            Nr_ManPrintOrigins( p, pEntry->NodeId );
-            pEntry = pEntry->pNext;
-        }
-    }
+    // Nr_Entry_t * pEntry;
+    // int i;
+    // if ( p == NULL )
+    // {
+    //     printf( "Nr_ManPrintAllOrigins: Manager is NULL.\n" );
+    //     return;
+    // }
+    // if ( p->nEntries == 0 )
+    // {
+    //     printf( "Node retention manager is empty.\n" );
+    //     return;
+    // }
+    // printf( "Printing all origins (%d entries):\n", p->nEntries );
+    // for ( i = 0; i < p->nBins; i++ )
+    // {
+    //     pEntry = p->pBins[i];
+    //     while ( pEntry )
+    //     {
+    //         Nr_ManPrintOrigins( p, pEntry->NodeId );
+    //         pEntry = pEntry->pNext;
+    //     }
+    // }
 }
 
 /**Function*************************************************************

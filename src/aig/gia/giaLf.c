@@ -1767,14 +1767,23 @@ Gia_Man_t * Lf_ManDeriveMappingCoarse( Lf_Man_t * p )
                     Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
                 continue; }
         if ( Gia_ObjIsMuxId(pGia, i) )
-            { pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
-                if (pObj->Value)
-                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            { 
+                // for muxes and xors, there's three and gates which are appended
+                int nObjsBefore = Gia_ManObjNum(pNew);
+                pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+                int nObjsAfter = Gia_ManObjNum(pNew);
+                int j;
+                for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, j, Gia_ObjId(pGia, pObj) );
             }
         else if ( Gia_ObjIsXor(pObj) )
-            { pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-                if (pObj->Value)
-                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            { 
+                int nObjsBefore = Gia_ManObjNum(pNew);
+                pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+                int nObjsAfter = Gia_ManObjNum(pNew);
+                int j;
+                for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, j, Gia_ObjId(pGia, pObj) );
             }
         else {
             pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );

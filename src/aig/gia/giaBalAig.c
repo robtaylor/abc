@@ -1,5 +1,4 @@
 /**CFile****************************************************************
-
   FileName    [giaBalance.c]
 
   SystemName  [ABC: Logic synthesis and verification system.]
@@ -24,6 +23,7 @@
 #include "opt/dau/dau.h"
 
 ABC_NAMESPACE_IMPL_START
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -752,16 +752,16 @@ void Dam_ManCreatePairs( Dam_Man_t * p, int fVerbose )
 ***********************************************************************/
 void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 {
-    int i, * pSet;
+    int i, * pSet, nObjsBefore, nObjsAfter, j;
     if ( ~pObj->Value )
         return;
     assert( Gia_ObjIsAnd(pObj) );
     pSet = Dam_ObjSet(pMan, Gia_ObjId(p, pObj));
     if ( pSet == NULL )
     {
+        nObjsBefore = Gia_ManObjNum(pNew);
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin1(pObj) );
-        int nObjsBefore = Gia_ManObjNum(pNew);
         if ( Gia_ObjIsMux(p, pObj) )
         {
             Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin2(p, pObj) );
@@ -771,18 +771,15 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
             pObj->Value = Gia_ManHashXorReal( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else 
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        int nObjsAfter = Gia_ManObjNum(pNew);
-        int j;
-        if ( pNew->pNodeRetention && p->pNodeRetention )
-        {
-            for ( j = nObjsBefore; j < nObjsAfter; j++ )
-                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
-        }
+        nObjsAfter = Gia_ManObjNum(pNew);
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
         Gia_ObjSetGateLevel( pNew, Gia_ManObj(pNew, Abc_Lit2Var(pObj->Value)) );
         return;
     }
     assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
     // call recursively
+    nObjsBefore = Gia_ManObjNum(pNew);
     for ( i = 1; i <= pSet[0]; i++ )
     {
         Gia_Obj_t * pTemp = Gia_ManObj( p, Abc_Lit2Var(pSet[i]) );
@@ -790,15 +787,10 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         pSet[i] = Abc_LitNotCond( pTemp->Value, Abc_LitIsCompl(pSet[i]) );
     }
     // create balanced gate
-    int nObjsBefore = Gia_ManObjNum(pNew);
     pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
-    int nObjsAfter = Gia_ManObjNum(pNew);
-    int j;
-    if ( pNew->pNodeRetention && p->pNodeRetention )
-    {
-        for ( j = nObjsBefore; j < nObjsAfter; j++ )
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
-    }
+    nObjsAfter = Gia_ManObjNum(pNew);
+    for ( j = nObjsBefore; j < nObjsAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
 }
 Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
 {

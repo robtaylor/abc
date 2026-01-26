@@ -550,9 +550,12 @@ void * Dsm_ManDeriveGia( void * pGia, int fUseMuxes )
         Vec_IntClear( vLeaves );
         Gia_LutForEachFanin( p, iLut, iVar, k )
             Vec_IntPush( vLeaves, Gia_ManObj(p, iVar)->Value );
+        int nObjsBefore = Gia_ManObjNum(pNew);
         Gia_ManObj(p, iLut)->Value = Dsm_ManTruthToGia( pNew, pTruth, vLeaves, vCover );
-        if (Gia_ManObj(p, iLut)->Value)
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        int nObjsAfter = Gia_ManObjNum(pNew);
+        int j;
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
     }
     Gia_ObjComputeTruthTableStop( p );
     Gia_ManForEachCo( p, pObj, i )

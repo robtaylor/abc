@@ -162,18 +162,13 @@ void Gia_ManCheckChoices( Gia_Man_t * p )
 ***********************************************************************/
 void Gia_ManFromAigChoices_rec( Gia_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj )
 {
-    int nNodesBefore, nNodesAfter, i;
     if ( pObj == NULL || pObj->iData )
         return;
     assert( Aig_ObjIsNode(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin0(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin1(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjEquiv(p, pObj) );
-    nNodesBefore = Aig_ManNodeNum(pNew);
     pObj->iData = Gia_ManAppendAnd( pNew, Gia_ObjChild0Copy(pObj), Gia_ObjChild1Copy(pObj) );
-    nNodesAfter = Aig_ManNodeNum(pNew);
-    for ( i = nNodesBefore; i < nNodesAfter; i++ )
-        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, i, Aig_ObjId(pObj) );
     Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
     if ( Aig_ObjEquiv(p, pObj) )
     {

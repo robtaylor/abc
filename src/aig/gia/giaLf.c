@@ -1884,7 +1884,7 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
     Vec_Int_t * vCover    = Vec_IntAlloc( 1 << 16 );
     Vec_Int_t * vLeaves   = Vec_IntAlloc( 16 );
     Lf_Cut_t * pCut;
-    int i, iLit; 
+    int i, iLit, nNodesStart, nNodesEnd, j; 
     assert( p->pPars->fCutMin );
     // create new manager
     pNew = Gia_ManStart( Gia_ManObjNum(p->pGia) );
@@ -1893,15 +1893,22 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
     Vec_IntWriteEntry( vCopies, 0, 0 );
     Gia_ManForEachObj1( p->pGia, pObj, i )
     {
+        nNodesStart = Gia_ManObjNum(pNew);
         if ( Gia_ObjIsCi(pObj) )
         {
             Vec_IntWriteEntry( vCopies, i, Gia_ManAppendCi(pNew) );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( Gia_ObjIsCo(pObj) )
         {
             iLit = Vec_IntEntry( vCopies, Gia_ObjFaninId0p(p->pGia, pObj) );
             iLit = Gia_ManAppendCo( pNew, Abc_LitNotCond(iLit, Gia_ObjFaninC0(pObj)) );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( Gia_ObjIsBuf(pObj) )
@@ -1909,6 +1916,9 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
             iLit = Vec_IntEntry( vCopies, Gia_ObjFaninId0p(p->pGia, pObj) );
             iLit = Gia_ManAppendBuf( pNew, Abc_LitNotCond(iLit, Gia_ObjFaninC0(pObj)) );
             Vec_IntWriteEntry( vCopies, i, iLit );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( !Lf_ObjMapRefNum(p, i) )
@@ -1930,6 +1940,9 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
         }
         iLit = Lf_ManDerivePart( p, pNew, vMapping, vMapping2, vCopies, pCut, vLeaves, vCover, pObj );
         Vec_IntWriteEntry( vCopies, i, Abc_LitNotCond(iLit, Abc_LitIsCompl(pCut->iFunc)) );
+        nNodesEnd = Gia_ManObjNum(pNew);
+        for ( j = nNodesStart; j < nNodesEnd; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
     }
     Vec_IntFree( vCopies );
     Vec_IntFree( vCover );

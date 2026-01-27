@@ -1094,6 +1094,7 @@ int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_t * pNtk, int fDuplicate )
         if ( !Abc_NodeIsConst(pDriver) )
             continue;
         pDriverNew = (Abc_ObjFaninC0(pNode) == Abc_NodeIsConst0(pDriver)) ? Abc_NtkCreateNodeConst1(pNtk) : Abc_NtkCreateNodeConst0(pNtk);
+        Nr_ManCopyOrigins( pNtk->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pDriverNew), Abc_ObjId(pDriver) );
         if ( Abc_ObjFaninC0(pNode) )
             Abc_ObjXorFaninC( pNode, 0 );
         Abc_ObjPatchFanin( pNode, pDriver, pDriverNew );
@@ -1152,6 +1153,7 @@ int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_t * pNtk, int fDuplicate )
                     pDriverNew = Abc_NtkCreateNodeInv( pNtk, pDriver );
                     nDupInvs++;
                 }
+                Nr_ManCopyOrigins( pNtk->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pDriverNew), Abc_ObjId(pDriver) );
                 // collect CO fanouts to be redirected to the new node
                 Vec_PtrClear( vFanouts );
                 Abc_ObjForEachFanout( pDriver, pNode, k )
@@ -1244,6 +1246,7 @@ int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_t * pNtk, int fDuplicate )
                 Abc_ObjAssignName( pDriverNew, Abc_ObjName(pDriver), "_buf" );
                 nDupBufs++;
             }
+            Nr_ManCopyOrigins( pNtk->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pDriverNew), Abc_ObjId(pDriver) );
             // swing the PO
             Abc_ObjPatchFanin( pNode, pDriver, pDriverNew );
             assert( Abc_ObjIsCi(pDriver) || Abc_ObjFanoutNum(pDriver) > 0 );

@@ -1076,10 +1076,24 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     Gia_ManForEachBuf( p, pObj, i )
         if ( Gia_ObjFaninId0p(p, pObj) == 0 )
             fNeedConst[Gia_ObjFaninC0(pObj)] = 1;
+    // if ( fNeedConst[0] )
+    //     Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(Abc_NtkCreateNodeConst0(pNtkNew)) );
+    // if ( fNeedConst[1] )
+    //     Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(Abc_NtkCreateNodeConst1(pNtkNew)) );
     if ( fNeedConst[0] )
-        Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(Abc_NtkCreateNodeConst0(pNtkNew)) );
+    {
+        pObjNew = Abc_NtkCreateNodeConst0(pNtkNew);
+        Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(pObjNew) );
+        // Const0 derives from GIA const0 (object 0)
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), 0 );
+    }
     if ( fNeedConst[1] )
-        Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(Abc_NtkCreateNodeConst1(pNtkNew)) );
+    {
+        pObjNew = Abc_NtkCreateNodeConst1(pNtkNew);
+        Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(pObjNew) );
+        // Const1 also derives from GIA const0 (object 0)
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), 0 );
+    }
 
     // rebuild the AIG
     Gia_ManForEachCell( p, iLit )
@@ -1152,6 +1166,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     Abc_NtkAddDummyBoxNames( pNtkNew );
 
     // decouple the PO driver nodes to reduce the number of levels
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "put:pre_Abc_NtkLogicMakeSimpleCos TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNtkNew->pNodeRetention), Nr_ManNumEntries(pNtkNew->pNodeRetention), Abc_NtkObjNum(pNtkNew)); fclose(f); } }
     if ( fFixDrivers )
     {
         int nDupGates = Abc_NtkLogicMakeSimpleCos( pNtkNew, !fUseBuffs );
@@ -1163,6 +1178,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 printf( "Duplicated %d gates to decouple the CO drivers.\n", nDupGates );
         }
     }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNtkNew->pNodeRetention), Nr_ManNumEntries(pNtkNew->pNodeRetention), Abc_NtkObjNum(pNtkNew)); fclose(f); } }
 
     assert( Gia_ManPiNum(p) == Abc_NtkPiNum(pNtkNew) );
     assert( Gia_ManPoNum(p) == Abc_NtkPoNum(pNtkNew) );

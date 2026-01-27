@@ -39,7 +39,7 @@ DEBUG: Node retention after Post &Lf_ManPerformMapping:
 DEBUG: Node retention after Post &Gia_ManAreaBalance:
 DEBUG: Node retention after Post &Gia_ManPerformDsdBalance:
 DEBUG: Node retention after Pre &synch2Choice:
-HEREHERE Called this first. node manager entries: 351. And number of objects: 352DEBUG: Node retention after Post &synch2Choice:
+HEREHERE Called this first. node manager entries: 175. And number of objects: 352DEBUG: Node retention after Post &synch2Choice:
 DEBUG: Node retention after &synch2:
 DEBUG: Node retention after &nf:
 DEBUG: Node retention after &put v1: Abc_NtkFromCellMappedGia:

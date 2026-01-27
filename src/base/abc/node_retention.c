@@ -20,6 +20,8 @@
 
 #include "base/abc/abc.h"
 #include "base/abc/node_retention.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -56,7 +58,6 @@ Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
     p->nBins = Abc_PrimeCudd( nSize > 0 ? nSize : 100 );
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
-    p->pMem = Extra_MmFlexStart();
     p->fCanModify = fCanModify;
     p->fCanCopyFromOld = fCanCopyFromOld;
     return p;
@@ -110,8 +111,7 @@ void Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld )
 void Nr_ManFree( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry, * pNext;
-    Nr_Origin_t * pOrigin;
-    int i, j;
+    int i;
     if ( p == NULL )
         return;
     // free all entries and their origins
@@ -122,20 +122,11 @@ void Nr_ManFree( Nr_Man_t * p )
         {
             pNext = pEntry->pNext;
             if ( pEntry->vOrigins )
-            {
-                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
-                {
-                    // names are stored in pMem, will be freed with pMem
-                    ABC_FREE( pOrigin );
-                }
-                Vec_PtrFree( pEntry->vOrigins );
-            }
+                Vec_IntFree( pEntry->vOrigins );
             ABC_FREE( pEntry );
             pEntry = pNext;
         }
     }
-    if ( p->pMem )
-        Extra_MmFlexStop( p->pMem );
     ABC_FREE( p->pBins );
     ABC_FREE( p );
 }
@@ -240,7 +231,6 @@ static void Nr_ManTableAdd( Nr_Man_t * p, Nr_Entry_t * pEntry )
 static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry, * pPrev, * pEntryToDelete;
-    Nr_Origin_t * pOrigin;
     int i;
     // use lookup to find the entry
     pEntryToDelete = Nr_ManTableLookup( p, NodeId );
@@ -262,11 +252,7 @@ static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
         p->pBins[i] = pEntryToDelete->pNext;
     // free origins
     if ( pEntryToDelete->vOrigins )
-    {
-        Vec_PtrForEachEntry( Nr_Origin_t *, pEntryToDelete->vOrigins, pOrigin, i )
-            ABC_FREE( pOrigin );
-        Vec_PtrFree( pEntryToDelete->vOrigins );
-    }
+        Vec_IntFree( pEntryToDelete->vOrigins );
     ABC_FREE( pEntryToDelete );
     p->nEntries--;
 }
@@ -282,11 +268,9 @@ static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
   SeeAlso     []
 
 ***********************************************************************/
-void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
+void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
 {
     Nr_Entry_t * pEntry;
-    Nr_Origin_t * pOrigin;
-    char * pNameCopy;
     // check if modification is allowed
     if ( !p || !p->fCanModify )
         return;
@@ -296,24 +280,11 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
     {
         pEntry = ABC_ALLOC( Nr_Entry_t, 1 );
         pEntry->NodeId = NodeId;
-        pEntry->vOrigins = Vec_PtrAlloc( 4 );
+        pEntry->vOrigins = Vec_IntAlloc( 4 );
         pEntry->pNext = NULL;
         Nr_ManTableAdd( p, pEntry );
     }
-    // create origin entry
-    pOrigin = ABC_ALLOC( Nr_Origin_t, 1 );
-    // copy name if provided
-    if ( pOriginName && p->pMem )
-    {
-        pNameCopy = (char *)Extra_MmFlexEntryFetch( p->pMem, strlen(pOriginName) + 1 );
-        strcpy( pNameCopy, pOriginName );
-        pOrigin->pName = pNameCopy;
-    }
-    else
-    {
-        pOrigin->pName = NULL;
-    }
-    Vec_PtrPush( pEntry->vOrigins, pOrigin );
+    Vec_IntPush( pEntry->vOrigins, OriginId );
 }
 
 /**Function*************************************************************
@@ -330,19 +301,17 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName )
 ***********************************************************************/
 void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
 {
-    Vec_Ptr_t * vOrigins;
-    Nr_Origin_t * pOrigin;
-    int j;
+    Vec_Int_t * vOrigins;
+    int j, OriginId;
     // check if copying is allowed
     if ( !pNew || !pNew->fCanCopyFromOld || !pOld )
         return;
     // get origins from old manager
     vOrigins = Nr_ManGetOrigins( pOld, OldId );
-    if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+    if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
     {
-        Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
-            if ( pOrigin && pOrigin->pName )
-                Nr_ManAddOrigin( pNew, NewId, pOrigin->pName );
+        Vec_IntForEachEntry( vOrigins, OriginId, j )
+            Nr_ManAddOrigin( pNew, NewId, OriginId );
     }
 }
 
@@ -350,14 +319,14 @@ void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
 
   Synopsis    [Gets the list of origins for a node.]
 
-  Description [Returns Vec_Ptr_t of Nr_Origin_t* entries. Returns NULL if node not found.]
+  Description [Returns Vec_Int_t of origin IDs. Returns NULL if node not found.]
                
   SideEffects []
 
   SeeAlso     []
 
 ***********************************************************************/
-Vec_Ptr_t * Nr_ManGetOrigins( Nr_Man_t * p, int NodeId )
+Vec_Int_t * Nr_ManGetOrigins( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry;
     pEntry = Nr_ManTableLookup( p, NodeId );
@@ -410,14 +379,12 @@ int Nr_ManNumEntries( Nr_Man_t * p )
 int Nr_ManNumOriginalNodes( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry;
-    Nr_Origin_t * pOrigin;
-    Vec_Ptr_t * vUniqueNames;
-    int i, j, nUnique = 0;
-    char * pName;
+    Vec_Int_t * vUniqueIds;
+    int i, j, OriginId, k, nUnique = 0;
     if ( p == NULL || p->nEntries == 0 )
         return 0;
-    // collect all unique origin names
-    vUniqueNames = Vec_PtrAlloc( 100 );
+    // collect all unique origin IDs
+    vUniqueIds = Vec_IntAlloc( 100 );
     for ( i = 0; i < p->nBins; i++ )
     {
         pEntry = p->pBins[i];
@@ -425,29 +392,21 @@ int Nr_ManNumOriginalNodes( Nr_Man_t * p )
         {
             if ( pEntry->vOrigins )
             {
-                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
+                Vec_IntForEachEntry( pEntry->vOrigins, OriginId, j )
                 {
-                    pName = pOrigin->pName;
-                    if ( pName == NULL )
-                        continue;
                     // check if already in vector
-                    for ( int k = 0; k < Vec_PtrSize(vUniqueNames); k++ )
-                    {
-                        if ( strcmp( (char *)Vec_PtrEntry(vUniqueNames, k), pName ) == 0 )
-                        {
-                            pName = NULL; // mark as found
-                            break;
-                        }
-                    }
-                    if ( pName != NULL )
-                        Vec_PtrPush( vUniqueNames, pName );
+                    Vec_IntForEachEntry( vUniqueIds, k, k )
+                        if ( k == OriginId )
+                            goto skip;
+                    Vec_IntPush( vUniqueIds, OriginId );
+                    skip:;
                 }
             }
             pEntry = pEntry->pNext;
         }
     }
-    nUnique = Vec_PtrSize(vUniqueNames);
-    Vec_PtrFree( vUniqueNames );
+    nUnique = Vec_IntSize(vUniqueIds);
+    Vec_IntFree( vUniqueIds );
     return nUnique;
 }
 
@@ -465,8 +424,7 @@ int Nr_ManNumOriginalNodes( Nr_Man_t * p )
 void Nr_ManClear( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry, * pNext;
-    Nr_Origin_t * pOrigin;
-    int i, j;
+    int i;
     if ( p == NULL )
         return;
     for ( i = 0; i < p->nBins; i++ )
@@ -476,20 +434,11 @@ void Nr_ManClear( Nr_Man_t * p )
         {
             pNext = pEntry->pNext;
             if ( pEntry->vOrigins )
-            {
-                Vec_PtrForEachEntry( Nr_Origin_t *, pEntry->vOrigins, pOrigin, j )
-                    ABC_FREE( pOrigin );
-                Vec_PtrFree( pEntry->vOrigins );
-            }
+                Vec_IntFree( pEntry->vOrigins );
             ABC_FREE( pEntry );
             pEntry = pNext;
         }
         p->pBins[i] = NULL;
-    }
-    if ( p->pMem )
-    {
-        Extra_MmFlexStop( p->pMem );
-        p->pMem = Extra_MmFlexStart();
     }
     p->nEntries = 0;
 }
@@ -557,9 +506,8 @@ void Nr_ManProfile( Nr_Man_t * p )
 void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry;
-    Nr_Origin_t * pOrigin;
-    Vec_Ptr_t * vOrigins;
-    int i;
+    Vec_Int_t * vOrigins;
+    int i, OriginId;
     if ( p == NULL )
     {
         printf( "Nr_ManPrintOrigins: Manager is NULL.\n" );
@@ -572,19 +520,14 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
         return;
     }
     vOrigins = pEntry->vOrigins;
-    if ( vOrigins == NULL || Vec_PtrSize(vOrigins) == 0 )
+    if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
     {
         printf( "Node %d: No origins.\n", NodeId );
         return;
     }
-    printf( "Node %d has %d origin(s):\n", NodeId, Vec_PtrSize(vOrigins) );
-    Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, i )
-    {
-        if ( pOrigin->pName )
-            printf( "  [%d] Name: %s\n", i, pOrigin->pName );
-        else
-            printf( "  [%d] Name: (none)\n", i );
-    }
+    printf( "Node %d has %d origin(s):\n", NodeId, Vec_IntSize(vOrigins) );
+    Vec_IntForEachEntry( vOrigins, OriginId, i )
+        printf( "  [%d] OriginID: %d\n", i, OriginId );
 }
 
 /**Function*************************************************************
@@ -661,25 +604,28 @@ void Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName )
 void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
 {
     Abc_Obj_t * pNet;
-    Vec_Ptr_t * vOrigins;
-    Nr_Origin_t * pOrigin;
+    Vec_Int_t * vOrigins;
+    Abc_Frame_t * pAbc;
     int i, j;
     
     if ( pFile == NULL || pNtk == NULL || p == NULL )
         return;
-    
+    pAbc = Abc_FrameGetGlobalFrame();
     fprintf( pFile, ".node_retention_begin\n" );
     Abc_NtkForEachNet( pNtk, pNet, i )
     {
         int NetId = Abc_ObjId(pNet);
         vOrigins = Nr_ManGetOrigins( p, NetId );
-        if ( vOrigins && Vec_PtrSize(vOrigins) > 0 )
+        if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
         {
+            int OriginId;
+            char * pName;
             fprintf( pFile, "%s SRC", Abc_ObjName(pNet) );
-            Vec_PtrForEachEntry( Nr_Origin_t *, vOrigins, pOrigin, j )
+            Vec_IntForEachEntry( vOrigins, OriginId, j )
             {
-                if ( pOrigin && pOrigin->pName )
-                    fprintf( pFile, " %s", pOrigin->pName );
+                pName = (char *)Vec_PtrEntry( pAbc->vNodeRetention, OriginId );
+                if ( pName )
+                    fprintf( pFile, " %s", pName );
             }
             fprintf( pFile, "\n" );
         }

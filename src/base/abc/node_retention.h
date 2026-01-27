@@ -37,17 +37,11 @@ typedef struct Abc_Ntk_t_ Abc_Ntk_t;
 ///                         BASIC TYPES                              ///
 ////////////////////////////////////////////////////////////////////////
 
-typedef struct Nr_Origin_t_ Nr_Origin_t;
-struct Nr_Origin_t_
-{
-    char *           pName;          // original node name (can be NULL)
-};
-
 typedef struct Nr_Entry_t_ Nr_Entry_t;
 struct Nr_Entry_t_
 {
     int              NodeId;         // current node ID
-    Vec_Ptr_t *      vOrigins;       // list of Nr_Origin_t* (name pairs)
+    Vec_Int_t *      vOrigins;       // list of origin node IDs (uint32_t indices)
     Nr_Entry_t *     pNext;          // next entry in hash table
 };
 
@@ -58,7 +52,6 @@ struct Nr_Man_t_
     int              nBins;          // number of bins
     int              nEntries;       // number of entries
     int              nSizeFactor;    // determines when to resize (default: 2)
-    Extra_MmFlex_t * pMem;           // memory manager for origin names
     int              fCanModify;     // whether this manager can be modified
     int              fCanCopyFromOld;// whether we can copy from old manager
 };
@@ -76,9 +69,9 @@ extern Nr_Man_t *    Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOl
 extern void          Nr_ManFree( Nr_Man_t * p );
 extern void          Nr_ManSetCanModify( Nr_Man_t * p, int fCanModify );
 extern void          Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld );
-extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, char * pOriginName );
+extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId );
 extern void          Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId );
-extern Vec_Ptr_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );
+extern Vec_Int_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManHasEntry( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManNumEntries( Nr_Man_t * p );
 extern int           Nr_ManNumOriginalNodes( Nr_Man_t * p );

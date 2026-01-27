@@ -56,6 +56,7 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
 {
     Abc_Ntk_t * pNtkNew; 
     Abc_Obj_t * pObj, * pFanin;
+    Abc_Frame_t * pAbc;
     int i, k;
     // consider the case of the AIG
     if ( Abc_NtkIsStrash(pNtk) )
@@ -68,7 +69,8 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     // start the network
     pNtkNew = Abc_NtkStartFrom( pNtk, ABC_NTK_LOGIC, pNtk->ntkFunc );
     // ensure vNodeRetention is sized for original network
-    Vec_PtrFillExtra( Abc_FrameGetGlobalFrame()->vNodeRetention, Abc_NtkObjNumMax(pNtk), NULL );
+    pAbc = Abc_FrameGetGlobalFrame();
+    Vec_PtrFillExtra( pAbc->vNodeRetention, Abc_NtkObjNumMax(pNtk), NULL );
     // duplicate the nodes (the CIs and COs are already duplicated and copied in Abc_NtkDupObj called by Abc_NtkStartFrom)
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
@@ -76,12 +78,11 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
         Abc_NtkDupObj(pNtkNew, pObj, 0);
         pName = Abc_ObjName(Abc_ObjFanout0(pObj));
         Abc_ObjAssignName( pObj->pCopy, pName, NULL );
-        // map to node retention manager (TODO: check if pName check is arbitrary)
+        // map to node retention manager using ID from global vNodeRetention
         if ( pName )
         {
-            Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pName );
-            // Add to global frame (used for indexing)
-            Vec_PtrWriteEntry( Abc_FrameGetGlobalFrame()->vNodeRetention, pObj->pCopy->Id, pName );
+            Vec_PtrWriteEntry( pAbc->vNodeRetention, pObj->pCopy->Id, pName );
+            Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pObj->pCopy->Id );
         }
     }
     // reconnect the internal nodes in the new network

@@ -1,918 +1,904 @@
-Analysis of sampling abc (pid 83731) every 1 millisecond
-Process:         abc [83731]
+Analysis of sampling abc (pid 84346) every 1 millisecond
+Process:         abc [84346]
 Path:            /Users/USER/*/abc
-Load Address:    0x100e40000
+Load Address:    0x104d98000
 Identifier:      abc
 Version:         0
 Code Type:       ARM64
 Platform:        macOS
-Parent Process:  bash [83730]
+Parent Process:  bash [84345]
 Target Type:     live task
 
-Date/Time:       2026-01-26 16:12:39.425 -0800
-Launch Time:     2026-01-26 16:12:38.886 -0800
+Date/Time:       2026-01-26 16:15:42.890 -0800
+Launch Time:     2026-01-26 16:15:42.857 -0800
 OS Version:      macOS 15.5 (24F74)
 Report Version:  7
 Analysis Tool:   /usr/bin/sample
 
-Physical footprint:         50.5M
-Physical footprint (peak):  81.6M
+Physical footprint:         57.6M
+Physical footprint (peak):  69.6M
 Idle exit:                  untracked
 ----
 
 Call graph:
-    8639 Thread_1314333   DispatchQueue_1: com.apple.main-thread  (serial)
-      8639 start  (in dyld) + 6076  [0x195b5eb98]
-        8639 Abc_RealMain  (in abc) + 3592  [0x10122b368]  mainReal.c:332
-          8639 Cmd_CommandExecute  (in abc) + 156  [0x1011e5c98]  cmdApi.c:210
-            8639 CmdCommandDispatch  (in abc) + 224  [0x1011ea83c]  cmdUtils.c:157
-              8639 CmdCommandSource  (in abc) + 576  [0x1011e24c8]  cmd.c:797
-                8639 Cmd_CommandExecute  (in abc) + 156  [0x1011e5c98]  cmdApi.c:210
-                  8639 CmdCommandDispatch  (in abc) + 224  [0x1011ea83c]  cmdUtils.c:157
-                    2506 Abc_CommandAbc9Syn2  (in abc) + 768  [0x1010ffd5c]  abc.c:40267
-                    + 2506 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   2376 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 2104 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 155 DYLD-STUB$$strcmp  (in abc) + 4,8  [0x101bc4a5c,0x101bc4a60]
-                    +   ! 117 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   64 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   63 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   2 Nr_ManNumOriginalNodes  (in abc) + 312,320  [0x1010aef08,0x1010aef10]  node_retention.c:0
-                    +   1 Nr_ManNumOriginalNodes  (in abc) + 236  [0x1010aeebc]  node_retention.c:428
-                    1222 Abc_CommandAbc9Strash  (in abc) + 1600  [0x1010f98d0]  abc.c:36553
-                    + 1222 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   1157 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 1041 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 62 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   ! 54 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   33 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   32 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    950 Abc_CommandAbc9Get  (in abc) + 536  [0x1010f5494]  abc.c:34497
-                    + 950 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   903 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 818 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 47 DYLD-STUB$$strcmp  (in abc) + 4,8  [0x101bc4a5c,0x101bc4a60]
-                    +   ! 38 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   25 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   22 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    647 Abc_CommandAbc9Get  (in abc) + 616  [0x1010f54e4]  abc.c:34530
-                    + 647 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   611 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 559 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 27 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   ! 25 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   23 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   11 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   1 Nr_ManNumOriginalNodes  (in abc) + 312  [0x1010aef08]  node_retention.c:0
-                    +   1 Nr_ManNumOriginalNodes  (in abc) + 248  [0x1010aeec8]  node_retention.c:428
-                    636 Abc_CommandAbc9Get  (in abc) + 684  [0x1010f5528]  abc.c:34543
-                    + 636 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   607 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 558 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 25 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   ! 24 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   17 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   11 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   1 Nr_ManNumOriginalNodes  (in abc) + 388  [0x1010aef54]  node_retention.c:443
+    8605 Thread_1317027   DispatchQueue_1: com.apple.main-thread  (serial)
+      8605 start  (in dyld) + 6076  [0x195b5eb98]
+        8605 Abc_RealMain  (in abc) + 3592  [0x105183368]  mainReal.c:332
+          8605 Cmd_CommandExecute  (in abc) + 156  [0x10513dc98]  cmdApi.c:210
+            8605 CmdCommandDispatch  (in abc) + 224  [0x10514283c]  cmdUtils.c:157
+              8605 CmdCommandSource  (in abc) + 576  [0x10513a4c8]  cmd.c:797
+                8605 Cmd_CommandExecute  (in abc) + 156  [0x10513dc98]  cmdApi.c:210
+                  8605 CmdCommandDispatch  (in abc) + 224  [0x10514283c]  cmdUtils.c:157
+                    2516 Abc_CommandAbc9Syn2  (in abc) + 768  [0x105057d5c]  abc.c:40267
+                    + 2516 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   2388 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 2072 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +   ! 171 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   ! 145 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8,4  [0x195f3bd40,0x195f3bd3c]
+                    +   73 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   52 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   3 Nr_ManNumOriginalNodes  (in abc) + 148,264,...  [0x105006e64,0x105006ed8,...]  node_retention.c:0
+                    1039 Abc_CommandAbc9Strash  (in abc) + 1600  [0x1050518d0]  abc.c:36553
+                    + 1039 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   950 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 790 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,36,...  [0x195f3b170,0x195f3b194,...]
+                    +   ! 93 DYLD-STUB$$strcmp  (in abc) + 4,0  [0x105b1ca5c,0x105b1ca58]
+                    +   ! 67 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8,0  [0x195f3bd40,0x195f3bd38]
+                    +   53 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   36 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    791 Abc_CommandAbc9Get  (in abc) + 536  [0x10504d494]  abc.c:34497
+                    + 791 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   742 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 635 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,36,...  [0x195f3b170,0x195f3b194,...]
+                    +   ! 58 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   ! 49 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   29 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   19 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   1 Nr_ManNumOriginalNodes  (in abc) + 388  [0x105006f54]  node_retention.c:443
                     +     1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
                     +       1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
-                    +         1 szone_realloc  (in libsystem_malloc.dylib) + 924  [0x195d02eec]
-                    +           1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 168  [0x195cffc3c]
-                    +             1 medium_malloc_should_clear  (in libsystem_malloc.dylib) + 1280  [0x195d05eec]
-                    +               1 mvm_allocate_pages_plat  (in libsystem_malloc.dylib) + 320  [0x195d1ab28]
-                    +                 1 mach_vm_map  (in libsystem_kernel.dylib) + 128  [0x195ebc9d0]
-                    +                   1 _kernelrpc_mach_vm_map_trap  (in libsystem_kernel.dylib) + 8  [0x195ebcacc]
-                    628 Abc_CommandAbc9Get  (in abc) + 1000  [0x1010f5664]  abc.c:34576
-                    + 628 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   585 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 535 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 26 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   ! 24 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   26 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   17 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    606 Abc_CommandAbc9Get  (in abc) + 576  [0x1010f54bc]  abc.c:34513
-                    + 606 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   571 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 507 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 34 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   ! 30 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   18 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   16 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   1 Nr_ManNumOriginalNodes  (in abc) + 388  [0x1010aef54]  node_retention.c:443
-                    +     1 _realloc  (in libsystem_malloc.dylib) + 204  [0x195d31d60]
-                    580 Abc_CommandAbc9Nf  (in abc) + 732  [0x10110a08c]  abc.c:46073
-                    + 580 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   564 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 498 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +         1 szone_realloc  (in libsystem_malloc.dylib) + 996  [0x195d02f34]
+                    +           1 _platform_memmove  (in libsystem_platform.dylib) + 88  [0x195f382a8]
+                    737 IoCommandReadBlif  (in abc) + 552  [0x105145230]  io.c:588
+                    + 737 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   688 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 600 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +   ! 51 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   ! 37 DYLD-STUB$$strcmp  (in abc) + 4,8  [0x105b1ca5c,0x105b1ca60]
+                    +   30 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   19 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    579 Abc_CommandAbc9Get  (in abc) + 576  [0x10504d4bc]  abc.c:34513
+                    + 579 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   537 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 473 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +   ! 37 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   ! 27 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   23 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   19 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    559 Abc_CommandAbc9Get  (in abc) + 616  [0x10504d4e4]  abc.c:34530
+                    + 559 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   508 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 436 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
                     +   ! 41 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   ! 25 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   9 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   7 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    540 Abc_CommandAbc9Sweep  (in abc) + 696  [0x1011055e4]  abc.c:43366
-                    + 540 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   506 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 443 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
-                    +   ! 34 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   ! 29 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   21 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   13 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    141 Abc_CommandAbc9Syn2  (in abc) + 748  [0x1010ffd48]  abc.c:40266
-                    + 107 Gia_ManAigSyn2  (in abc) + 608  [0x10186f300]  giaScript.c:152
-                    + ! 31 Gia_ManAreaBalance  (in abc) + 724  [0x1017269b8]  giaBalAig.c:1097
-                    + ! : 11 Gia_ManDupNoMuxes  (in abc) + 1064  [0x10181c75c]  giaMuxes.c:276
-                    + ! : | 11 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! : |   9 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! : |   + 5 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! : |   + ! 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
-                    + ! : |   + ! : 2 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 64,260  [0x195d045d0,0x195d04694]
-                    + ! : |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
-                    + ! : |   + ! : 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 76  [0x195d04388]
-                    + ! : |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
-                    + ! : |   + ! : 1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 304  [0x195d0aaa8]
-                    + ! : |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 928  [0x195d03ebc]
-                    + ! : |   + 2 free_tiny  (in libsystem_malloc.dylib) + 476,712  [0x195d039ac,0x195d03a98]
-                    + ! : |   + 1 DYLD-STUB$$free  (in abc) + 4  [0x101bc46f0]
-                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
-                    + ! : |   +   1 _platform_memset  (in libsystem_platform.dylib) + 208  [0x195f38050]
-                    + ! : |   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
-                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! : |   +   1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1520  [0x195d0410c]
-                    + ! : |   +     1 tiny_free_scan_madvise_free  (in libsystem_malloc.dylib) + 248  [0x195d0abd8]
-                    + ! : |   1 Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
-                    + ! : |     1 _szone_free  (in libsystem_malloc.dylib) + 20  [0x195d17138]
-                    + ! : 10 Gia_ManDupNoMuxes  (in abc) + 1008  [0x10181c724]  giaMuxes.c:269
-                    + ! : | 8 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : | + 5 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
+                    +   ! 31 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   28 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   22 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   1 Nr_ManNumOriginalNodes  (in abc) + 148  [0x105006e64]  node_retention.c:0
+                    559 Abc_CommandAbc9Get  (in abc) + 1000  [0x10504d664]  abc.c:34576
+                    + 559 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   522 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 441 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +   ! 41 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   ! 40 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   18 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   18 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   1 Nr_ManNumOriginalNodes  (in abc) + 388  [0x105006f54]  node_retention.c:443
+                    +     1 _realloc  (in libsystem_malloc.dylib) + 252  [0x195d31d90]
+                    +       1 szone_size  (in libsystem_malloc.dylib) + 0  [0x195d01f00]
+                    546 Abc_CommandAbc9Get  (in abc) + 684  [0x10504d528]  abc.c:34543
+                    + 545 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    + ! 497 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    + ! : 428 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,36,...  [0x195f3b170,0x195f3b194,...]
+                    + ! : 36 DYLD-STUB$$strcmp  (in abc) + 4,8  [0x105b1ca5c,0x105b1ca60]
+                    + ! : 33 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    + ! 29 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    + ! 19 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    + 1 Nr_ManPrintDebug  (in abc) + 40  [0x10500737c]  node_retention.c:642
+                    +   1 printf  (in libsystem_c.dylib) + 80  [0x195dbbb78]
+                    +     1 vfprintf_l  (in libsystem_c.dylib) + 156  [0x195da0a5c]
+                    +       1 __vfprintf  (in libsystem_c.dylib) + 11400  [0x195d936f0]
+                    +         1 __sfvwrite  (in libsystem_c.dylib) + 836  [0x195d93cc0]
+                    +           1 __sflush  (in libsystem_c.dylib) + 232  [0x195d9ed6c]
+                    +             1 _swrite  (in libsystem_c.dylib) + 108  [0x195da0ccc]
+                    +               1 __swrite  (in libsystem_c.dylib) + 24  [0x195dbfd78]
+                    +                 1 __write_nocancel  (in libsystem_kernel.dylib) + 8  [0x195ec0aa4]
+                    532 Abc_CommandAbc9Sweep  (in abc) + 696  [0x10505d5e4]  abc.c:43366
+                    + 532 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   489 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 427 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,12,...  [0x195f3b170,0x195f3b17c,...]
+                    +   ! 32 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   ! 30 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   24 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   19 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    522 Abc_CommandAbc9Nf  (in abc) + 732  [0x10506208c]  abc.c:46073
+                    + 522 Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
+                    +   478 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    +   ! 418 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,36,...  [0x195f3b170,0x195f3b194,...]
+                    +   ! 36 DYLD-STUB$$strcmp  (in abc) + 4  [0x105b1ca5c]
+                    +   ! 24 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
+                    +   22 Nr_ManNumOriginalNodes  (in abc) + 300  [0x105006efc]  node_retention.c:434
+                    +   22 Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+                    147 Abc_CommandAbc9Syn2  (in abc) + 748  [0x105057d48]  abc.c:40266
+                    + 111 Gia_ManAigSyn2  (in abc) + 608  [0x1057c7300]  giaScript.c:152
+                    + ! 32 Gia_ManAreaBalance  (in abc) + 724  [0x10567e9b8]  giaBalAig.c:1097
+                    + ! : 11 Gia_ManDupNoMuxes  (in abc) + 1008  [0x105774724]  giaMuxes.c:269
+                    + ! : | 10 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : | + 4 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
                     + ! : | + ! 4 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! : | + ! : 3 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! : | + ! : | 3 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 424,536,...  [0x195d016cc,0x195d0173c,...]
-                    + ! : | + ! : 1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 796  [0x195d00fd0]
-                    + ! : | + ! :   1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 304  [0x195d0a940]
-                    + ! : | + ! 1 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 120  [0x195d31064]
-                    + ! : | + 2 Nr_ManAddOrigin  (in abc) + 416  [0x1010aebc4]  node_retention.c:308
-                    + ! : | + ! 1 Extra_MmFlexEntryFetch  (in abc) + 24  [0x1013bdd9c]  extraUtilMemory.c:422
-                    + ! : | + ! 1 Extra_MmFlexEntryFetch  (in abc) + 48  [0x1013bddb4]  extraUtilMemory.c:424
-                    + ! : | + 1 Nr_ManAddOrigin  (in abc) + 432  [0x1010aebd4]  node_retention.c:0
-                    + ! : | 1 Nr_ManAddOrigin  (in abc) + 600  [0x1010aec7c]  vecPtr.h:0
-                    + ! : | 1 Nr_ManCopyOrigins  (in abc) + 148  [0x1010aed18]  node_retention.c:343
-                    + ! : 10 Gia_ManDupNoMuxes  (in abc) + 1052  [0x10181c750]  giaMuxes.c:275
-                    + ! :   10 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! :     10 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :       3 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :       + 2 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :       + ! 1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :       + ! : 1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1324  [0x195d01a50]
-                    + ! :       + ! :   1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 48  [0x195d376e4]
-                    + ! :       + ! 1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 332  [0x195d00e00]
-                    + ! :       + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 40  [0x195cffbbc]
-                    + ! :       3 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + ! :       + 2 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-                    + ! :       + ! 2 _platform_memmove  (in libsystem_platform.dylib) + 428,452  [0x195f383fc,0x195f38414]
-                    + ! :       + 1 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
-                    + ! :       +   1 _platform_strlen  (in libsystem_platform.dylib) + 80  [0x195f35a30]
-                    + ! :       2 Nr_ManAddOrigin  (in abc) + 432  [0x1010aebd4]  node_retention.c:0
-                    + ! :       1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
+                    + ! : | + !   3 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! : | + !   : 2 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 600  [0x195d0177c]
+                    + ! : | + !   : | 2 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 56,92  [0x195d376ec,0x195d37710]
+                    + ! : | + !   : 1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 576  [0x195d01764]
+                    + ! : | + !   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 828  [0x195d00ff0]
+                    + ! : | + !     1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a9f0]
+                    + ! : | + 3 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! : | + ! 2 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
+                    + ! : | + ! : 2 _platform_memmove  (in libsystem_platform.dylib) + 452,460  [0x195f38414,0x195f3841c]
+                    + ! : | + ! 1 DYLD-STUB$$strcpy  (in abc) + 4  [0x105b1ca68]
+                    + ! : | + 1 Nr_ManAddOrigin  (in abc) + 404  [0x105006bb8]  node_retention.c:308
+                    + ! : | + ! 1 _platform_strlen  (in libsystem_platform.dylib) + 56  [0x195f35a18]
+                    + ! : | + 1 Nr_ManAddOrigin  (in abc) + 524  [0x105006c30]  node_retention.c:316
+                    + ! : | + ! 1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
+                    + ! : | + !   1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
+                    + ! : | + !     1 szone_realloc  (in libsystem_malloc.dylib) + 996  [0x195d02f34]
+                    + ! : | + !       1 _platform_memmove  (in libsystem_platform.dylib) + 88  [0x195f382a8]
+                    + ! : | + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 364  [0x195cffd00]
+                    + ! : | 1 Nr_ManCopyOrigins  (in abc) + 180  [0x105006d38]  node_retention.c:0
+                    + ! : 11 Gia_ManDupNoMuxes  (in abc) + 1064  [0x10577475c]  giaMuxes.c:276
+                    + ! : | 11 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! : |   9 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! : |   + 3 free_tiny  (in libsystem_malloc.dylib) + 76,84,...  [0x195d0381c,0x195d03824,...]
+                    + ! : |   + 2 _free  (in libsystem_malloc.dylib) + 24,76  [0x195d31c2c,0x195d31c60]
+                    + ! : |   + 2 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! : |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
+                    + ! : |   + ! : 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 120  [0x195d043b4]
+                    + ! : |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 68  [0x195d03b60]
+                    + ! : |   + 1 _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
+                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! : |   +   1 DYLD-STUB$$_platform_memset  (in libsystem_malloc.dylib) + 12  [0x195d39974]
+                    + ! : |   1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
+                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! : |   +   1 DYLD-STUB$$_platform_memset  (in libsystem_malloc.dylib) + 12  [0x195d39974]
+                    + ! : |   1 _szone_free  (in libsystem_malloc.dylib) + 592  [0x195d17374]
+                    + ! : 10 Gia_ManDupNoMuxes  (in abc) + 1052  [0x105774750]  giaMuxes.c:275
+                    + ! :   10 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! :     10 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :       6 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :       + 4 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :       + ! 4 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :       + !   4 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 536,928,...  [0x195d0173c,0x195d018c4,...]
+                    + ! :       + 2 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 20,56  [0x195d31000,0x195d31024]
+                    + ! :       1 Nr_ManAddOrigin  (in abc) + 88  [0x105006a7c]  node_retention.c:295
+                    + ! :       1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :       1 Nr_ManAddOrigin  (in abc) + 404  [0x105006bb8]  node_retention.c:308
                     + ! :       + 1 _platform_strlen  (in libsystem_platform.dylib) + 64  [0x195f35a20]
-                    + ! :       1 Nr_ManAddOrigin  (in abc) + 524  [0x1010aec30]  node_retention.c:316
-                    + ! :         1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
-                    + ! :           1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
-                    + ! :             1 szone_realloc  (in libsystem_malloc.dylib) + 996  [0x195d02f34]
-                    + ! :               1 _platform_memmove  (in libsystem_platform.dylib) + 88  [0x195f382a8]
-                    + ! 30 Gia_ManAreaBalance  (in abc) + 648  [0x10172696c]  giaBalAig.c:1091
-                    + ! : 30 Dam_ManAreaBalanceInt  (in abc) + 832  [0x10172659c]  giaBalAig.c:1043
-                    + ! :   12 Dam_ManMultiAig  (in abc) + 1288  [0x101724e30]  giaBalAig.c:836
-                    + ! :   | 12 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   |   10 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
+                    + ! :       1 Nr_ManAddOrigin  (in abc) + 452  [0x105006be8]  node_retention.c:316
+                    + ! 31 Gia_ManAreaBalance  (in abc) + 648  [0x10567e96c]  giaBalAig.c:1091
+                    + ! : 31 Dam_ManAreaBalanceInt  (in abc) + 832  [0x10567e59c]  giaBalAig.c:1043
+                    + ! :   13 Dam_ManMultiAig  (in abc) + 1288  [0x10567ce30]  giaBalAig.c:836
+                    + ! :   | 13 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   |   11 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
                     + ! :   |   + 7 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :   |   + ! 3 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
-                    + ! :   |   + ! : 3 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 120,136,...  [0x195d0a9f0,0x195d0aa00,...]
-                    + ! :   |   + ! 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 20,1012  [0x195d03b30,0x195d03f10]
-                    + ! :   |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
-                    + ! :   |   + ! : 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 76  [0x195d04388]
+                    + ! :   |   + ! 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1520  [0x195d0410c]
+                    + ! :   |   + ! : 2 tiny_free_scan_madvise_free  (in libsystem_malloc.dylib) + 264,304  [0x195d0abe8,0x195d0ac10]
+                    + ! :   |   + ! 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 20,192  [0x195d03b30,0x195d03bdc]
+                    + ! :   |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
+                    + ! :   |   + ! : 1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 92  [0x195d0fd78]
                     + ! :   |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
-                    + ! :   |   + !   1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 148  [0x195d04624]
-                    + ! :   |   + 1 _free  (in libsystem_malloc.dylib) + 12  [0x195d31c20]
-                    + ! :   |   + 1 _szone_free  (in libsystem_malloc.dylib) + 140  [0x195d171b0]
-                    + ! :   |   + 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
-                    + ! :   |   +   1 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
-                    + ! :   |   1 Nr_ManFree  (in abc) + 136  [0x1010ae9ac]  node_retention.c:126
-                    + ! :   |   1 Nr_ManFree  (in abc) + 212  [0x1010ae9f8]  node_retention.c:138
-                    + ! :   |     1 Extra_MmFlexStop  (in abc) + 72  [0x1013bdd54]  extraUtilMemory.c:402
-                    + ! :   |       1 free_small  (in libsystem_malloc.dylib) + 540  [0x195d02640]
-                    + ! :   |         1 small_free_list_remove_ptr_no_clear  (in libsystem_malloc.dylib) + 108  [0x195d04ea0]
-                    + ! :   9 Dam_ManMultiAig  (in abc) + 1120  [0x101724d88]  giaBalAig.c:827
-                    + ! :   | 8 Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-                    + ! :   | + 8 Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-                    + ! :   | +   7 Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-                    + ! :   | +   ! 7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !   7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !     7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !       7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !         7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !           7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !             7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !               7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                 7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                   7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                     7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                       7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                         7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                           7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                             7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                               7 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 : 6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :   6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :     6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :       6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :         6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :           6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :             6 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               | 5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |   5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |     5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |       5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |         5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |           5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |             5 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               + 4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +   4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +     4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +       4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +         4 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           ! 3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !   3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !     3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !       3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !         3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !           3 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             : 2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :   2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :     2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :       2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :         2 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           | 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |       1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |             1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   | +   !                                 :               |               +           !             :           |               1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :               |               +           !             :           |                 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :               |               +           !             :           |                   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   | +   !                                 :               |               +           !             :           |                     1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 280  [0x195cffcac]
-                    + ! :   | +   !                                 :               |               +           !             :           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :               |               +           !             :             1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :               |               +           !             :               1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   | +   !                                 :               |               +           !             :                 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :   | +   !                                 :               |               +           !             :                   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 796  [0x195d00fd0]
-                    + ! :   | +   !                                 :               |               +           !             :                     1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 304  [0x195d0a940]
-                    + ! :   | +   !                                 :               |               +           !             1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :               |               +           !               1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :               |               +           !                 1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   | +   !                                 :               |               +           !                   1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :   | +   !                                 :               |               +           !                     1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :   | +   !                                 :               |               +           !                       1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 576  [0x195d01764]
-                    + ! :   | +   !                                 :               |               +           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :               |               +             1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :               |               +               1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    + ! :   | +   !                                 :               |               +                 1 DYLD-STUB$$strlen  (in abc) + 4  [0x101bc4a98]
-                    + ! :   | +   !                                 :               |               1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :               |                 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :               |                   1 Nr_ManAddOrigin  (in abc) + 524  [0x1010aec30]  node_retention.c:316
-                    + ! :   | +   !                                 :               |                     1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
-                    + ! :   | +   !                                 :               |                       1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
-                    + ! :   | +   !                                 :               |                         1 szone_realloc  (in libsystem_malloc.dylib) + 924  [0x195d02eec]
-                    + ! :   | +   !                                 :               |                           1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 120  [0x195cffc0c]
-                    + ! :   | +   !                                 :               |                             1 small_malloc_should_clear  (in libsystem_malloc.dylib) + 176  [0x195cffdc8]
-                    + ! :   | +   !                                 :               |                               1 small_malloc_from_free_list  (in libsystem_malloc.dylib) + 544  [0x195d00610]
-                    + ! :   | +   !                                 :               |                                 1 small_free_list_add_ptr  (in libsystem_malloc.dylib) + 476  [0x195d04964]
-                    + ! :   | +   !                                 :               1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                 :                 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                 :                   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   | +   !                                 :                     1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 460  [0x195d00e80]
-                    + ! :   | +   !                                 1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   | +   !                                   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +   !                                     1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   | +   !                                       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :   | +   !                                         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 292  [0x195d00dd8]
-                    + ! :   | +   1 Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-                    + ! :   | +     1 Dam_ManMultiAig_rec  (in abc) + 1024  [0x101724888]  giaBalAig.c:776
-                    + ! :   | +       1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   | +         1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    + ! :   | +           1 DYLD-STUB$$strlen  (in abc) + 4  [0x101bc4a98]
-                    + ! :   | 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |   1 Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-                    + ! :   |     1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   |       1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   |         1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :   |           1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :   |             1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :   |               1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 76  [0x195d01570]
-                    + ! :   9 Dam_ManMultiAig  (in abc) + 1276  [0x101724e24]  giaBalAig.c:835
-                    + ! :     9 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! :       9 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :         4 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :         + 3 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :         + ! 3 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195d00d08]
-                    + ! :         + 1 DYLD-STUB$$malloc  (in abc) + 4  [0x101bc481c]
-                    + ! :         2 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + ! :         + 2 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
-                    + ! :         +   2 _platform_strlen  (in libsystem_platform.dylib) + 52,56  [0x195f35a14,0x195f35a18]
-                    + ! :         1 Extra_MmFlexEntryFetch  (in abc) + 228  [0x1013bde68]  extraUtilMemory.c:449
-                    + ! :         1 Nr_ManAddOrigin  (in abc) + 432  [0x1010aebd4]  node_retention.c:0
-                    + ! :         1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    + ! :           1 _platform_strlen  (in libsystem_platform.dylib) + 48  [0x195f35a10]
-                    + ! 13 Gia_ManAreaBalance  (in abc) + 804  [0x101726a08]  giaBalAig.c:1106
-                    + ! : 13 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   12 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :   | 7 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :   | + 3 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
-                    + ! :   | + ! 3 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 0,92,...  [0x195d0433c,0x195d04398,...]
-                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    + ! :   | + ! 1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 0  [0x195d0fd1c]
-                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
-                    + ! :   | + ! 1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 152  [0x195d0a8a8]
+                    + ! :   |   + ! : 1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 64  [0x195d045d0]
+                    + ! :   |   + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
+                    + ! :   |   + !   1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a888]
+                    + ! :   |   + 2 _szone_free  (in libsystem_malloc.dylib) + 0,140  [0x195d17124,0x195d171b0]
+                    + ! :   |   + 1 _free  (in libsystem_malloc.dylib) + 24  [0x195d31c2c]
+                    + ! :   |   + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1640  [0x195d04184]
+                    + ! :   |   1 Nr_ManFree  (in abc) + 136  [0x1050069ac]  node_retention.c:126
+                    + ! :   |   1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
+                    + ! :   |     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! :   |       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
+                    + ! :   |         1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 136  [0x195d0aa00]
+                    + ! :   9 Dam_ManMultiAig  (in abc) + 1120  [0x10567cd88]  giaBalAig.c:827
+                    + ! :   | 8 Dam_ManMultiAig_rec  (in abc) + 236  [0x10567c574]  giaBalAig.c:763
+                    + ! :   | + 8 Dam_ManMultiAig_rec  (in abc) + 236  [0x10567c574]  giaBalAig.c:763
+                    + ! :   | +   8 Dam_ManMultiAig_rec  (in abc) + 236  [0x10567c574]  giaBalAig.c:763
+                    + ! :   | +     8 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +       8 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +         8 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           ! 7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !   7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !     7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !       7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !         7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !           7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !             7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !               7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                 7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                   7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                     7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                       7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                         7 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           : 6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :   6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :     6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :       6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :         6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :           6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :             6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :               6 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 | 5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |   5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |     5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |       5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |         5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |           5 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             + 4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +   4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +     4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +       4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +         4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +           4 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             ! 3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !   3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !     3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !       3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !         3 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           : 2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :   2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :     2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :       2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :         2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :           2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :             2 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               | 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |       1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   | +           !                           :                 |             +             !           :               |             1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                 |             +             !           :               |               1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                 |             +             !           :               |                 1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | +           !                           :                 |             +             !           :               |                   1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   | +           !                           :                 |             +             !           :               |                     1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :   | +           !                           :                 |             +             !           :               |                       1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 724  [0x195d017f8]
+                    + ! :   | +           !                           :                 |             +             !           :               1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                 |             +             !           :                 1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                 |             +             !           :                   1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! :   | +           !                           :                 |             +             !           :                     1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
+                    + ! :   | +           !                           :                 |             +             !           :                       1 _platform_memmove  (in libsystem_platform.dylib) + 452  [0x195f38414]
+                    + ! :   | +           !                           :                 |             +             !           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                 |             +             !             1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                 |             +             !               1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | +           !                           :                 |             +             !                 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   | +           !                           :                 |             +             !                   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :   | +           !                           :                 |             +             !                     1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 600  [0x195d0177c]
+                    + ! :   | +           !                           :                 |             +             !                       1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 48  [0x195d376e4]
+                    + ! :   | +           !                           :                 |             +             1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                 |             +               1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                 |             +                 1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | +           !                           :                 |             +                   1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   | +           !                           :                 |             +                     1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :   | +           !                           :                 |             +                       1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 76  [0x195d01570]
+                    + ! :   | +           !                           :                 |             1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                 |               1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                 |                 1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | +           !                           :                 |                   1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   | +           !                           :                 |                     1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :   | +           !                           :                 |                       1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 484  [0x195d01708]
+                    + ! :   | +           !                           :                 1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                           :                   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                           :                     1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! :   | +           !                           :                       1 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+                    + ! :   | +           !                           :                         1 _platform_strlen  (in libsystem_platform.dylib) + 52  [0x195f35a14]
+                    + ! :   | +           !                           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +           !                             1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +           !                               1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | +           !                                 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 40  [0x195cffbbc]
+                    + ! :   | +           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   | +             1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | +               1 Nr_ManAddOrigin  (in abc) + 0  [0x105006a24]  node_retention.c:291
+                    + ! :   | 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   |   1 Dam_ManMultiAig_rec  (in abc) + 268  [0x10567c594]  giaBalAig.c:764
+                    + ! :   |     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   |       1 Dam_ManMultiAig_rec  (in abc) + 268  [0x10567c594]  giaBalAig.c:764
+                    + ! :   |         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+                    + ! :   |           1 Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+                    + ! :   |             1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   |               1 Nr_ManAddOrigin  (in abc) + 476  [0x105006c00]  node_retention.c:316
+                    + ! :   |                 1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
+                    + ! :   |                   1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
+                    + ! :   |                     1 szone_realloc  (in libsystem_malloc.dylib) + 924  [0x195d02eec]
+                    + ! :   |                       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   |                         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 256  [0x195d00db4]
+                    + ! :   9 Dam_ManMultiAig  (in abc) + 1276  [0x10567ce24]  giaBalAig.c:835
+                    + ! :     8 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! :     + 8 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :     +   3 Extra_MmFlexEntryFetch  (in abc) + 228  [0x105315e68]  extraUtilMemory.c:449
+                    + ! :     +   3 Nr_ManAddOrigin  (in abc) + 404  [0x105006bb8]  node_retention.c:308
+                    + ! :     +   ! 3 _platform_strlen  (in libsystem_platform.dylib) + 48,64,...  [0x195f35a10,0x195f35a20,...]
+                    + ! :     +   1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :     +   ! 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :     +   !   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195d00d08]
+                    + ! :     +   1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! :     +     1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
+                    + ! :     +       1 _platform_memmove  (in libsystem_platform.dylib) + 428  [0x195f383fc]
+                    + ! :     1 Gia_ManDupMarked  (in abc) + 112  [0x1056b6680]  giaDup.c:1465
+                    + ! :       1 Gia_ManStart  (in abc) + 228  [0x10574c67c]  giaMan.c:69
+                    + ! :         1 Nr_ManCreate  (in abc) + 160  [0x1050068ec]  node_retention.c:58
+                    + ! :           1 _platform_memset  (in libsystem_platform.dylib) + 140  [0x195f3800c]
+                    + ! 14 Gia_ManAreaBalance  (in abc) + 760  [0x10567e9dc]  giaBalAig.c:1100
+                    + ! : 14 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   11 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :   | 4 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! :   | + 4 _platform_memset  (in libsystem_platform.dylib) + 12,208  [0x195f37f8c,0x195f38050]
+                    + ! :   | 3 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
+                    + ! :   | + ! 1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 148  [0x195d04624]
                     + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1520  [0x195d0410c]
-                    + ! :   | + ! 1 tiny_free_scan_madvise_free  (in libsystem_malloc.dylib) + 476  [0x195d0acbc]
-                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 192  [0x195d03bdc]
-                    + ! :   | 3 free_tiny  (in libsystem_malloc.dylib) + 36,152,...  [0x195d037f4,0x195d03868,...]
-                    + ! :   | 1 DYLD-STUB$$free  (in abc) + 4  [0x101bc46f0]
-                    + ! :   | 1 _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
-                    + ! :   1 Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
-                    + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 684  [0x195d03dc8]
-                    + ! :         1 tiny_madvise_free_range_no_lock  (in libsystem_malloc.dylib) + 584  [0x195d35e38]
-                    + ! :           1 mvm_madvise_free_plat  (in libsystem_malloc.dylib) + 108  [0x195d1aff4]
-                    + ! :             1 <deduplicated_symbol>  (in libsystem_malloc.dylib) + 16  [0x195d1af6c]
-                    + ! :               1 madvise  (in libsystem_kernel.dylib) + 8  [0x195ebf870]
-                    + ! 11 Gia_ManAreaBalance  (in abc) + 784  [0x1017269f4]  giaBalAig.c:1104
-                    + ! : 11 Gia_ManDupNormalize  (in abc) + 1800  [0x1018c1be0]  giaTim.c:199
-                    + ! :   11 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :     5 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :     | 4 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :     | + 3 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 340,292  [0x195d00e08,0x195d00dd8]
-                    + ! :     | + 1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :     | +   1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 700  [0x195d017e0]
-                    + ! :     | 1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 460  [0x195d00e80]
-                    + ! :     2 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    + ! :     | 2 _platform_strlen  (in libsystem_platform.dylib) + 56,64  [0x195f35a18,0x195f35a20]
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 384  [0x1010aeba4]  node_retention.c:306
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + ! :     | 1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-                    + ! :     |   1 _platform_memmove  (in libsystem_platform.dylib) + 0  [0x195f38250]
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 476  [0x1010aec00]  node_retention.c:316
-                    + ! :     | 1 _realloc  (in libsystem_malloc.dylib) + 408  [0x195d31e2c]
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 524  [0x1010aec30]  node_retention.c:316
-                    + ! :       1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
-                    + ! :         1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
-                    + ! :           1 szone_realloc  (in libsystem_malloc.dylib) + 996  [0x195d02f34]
-                    + ! :             1 _platform_memmove  (in libsystem_platform.dylib) + 88  [0x195f382a8]
-                    + ! 10 Gia_ManAreaBalance  (in abc) + 760  [0x1017269dc]  giaBalAig.c:1100
-                    + ! : 10 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   8 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :   | 4 free_tiny  (in libsystem_malloc.dylib) + 76,104,...  [0x195d0381c,0x195d03838,...]
-                    + ! :   | 2 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :   | + 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 568  [0x195d04574]
-                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
-                    + ! :   | +   1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a888]
-                    + ! :   | 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1628,1640  [0x195d04178,0x195d04184]
-                    + ! :   1 Nr_ManFree  (in abc) + 136  [0x1010ae9ac]  node_retention.c:126
-                    + ! :   1 _szone_free  (in libsystem_malloc.dylib) + 592  [0x195d17374]
-                    + ! 6 Gia_ManAreaBalance  (in abc) + 516  [0x1017268e8]  giaBalAig.c:1082
-                    + ! : 2 Dsm_ManDeriveGia  (in abc) + 1500  [0x10148fe38]  dauGia.c:558
-                    + ! : | 2 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : |   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! : |   + 1 DYLD-STUB$$malloc  (in abc) + 4  [0x101bc481c]
-                    + ! : |   1 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + ! : |     1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-                    + ! : |       1 _platform_memmove  (in libsystem_platform.dylib) + 0  [0x195f38250]
-                    + ! : 2 Dsm_ManDeriveGia  (in abc) + 2096  [0x10149008c]  dauGia.c:581
-                    + ! : | 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! : |   2 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! : |     2 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! : |       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    + ! : |       + 1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 56  [0x195d0fd54]
-                    + ! : |       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 436  [0x195d03cd0]
-                    + ! : 1 Dsm_ManDeriveGia  (in abc) + 1304  [0x10148fd74]  dauGia.c:551
-                    + ! : 1 Dsm_ManDeriveGia  (in abc) + 2084  [0x101490080]  dauGia.c:580
-                    + ! :   1 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! :     1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :       1 Nr_ManAddOrigin  (in abc) + 104  [0x1010aea8c]  node_retention.c:297
-                    + ! :         1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :           1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :             1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 724  [0x195d017f8]
-                    + ! 3 Gia_ManAreaBalance  (in abc) + 580  [0x101726928]  giaBalAig.c:1086
-                    + ! : 1 Gia_ManDupMuxes  (in abc) + 864  [0x10181b1e8]  giaMuxes.c:136
-                    + ! : | 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : |   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! : |     1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! : |       1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! : |         1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1372  [0x195d01a80]
-                    + ! : |           1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 116  [0x195d043b0]
-                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x10181b4d0]  giaMuxes.c:148
-                    + ! : | 1 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! : |       1 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 80  [0x195d3103c]
-                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1620  [0x10181b4dc]  giaMuxes.c:149
-                    + ! :   1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :     1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :         1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 568  [0x195d04574]
-                    + ! 2 Gia_ManAreaBalance  (in abc) + 624  [0x101726954]  giaBalAig.c:1089
-                    + ! : 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
+                    + ! :   | + ! 1 tiny_free_scan_madvise_free  (in libsystem_malloc.dylib) + 248  [0x195d0abd8]
+                    + ! :   | + 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 316  [0x195d03c58]
+                    + ! :   | 2 _szone_free  (in libsystem_malloc.dylib) + 0,140  [0x195d17124,0x195d171b0]
+                    + ! :   | 1 free_tiny  (in libsystem_malloc.dylib) + 712  [0x195d03a98]
+                    + ! :   | 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1640  [0x195d04184]
+                    + ! :   1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
                     + ! :   | 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
                     + ! :   |   1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
-                    + ! :   |     1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 176  [0x195d0aa28]
-                    + ! :   1 Nr_ManFree  (in abc) + 180  [0x1010ae9d8]  node_retention.c:131
-                    + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
-                    + ! :         1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 304  [0x195d0a940]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 684  [0x101726990]  giaBalAig.c:1094
-                    + !   1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !     1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + !       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
-                    + !           1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 260  [0x195d04694]
-                    + 18 Gia_ManAigSyn2  (in abc) + 500  [0x10186f294]  giaScript.c:140
-                    + ! 5 Gia_ManAreaBalance  (in abc) + 724  [0x1017269b8]  giaBalAig.c:1097
-                    + ! : 2 Gia_ManDupNoMuxes  (in abc) + 1052  [0x10181c750]  giaMuxes.c:275
-                    + ! : | 2 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! : |   2 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 104  [0x1010aea8c]  node_retention.c:297
-                    + ! : |     + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! : |     +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 796  [0x195d00fd0]
-                    + ! : |     +     1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 152  [0x195d0a8a8]
-                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! : |       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! : |         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! : |           1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 568  [0x195d04574]
-                    + ! : 2 Gia_ManDupNoMuxes  (in abc) + 1064  [0x10181c75c]  giaMuxes.c:276
-                    + ! : | 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! : |   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
-                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! : |   +   1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 236  [0x195d03c08]
-                    + ! : |   1 Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
-                    + ! : |     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! : |       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1696  [0x195d041bc]
-                    + ! : 1 Gia_ManDupNoMuxes  (in abc) + 1008  [0x10181c724]  giaMuxes.c:269
-                    + ! :   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + ! :       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 40  [0x195cffbbc]
-                    + ! 4 Gia_ManAreaBalance  (in abc) + 648  [0x10172696c]  giaBalAig.c:1091
-                    + ! : 4 Dam_ManAreaBalanceInt  (in abc) + 832  [0x10172659c]  giaBalAig.c:1043
-                    + ! :   2 Dam_ManMultiAig  (in abc) + 1276  [0x101724e24]  giaBalAig.c:835
-                    + ! :   | 2 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! :   |   1 Nr_ManCopyOrigins  (in abc) + 132  [0x1010aed08]  node_retention.c:343
-                    + ! :   |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :   |     1 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + ! :   |       1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-                    + ! :   |         1 _platform_memmove  (in libsystem_platform.dylib) + 0  [0x195f38250]
-                    + ! :   1 Dam_ManMultiAig  (in abc) + 1120  [0x101724d88]  giaBalAig.c:827
-                    + ! :   | 1 Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-                    + ! :   |   1 Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-                    + ! :   |     1 Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-                    + ! :   |       1 Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-                    + ! :   |         1 Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-                    + ! :   |           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |             1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |               1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                       1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                             1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                               1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                       1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                             1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                               1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                       1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                         1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                           1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                             1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                               1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                                 1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                                   1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                                     1 Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-                    + ! :   |                                                                       1 Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-                    + ! :   |                                                                         1 Nr_ManAddOrigin  (in abc) + 600  [0x1010aec7c]  vecPtr.h:0
-                    + ! :   1 Dam_ManMultiAig  (in abc) + 1288  [0x101724e30]  giaBalAig.c:836
-                    + ! :     1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :       1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :         1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
-                    + ! :           1 _platform_memset  (in libsystem_platform.dylib) + 180  [0x195f38034]
-                    + ! 2 Gia_ManAreaBalance  (in abc) + 580  [0x101726928]  giaBalAig.c:1086
-                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x10181b4d0]  giaMuxes.c:148
-                    + ! : | 1 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + ! : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 120  [0x1010aea9c]  node_retention.c:299
-                    + ! : |       1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 452  [0x195d00e78]
-                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1620  [0x10181b4dc]  giaMuxes.c:149
-                    + ! :   1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :     1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
+                    + ! :   |     1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a9f0]
+                    + ! :   1 _szone_free  (in libsystem_malloc.dylib) + 592  [0x195d17374]
+                    + ! :   1 free_tiny  (in libsystem_malloc.dylib) + 512  [0x195d039d0]
+                    + ! 12 Gia_ManAreaBalance  (in abc) + 804  [0x10567ea08]  giaBalAig.c:1106
+                    + ! : 12 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   12 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :     5 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! :     | 3 tiny_free_no_lock  (in libsystem_malloc.dylib) + 120,332,...  [0x195d03b94,0x195d03c68,...]
+                    + ! :     | 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
+                    + ! :     | + 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 156  [0x195d043d8]
+                    + ! :     | 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
+                    + ! :     |   1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a888]
+                    + ! :     2 _free  (in libsystem_malloc.dylib) + 24,76  [0x195d31c2c,0x195d31c60]
+                    + ! :     2 _szone_free  (in libsystem_malloc.dylib) + 0,456  [0x195d17124,0x195d172ec]
+                    + ! :     2 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! :     | 2 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
+                    + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 152  [0x195d03868]
+                    + ! 10 Gia_ManAreaBalance  (in abc) + 784  [0x10567e9f4]  giaBalAig.c:1104
+                    + ! : 10 Gia_ManDupNormalize  (in abc) + 1800  [0x105819be0]  giaTim.c:199
+                    + ! :   9 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   | 6 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :   | + 6 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   | +   3 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :   | +   ! 2 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 724,1476  [0x195d017f8,0x195d01ae8]
+                    + ! :   | +   ! 1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 600  [0x195d0177c]
+                    + ! :   | +   !   1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 48  [0x195d376e4]
+                    + ! :   | +   2 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 796  [0x195d00fd0]
+                    + ! :   | +   ! 2 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120,136  [0x195d0a888,0x195d0a898]
+                    + ! :   | +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 52  [0x195d00ce8]
+                    + ! :   | +     1 rack_get_thread_index  (in libsystem_malloc.dylib) + 12  [0x195d1a7d4]
+                    + ! :   | 2 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! :   | + 2 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+                    + ! :   | +   2 _platform_strlen  (in libsystem_platform.dylib) + 56,80  [0x195f35a18,0x195f35a30]
+                    + ! :   | 1 Extra_MmFlexEntryFetch  (in abc) + 228  [0x105315e68]  extraUtilMemory.c:449
+                    + ! :   1 Nr_ManCopyOrigins  (in abc) + 132  [0x105006d08]  node_retention.c:343
+                    + ! 6 Gia_ManAreaBalance  (in abc) + 516  [0x10567e8e8]  giaBalAig.c:1082
+                    + ! : 2 Dsm_ManDeriveGia  (in abc) + 2096  [0x1053e808c]  dauGia.c:581
+                    + ! : | 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! : |   2 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! : |     1 _szone_free  (in libsystem_malloc.dylib) + 20  [0x195d17138]
+                    + ! : |     1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! : |       1 DYLD-STUB$$_platform_memset  (in libsystem_malloc.dylib) + 12  [0x195d39974]
+                    + ! : 1 Dsm_ManDeriveGia  (in abc) + 1408  [0x1053e7ddc]  dauGia.c:554
+                    + ! : | 1 Dsm_ManTruthToGia  (in abc) + 204  [0x1053e76b0]  dauGia.c:465
+                    + ! : |   1 Dau_DsdDecompose  (in abc) + 248  [0x1053de61c]  dauDsd.c:1925
+                    + ! : |     1 Dau_DsdDecomposeInt  (in abc) + 396  [0x1053e3b9c]  dauDsd.c:1906
+                    + ! : |       1 Dau_Dsd6DecomposeSingleVar  (in abc) + 160  [0x1053de7b8]  dauDsd.c:1209
+                    + ! : |         1 clock  (in libsystem_c.dylib) + 52  [0x195db4b3c]
+                    + ! : |           1 getrusage  (in libsystem_kernel.dylib) + 8  [0x195ec4590]
+                    + ! : 1 Dsm_ManDeriveGia  (in abc) + 1500  [0x1053e7e38]  dauGia.c:558
+                    + ! : | 1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |   1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! : |     1 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+                    + ! : |       1 _platform_strlen  (in libsystem_platform.dylib) + 52  [0x195f35a14]
+                    + ! : 1 Dsm_ManDeriveGia  (in abc) + 2084  [0x1053e8080]  dauGia.c:580
+                    + ! : | 1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! : |       1 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+                    + ! : |         1 _platform_strlen  (in libsystem_platform.dylib) + 52  [0x195f35a14]
+                    + ! : 1 Vec_IntPush  (in abc) + 160  [0x1053e81c4]  vecInt.h:758
+                    + ! 3 Gia_ManAreaBalance  (in abc) + 580  [0x10567e928]  giaBalAig.c:1086
+                    + ! : 1 Gia_ManDupMuxes  (in abc) + 864  [0x1057731e8]  giaMuxes.c:136
+                    + ! : | 1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |   1 Nr_ManAddOrigin  (in abc) + 68  [0x105006a68]  node_retention.c:294
+                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x1057734d0]  giaMuxes.c:148
+                    + ! : | 1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+                    + ! : |       1 _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+                    + ! : |         1 _platform_strlen  (in libsystem_platform.dylib) + 52  [0x195f35a14]
+                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1620  [0x1057734dc]  giaMuxes.c:149
+                    + ! :   1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :     1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
                     + ! :       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
                     + ! :         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
-                    + ! :           1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 176  [0x195d04640]
-                    + ! 2 Gia_ManAreaBalance  (in abc) + 804  [0x101726a08]  giaBalAig.c:1106
-                    + ! : 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :   | 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
-                    + ! :   |   1 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
-                    + ! :   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
+                    + ! :           1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 36  [0x195d045b4]
+                    + ! 2 Gia_ManAreaBalance  (in abc) + 624  [0x10567e954]  giaBalAig.c:1089
+                    + ! : 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :   | 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! :   |   1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 568  [0x195d04574]
+                    + ! :   1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
                     + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
-                    + ! :         1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 176  [0x195d0aa28]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 528  [0x1017268f4]  giaBalAig.c:1082
-                    + ! : 1 Gia_ManDup  (in abc) + 248  [0x101758f48]  giaDup.c:746
-                    + ! :   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + ! :     1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    + ! :       1 _platform_strlen  (in libsystem_platform.dylib) + 64  [0x195f35a20]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 624  [0x101726954]  giaBalAig.c:1089
-                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   1 Nr_ManFree  (in abc) + 212  [0x1010ae9f8]  node_retention.c:138
-                    + ! :     1 Extra_MmFlexStop  (in abc) + 96  [0x1013bdd6c]  extraUtilMemory.c:403
-                    + ! :       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
-                    + ! :           1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a888]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 684  [0x101726990]  giaBalAig.c:1094
-                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   1 Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
+                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
+                    + ! :         1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 176  [0x195d0a8c0]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 684  [0x10567e990]  giaBalAig.c:1094
+                    + !   1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !     1 Nr_ManFree  (in abc) + 88  [0x10500697c]  node_retention.c:133
+                    + !       1 _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
+                    + 18 Gia_ManAigSyn2  (in abc) + 500  [0x1057c7294]  giaScript.c:140
+                    + ! 5 Gia_ManAreaBalance  (in abc) + 724  [0x10567e9b8]  giaBalAig.c:1097
+                    + ! : 2 Gia_ManDupNoMuxes  (in abc) + 1052  [0x105774750]  giaMuxes.c:275
+                    + ! : | 2 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! : |   2 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |     2 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! : |       2 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! : |         2 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! : |           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1372  [0x195d01a80]
+                    + ! : |           + 1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 92  [0x195d04398]
+                    + ! : |           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 844  [0x195d01870]
+                    + ! : 2 Gia_ManDupNoMuxes  (in abc) + 1064  [0x10577475c]  giaMuxes.c:276
+                    + ! : | 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! : |   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 76  [0x195d0381c]
+                    + ! : |   1 Nr_ManFree  (in abc) + 196  [0x1050069e8]  node_retention.c:131
+                    + ! : |     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! : |       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1288  [0x195d04024]
+                    + ! : |         1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 304  [0x195d0aaa8]
+                    + ! : 1 Gia_ManDupNoMuxes  (in abc) + 1008  [0x105774724]  giaMuxes.c:269
+                    + ! :   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :     1 Nr_ManAddOrigin  (in abc) + 416  [0x105006bc4]  node_retention.c:308
+                    + ! :       1 Extra_MmFlexEntryFetch  (in abc) + 48  [0x105315db4]  extraUtilMemory.c:424
+                    + ! 4 Gia_ManAreaBalance  (in abc) + 648  [0x10567e96c]  giaBalAig.c:1091
+                    + ! : 4 Dam_ManAreaBalanceInt  (in abc) + 832  [0x10567e59c]  giaBalAig.c:1043
+                    + ! :   2 Dam_ManMultiAig  (in abc) + 1276  [0x10567ce24]  giaBalAig.c:835
+                    + ! :   | 1 Gia_ManDupMarked  (in abc) + 112  [0x1056b6680]  giaDup.c:1465
+                    + ! :   | + 1 Gia_ManStart  (in abc) + 228  [0x10574c67c]  giaMan.c:69
+                    + ! :   | +   1 Nr_ManCreate  (in abc) + 160  [0x1050068ec]  node_retention.c:58
+                    + ! :   | +     1 __bzero  (in libsystem_platform.dylib) + 64  [0x195f37f60]
+                    + ! :   | 1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! :   |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   |     1 Nr_ManAddOrigin  (in abc) + 104  [0x105006a8c]  node_retention.c:297
+                    + ! :   |       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :   |         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 108  [0x195d00d20]
+                    + ! :   1 Dam_ManMultiAig  (in abc) + 1120  [0x10567cd88]  giaBalAig.c:827
+                    + ! :   | 1 Dam_ManMultiAig_rec  (in abc) + 268  [0x10567c594]  giaBalAig.c:764
+                    + ! :   |   1 Dam_ManMultiAig_rec  (in abc) + 268  [0x10567c594]  giaBalAig.c:764
+                    + ! :   |     1 Dam_ManMultiAig_rec  (in abc) + 1024  [0x10567c888]  giaBalAig.c:776
+                    + ! :   |       1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :   |         1 Nr_ManAddOrigin  (in abc) + 32  [0x105006a44]  node_retention.c:291
+                    + ! :   1 Dam_ManMultiAig  (in abc) + 1288  [0x10567ce30]  giaBalAig.c:836
+                    + ! :     1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :       1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :         1 free_tiny  (in libsystem_malloc.dylib) + 756  [0x195d03ac4]
+                    + ! 2 Gia_ManAreaBalance  (in abc) + 580  [0x10567e928]  giaBalAig.c:1086
+                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x1057734d0]  giaMuxes.c:148
+                    + ! : | 1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + ! : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! : |     1 Nr_ManAddOrigin  (in abc) + 120  [0x105006a9c]  node_retention.c:299
+                    + ! : |       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! : |         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! : |           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 76  [0x195d01570]
+                    + ! : 1 Gia_ManDupMuxes  (in abc) + 1620  [0x1057734dc]  giaMuxes.c:149
+                    + ! :   1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :     1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :       1 _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
+                    + ! 2 Gia_ManAreaBalance  (in abc) + 804  [0x10567ea08]  giaBalAig.c:1106
+                    + ! : 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   2 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :     1 _szone_free  (in libsystem_malloc.dylib) + 32  [0x195d17144]
+                    + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 84  [0x195d03824]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 528  [0x10567e8f4]  giaBalAig.c:1082
+                    + ! : 1 Gia_ManDup  (in abc) + 248  [0x1056b0f48]  giaDup.c:746
+                    + ! :   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + ! :     1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + ! :       1 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 12  [0x195d30ff8]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 624  [0x10567e954]  giaBalAig.c:1089
+                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   1 Nr_ManFree  (in abc) + 88  [0x10500697c]  node_retention.c:133
+                    + ! :     1 _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 684  [0x10567e990]  giaBalAig.c:1094
+                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   1 Nr_ManFree  (in abc) + 196  [0x1050069e8]  node_retention.c:131
                     + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    + ! :         1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 56  [0x195d0fd54]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 760  [0x1017269dc]  giaBalAig.c:1100
-                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + ! :   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + ! :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 308  [0x195d03c50]
-                    + ! 1 Gia_ManAreaBalance  (in abc) + 784  [0x1017269f4]  giaBalAig.c:1104
-                    + !   1 Gia_ManDupNormalize  (in abc) + 1800  [0x1018c1be0]  giaTim.c:199
-                    + !     1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + !       1 Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-                    + !         1 _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-                    + !           1 _platform_memmove  (in libsystem_platform.dylib) + 452  [0x195f38414]
-                    + 11 Gia_ManAigSyn2  (in abc) + 676  [0x10186f344]  giaScript.c:147
-                    + ! 11 Lf_ManPerformMapping  (in abc) + 232  [0x1017e785c]  giaLf.c:2316
-                    + !   4 Lf_ManPerformMappingInt  (in abc) + 124  [0x1017e7408]  giaLf.c:2234
-                    + !   : 1 Gia_ManDupMuxes  (in abc) + 636  [0x10181b104]  giaMuxes.c:124
-                    + !   : | 1 Gia_ObjIsMuxType  (in abc) + 288  [0x1018d3258]  giaUtil.c:1004
-                    + !   : 1 Gia_ManDupMuxes  (in abc) + 1408  [0x10181b408]  giaMuxes.c:128
-                    + !   : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x10181b4d0]  giaMuxes.c:148
-                    + !   : | 1 Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-                    + !   : |   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + !   : |     1 Nr_ManAddOrigin  (in abc) + 60  [0x1010aea60]  node_retention.c:294
-                    + !   : 1 Gia_ManDupMuxes  (in abc) + 1620  [0x10181b4dc]  giaMuxes.c:149
-                    + !   :   1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !   :     1 Nr_ManFree  (in abc) + 180  [0x1010ae9d8]  node_retention.c:131
-                    + !   :       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !   :         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1520  [0x195d0410c]
-                    + !   :           1 tiny_free_scan_madvise_free  (in libsystem_malloc.dylib) + 476  [0x195d0acbc]
-                    + !   3 Lf_ManPerformMappingInt  (in abc) + 264  [0x1017e7494]  giaLf.c:2252
-                    + !   : 2 Lf_ManComputeMapping  (in abc) + 480  [0x1017e7200]  giaLf.c:2213
-                    + !   : | 1 Lf_ObjMergeOrder  (in abc) + 92  [0x1017ddf3c]  giaLf.c:1188
-                    + !   : | + 1 _platform_memset  (in libsystem_platform.dylib) + 140  [0x195f3800c]
-                    + !   : | 1 Lf_ObjMergeOrder  (in abc) + 2228  [0x1017de794]  giaLf.c:1321
-                    + !   : |   1 Lf_CutParams  (in abc) + 472  [0x1017e04e0]  giaLf.c:1146
-                    + !   : 1 Lf_ManComputeMapping  (in abc) + 44  [0x1017e704c]  giaLf.c:2184
-                    + !   :   1 Lf_ManSetCutRefs  (in abc) + 184  [0x1017e2278]  giaLf.c:1458
-                    + !   2 Lf_ManPerformMappingInt  (in abc) + 868  [0x1017e76f0]  giaLf.c:2270
-                    + !   : 1 Lf_ManDeriveMappingCoarse  (in abc) + 1048  [0x1017e42d0]  giaLf.c:1777
-                    + !   : | 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + !   : |   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + !   : |     1 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 12  [0x195d30ff8]
-                    + !   : 1 Lf_ManDeriveMappingCoarse  (in abc) + 1364  [0x1017e440c]  giaLf.c:1790
-                    + !   :   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + !   :     1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + !   :       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + !   :         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + !   :           1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 208  [0x195d37784]
-                    + !   1 Lf_ManPerformMappingInt  (in abc) + 336  [0x1017e74dc]  giaLf.c:2255
-                    + !   : 1 Lf_ManComputeMapping  (in abc) + 480  [0x1017e7200]  giaLf.c:2213
-                    + !   :   1 Lf_ObjMergeOrder  (in abc) + 1276  [0x1017de3dc]  giaLf.c:1222
-                    + !   :     1 Lf_CutParams  (in abc) + 476  [0x1017e04e4]  giaLf.c:1146
-                    + !   1 Lf_ManPerformMappingInt  (in abc) + 936  [0x1017e7734]  giaLf.c:2279
-                    + !     1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !       1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + !         1 free_tiny  (in libsystem_malloc.dylib) + 152  [0x195d03868]
-                    + 2 Gia_ManAigSyn2  (in abc) + 636  [0x10186f31c]  giaScript.c:0
-                    + ! 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + !   : 1 _szone_free  (in libsystem_malloc.dylib) + 140  [0x195d171b0]
-                    + !   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
+                    + ! :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1212  [0x195d03fd8]
+                    + ! :         1 tiny_free_detach_region  (in libsystem_malloc.dylib) + 120  [0x195d0a888]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 760  [0x10567e9dc]  giaBalAig.c:1100
+                    + ! : 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + ! :   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + ! :     1 DYLD-STUB$$free  (in abc) + 4  [0x105b1c6f0]
+                    + ! 1 Gia_ManAreaBalance  (in abc) + 784  [0x10567e9f4]  giaBalAig.c:1104
+                    + !   1 Gia_ManDupNormalize  (in abc) + 1800  [0x105819be0]  giaTim.c:199
+                    + !     1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !       1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + !         1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + !           1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + !             1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 500  [0x195d01718]
+                    + 12 Gia_ManAigSyn2  (in abc) + 676  [0x1057c7344]  giaScript.c:147
+                    + ! 12 Lf_ManPerformMapping  (in abc) + 232  [0x10573f85c]  giaLf.c:2316
+                    + !   4 Lf_ManPerformMappingInt  (in abc) + 124  [0x10573f408]  giaLf.c:2234
+                    + !   : 2 Gia_ManDupMuxes  (in abc) + 1620  [0x1057734dc]  giaMuxes.c:149
+                    + !   : | 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   : |   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + !   : |   + 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + !   : |   +   1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 332  [0x195d03c68]
+                    + !   : |   1 Nr_ManFree  (in abc) + 196  [0x1050069e8]  node_retention.c:131
+                    + !   : |     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + !   : |       1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 568  [0x195d04574]
+                    + !   : 1 Gia_ManDupMuxes  (in abc) + 864  [0x1057731e8]  giaMuxes.c:136
+                    + !   : | 1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !   : |   1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + !   : |     1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + !   : |       1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + !   : |         1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 600  [0x195d0177c]
+                    + !   : |           1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 48  [0x195d376e4]
+                    + !   : 1 Gia_ManDupMuxes  (in abc) + 1608  [0x1057734d0]  giaMuxes.c:148
+                    + !   :   1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    + !   :     1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !   :       1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+                    + !   3 Lf_ManPerformMappingInt  (in abc) + 264  [0x10573f494]  giaLf.c:2252
+                    + !   : 3 Lf_ManComputeMapping  (in abc) + 480  [0x10573f200]  giaLf.c:2213
+                    + !   :   2 Lf_ObjMergeOrder  (in abc) + 92  [0x105735f3c]  giaLf.c:1188
+                    + !   :   | 2 _platform_memset  (in libsystem_platform.dylib) + 140  [0x195f3800c]
+                    + !   :   1 Lf_ObjMergeOrder  (in abc) + 5736  [0x105737548]  giaLf.c:1262
+                    + !   2 Lf_ManPerformMappingInt  (in abc) + 336  [0x10573f4dc]  giaLf.c:2255
+                    + !   : 2 Lf_ManComputeMapping  (in abc) + 480  [0x10573f200]  giaLf.c:2213
+                    + !   :   1 Lf_ObjMergeOrder  (in abc) + 92  [0x105735f3c]  giaLf.c:1188
+                    + !   :   | 1 _platform_memset  (in libsystem_platform.dylib) + 140  [0x195f3800c]
+                    + !   :   1 Lf_ObjMergeOrder  (in abc) + 4672  [0x105737120]  giaLf.c:1311
+                    + !   2 Lf_ManPerformMappingInt  (in abc) + 936  [0x10573f734]  giaLf.c:2279
+                    + !   : 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   :   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + !   :   | 1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + !   :   |   1 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
+                    + !   :   1 Nr_ManFree  (in abc) + 88  [0x10500697c]  node_retention.c:133
+                    + !   :     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + !   :       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 352  [0x195d03c7c]
+                    + !   1 Lf_ManPerformMappingInt  (in abc) + 868  [0x10573f6f0]  giaLf.c:2270
+                    + !     1 Lf_ManDeriveMappingCoarse  (in abc) + 1364  [0x10573c40c]  giaLf.c:1790
+                    + !       1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !         1 Nr_ManAddOrigin  (in abc) + 524  [0x105006c30]  node_retention.c:316
+                    + !           1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
+                    + !             1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
+                    + !               1 szone_realloc  (in libsystem_malloc.dylib) + 924  [0x195d02eec]
+                    + !                 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + !                   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 828  [0x195d00ff0]
+                    + !                     1 tiny_free_reattach_region  (in libsystem_malloc.dylib) + 304  [0x195d0aaa8]
+                    + 3 Gia_ManAigSyn2  (in abc) + 636  [0x1057c731c]  giaScript.c:0
+                    + ! 3 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   2 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    + !   : 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + !   : | 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 436  [0x195d03cd0]
+                    + !   : 1 free_tiny  (in libsystem_malloc.dylib) + 476  [0x195d039ac]
+                    + !   1 Nr_ManFree  (in abc) + 88  [0x10500697c]  node_retention.c:133
                     + !     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    + !         1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 84  [0x195d0fd70]
-                    + 1 Gia_ManAigSyn2  (in abc) + 528  [0x10186f2b0]  giaScript.c:142
-                    + ! 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !   1 Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
+                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
+                    + !         1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 132  [0x195d04614]
+                    + 1 Gia_ManAigSyn2  (in abc) + 528  [0x1057c72b0]  giaScript.c:142
+                    + ! 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   1 Nr_ManFree  (in abc) + 108  [0x105006990]  node_retention.c:126
+                    + 1 Gia_ManAigSyn2  (in abc) + 580  [0x1057c72e4]  giaScript.c:150
+                    + ! 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
                     + !     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
-                    + !         1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 92  [0x195d04398]
-                    + 1 Gia_ManAigSyn2  (in abc) + 580  [0x10186f2e4]  giaScript.c:150
-                    + ! 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + !     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
-                    + !         1 tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 168  [0x195d043e4]
-                    + 1 Gia_ManAigSyn2  (in abc) + 96  [0x10186f100]  giaScript.c:88
-                    +   1 Gia_ManDup  (in abc) + 248  [0x101758f48]  giaDup.c:746
-                    +     1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    +       1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    +         1 DYLD-STUB$$strlen  (in abc) + 4  [0x101bc4a98]
-                    85 IoCommandReadBlif  (in abc) + 552  [0x1011ed230]  io.c:588
-                    + 85 Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
-                    +   70 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    +   ! 54 _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0,36,...  [0x195f3b170,0x195f3b194,...]
-                    +   ! 11 DYLD-STUB$$strcmp  (in abc) + 4  [0x101bc4a5c]
-                    +   ! 5 DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 8  [0x195f3bd40]
-                    +   9 Nr_ManNumOriginalNodes  (in abc) + 300  [0x1010aeefc]  node_retention.c:434
-                    +   6 Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-                    37 Abc_CommandPrintLevel  (in abc) + 512  [0x1010c4320]  abc.c:2206
-                    + 31 Abc_NtkPrintLevel  (in abc) + 260  [0x1011a8374]  abcPrint.c:1255
-                    + ! 31 putchar  (in libsystem_c.dylib) + 140  [0x195dbbc10]
-                    + !   31 __swbuf  (in libsystem_c.dylib) + 220  [0x195dc0970]
-                    + !     31 __sflush  (in libsystem_c.dylib) + 232  [0x195d9ed6c]
-                    + !       31 _swrite  (in libsystem_c.dylib) + 108  [0x195da0ccc]
-                    + !         31 __swrite  (in libsystem_c.dylib) + 24  [0x195dbfd78]
-                    + !           31 __write_nocancel  (in libsystem_kernel.dylib) + 8  [0x195ec0aa4]
-                    + 3 Abc_NtkPrintLevel  (in abc) + 352,360,...  [0x1011a83d0,0x1011a83d8,...]  abcPrint.c:1252
-                    + 2 Abc_NtkPrintLevel  (in abc) + 328  [0x1011a83b8]  abcPrint.c:1254
-                    + ! 2 printf  (in libsystem_c.dylib) + 80  [0x195dbbb78]
-                    + !   2 vfprintf_l  (in libsystem_c.dylib) + 156  [0x195da0a5c]
-                    + !     2 __vfprintf  (in libsystem_c.dylib) + 11156  [0x195d935fc]
-                    + !       1 __sfvwrite  (in libsystem_c.dylib) + 780  [0x195d93c88]
-                    + !       : 1 __sflush  (in libsystem_c.dylib) + 232  [0x195d9ed6c]
-                    + !       :   1 _swrite  (in libsystem_c.dylib) + 108  [0x195da0ccc]
-                    + !       :     1 __swrite  (in libsystem_c.dylib) + 24  [0x195dbfd78]
-                    + !       :       1 __write_nocancel  (in libsystem_kernel.dylib) + 8  [0x195ec0aa4]
-                    + !       1 __vfprintf  (in libsystem_c.dylib) + 11156  [0x195d935fc]
-                    + !         1 __sfvwrite  (in libsystem_c.dylib) + 48  [0x195d939ac]
-                    + 1 Abc_NtkPrintLevel  (in abc) + 316  [0x1011a83ac]  abcPrint.c:1254
-                    +   1 Nm_ManCreateUniqueName  (in abc) + 36  [0x1013f0644]  nmApi.c:180
-                    +     1 Nm_ManTableLookupId  (in abc) + 96  [0x1013f0dd4]  nmTable.c:174
-                    23 Abc_CommandAbc9Sweep  (in abc) + 664  [0x1011055c4]  abc.c:43362
-                    + 22 Gia_ManFraigSweepSimple  (in abc) + 92  [0x1018bb9f0]  giaSweep.c:610
-                    + ! 21 Dch_ComputeEquivalences  (in abc) + 120  [0x10168e47c]  dchCore.c:151
-                    + ! : 21 Dch_ManSweep  (in abc) + 372  [0x101690158]  dchSweep.c:129
-                    + ! :   20 Dch_ManSweepNode  (in abc) + 128  [0x10168ff4c]  dchSweep.c:73
-                    + ! :   | 16 Dch_NodesAreEquiv  (in abc) + 352  [0x10168ee64]  dchSat.c:89
-                    + ! :   | + 16 sat_solver_solve  (in abc) + 328  [0x1014dd028]  satSolver.c:2121
-                    + ! :   | +   15 sat_solver_solve_internal  (in abc) + 2092  [0x1014db0ac]  satSolver.c:1976
-                    + ! :   | +   ! 2 sat_solver_propagate  (in abc) + 228  [0x1014d83d4]  satSolver.c:1067
-                    + ! :   | +   ! 2 sat_solver_propagate  (in abc) + 164  [0x1014d8394]  satSolver.c:1082
-                    + ! :   | +   ! 2 sat_solver_propagate  (in abc) + 144  [0x1014d8380]  satSolver.c:1121
-                    + ! :   | +   ! 2 sat_solver_solve_internal  (in abc) + 3068  [0x1014db47c]  satSolver.c:1976
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 532  [0x1014d8504]  satSolver.c:0
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 148  [0x1014d8384]  satSolver.c:1062
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 156  [0x1014d838c]  satSolver.c:1063
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 240  [0x1014d83e0]  satSolver.c:1071
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 372  [0x1014d8464]  satSolver.c:1091
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 596  [0x1014d8544]  satSolver.c:1102
-                    + ! :   | +   ! 1 sat_solver_propagate  (in abc) + 860  [0x1014d864c]  satSolver.c:1112
-                    + ! :   | +   1 sat_solver_solve_internal  (in abc) + 6720  [0x1014dc2c0]  satSolver.c:1976
-                    + ! :   | +     1 sat_solver_canceluntil  (in abc) + 220  [0x1014dc60c]  satSolver.c:690
-                    + ! :   | +       1 order_unassigned  (in abc) + 212  [0x1014ddc64]  satSolver.c:170
-                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 572  [0x10168ef40]  dchSat.c:130
-                    + ! :   | + 1 clock  (in libsystem_c.dylib) + 52  [0x195db4b3c]
-                    + ! :   | +   1 getrusage  (in libsystem_kernel.dylib) + 8  [0x195ec4590]
-                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 608  [0x10168ef64]  dchSat.c:131
-                    + ! :   | + 1 sat_solver_solve  (in abc) + 328  [0x1014dd028]  satSolver.c:2121
-                    + ! :   | +   1 sat_solver_solve_internal  (in abc) + 2092  [0x1014db0ac]  satSolver.c:1976
-                    + ! :   | +     1 sat_solver_propagate  (in abc) + 164  [0x1014d8394]  satSolver.c:1082
-                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 164  [0x10168eda8]  dchSat.c:67
-                    + ! :   | + 1 Dch_CnfNodeAddToSolver  (in abc) + 360  [0x10168de8c]  dchCnf.c:319
-                    + ! :   | +   1 Dch_AddClausesSuper  (in abc) + 208  [0x10168d8b8]  dchCnf.c:184
-                    + ! :   | +     1 sat_solver_addclause  (in abc) + 716  [0x1014da72c]  satSolver.c:1793
-                    + ! :   | +       1 sat_solver_clause_new  (in abc) + 20  [0x1014d7b64]  satSolver.c:534
-                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 360  [0x10168ee6c]  dchSat.c:91
+                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
+                    + !         1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 260  [0x195d04694]
+                    + 1 Gia_ManAigSyn2  (in abc) + 96  [0x1057c7100]  giaScript.c:88
+                    +   1 Gia_ManDup  (in abc) + 248  [0x1056b0f48]  giaDup.c:746
+                    +     1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    +       1 Nr_ManAddOrigin  (in abc) + 120  [0x105006a9c]  node_retention.c:299
+                    +         1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    +           1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    +             1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1848  [0x195d01c5c]
+                    23 Abc_CommandAbc9Sweep  (in abc) + 664  [0x10505d5c4]  abc.c:43362
+                    + 22 Gia_ManFraigSweepSimple  (in abc) + 92  [0x1058139f0]  giaSweep.c:610
+                    + ! 21 Dch_ComputeEquivalences  (in abc) + 120  [0x1055e647c]  dchCore.c:151
+                    + ! : 21 Dch_ManSweep  (in abc) + 372  [0x1055e8158]  dchSweep.c:129
+                    + ! :   20 Dch_ManSweepNode  (in abc) + 128  [0x1055e7f4c]  dchSweep.c:73
+                    + ! :   | 16 Dch_NodesAreEquiv  (in abc) + 352  [0x1055e6e64]  dchSat.c:89
+                    + ! :   | + 14 sat_solver_solve  (in abc) + 328  [0x105435028]  satSolver.c:2121
+                    + ! :   | + ! 13 sat_solver_solve_internal  (in abc) + 2092  [0x1054330ac]  satSolver.c:1976
+                    + ! :   | + ! : 7 sat_solver_solve_internal  (in abc) + 2384,2692,...  [0x1054331d0,0x105433304,...]  satSolver.c:1976
+                    + ! :   | + ! : 2 sat_solver_propagate  (in abc) + 164  [0x105430394]  satSolver.c:1082
+                    + ! :   | + ! : 1 sat_solver_propagate  (in abc) + 412  [0x10543048c]  satSolver.c:0
+                    + ! :   | + ! : 1 sat_solver_propagate  (in abc) + 256  [0x1054303f0]  satSolver.c:1072
+                    + ! :   | + ! : 1 sat_solver_propagate  (in abc) + 352  [0x105430450]  satSolver.c:1087
+                    + ! :   | + ! : 1 sat_solver_propagate  (in abc) + 1000  [0x1054306d8]  satSolver.c:1124
+                    + ! :   | + ! 1 sat_solver_solve_internal  (in abc) + 6720  [0x1054342c0]  satSolver.c:1976
+                    + ! :   | + !   1 sat_solver_canceluntil  (in abc) + 220  [0x10543460c]  satSolver.c:690
+                    + ! :   | + !     1 order_unassigned  (in abc) + 52  [0x105435bc4]  satSolver.c:169
+                    + ! :   | + 2 sat_solver_solve  (in abc) + 288  [0x105435000]  satSolver.c:2094
+                    + ! :   | +   2 sat_solver_push  (in abc) + 288  [0x105434768]  satSolver.c:2034
+                    + ! :   | +     1 sat_solver_propagate  (in abc) + 472  [0x1054304c8]  satSolver.c:1100
+                    + ! :   | +     1 sat_solver_propagate  (in abc) + 1000  [0x1054306d8]  satSolver.c:1124
+                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 608  [0x1055e6f64]  dchSat.c:131
+                    + ! :   | + 1 sat_solver_solve  (in abc) + 328  [0x105435028]  satSolver.c:2121
+                    + ! :   | +   1 sat_solver_solve_internal  (in abc) + 6720  [0x1054342c0]  satSolver.c:1976
+                    + ! :   | +     1 sat_solver_canceluntil  (in abc) + 220  [0x10543460c]  satSolver.c:690
+                    + ! :   | +       1 order_unassigned  (in abc) + 212  [0x105435c64]  satSolver.c:170
+                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 164  [0x1055e6da8]  dchSat.c:67
+                    + ! :   | + 1 Dch_CnfNodeAddToSolver  (in abc) + 1124  [0x1055e6188]  dchCnf.c:323
+                    + ! :   | +   1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+                    + ! :   | +     1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 76  [0x195d03b68]
+                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 176  [0x1055e6db4]  dchSat.c:68
+                    + ! :   | + 1 Dch_CnfNodeAddToSolver  (in abc) + 360  [0x1055e5e8c]  dchCnf.c:319
+                    + ! :   | +   1 Dch_AddClausesSuper  (in abc) + 412  [0x1055e5984]  dchCnf.c:201
+                    + ! :   | +     1 sat_solver_addclause  (in abc) + 440  [0x105432618]  satSolver.c:1763
+                    + ! :   | 1 Dch_NodesAreEquiv  (in abc) + 360  [0x1055e6e6c]  dchSat.c:91
                     + ! :   |   1 clock  (in libsystem_c.dylib) + 52  [0x195db4b3c]
                     + ! :   |     1 getrusage  (in libsystem_kernel.dylib) + 8  [0x195ec4590]
-                    + ! :   1 Dch_ManSweepNode  (in abc) + 232  [0x10168ffb4]  dchSweep.c:89
-                    + ! :     1 Dch_ManResimulateCex  (in abc) + 332  [0x10168fcf8]  dchSimSat.c:202
-                    + ! :       1 Dch_ManResimulateOther_rec  (in abc) + 8  [0x10168fb0c]  dchSimSat.c:151
-                    + ! 1 Dch_ComputeEquivalences  (in abc) + 56  [0x10168e43c]  dchCore.c:143
-                    + !   1 Dch_ManCreate  (in abc) + 80  [0x10168e4f0]  dchMan.c:53
-                    + !     1 Aig_ManFanoutStart  (in abc) + 172  [0x1016d00a0]  aigFanout.c:72
-                    + !       1 Aig_ObjAddFanout  (in abc) + 340  [0x1016d0228]  aigFanout.c:127
-                    + 1 Gia_ManFraigSweepSimple  (in abc) + 136  [0x1018bba1c]  giaSweep.c:611
-                    +   1 Gia_ManEquivReduce  (in abc) + 864  [0x10178c5c0]  giaEquiv.c:749
-                    +     1 Gia_ManAppendObj  (in abc) + 0  [0x10179474c]  gia.h:685
-                    17 Abc_CommandAbc9Get  (in abc) + 512  [0x1010f547c]  abc.c:34489
-                    + 15 Abc_NtkStrash  (in abc) + 56  [0x1011d1f80]  abcStrash.c:277
-                    + ! 14 Abc_NtkSopToAig  (in abc) + 324  [0x101089b00]  abcFunc.c:906
-                    + ! : 14 Dec_GraphFactorSop  (in abc) + 32  [0x1015adc60]  decAbc.c:309
-                    + ! :   14 Dec_Factor  (in abc) + 120  [0x1015adefc]  decFactor.c:69
-                    + ! :     14 Abc_FrameReadManDec  (in abc) + 32  [0x101228f88]  mainFrame.c:68
-                    + ! :       14 Dec_ManStart  (in abc) + 124  [0x1015ae958]  decMan.c:54
-                    + ! :         8 Extra_Truth4VarNPN  (in abc) + 528  [0x1013bf23c]  extraUtilMisc.c:680
-                    + ! :         | 4 Extra_TruthPermute  (in abc) + 296  [0x1013be88c]  extraUtilMisc.c:385
-                    + ! :         | + 2 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :         | + ! 2 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    + ! :         | + !   2 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 0,92  [0x195d0fd1c,0x195d0fd78]
-                    + ! :         | + 1 DYLD-STUB$$free  (in abc) + 4  [0x101bc46f0]
-                    + ! :         | + 1 free_tiny  (in libsystem_malloc.dylib) + 680  [0x195d03a78]
-                    + ! :         | 2 Extra_TruthPermute  (in abc) + 72  [0x1013be7ac]  extraUtilMisc.c:363
-                    + ! :         | + 1 _malloc_zone_malloc  (in libsystem_malloc.dylib) + 12  [0x195d30ff8]
+                    + ! :   1 Dch_ManSweepNode  (in abc) + 232  [0x1055e7fb4]  dchSweep.c:89
+                    + ! :     1 Dch_ManResimulateCex  (in abc) + 68  [0x1055e7bf0]  dchSimSat.c:183
+                    + ! :       1 Dch_ManCollectTfoCands  (in abc) + 76  [0x1055e7940]  dchSimSat.c:92
+                    + ! :         1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :           1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :             1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :               1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :                 1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :                   1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :                     1 Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
+                    + ! :                       1 Dch_ManCollectTfoCands_rec  (in abc) + 592  [0x1055e78dc]  dchSimSat.c:71
+                    + ! 1 Dch_ComputeEquivalences  (in abc) + 84  [0x1055e6458]  dchCore.c:146
+                    + !   1 Dch_CreateCandEquivClasses  (in abc) + 188  [0x1055e7618]  dchSim.c:277
+                    + !     1 Dch_ClassesPrepare  (in abc) + 896  [0x1055e4b30]  dchClass.c:428
+                    + !       1 Dch_ClassesRefineOneClass  (in abc) + 552  [0x1055e4e30]  dchClass.c:468
+                    + 1 Gia_ManFraigSweepSimple  (in abc) + 136  [0x105813a1c]  giaSweep.c:611
+                    +   1 Gia_ManEquivReduce  (in abc) + 1124  [0x1056e46c4]  giaEquiv.c:752
+                    +     1 Gia_ManEquivReduce_rec  (in abc) + 228  [0x1056e4060]  giaEquiv.c:664
+                    +       1 Gia_ManEquivReduce_rec  (in abc) + 92  [0x1056e3fd8]  giaEquiv.c:657
+                    +         1 Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+                    +           1 Gia_ManEquivReduce_rec  (in abc) + 228  [0x1056e4060]  giaEquiv.c:664
+                    +             1 Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+                    +               1 Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+                    +                 1 Gia_ManEquivReduce_rec  (in abc) + 92  [0x1056e3fd8]  giaEquiv.c:657
+                    +                   1 Gia_ManEquivReduce_rec  (in abc) + 228  [0x1056e4060]  giaEquiv.c:664
+                    +                     1 Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+                    +                       1 Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+                    +                         1 Gia_ManEquivReduce_rec  (in abc) + 336  [0x1056e40cc]  giaEquiv.c:666
+                    +                           1 Gia_ManHashAnd  (in abc) + 376  [0x10571177c]  giaHash.c:606
+                    +                             1 Gia_ManHashFind  (in abc) + 180  [0x1057107e8]  giaHash.c:0
+                    18 Abc_CommandAbc9Get  (in abc) + 512  [0x10504d47c]  abc.c:34489
+                    + 15 Abc_NtkStrash  (in abc) + 56  [0x105129f80]  abcStrash.c:277
+                    + ! 14 Abc_NtkSopToAig  (in abc) + 324  [0x104fe1b00]  abcFunc.c:906
+                    + ! : 14 Dec_GraphFactorSop  (in abc) + 32  [0x105505c60]  decAbc.c:309
+                    + ! :   14 Dec_Factor  (in abc) + 120  [0x105505efc]  decFactor.c:69
+                    + ! :     14 Abc_FrameReadManDec  (in abc) + 32  [0x105180f88]  mainFrame.c:68
+                    + ! :       14 Dec_ManStart  (in abc) + 124  [0x105506958]  decMan.c:54
+                    + ! :         9 Extra_Truth4VarNPN  (in abc) + 528  [0x10531723c]  extraUtilMisc.c:680
+                    + ! :         | 3 Extra_TruthPermute  (in abc) + 336  [0x1053168b4]  extraUtilMisc.c:379
+                    + ! :         | 3 Extra_TruthPermute  (in abc) + 284  [0x105316880]  extraUtilMisc.c:384
+                    + ! :         | + 2 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+                    + ! :         | + ! 2 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
+                    + ! :         | + 1 free_tiny  (in libsystem_malloc.dylib) + 192  [0x195d03890]
+                    + ! :         | 1 Extra_TruthPermute  (in abc) + 72  [0x1053167ac]  extraUtilMisc.c:363
                     + ! :         | + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :         | +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 168  [0x195d00d5c]
-                    + ! :         | 1 Extra_TruthPermute  (in abc) + 176  [0x1013be814]  extraUtilMisc.c:368
-                    + ! :         | 1 Extra_TruthPermute  (in abc) + 336  [0x1013be8b4]  extraUtilMisc.c:379
-                    + ! :         6 Extra_Truth4VarNPN  (in abc) + 696  [0x1013bf2e4]  extraUtilMisc.c:698
-                    + ! :           2 Extra_TruthPermute  (in abc) + 296  [0x1013be88c]  extraUtilMisc.c:385
+                    + ! :         | +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 156  [0x195d00d50]
+                    + ! :         | 1 Extra_TruthPermute  (in abc) + 84  [0x1053167b8]  extraUtilMisc.c:364
+                    + ! :         | + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + ! :         | +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + ! :         | +     1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1580  [0x195d01b50]
+                    + ! :         | 1 Extra_TruthPermute  (in abc) + 176  [0x105316814]  extraUtilMisc.c:368
+                    + ! :         5 Extra_Truth4VarNPN  (in abc) + 696  [0x1053172e4]  extraUtilMisc.c:698
+                    + ! :           2 Extra_TruthPermute  (in abc) + 336  [0x1053168b4]  extraUtilMisc.c:379
+                    + ! :           2 Extra_TruthPermute  (in abc) + 296  [0x10531688c]  extraUtilMisc.c:385
                     + ! :           + 1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + ! :           + ! 1 tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 328  [0x195d046d8]
-                    + ! :           + 1 free_tiny  (in libsystem_malloc.dylib) + 680  [0x195d03a78]
-                    + ! :           1 Extra_TruthPermute  (in abc) + 84  [0x1013be7b8]  extraUtilMisc.c:364
-                    + ! :           + 1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + ! :           +   1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + ! :           +     1 _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib) + 208  [0x195d37784]
-                    + ! :           1 Extra_TruthPermute  (in abc) + 100  [0x1013be7c8]  extraUtilMisc.c:366
-                    + ! :           1 Extra_TruthPermute  (in abc) + 176  [0x1013be814]  extraUtilMisc.c:368
-                    + ! :           1 Extra_TruthPermute  (in abc) + 272  [0x1013be874]  extraUtilMisc.c:384
-                    + ! 1 Abc_NtkSopToAig  (in abc) + 268  [0x101089ac8]  abcFunc.c:906
-                    + !   1 Abc_ConvertSopToAigInternal  (in abc) + 224  [0x101089c3c]  abcFunc.c:0
-                    + !     1 Hop_And  (in abc) + 156  [0x101904cdc]  hopOper.c:122
-                    + !       1 Hop_TableLookup  (in abc) + 188  [0x1019052f0]  hopTable.c:79
-                    + 2 Abc_NtkStrash  (in abc) + 100  [0x1011d1fac]  abcStrash.c:285
-                    +   1 Abc_NtkStrashPerform  (in abc) + 96  [0x1011d20c8]  abcStrash.c:433
-                    +   : 1 Abc_NodeStrash  (in abc) + 212  [0x1011d2710]  abcStrash.c:509
-                    +   :   1 Abc_NodeStrash_rec  (in abc) + 144  [0x1011d2614]  abcStrash.c:459
-                    +   :     1 Abc_AigAnd  (in abc) + 480  [0x101074f04]  abcAig.c:705
-                    +   :       1 Abc_ObjAddFanin  (in abc) + 532  [0x101084e44]  abcFanio.c:96
-                    +   1 Abc_NtkStrashPerform  (in abc) + 132  [0x1011d20ec]  abcStrash.c:436
-                    +     1 Nr_ManCopyOrigins  (in abc) + 132  [0x1010aed08]  node_retention.c:343
-                    9 Abc_CommandAbc9Nf  (in abc) + 704  [0x10110a070]  abc.c:46067
-                    + 9 Nf_ManPerformMapping  (in abc) + 192  [0x10182bd24]  giaNf.c:2914
-                    +   7 Nf_ManPerformMappingInt  (in abc) + 288  [0x10182b208]  giaNf.c:2733
-                    +   ! 7 Nf_ManComputeCuts  (in abc) + 124  [0x101824928]  giaNf.c:979
-                    +   !   3 Nf_ObjMergeOrder  (in abc) + 2156,2208,...  [0x1018236dc,0x101823710,...]  giaNf.c:936
-                    +   !   2 Nf_ObjMergeOrder  (in abc) + 1264,1276  [0x101823360,0x10182336c]  giaNf.c:931
-                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1504  [0x101823450]  giaNf.c:933
-                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1028  [0x101823274]  giaNf.c:939
-                    +   !     1 Nf_SetAddCut  (in abc) + 220  [0x101824788]  giaNf.c:839
-                    +   2 Nf_ManPerformMappingInt  (in abc) + 936  [0x10182b490]  giaNf.c:2756
-                    +     2 Nf_ManComputeMappingEla  (in abc) + 1008  [0x1018287c4]  giaNf.c:2084
-                    +       2 Nf_ManElaBestMatch  (in abc) + 220  [0x101827df4]  giaNf.c:1910
-                    +         1 Nf_ManElaBestMatchOne  (in abc) + 380  [0x101827b18]  giaNf.c:1879
-                    +         1 Nf_ManElaBestMatchOne  (in abc) + 512  [0x101827b9c]  giaNf.c:1895
-                    +           1 Nf_MatchRefArea  (in abc) + 28  [0x101827934]  giaNf.c:1823
-                    +             1 Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-                    +               1 Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-                    +                 1 Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-                    +                   1 Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-                    +                     1 Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-                    +                       1 Vec_IntPush  (in abc) + 160  [0x101822210]  vecInt.h:758
-                    4 Abc_CommandAbc9Strash  (in abc) + 1520  [0x1010f9880]  abc.c:36539
-                    + 2 Gia_ManRehash  (in abc) + 664  [0x1017ba8ec]  giaHash.c:775
-                    + ! 2 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    + !   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-                    + !   : 1 _szone_free  (in libsystem_malloc.dylib) + 140  [0x195d171b0]
-                    + !   1 Nr_ManFree  (in abc) + 180  [0x1010ae9d8]  node_retention.c:131
+                    + ! :           + ! 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 472  [0x195d03cf4]
+                    + ! :           + 1 free_tiny  (in libsystem_malloc.dylib) + 84  [0x195d03824]
+                    + ! :           1 Extra_TruthPermute  (in abc) + 100  [0x1053167c8]  extraUtilMisc.c:366
+                    + ! 1 Abc_NtkSopToAig  (in abc) + 268  [0x104fe1ac8]  abcFunc.c:906
+                    + !   1 Abc_ConvertSopToAigInternal  (in abc) + 52  [0x104fe1b90]  abcFunc.c:941
+                    + !     1 Abc_SopIsExorType  (in abc) + 8  [0x10500a928]  abcSop.c:853
+                    + 2 Abc_NtkStrash  (in abc) + 100  [0x105129fac]  abcStrash.c:285
+                    + ! 1 Abc_NtkStrashPerform  (in abc) + 96  [0x10512a0c8]  abcStrash.c:433
+                    + ! : 1 Abc_NodeStrash  (in abc) + 212  [0x10512a710]  abcStrash.c:509
+                    + ! :   1 Abc_NodeStrash_rec  (in abc) + 4  [0x10512a588]  abcStrash.c:453
+                    + ! 1 Abc_NtkStrashPerform  (in abc) + 132  [0x10512a0ec]  abcStrash.c:436
+                    + !   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !     1 Nr_ManAddOrigin  (in abc) + 140  [0x105006ab0]  node_retention.c:299
+                    + !       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    + !         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                    + !           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1564  [0x195d01b40]
+                    + 1 Abc_NtkStrash  (in abc) + 76  [0x105129f94]  abcStrash.c:284
+                    +   1 Abc_NtkStartFrom  (in abc) + 148  [0x104ffc914]  abcNtk.c:178
+                    +     1 Abc_NtkCleanCopy  (in abc) + 32  [0x10500ddd4]  abcUtil.c:544
+                    15 Abc_CommandPrintLevel  (in abc) + 512  [0x10501c320]  abc.c:2206
+                    + 9 Abc_NtkPrintLevel  (in abc) + 260  [0x105100374]  abcPrint.c:1255
+                    + ! 9 putchar  (in libsystem_c.dylib) + 140  [0x195dbbc10]
+                    + !   9 __swbuf  (in libsystem_c.dylib) + 220  [0x195dc0970]
+                    + !     9 __sflush  (in libsystem_c.dylib) + 232  [0x195d9ed6c]
+                    + !       9 _swrite  (in libsystem_c.dylib) + 108  [0x195da0ccc]
+                    + !         9 __swrite  (in libsystem_c.dylib) + 24  [0x195dbfd78]
+                    + !           9 __write_nocancel  (in libsystem_kernel.dylib) + 8  [0x195ec0aa4]
+                    + 3 Abc_NtkPrintLevel  (in abc) + 328  [0x1051003b8]  abcPrint.c:1254
+                    + ! 3 printf  (in libsystem_c.dylib) + 80  [0x195dbbb78]
+                    + !   3 vfprintf_l  (in libsystem_c.dylib) + 156  [0x195da0a5c]
+                    + !     2 __vfprintf  (in libsystem_c.dylib) + 11156  [0x195d935fc]
+                    + !     : 2 __sfvwrite  (in libsystem_c.dylib) + 716  [0x195d93c48]
+                    + !     :   1 __sfvwrite  (in libsystem_c.dylib) + 604  [0x195d93bd8]
+                    + !     :   1 _platform_memmove  (in libsystem_platform.dylib) + 428  [0x195f383fc]
+                    + !     1 __vfprintf  (in libsystem_c.dylib) + 11500  [0x195d93754]
+                    + 2 Abc_NtkPrintLevel  (in abc) + 336,352  [0x1051003c0,0x1051003d0]  abcPrint.c:1252
+                    + 1 Abc_NtkPrintLevel  (in abc) + 384  [0x1051003f0]  abcPrint.c:0
+                    9 Abc_CommandAbc9Nf  (in abc) + 704  [0x105062070]  abc.c:46067
+                    + 9 Nf_ManPerformMapping  (in abc) + 192  [0x105783d24]  giaNf.c:2914
+                    +   6 Nf_ManPerformMappingInt  (in abc) + 288  [0x105783208]  giaNf.c:2733
+                    +   ! 6 Nf_ManComputeCuts  (in abc) + 124  [0x10577c928]  giaNf.c:979
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 244  [0x10577af64]  giaNf.c:872
+                    +   !   : 1 Nf_ManPrepareCuts  (in abc) + 296  [0x10577c538]  giaNf.c:558
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1152  [0x10577b2f0]  giaNf.c:930
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1676  [0x10577b4fc]  giaNf.c:935
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 2284  [0x10577b75c]  giaNf.c:936
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1008  [0x10577b260]  giaNf.c:938
+                    +   !   : 1 Nf_CutParams  (in abc) + 20  [0x10577c5ec]  giaNf.c:852
+                    +   !   1 Nf_ObjMergeOrder  (in abc) + 1028  [0x10577b274]  giaNf.c:939
+                    +   !     1 Nf_SetAddCut  (in abc) + 364  [0x10577c818]  giaNf.c:840
+                    +   2 Nf_ManPerformMappingInt  (in abc) + 936  [0x105783490]  giaNf.c:2756
+                    +   ! 1 Nf_ManComputeMappingEla  (in abc) + 976  [0x1057807a4]  giaNf.c:2082
+                    +   ! : 1 Nf_MatchDeref_rec  (in abc) + 276  [0x10577f57c]  giaNf.c:1784
+                    +   ! :   1 Nf_MatchDeref_rec  (in abc) + 256  [0x10577f568]  giaNf.c:1784
+                    +   ! 1 Nf_ManComputeMappingEla  (in abc) + 1008  [0x1057807c4]  giaNf.c:2084
+                    +   !   1 Nf_ManElaBestMatch  (in abc) + 220  [0x10577fdf4]  giaNf.c:1910
+                    +   !     1 Nf_ManElaBestMatchOne  (in abc) + 512  [0x10577fb9c]  giaNf.c:1895
+                    +   !       1 Nf_MatchRefArea  (in abc) + 72  [0x10577f960]  giaNf.c:1826
+                    +   1 Nf_ManPerformMappingInt  (in abc) + 828  [0x105783424]  giaNf.c:2748
+                    +     1 Nf_ManComputeMapping  (in abc) + 348  [0x10577dfd4]  giaNf.c:1438
+                    +       1 Nf_ManCutMatch  (in abc) + 1328  [0x10577dd24]  giaNf.c:1379
+                    5 Abc_CommandAbc9Strash  (in abc) + 1520  [0x105051880]  abc.c:36539
+                    + 2 Gia_ManRehash  (in abc) + 216  [0x10571272c]  giaHash.c:767
+                    + ! 2 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    + !   1 Nr_ManAddOrigin  (in abc) + 404  [0x105006bb8]  node_retention.c:308
+                    + !   : 1 _platform_strlen  (in libsystem_platform.dylib) + 48  [0x195f35a10]
+                    + !   1 Nr_ManAddOrigin  (in abc) + 524  [0x105006c30]  node_retention.c:316
+                    + !     1 _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
+                    + !       1 _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
+                    + !         1 szone_realloc  (in libsystem_malloc.dylib) + 996  [0x195d02f34]
+                    + !           1 _platform_memmove  (in libsystem_platform.dylib) + 24  [0x195f38268]
+                    + 2 Gia_ManRehash  (in abc) + 664  [0x1057128ec]  giaHash.c:775
+                    + ! 2 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    + !   2 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
                     + !     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    + !       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 68  [0x195d03b60]
-                    + 1 Gia_ManRehash  (in abc) + 216  [0x1017ba72c]  giaHash.c:767
-                    + ! 1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    + !   1 Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-                    + !     1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-                    + !       1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    + !         1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1444  [0x195d01ac8]
-                    + 1 Gia_ManRehash  (in abc) + 652  [0x1017ba8e0]  giaHash.c:774
-                    +   1 Gia_ManCleanup  (in abc) + 20  [0x10186e6cc]  giaScl.c:86
-                    +     1 Gia_ManCombMarkUsed  (in abc) + 132  [0x10186e580]  giaScl.c:64
-                    1 Abc_CommandAbc9Get  (in abc) + 552  [0x1010f54a4]  abc.c:34506
-                    + 1 Abc_NtkToDar  (in abc) + 936  [0x10113f1d0]  abcDar.c:320
-                    +   1 Nr_ManCopyOrigins  (in abc) + 88  [0x1010aecdc]  node_retention.c:340
-                    1 Abc_CommandAbc9Get  (in abc) + 584  [0x1010f54c4]  abc.c:34516
-                    + 1 Abc_NtkDelete  (in abc) + 1812  [0x1010a6ac0]  abcNtk.c:1547
-                    +   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
-                    +     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    +       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 332  [0x195d03c68]
-                    1 Abc_CommandAbc9Get  (in abc) + 592  [0x1010f54cc]  abc.c:34523
-                    + 1 Gia_ManFromAig  (in abc) + 776  [0x101714d04]  giaAig.c:111
-                    +   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    +     1 Nr_ManAddOrigin  (in abc) + 104  [0x1010aea8c]  node_retention.c:297
+                    + !     : 1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 924  [0x195d03eb8]
+                    + !     1 free_tiny  (in libsystem_malloc.dylib) + 100  [0x195d03834]
+                    + 1 Gia_ManRehash  (in abc) + 652  [0x1057128e0]  giaHash.c:774
+                    +   1 Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+                    +     1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    +       1 Nr_ManAddOrigin  (in abc) + 140  [0x105006ab0]  node_retention.c:299
+                    +         1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                    +           1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 256  [0x195d00db4]
+                    1 Abc_CommandAbc9Get  (in abc) + 552  [0x10504d4a4]  abc.c:34506
+                    + 1 Abc_NtkToDar  (in abc) + 936  [0x1050971d0]  abcDar.c:320
+                    +   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    +     1 Nr_ManAddOrigin  (in abc) + 128  [0x105006aa4]  node_retention.c:299
+                    1 Abc_CommandAbc9Get  (in abc) + 584  [0x10504d4c4]  abc.c:34516
+                    + 1 Abc_NtkDelete  (in abc) + 1812  [0x104ffeac0]  abcNtk.c:1547
+                    +   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    +     1 _szone_free  (in libsystem_malloc.dylib) + 140  [0x195d171b0]
+                    1 Abc_CommandAbc9Get  (in abc) + 592  [0x10504d4cc]  abc.c:34523
+                    + 1 Gia_ManFromAig  (in abc) + 776  [0x10566cd04]  giaAig.c:111
+                    +   1 Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+                    +     1 Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
                     +       1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
                     +         1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-                    +           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 1400  [0x195d01a9c]
-                    1 Abc_CommandAbc9Get  (in abc) + 624  [0x1010f54ec]  abc.c:34534
-                    + 1 Aig_ManStop  (in abc) + 1400  [0x1016d2420]  aigMan.c:234
-                    +   1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
-                    +     1 free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
-                    +       1 _platform_memset  (in libsystem_platform.dylib) + 12  [0x195f37f8c]
-                    1 Abc_CommandAbc9Get  (in abc) + 660  [0x1010f5510]  abc.c:34538
-                    + 1 Gia_ManDupZeroUndc  (in abc) + 2044  [0x10176b5b0]  giaDup.c:3643
-                    +   1 Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-                    +     1 Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-                    +       1 _platform_strlen  (in libsystem_platform.dylib) + 64  [0x195f35a20]
-                    1 Abc_CommandAbc9Get  (in abc) + 692  [0x1010f5530]  abc.c:34545
-                    + 1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    +   1 Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
+                    +           1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 792  [0x195d0183c]
+                    1 Abc_CommandAbc9Get  (in abc) + 624  [0x10504d4ec]  abc.c:34534
+                    + 1 Aig_ManStop  (in abc) + 1400  [0x10562a420]  aigMan.c:234
+                    +   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
                     +     1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    +       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-                    +         1 get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 56  [0x195d0fd54]
-                    1 Abc_CommandAbc9Sweep  (in abc) + 680  [0x1011055d4]  abc.c:43363
-                    + 1 Abc_FrameUpdateGia  (in abc) + 224  [0x1010bec48]  abc.c:872
-                    +   1 Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-                    +     1 Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
+                    +       1 tiny_madvise_free_range_no_lock  (in libsystem_malloc.dylib) + 372  [0x195d35d64]
+                    1 Abc_CommandAbc9Get  (in abc) + 692  [0x10504d530]  abc.c:34545
+                    + 1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    +   1 Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+                    +     1 free_tiny  (in libsystem_malloc.dylib) + 476  [0x195d039ac]
+                    1 Abc_CommandAbc9Strash  (in abc) + 1004  [0x10505167c]  abc.c:0
+                    + 1 Abc_FrameUpdateGia  (in abc) + 224  [0x105016c48]  abc.c:872
+                    +   1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    +     1 Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
+                    +       1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 1640  [0x195d04184]
+                    1 Abc_CommandAbc9Sweep  (in abc) + 680  [0x10505d5d4]  abc.c:43363
+                    + 1 Abc_FrameUpdateGia  (in abc) + 224  [0x105016c48]  abc.c:872
+                    +   1 Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+                    +     1 Nr_ManFree  (in abc) + 196  [0x1050069e8]  node_retention.c:131
                     +       1 free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-                    +         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 320  [0x195d03c5c]
-                    1 Mio_CommandReadGenlib  (in abc) + 528  [0x10131b78c]  mio.c:494
-                      1 Amap_LibReadAndPrepare  (in abc) + 420  [0x101367468]  amapLib.c:362
-                        1 Amap_LibCreateRules  (in abc) + 176  [0x101372450]  amapRule.c:445
-                          1 Amap_CreateRulesForGate  (in abc) + 184  [0x1013720b4]  amapRule.c:347
-                            1 Kit_DsdVerify  (in abc) + 56  [0x1015b2b14]  kitDsd.c:2497
-                              1 Kit_DsdManAlloc  (in abc) + 392  [0x1015b1d4c]  kitDsd.c:55
-                                1 Cloud_Init  (in abc) + 216  [0x1015b0990]  cloud.c:103
-                                  1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 168  [0x195cffc3c]
-                                    1 medium_malloc_should_clear  (in libsystem_malloc.dylib) + 232  [0x195d05ad4]
-                                      1 __bzero  (in libsystem_platform.dylib) + 64  [0x195f37f60]
+                    +         1 tiny_free_no_lock  (in libsystem_malloc.dylib) + 756  [0x195d03e10]
+                    1 Mio_CommandReadGenlib  (in abc) + 384  [0x1052736fc]  mio.c:473
+                      1 Mio_LibraryRead  (in abc) + 288  [0x105276f68]  mioRead.c:76
+                        1 Mio_LibraryReadOne  (in abc) + 68  [0x1052771d8]  mioRead.c:211
+                          1 Mio_LibraryReadBuffer  (in abc) + 588  [0x105277480]  mioRead.c:169
+                            1 szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+                              1 tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+                                1 tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 76  [0x195d01570]
 
 Total number in stack (recursive counted multiple, when >=5):
-        90       Dam_ManMultiAig_rec  (in abc) + 632  [0x101724700]  giaBalAig.c:786
-        30       Nr_ManCopyOrigins  (in abc) + 176  [0x1010aed34]  node_retention.c:345
-        28       free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
-        23       Gia_ManStop  (in abc) + 3764  [0x1017f5550]  giaMan.c:184
-        18       Nr_ManAddOrigin  (in abc) + 380  [0x1010aeba0]  node_retention.c:304
-        17       Nr_ManFree  (in abc) + 164  [0x1010ae9c8]  node_retention.c:129
-        17       szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
-        12       tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
-        11       tiny_free_no_lock  (in libsystem_malloc.dylib) + 0  [0x195d03b1c]
+        64       Dam_ManMultiAig_rec  (in abc) + 632  [0x10567c700]  giaBalAig.c:786
+        33       Nr_ManCopyOrigins  (in abc) + 176  [0x105006d34]  node_retention.c:345
+        24       Gia_ManStop  (in abc) + 3764  [0x10574d550]  giaMan.c:184
+        22       free_tiny  (in libsystem_malloc.dylib) + 460  [0x195d0399c]
+        22       szone_malloc_should_clear  (in libsystem_malloc.dylib) + 84  [0x195cffbe8]
+        19       Nr_ManFree  (in abc) + 164  [0x1050069c8]  node_retention.c:129
+        16       tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 272  [0x195d00dc4]
+        14       Nr_ManAddOrigin  (in abc) + 380  [0x105006ba0]  node_retention.c:304
+        14       tiny_free_no_lock  (in libsystem_malloc.dylib) + 0  [0x195d03b1c]
+        14       tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 0  [0x195d01524]
+        12       _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
+        12       free_tiny  (in libsystem_malloc.dylib) + 0  [0x195d037d0]
         10       DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib) + 0  [0x195f3bd38]
-        10       DYLD-STUB$$strcmp  (in abc) + 0  [0x101bc4a58]
-        10       Nr_ManNumOriginalNodes  (in abc) + 0  [0x1010aedd0]  node_retention.c:434
-        10       Nr_ManNumOriginalNodes  (in abc) + 0  [0x1010aedd0]  node_retention.c:436
-        10       Nr_ManNumOriginalNodes  (in abc) + 296  [0x1010aeef8]  node_retention.c:436
-        10       Nr_ManPrintDebug  (in abc) + 68  [0x1010af398]  node_retention.c:645
+        10       DYLD-STUB$$strcmp  (in abc) + 0  [0x105b1ca58]
+        10       Nr_ManNumOriginalNodes  (in abc) + 0  [0x105006dd0]  node_retention.c:434
+        10       Nr_ManNumOriginalNodes  (in abc) + 0  [0x105006dd0]  node_retention.c:436
+        10       Nr_ManNumOriginalNodes  (in abc) + 296  [0x105006ef8]  node_retention.c:436
+        10       Nr_ManPrintDebug  (in abc) + 68  [0x105007398]  node_retention.c:645
         10       _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib) + 0  [0x195f3b170]
-        9       Dam_ManMultiAig_rec  (in abc) + 780  [0x101724794]  giaBalAig.c:793
-        9       tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 0  [0x195d0433c]
-        8       Gia_ManDupMarked  (in abc) + 436  [0x10175e7c4]  giaDup.c:1503
-        8       Nr_ManAddOrigin  (in abc) + 404  [0x1010aebb8]  node_retention.c:308
-        8       tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 0  [0x195d00cb4]
-        7       Nr_ManFree  (in abc) + 196  [0x1010ae9e8]  node_retention.c:131
+        9       Dam_ManMultiAig_rec  (in abc) + 780  [0x10567c794]  giaBalAig.c:793
+        9       Gia_ManDupMarked  (in abc) + 436  [0x1056b67c4]  giaDup.c:1503
+        9       _platform_strlen  (in libsystem_platform.dylib) + 0  [0x195f359e0]
+        8       Nr_ManAddOrigin  (in abc) + 424  [0x105006bcc]  node_retention.c:309
+        7       Dch_ManCollectTfoCands_rec  (in abc) + 96  [0x1055e76ec]  dchSimSat.c:55
         7       _platform_memmove  (in libsystem_platform.dylib) + 0  [0x195f38250]
-        7       _platform_strlen  (in libsystem_platform.dylib) + 0  [0x195f359e0]
-        7       tiny_free_detach_region  (in libsystem_malloc.dylib) + 0  [0x195d0a810]
-        7       tiny_malloc_from_free_list  (in libsystem_malloc.dylib) + 0  [0x195d01524]
-        6       Nr_ManAddOrigin  (in abc) + 424  [0x1010aebcc]  node_retention.c:309
-        6       _platform_memset  (in libsystem_platform.dylib) + 0  [0x195f37f80]
-        6       _szone_free  (in libsystem_malloc.dylib) + 0  [0x195d17124]
-        6       free_tiny  (in libsystem_malloc.dylib) + 0  [0x195d037d0]
-        6       get_tiny_previous_free_msize  (in libsystem_malloc.dylib) + 0  [0x195d0fd1c]
-        6       tiny_free_no_lock  (in libsystem_malloc.dylib) + 140  [0x195d03ba8]
-        5       Dam_ManMultiAig_rec  (in abc) + 236  [0x101724574]  giaBalAig.c:763
-        5       Dam_ManMultiAig_rec  (in abc) + 268  [0x101724594]  giaBalAig.c:764
-        5       Nf_MatchRef_rec  (in abc) + 368  [0x1018277d4]  giaNf.c:1815
-        5       Nr_ManFree  (in abc) + 88  [0x1010ae97c]  node_retention.c:133
-        5       _platform_strcpy  (in libsystem_platform.dylib) + 48  [0x195f35ce0]
-        5       free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+        7       _platform_memset  (in libsystem_platform.dylib) + 0  [0x195f37f80]
+        7       free_tiny  (in libsystem_malloc.dylib) + 136  [0x195d03858]
+        6       Nr_ManFree  (in abc) + 180  [0x1050069d8]  node_retention.c:131
+        5       Gia_ManEquivReduce_rec  (in abc) + 264  [0x1056e4084]  giaEquiv.c:665
+        5       _malloc_zone_realloc  (in libsystem_malloc.dylib) + 148  [0x195d31628]
+        5       _platform_strcpy  (in libsystem_platform.dylib) + 32  [0x195f35cd0]
+        5       _realloc  (in libsystem_malloc.dylib) + 452  [0x195d31e58]
+        5       tiny_free_detach_region  (in libsystem_malloc.dylib) + 0  [0x195d0a810]
+        5       tiny_free_list_add_ptr  (in libsystem_malloc.dylib) + 0  [0x195d0433c]
         5       tiny_free_list_remove_ptr  (in libsystem_malloc.dylib) + 0  [0x195d04590]
-        5       tiny_free_no_lock  (in libsystem_malloc.dylib) + 416  [0x195d03cbc]
+        5       tiny_free_no_lock  (in libsystem_malloc.dylib) + 1012  [0x195d03f10]
+        5       tiny_free_reattach_region  (in libsystem_malloc.dylib) + 0  [0x195d0a978]
+        5       tiny_malloc_should_clear  (in libsystem_malloc.dylib) + 0  [0x195d00cb4]
 
 Sort by top of stack, same collapsed (when >= 5):
-        _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib)        7117
-        Nr_ManNumOriginalNodes  (in abc)        448
-        DYLD-STUB$$strcmp  (in abc)        435
-        DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib)        398
-        __write_nocancel  (in libsystem_kernel.dylib)        32
-        sat_solver_propagate  (in abc)        14
-        tiny_free_no_lock  (in libsystem_malloc.dylib)        13
-        free_tiny  (in libsystem_malloc.dylib)        12
-        tiny_malloc_should_clear  (in libsystem_malloc.dylib)        12
-        tiny_free_list_add_ptr  (in libsystem_malloc.dylib)        11
-        _platform_strlen  (in libsystem_platform.dylib)        9
-        tiny_malloc_from_free_list  (in libsystem_malloc.dylib)        9
+        _platform_strcmp$VARIANT$Base  (in libsystem_platform.dylib)        6720
+        Nr_ManNumOriginalNodes  (in abc)        578
+        DYLD-STUB$$strcmp  (in abc)        560
+        DYLD-STUB$$_platform_strcmp  (in libsystem_platform.dylib)        519
+        tiny_malloc_from_free_list  (in libsystem_malloc.dylib)        18
+        tiny_free_no_lock  (in libsystem_malloc.dylib)        17
+        _szone_free  (in libsystem_malloc.dylib)        15
+        free_tiny  (in libsystem_malloc.dylib)        14
+        _platform_memset  (in libsystem_platform.dylib)        13
+        _platform_strlen  (in libsystem_platform.dylib)        12
+        __write_nocancel  (in libsystem_kernel.dylib)        10
         Nr_ManAddOrigin  (in abc)        8
         _platform_memmove  (in libsystem_platform.dylib)        8
-        get_tiny_previous_free_msize  (in libsystem_malloc.dylib)        7
-        tiny_free_detach_region  (in libsystem_malloc.dylib)        7
-        Nf_ObjMergeOrder  (in abc)        6
-        _platform_memset  (in libsystem_platform.dylib)        6
-        _szone_free  (in libsystem_malloc.dylib)        6
-        tiny_free_list_remove_ptr  (in libsystem_malloc.dylib)        6
-        tiny_free_reattach_region  (in libsystem_malloc.dylib)        6
-        Extra_TruthPermute  (in abc)        5
+        sat_solver_propagate  (in abc)        8
+        Extra_TruthPermute  (in abc)        7
+        sat_solver_solve_internal  (in abc)        7
+        tiny_free_detach_region  (in libsystem_malloc.dylib)        6
+        Extra_MmFlexEntryFetch  (in abc)        5
+        _free  (in libsystem_malloc.dylib)        5
+        _tiny_check_and_zero_inline_meta_from_freelist  (in libsystem_malloc.dylib)        5
+        tiny_free_list_add_ptr  (in libsystem_malloc.dylib)        5
+        tiny_free_list_remove_ptr  (in libsystem_malloc.dylib)        5
+        tiny_free_reattach_region  (in libsystem_malloc.dylib)        5
+        tiny_malloc_should_clear  (in libsystem_malloc.dylib)        5
 
 Binary Images:
-       0x100e40000 -        0x101d814cf +abc (0) <7F0EE204-B624-3679-ABC4-35D2B4AA67C8> /Users/*/abc
+       0x104d98000 -        0x105cd94cf +abc (0) <7F0EE204-B624-3679-ABC4-35D2B4AA67C8> /Users/*/abc
        0x195b04000 -        0x195b57893  libobjc.A.dylib (940.4) <4966864D-C147-33D3-BB18-1E3979590B6D> /usr/lib/libobjc.A.dylib
        0x195b58000 -        0x195bf34cf  dyld (1.0.0 - 1285.19) <9CF0401A-A938-389E-A77D-9E9608076CCF> /usr/lib/dyld
        0x195bf4000 -        0x195bf7168  libsystem_blocks.dylib (96) <4740F383-F4C0-328E-8753-41E8982EC94A> /usr/lib/system/libsystem_blocks.dylib

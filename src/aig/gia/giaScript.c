@@ -385,16 +385,16 @@ Gia_Man_t * Gia_ManAigSynch2Choices( Gia_Man_t * pGia1, Gia_Man_t * pGia2, Gia_M
     Vec_PtrFree( vGias );
     // transform into an AIG
     pMan = Gia_ManToAigSkip( pMiter, 3 );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip done\n"); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention)); fclose(f); } }
     Gia_ManStop( pMiter );
     // compute choices
     pMan = Dch_ComputeChoices( pTemp = pMan, pPars );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices done\n"); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention)); fclose(f); } }
     Aig_ManStop( pTemp );
     // reconstruct the network
     vPios = Gia_ManOrderPios( pMan, pGia1 ); 
     pMan = Aig_ManDupDfsGuided( pTemp = pMan, vPios );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided done\n"); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention)); fclose(f); } }
     Aig_ManStop( pTemp );
     Vec_PtrFree( vPios );
     // convert to GIA

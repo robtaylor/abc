@@ -86,7 +86,6 @@ Gia_Man_t * Gia_ManAigSyn2( Gia_Man_t * pInit, int fOldAlgo, int fCoarsen, int f
     }
     if ( fVerbose )  Gia_ManPrintStats( pInit, NULL );
     p = Gia_ManDup( pInit );
-    Nr_ManPrintDebug( p->pNodeRetention, "Gia_ManAigSyn2: Gia_ManDup" );
     Gia_ManTransferTiming( p, pInit );
     if ( Gia_ManAndNum(p) == 0 )
     {
@@ -139,7 +138,6 @@ Gia_Man_t * Gia_ManAigSyn2( Gia_Man_t * pInit, int fOldAlgo, int fCoarsen, int f
     }
     // perform balancing
     pNew = Gia_ManAreaBalance( p, 0, ABC_INFINITY, fVeryVerbose, 0 );
-    Nr_ManPrintDebug( pNew->pNodeRetention, "Gia_ManAigSyn2: Gia_ManAreaBalance" );
     if ( fVerbose )     Gia_ManPrintStats( pNew, NULL );
     Gia_ManStop( p );
     // perform mapping
@@ -147,13 +145,11 @@ Gia_Man_t * Gia_ManAigSyn2( Gia_Man_t * pInit, int fOldAlgo, int fCoarsen, int f
         pNew = Jf_ManPerformMapping( pTemp = pNew, pPars );
     else
         pNew = Lf_ManPerformMapping( pTemp = pNew, pPars );
-    Nr_ManPrintDebug( pNew->pNodeRetention, "Gia_ManAigSyn2: Lf_ManPerformMapping" );
     if ( fVerbose )     Gia_ManPrintStats( pNew, NULL );
     if ( pTemp != pNew )
         Gia_ManStop( pTemp );
     // perform balancing
     pNew = Gia_ManAreaBalance( pTemp = pNew, 0, ABC_INFINITY, fVeryVerbose, 0 );
-    Nr_ManPrintDebug( pNew->pNodeRetention, "Gia_ManAigSyn2: Gia_ManAreaBalance" );
     if ( fVerbose )     Gia_ManPrintStats( pNew, NULL );
     Gia_ManStop( pTemp );
     return pNew;
@@ -418,6 +414,7 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
     pPars->fVerbose    = fVerbose;
     if ( fVerbose )  Gia_ManPrintStats( pInit, NULL );
     pGia1 = Gia_ManDup( pInit );
+    Nr_ManPrintDebug( pGia1->pNodeRetention, "Pre &Gia_ManDup" );
     if ( Gia_ManAndNum(pGia1) == 0 )
     {
         Gia_ManTransferTiming( pGia1, pInit );
@@ -444,6 +441,7 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
     if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
     // perform mapping
     pGia2 = Lf_ManPerformMapping( pTemp = pGia2, pPars );
+    Nr_ManPrintDebug( pGia2->pNodeRetention, "Post &Lf_ManPerformMapping" );
     if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
     if ( pTemp != pGia2 )
         Gia_ManStop( pTemp );
@@ -454,10 +452,12 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
     {
         assert( Gia_ManBufNum(pGia2) == 0 );
         pGia2 = Gia_ManAreaBalance( pTemp = pGia2, 0, ABC_INFINITY, 0, 0 );
+        Nr_ManPrintDebug( pGia2->pNodeRetention, "Post &Gia_ManAreaBalance" );
         if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
         Gia_ManStop( pTemp );
         // perform DSD balancing
         pGia3 = Gia_ManPerformDsdBalance( pGia2, 6, 8, 0, 0 );
+        Nr_ManPrintDebug( pGia3->pNodeRetention, "Post &Gia_ManPerformDsdBalance" );
     }
     if ( fVerbose )     Gia_ManPrintStats( pGia3, NULL );
     // perform choice computation
@@ -473,10 +473,12 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
         pGia3 = Gia_ManDupFromBarBufs( pTemp = pGia3 );
         Gia_ManStop( pTemp );
     }
+    Nr_ManPrintDebug( pGia1->pNodeRetention, "Pre &synch2Choice" );
     pNew = Gia_ManAigSynch2Choices( pGia1, pGia2, pGia3, pParsDch );
     Gia_ManStop( pGia1 );
     Gia_ManStop( pGia2 );
     Gia_ManStop( pGia3 );
+    Nr_ManPrintDebug( pGia1->pNodeRetention, "Post &synch2Choice" );
     if ( Gia_ManBufNum(pInit) )
     {
         pNew = Gia_ManDupToBarBufs( pTemp = pNew, Gia_ManBufNum(pInit) );

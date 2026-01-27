@@ -1,4 +1,4 @@
-read_blif -m "node_ret/input.blif";
+read_blif -m "node_ret/large.blif";
 read_library node_ret/stdcells.genlib;
 print_level -n;
 &get -n;
@@ -8,7 +8,6 @@ print_level -n;
 &st;
 &syn2;
 &if -g -K 6;
-&synch2;
 &nf;
 &put;
 print_level -n;

@@ -2,29 +2,6 @@
 DEBUG: Node retention after read_blif:
 DEBUG: Number of entries: 559
 DEBUG: Number of original nodes mapped: 523
-Nodes by level:
- 0 :  ys__n294 ys__n351
- 1 :  ys__n6 ys__n10 ys__n16 ys__n24 ys__n32 ys__n40 ys__n48 ys__n56 ys__n64 ys__n72 ys__n80 ys__n88 ys__n96 ys__n104 ys__n112 ys__n120 ys__n128 ys__n136 ys__n144 ys__n152 ys__n160 ys__n168 ys__n176 ys__n184 ys__n192 ys__n200 ys__n208 ys__n216 ys__n224 ys__n232 ys__n240 ys__n248 ys__n256 ys__n290 ys__n291 ys__n292 ys__n301 ys__n302 ys__n303 ys__n311 ys__n312 ys__n313 ys__n321 ys__n322 ys__n323 ys__n331 ys__n332 ys__n333 ys__n339 ys__n340 ys__n341 ys__n347 ys__n348 ys__n349 ys__n360 ys__n361 ys__n362 ys__n370 ys__n371 ys__n372 ys__n380 ys__n381 ys__n382 ys__n390 ys__n391 ys__n392 ys__n400 ys__n401 ys__n402 ys__n408 ys__n409 ys__n410 ys__n416 ys__n417 ys__n418 ys__n428 ys__n429 ys__n430 ys__n436 ys__n437 ys__n438 ys__n444 ys__n445 ys__n446 ys__n456 ys__n457 ys__n458 ys__n463 ys__n464 ys__n465 ys__n470 ys__n471 ys__n472 ys__n481 ys__n482 ys__n483 ys__n488 ys__n489 ys__n490 ys__n495 ys__n496 ys__n497 ys__n498 ys__n500 ys__n501 ys__n519 ys__n520
- 2 :  ys__n5 ys__n9 ys__n15 ys__n18 ys__n23 ys__n26 ys__n31 ys__n34 ys__n39 ys__n42 ys__n47 ys__n50 ys__n55 ys__n58 ys__n63 ys__n66 ys__n71 ys__n74 ys__n79 ys__n82 ys__n87 ys__n90 ys__n95 ys__n98 ys__n103 ys__n106 ys__n111 ys__n114 ys__n119 ys__n122 ys__n127 ys__n130 ys__n135 ys__n138 ys__n143 ys__n146 ys__n151 ys__n154 ys__n159 ys__n162 ys__n167 ys__n170 ys__n175 ys__n178 ys__n183 ys__n186 ys__n191 ys__n194 ys__n199 ys__n202 ys__n207 ys__n210 ys__n215 ys__n218 ys__n223 ys__n226 ys__n231 ys__n234 ys__n239 ys__n242 ys__n247 ys__n250 ys__n255 ys__n258 ys__n285 ys__n289 ys__n296 ys__n300 ys__n306 ys__n310 ys__n316 ys__n320 ys__n326 ys__n330 ys__n336 ys__n338 ys__n344 ys__n346 ys__n355 ys__n359 ys__n365 ys__n369 ys__n375 ys__n379 ys__n385 ys__n389 ys__n395 ys__n399 ys__n405 ys__n407 ys__n413 ys__n415 ys__n423 ys__n427 ys__n433 ys__n435 ys__n441 ys__n443 ys__n451 ys__n455 ys__n460 ys__n462 ys__n467 ys__n469 ys__n476 ys__n480 ys__n485 ys__n487 ys__n492 ys__n494 ys__n499 ys__n518
- 3 :  ys__n0 ys__n4 ys__n14 ys__n22 ys__n30 ys__n38 ys__n46 ys__n54 ys__n62 ys__n70 ys__n78 ys__n86 ys__n94 ys__n102 ys__n110 ys__n118 ys__n126 ys__n134 ys__n142 ys__n150 ys__n158 ys__n166 ys__n174 ys__n182 ys__n190 ys__n198 ys__n206 ys__n214 ys__n222 ys__n230 ys__n238 ys__n246 ys__n254 ys__n277 ys__n286 ys__n297 ys__n307 ys__n317 ys__n327 ys__n337 ys__n345 ys__n356 ys__n366 ys__n376 ys__n386 ys__n396 ys__n406 ys__n414 ys__n424 ys__n434 ys__n442 ys__n452 ys__n461 ys__n468 ys__n477 ys__n486 ys__n493
- 4 :  ys__n1 ys__n2 ys__n12 ys__n20 ys__n28 ys__n36 ys__n44 ys__n52 ys__n60 ys__n68 ys__n76 ys__n84 ys__n92 ys__n100 ys__n108 ys__n116 ys__n124 ys__n132 ys__n140 ys__n148 ys__n156 ys__n164 ys__n172 ys__n180 ys__n188 ys__n196 ys__n204 ys__n212 ys__n220 ys__n228 ys__n236 ys__n244 ys__n252 ys__n284 ys__n295 ys__n305 ys__n315 ys__n325 ys__n335 ys__n343 ys__n354 ys__n364 ys__n374 ys__n384 ys__n394 ys__n404 ys__n412 ys__n422 ys__n432 ys__n440 ys__n450 ys__n459 ys__n466 ys__n475 ys__n484 ys__n491
- 5 :  ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 ys__n283 ys__n288 ys__n299 ys__n309 ys__n319 ys__n328 ys__n329 ys__n353 ys__n358 ys__n368 ys__n378 ys__n388 ys__n397 ys__n398 ys__n421 ys__n425 ys__n426 ys__n449 ys__n453 ys__n454 ys__n474 ys__n478 ys__n479
- 6 :  ys__n318 ys__n387 ys__n420 ys__n448 ys__n473
- 7 :  ys__n272 ys__n274 ys__n276 ys__n308 ys__n377
- 8 :  ys__n298 ys__n367
- 9 :  ys__n287 ys__n357
-10 :  ys__n282 ys__n352
-11 :  ys__n261 ys__n281
-12 :  ys__n262
-13 :  ys__n280
-14 :  ys__n271
-15 :  ys__n263 ys__n273 ys__n275 ys__n278
-16 :  ys__n265 ys__n503 ys__n504 ys__n507 ys__n509 ys__n510 ys__n512 ys__n514 ys__n516 ys__n517
-17 :  ys__n502 ys__n508 ys__n515
-18 :  ys__n266 ys__n505 ys__n513
-19 :  ys__n268 ys__n506 ys__n511
-20 :  ys__n269
-21 :  ys__n270
 DEBUG: Node retention after strash:
 DEBUG: Number of entries: 256
 DEBUG: Number of original nodes mapped: 523
@@ -37,116 +14,120 @@ DEBUG: Number of original nodes mapped: 452
 DEBUG: Node retention after Gia_ManDupZeroUndc:
 DEBUG: Number of entries: 255
 DEBUG: Number of original nodes mapped: 452
+DEBUG: Node retention after &get:
+DEBUG: Number of entries: 255
+DEBUG: Number of original nodes mapped: 452
 DEBUG: Node retention after Gia_ManRehash:
 DEBUG: Number of entries: 255
 DEBUG: Number of original nodes mapped: 452
 DEBUG: Node retention after Gia_ManFraigSweepSimple:
 DEBUG: Number of entries: 255
 DEBUG: Number of original nodes mapped: 452
+DEBUG: Node retention after &nf:
+DEBUG: Number of entries: 255
+DEBUG: Number of original nodes mapped: 452
 DEBUG: Node retention after Gia_ManRehash:
 DEBUG: Number of entries: 255
 DEBUG: Number of original nodes mapped: 452
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManDup:
-DEBUG: Number of entries: 255
-DEBUG: Number of original nodes mapped: 452
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 250
-DEBUG: Number of original nodes mapped: 297
-DEBUG: Node retention after Gia_ManAigSyn2: Lf_ManPerformMapping:
-DEBUG: Number of entries: 250
-DEBUG: Number of original nodes mapped: 297
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
+DEBUG: Node retention after Gia_ManAigSyn2:
 DEBUG: Number of entries: 248
 DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after &if:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after Pre &Gia_ManDup:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after Post &Lf_ManPerformMapping:
+DEBUG: Number of entries: 257
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after Post &Gia_ManAreaBalance:
+DEBUG: Number of entries: 248
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after Post &Gia_ManPerformDsdBalance:
+DEBUG: Number of entries: 250
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after Pre &synch2Choice:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 285
+DEBUG: Node retention after &synch2:
+DEBUG: Number of entries: 258
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after &nf:
+DEBUG: Number of entries: 258
+DEBUG: Number of original nodes mapped: 230
 DEBUG: Node retention after Gia_ManRehash:
 DEBUG: Number of entries: 250
 DEBUG: Number of original nodes mapped: 230
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManDup:
+DEBUG: Node retention after Gia_ManAigSyn2:
+DEBUG: Number of entries: 248
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after &if:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after Pre &Gia_ManDup:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after Post &Lf_ManPerformMapping:
+DEBUG: Number of entries: 257
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after Post &Gia_ManAreaBalance:
+DEBUG: Number of entries: 248
+DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after Post &Gia_ManPerformDsdBalance:
 DEBUG: Number of entries: 250
 DEBUG: Number of original nodes mapped: 230
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
+DEBUG: Node retention after Pre &synch2Choice:
+DEBUG: Number of entries: 251
 DEBUG: Number of original nodes mapped: 230
-DEBUG: Node retention after Gia_ManAigSyn2: Lf_ManPerformMapping:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 230
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 230
+DEBUG: Node retention after Post &synch2Choice:
+DEBUG: Number of entries: 0
+DEBUG: Number of original nodes mapped: 0
+DEBUG: Node retention after &synch2:
+DEBUG: Number of entries: 262
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after &nf:
+DEBUG: Number of entries: 262
+DEBUG: Number of original nodes mapped: 223
 DEBUG: Node retention after Gia_ManRehash:
 DEBUG: Number of entries: 250
 DEBUG: Number of original nodes mapped: 223
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManDup:
+DEBUG: Node retention after Gia_ManAigSyn2:
+DEBUG: Number of entries: 248
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after &if:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after Pre &Gia_ManDup:
+DEBUG: Number of entries: 251
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after Post &Lf_ManPerformMapping:
+DEBUG: Number of entries: 257
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after Post &Gia_ManAreaBalance:
+DEBUG: Number of entries: 248
+DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after Post &Gia_ManPerformDsdBalance:
 DEBUG: Number of entries: 250
 DEBUG: Number of original nodes mapped: 223
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
+DEBUG: Node retention after Pre &synch2Choice:
+DEBUG: Number of entries: 251
 DEBUG: Number of original nodes mapped: 223
-DEBUG: Node retention after Gia_ManAigSyn2: Lf_ManPerformMapping:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 223
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 223
+DEBUG: Node retention after Post &synch2Choice:
+DEBUG: Number of entries: 0
+DEBUG: Number of original nodes mapped: 0
+DEBUG: Node retention after &synch2:
+DEBUG: Number of entries: 264
+DEBUG: Number of original nodes mapped: 176
+DEBUG: Node retention after &nf:
+DEBUG: Number of entries: 264
+DEBUG: Number of original nodes mapped: 176
 DEBUG: Node retention after Gia_ManRehash:
 DEBUG: Number of entries: 250
 DEBUG: Number of original nodes mapped: 176
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManDup:
-DEBUG: Number of entries: 250
-DEBUG: Number of original nodes mapped: 176
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
+DEBUG: Node retention after Gia_ManAigSyn2:
 DEBUG: Number of entries: 248
 DEBUG: Number of original nodes mapped: 176
-DEBUG: Node retention after Gia_ManAigSyn2: Lf_ManPerformMapping:
-DEBUG: Number of entries: 248
+DEBUG: Node retention after &if:
+DEBUG: Number of entries: 251
 DEBUG: Number of original nodes mapped: 176
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 176
-DEBUG: Node retention after Gia_ManRehash:
-DEBUG: Number of entries: 250
-DEBUG: Number of original nodes mapped: 171
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManDup:
-DEBUG: Number of entries: 250
-DEBUG: Number of original nodes mapped: 171
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 171
-DEBUG: Node retention after Gia_ManAigSyn2: Lf_ManPerformMapping:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 171
-DEBUG: Node retention after Gia_ManAigSyn2: Gia_ManAreaBalance:
-DEBUG: Number of entries: 248
-DEBUG: Number of original nodes mapped: 171
-LutSize = 6  CutNum = 16  Iter = 4  Coarse = 0   Cells = 8  Funcs = 289  Matches = 68  And = 134  Choices = 4  
-Computing cuts...CutPair = 1577  Merge = 766 (5.7)  Eval = 665 (5.0)  Cut = 414 (3.1)  Use = 172 (1.3)  Mat = 504 (3.8)  
-Gia = 0.01 MB  Man = 0.02 MB  Cut = 0.25 MB   TT = 0.03 MB  Total = 0.31 MB   Time =     0.00 sec
-Delay :  Delay =    6.00  Area =      271.00  Gate =    74  Inv =    13  Edge =    167  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Area  :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-Ela   :  Delay =    6.00  Area =      263.00  Gate =    70  Inv =     9  Edge =    163  Time =     0.00 sec
-DEBUG: Node retention after &put v1: Abc_NtkFromCellMappedGia:
-DEBUG: Number of entries: 194
-DEBUG: Number of original nodes mapped: 166
-Nodes by level:
- 0 : 
- 1 :  n125 n126 n127 n128 n129 n130 n131 ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 n173 n174 n177 n180 n184 n188 n192
- 2 :  n164 n165 n166 n169 n170 n175 n178 n181 n185 n189
- 3 :  n167 n171 n176
- 4 :  n168 n179
- 5 :  n172 n182 n186 n190 n193
- 6 :  ys__n265 ys__n268 ys__n270 ys__n506
-DEBUG: Node retention after write_blif way before conversion:
-DEBUG: Number of entries: 194
-DEBUG: Number of original nodes mapped: 166
-DEBUG: Node retention after Io_Write before conversion:
-DEBUG: Number of entries: 194
-DEBUG: Number of original nodes mapped: 166
-DEBUG: Node retention after Io_Write after conversion:
-DEBUG: Number of entries: 352
-DEBUG: Number of original nodes mapped: 166
-DEBUG: Node retention after write_blif:
-DEBUG: Number of entries: 194
-DEBUG: Number of original nodes mapped: 166

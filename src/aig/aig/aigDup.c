@@ -542,9 +542,9 @@ Aig_Obj_t * Aig_ManDupDfs_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj
         return (Aig_Obj_t *)pObjNew;
     }
     Aig_ManDupDfs_rec( pNew, p, Aig_ObjFanin1(pObj) );
-    nNodesBefore = Aig_ManNodeNum(pNew);
+    nNodesBefore = Aig_ManObjNum(pNew);
     pObjNew = Aig_Oper( pNew, Aig_ObjChild0Copy(pObj), Aig_ObjChild1Copy(pObj), Aig_ObjType(pObj) );
-    nNodesAfter = Aig_ManNodeNum(pNew);
+    nNodesAfter = Aig_ManObjNum(pNew);
     if ( pEquivNew )
     {
         assert( Aig_Regular(pEquivNew)->Id < Aig_Regular(pObjNew)->Id );

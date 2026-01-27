@@ -443,6 +443,7 @@ static inline Aig_Obj_t * Aig_ObjChild1CopyRepr( Aig_Man_t * p, Aig_Obj_t * pObj
 void Dch_DeriveChoiceAigNode( Aig_Man_t * pAigNew, Aig_Man_t * pAigOld, Aig_Obj_t * pObj, int fSkipRedSupps )
 {
     Aig_Obj_t * pRepr, * pObjNew, * pReprNew;
+    int nNodesBefore, nNodesAfter, i;
     assert( !Aig_IsComplement(pObj) );
     // get the representative
     pRepr = Aig_ObjRepr( pAigOld, pObj );
@@ -453,9 +454,17 @@ void Dch_DeriveChoiceAigNode( Aig_Man_t * pAigNew, Aig_Man_t * pAigOld, Aig_Obj_
         return;
     }
     // get the new node
+    nNodesBefore = Aig_ManObjNum(pAigNew);
     pObjNew = Aig_And( pAigNew, 
         Aig_ObjChild0CopyRepr(pAigNew, pObj), 
         Aig_ObjChild1CopyRepr(pAigNew, pObj) );
+    nNodesAfter = Aig_ManObjNum(pAigNew);
+    // copy origins for any newly created nodes
+    for ( i = nNodesBefore; i < nNodesAfter; i++ )
+        Nr_ManCopyOrigins( pAigNew->pNodeRetention, pAigOld->pNodeRetention, i, Aig_ObjId(pObj) );
+    // if no new nodes created (structural hashing), still copy origins for the result
+    // if ( nNodesBefore == nNodesAfter && !Aig_ObjIsConst1(Aig_Regular(pObjNew)) )
+    //     Nr_ManCopyOrigins( pAigNew->pNodeRetention, pAigOld->pNodeRetention, Aig_ObjId(Aig_Regular(pObjNew)), Aig_ObjId(pObj) );
 //    pObjNew = Aig_ObjGetRepr( pAigNew, pObjNew );
     while ( 1 ) 
     {
@@ -519,11 +528,10 @@ Aig_Man_t * Dch_DeriveChoiceAigInt( Aig_Man_t * pAig, int fSkipRedSupps )
     Aig_ManForEachCo( pAig, pObj, i )
         pObj->pData = Aig_ObjCreateCo( pChoices, Aig_ObjChild0CopyRepr(pChoices, pObj) );
     Aig_ManSetRegNum( pChoices, Aig_ManRegNum(pAig) );
-    // copy node retention mapping
+    // copy node retention mapping for CIs and COs (nodes handled in Dch_DeriveChoiceAigNode)
     Aig_ManForEachCi( pAig, pObj, i )
         Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
-    Aig_ManForEachNode( pAig, pObj, i )
-        Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
+    // Aig_ManForEachNode handled in Dch_DeriveChoiceAigNode with nObjs tracking
     Aig_ManForEachCo( pAig, pObj, i )
         Nr_ManCopyOrigins( pChoices->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(Aig_Regular((Aig_Obj_t *)pObj->pData)), Aig_ObjId(pObj) );
     return pChoices;

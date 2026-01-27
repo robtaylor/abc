@@ -554,7 +554,7 @@ Aig_Obj_t * Aig_ManDupDfs_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj
             pNew->pReprs[Aig_Regular(pEquivNew)->Id] = Aig_Regular(pObjNew);
     }
     pObj->pData = pObjNew;
-    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
+    // Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
     for (i = nNodesBefore; i < nNodesAfter; i++) {
         Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, i, Aig_ObjId(pObj) );
     }

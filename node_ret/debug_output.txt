@@ -1,66 +1,4 @@
-=== &get === TotalOrigins: 488
-=== &st === TotalOrigins: 488
-=== &sweep === TotalOrigins: 976
-=== &nf === TotalOrigins: 976
-=== &st === TotalOrigins: 976
-=== &syn2 === TotalOrigins: 1128
-=== &if === TotalOrigins: 1134
-synch2:Gia_ManDup TotalOrigins: 1134
-synch2:Gia_ManAreaBalance1 TotalOrigins: 1166
-synch2:Lf_ManPerformMapping TotalOrigins: 1154
-synch2:Gia_ManAreaBalance2 TotalOrigins: 1150
-synch2:Gia_ManPerformDsdBalance TotalOrigins: 1078
-synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 1134
-synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 3362
-synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 3218
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 4830
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 7058
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 7034
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 7034
-=== &synch2 === TotalOrigins: 7034
-=== &nf === TotalOrigins: 7034
-=== &put === TotalOrigins: 5912
-.node_retention_begin
-.node_retention_end
-=== &get === TotalOrigins: 488
-=== &st === TotalOrigins: 488
-=== &sweep === TotalOrigins: 976
-=== &nf === TotalOrigins: 976
-=== &st === TotalOrigins: 976
-=== &syn2 === TotalOrigins: 1128
-=== &if === TotalOrigins: 1134
-synch2:Gia_ManDup TotalOrigins: 1134
-synch2:Gia_ManAreaBalance1 TotalOrigins: 1166
-synch2:Lf_ManPerformMapping TotalOrigins: 1154
-synch2:Gia_ManAreaBalance2 TotalOrigins: 1150
-synch2:Gia_ManPerformDsdBalance TotalOrigins: 1078
-synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 1134
-synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 3362
-synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 3218
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 4830
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 7058
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 7034
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 7034
-=== &synch2 === TotalOrigins: 7034
-=== &nf === TotalOrigins: 7034
-=== &put === TotalOrigins: 5912
-.node_retention_begin
-.node_retention_end
-=== &get === TotalOrigins: 488
-=== &st === TotalOrigins: 488
-=== &sweep === TotalOrigins: 976
-=== &nf === TotalOrigins: 976
-=== &st === TotalOrigins: 976
-=== &get === TotalOrigins: 488
-=== &st === TotalOrigins: 488
-=== &sweep === TotalOrigins: 976
-=== &nf === TotalOrigins: 976
-=== &st === TotalOrigins: 976
-=== &syn2 === TotalOrigins: 1128
-=== &if === TotalOrigins: 1134
-synch2:Gia_ManDup TotalOrigins: 1134
-synch2:Gia_ManAreaBalance1 TotalOrigins: 1166
-synch2:Lf_ManPerformMapping TotalOrigins: 1154
+
 === &get === TotalOrigins: 488
 === &st === TotalOrigins: 488
 === &sweep === TotalOrigins: 976
@@ -76,36 +14,15 @@ synch2:Gia_ManPerformDsdBalance TotalOrigins: 1210
 synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 1308
 synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 3798
 synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 3654
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 5522
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 8320
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 8296
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 8296
-=== &synch2 === TotalOrigins: 8296
-=== &nf === TotalOrigins: 8296
-=== &put === TotalOrigins: 6778
-.node_retention_begin
-.node_retention_end
-=== &get === TotalOrigins: 488
-=== &st === TotalOrigins: 488
-=== &sweep === TotalOrigins: 976
-=== &nf === TotalOrigins: 976
-=== &st === TotalOrigins: 976
-=== &syn2 === TotalOrigins: 1322
-=== &if === TotalOrigins: 1308
-synch2:Gia_ManDup TotalOrigins: 1308
-synch2:Gia_ManAreaBalance1 TotalOrigins: 1308
-synch2:Lf_ManPerformMapping TotalOrigins: 1280
-synch2:Gia_ManAreaBalance2 TotalOrigins: 1280
-synch2:Gia_ManPerformDsdBalance TotalOrigins: 1210
-synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 1308
-synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 3798
-synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 3654
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 5522
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 8320
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 8296
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 8296
-=== &synch2 === TotalOrigins: 8296
-=== &nf === TotalOrigins: 8296
-=== &put === TotalOrigins: 6778
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: 3654
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 3654
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 3424
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 3424
+synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 4124
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 4112
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 4112
+=== &synch2 === TotalOrigins: 4112
+=== &nf === TotalOrigins: 4112
+=== &put === TotalOrigins: 3838
 .node_retention_begin
 .node_retention_end

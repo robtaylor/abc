@@ -398,3 +398,11 @@ Exploding node manager potential causes:
 Called within Dam_ManMultiAig_rec
 
 And the start of this function as well
+
+
+Need to fix this function:
+Dch_ComputeChoices
+ - Need to add node retention for this function: Dch_ManSweep
+
+And need to fix this function:
+Aig_ManDupDfsGuided

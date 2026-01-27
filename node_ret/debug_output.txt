@@ -19,6 +19,14 @@ synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 542
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 47456
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 47456
 synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 47456
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 47456
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 47456
+=== &synch2 === TotalOrigins: 47456
+=== &nf === TotalOrigins: 47456
+=== &put === TotalOrigins: 41833
+.node_retention_begin
+.node_retention_end
+synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 47456
 synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 46955
 synch2:Gia_ManAigSynch2Choices TotalOrigins: 46955
 === &synch2 === TotalOrigins: 46955
@@ -46,10 +54,10 @@ synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 542
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 47456
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 47456
 synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 47456
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 46955
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 46955
-=== &synch2 === TotalOrigins: 46955
-=== &nf === TotalOrigins: 46955
-=== &put === TotalOrigins: 39058
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 47456
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 47456
+=== &synch2 === TotalOrigins: 47456
+=== &nf === TotalOrigins: 47456
+=== &put === TotalOrigins: 41833
 .node_retention_begin
 .node_retention_end

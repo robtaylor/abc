@@ -641,8 +641,8 @@ void Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName )
         return;
     printf( "DEBUG: Node retention after %s:\n", pFuncName );
     Nr_ManPrintAllOrigins( p );
-    printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( p ) );
-    printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( p ) );
+    // printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( p ) );
+    // printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( p ) );
 }
 
 /**Function*************************************************************

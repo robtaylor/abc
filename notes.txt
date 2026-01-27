@@ -346,6 +346,9 @@ Abc_CommandAbc9Sweep approach:
     new post &sweep nodes
 
 
+    Dch_DeriveChoiceAigInt need to add this one
+
+
 
 Gia_ManDupZeroUndc
 

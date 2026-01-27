@@ -78,7 +78,7 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     }
     // ensure vNodeRetention is sized for new network and populate it
     pAbc = Abc_FrameGetGlobalFrame();
-    Vec_PtrFillExtra( pAbc->vNodeRetention, Abc_NtkObjNumMax(pNtkNew), NULL );
+    Vec_PtrFillExtra( pAbc->vNodeRetention, Abc_NtkObjNum(pNtkNew)+1, NULL );
     Abc_NtkForEachObj( pNtk, pObj, i )
     {   
         pName = pObj->pCopy ? Abc_ObjName(pObj->pCopy) : NULL;

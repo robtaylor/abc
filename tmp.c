@@ -22,7 +22,6 @@
 #include "base/main/main.h"
 #include "base/main/mainInt.h"
 #include "base/abc/node_retention.h"
-#include "misc/vec/vecPtr.h"
 //#include "seq.h"
 
 ABC_NAMESPACE_IMPL_START
@@ -56,8 +55,6 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
 {
     Abc_Ntk_t * pNtkNew; 
     Abc_Obj_t * pObj, * pFanin;
-    Abc_Frame_t * pAbc;
-    char * pName;
     int i, k;
     // consider the case of the AIG
     if ( Abc_NtkIsStrash(pNtk) )
@@ -72,22 +69,13 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
     // duplicate the nodes (the CIs and COs are already duplicated and copied in Abc_NtkDupObj called by Abc_NtkStartFrom)
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
+        char * pName;
         Abc_NtkDupObj(pNtkNew, pObj, 0);
         pName = Abc_ObjName(Abc_ObjFanout0(pObj));
         Abc_ObjAssignName( pObj->pCopy, pName, NULL );
-    }
-    // ensure vNodeRetention is sized for new network and populate it
-    pAbc = Abc_FrameGetGlobalFrame();
-    Vec_PtrFillExtra( pAbc->vNodeRetention, Abc_NtkObjNumMax(pNtkNew), NULL );
-    Abc_NtkForEachObj( pNtk, pObj, i )
-    {   
-        pName = pObj->pCopy ? Abc_ObjName(pObj->pCopy) : NULL;
+        // map to node retention manager (TODO: check if pName check is arbitrary)
         if ( pName )
-        {
-            Vec_PtrWriteEntry( pAbc->vNodeRetention, pObj->pCopy->Id, pName );
-            Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pObj->pCopy->Id );
-            // printf("The copy id is %d and the original id is %d\n", pObj->pCopy->Id, pObj->Id);
-        }
+            Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pName );
     }
     // reconnect the internal nodes in the new network
     Abc_NtkForEachNode( pNtk, pObj, i )

@@ -27,22 +27,12 @@ DEBUG: Node retention after strash:
 DEBUG: Node retention after Abc_NtkToDar:
 DEBUG: Node retention after Gia_ManFromAig:
 DEBUG: Node retention after Gia_ManDupZeroUndc:
-DEBUG: Node retention after &get:
-DEBUG: Node retention after Gia_ManRehash:
-DEBUG: Node retention after Gia_ManFraigSweepSimple:
-DEBUG: Node retention after &nf:
-DEBUG: Node retention after Gia_ManRehash:
-DEBUG: Node retention after Gia_ManAigSyn2:
-DEBUG: Node retention after &if:
 DEBUG: Node retention after Pre &Gia_ManDup:
 DEBUG: Node retention after Post &Lf_ManPerformMapping:
 DEBUG: Node retention after Post &Gia_ManAreaBalance:
 DEBUG: Node retention after Post &Gia_ManPerformDsdBalance:
 DEBUG: Node retention after Pre &synch2Choice:
-HEREHERE Called this first. node manager entries: 351. And number of objects: 352DEBUG: Node retention after &synch2:
-DEBUG: Node retention after &nf:
 DEBUG: Node retention after &put v1: Abc_NtkFromCellMappedGia:
-DEBUG: Node retention after &put:
 Nodes by level:
  0 : 
  1 :  n125 n126 n127 ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 n160 n161 n162 n166 n167 n171 n175 n178 n182 n186 n190

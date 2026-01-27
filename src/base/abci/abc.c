@@ -34573,7 +34573,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         pGia->vOutReqs = Vec_FltAllocArray( Abc_NtkGetCoRequiredFloats(pNtk), Abc_NtkCoNum(pNtk) );
         pGia->And2Delay = pNtk->AndGateDelay;
     }
-    Nr_ManPrintDebug( pGia->pNodeRetention, "&get" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &get === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pGia->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pGia );
     return 0;
 
@@ -34743,7 +34743,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // replace the current network
-    Nr_ManPrintDebug( pNtk->pNodeRetention, "&put" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &put === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNtk->pNodeRetention)); Nr_ManPrintRetentionMap(f, pNtk, pNtk->pNodeRetention); fclose(f); } }
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     if ( fStatusClear )
         Abc_FrameClearVerifStatus( pAbc );
@@ -36550,7 +36550,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pGia->pCellStr = pTemp->pCellStr;     pTemp->pCellStr = NULL;
         pAbc->pGia->vConfigs2= pTemp->vConfigs2;    pTemp->vConfigs2= NULL;
     }
-    Nr_ManPrintDebug( pTemp->pNodeRetention, "Gia_ManRehash" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &st === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -40264,7 +40264,7 @@ int Abc_CommandAbc9Syn2( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     pTemp = Gia_ManAigSyn2( pAbc->pGia, fOldAlgo, fCoarsen, fCutMin, nRelaxRatio, fDelayMin, fVerbose, fVeryVerbose );
-    Nr_ManPrintDebug( pTemp->pNodeRetention, "Gia_ManAigSyn2" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &syn2 === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -40384,7 +40384,7 @@ int Abc_CommandAbc9Synch2( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     pTemp = Gia_ManAigSynch2( pAbc->pGia, pPars, nLutSize, nRelaxRatio );
-    Nr_ManPrintDebug( pTemp->pNodeRetention, "&synch2" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &synch2 === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -43363,7 +43363,7 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_FrameUpdateGia( pAbc, pTemp );
     // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
     // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-    Nr_ManPrintDebug( pTemp->pNodeRetention, "Gia_ManFraigSweepSimple" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &sweep === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
     return 0;
 
 usage:
@@ -44632,7 +44632,7 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9If(): Mapping of GIA has failed.\n" );
         return 1;
     }
-    Nr_ManPrintDebug( pNew->pNodeRetention, "&if" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &if === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pNew );
     return 0;
 
@@ -46070,7 +46070,7 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Nf(): Mapping into LUTs has failed.\n" );
         return 1;
     }
-    Nr_ManPrintDebug( pNew->pNodeRetention, "&nf" );
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &nf === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pNew );
     return 0;
 

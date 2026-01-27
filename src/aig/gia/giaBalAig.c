@@ -759,18 +759,24 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
     pSet = Dam_ObjSet(pMan, Gia_ObjId(p, pObj));
     if ( pSet == NULL )
     {
-        nObjsBefore = Gia_ManObjNum(pNew);
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin1(pObj) );
         if ( Gia_ObjIsMux(p, pObj) )
         {
             Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin2(p, pObj) );
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashMuxReal( pNew, Gia_ObjFanin2Copy(p, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
         }
         else if ( Gia_ObjIsXor(pObj) )
+        {
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashXorReal( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        }
         else 
+        {
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        }
         nObjsAfter = Gia_ManObjNum(pNew);
         for ( j = nObjsBefore; j < nObjsAfter; j++ )
             Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
@@ -778,7 +784,6 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         return;
     }
     assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
-    // call recursively
     nObjsBefore = Gia_ManObjNum(pNew);
     for ( i = 1; i <= pSet[0]; i++ )
     {

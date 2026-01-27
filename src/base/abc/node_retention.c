@@ -633,6 +633,18 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
     fprintf( pFile, ".node_retention_end\n" );
 }
 
+int Nr_ManTotalOriginCount( Nr_Man_t * p )
+{
+    Nr_Entry_t * pEntry;
+    int i, nTotal = 0;
+    if ( p == NULL ) return 0;
+    for ( i = 0; i < p->nBins; i++ )
+        for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
+            if ( pEntry->vOrigins )
+                nTotal += Vec_IntSize(pEntry->vOrigins);
+    return nTotal;
+}
+
 ABC_NAMESPACE_IMPL_END
 
 ////////////////////////////////////////////////////////////////////////

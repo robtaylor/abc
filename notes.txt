@@ -375,3 +375,26 @@ Firstly, whe
 
 
 Abc_NtkToLogic
+
+
+Exploding node manager potential causes:
+
+    assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
+    // call recursively
+    nObjsBefore = Gia_ManObjNum(pNew);
+    for ( i = 1; i <= pSet[0]; i++ )
+    {
+        Gia_Obj_t * pTemp = Gia_ManObj( p, Abc_Lit2Var(pSet[i]) );
+        Dam_ManMultiAig_rec( pMan, pNew, p, pTemp );
+        pSet[i] = Abc_LitNotCond( pTemp->Value, Abc_LitIsCompl(pSet[i]) );
+    }
+    // create balanced gate
+    pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
+    nObjsAfter = Gia_ManObjNum(pNew);
+    for ( j = nObjsBefore; j < nObjsAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+}
+
+Called within Dam_ManMultiAig_rec
+
+And the start of this function as well

@@ -359,3 +359,19 @@ Code refactor:
 
     Still doesn't work for a lot of ABC since there's functions when node retention is not added.
     This needs to be manually added for all of the commands needed to implement.
+
+
+
+Ok I want to help me make the following changes:
+
+
+I need to store the node retention information in a more efficient way. 
+
+Right now, any time you store the entire name as a string in the Nr_Origin_t_. Anytime something has to be copied, you need to copy the whole name.
+
+Instead, I want to do this:
+
+Firstly, whe
+
+
+Abc_NtkToLogic

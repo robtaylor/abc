@@ -184,6 +184,7 @@ Abc_Frame_t * Abc_FrameAllocate()
     // networks to be used by choice
     p->vStore = Vec_PtrAlloc( 16 );
     p->vAbcObjIds = Vec_IntAlloc( 0 );
+    p->vNodeRetention = Vec_PtrAlloc( 1000 );
     // initialize decomposition manager
 //    define_cube_size(20);
 //    set_espresso_flags();
@@ -242,6 +243,8 @@ void Abc_FrameDeallocate( Abc_Frame_t * p )
     Vec_PtrFreeP( &p->vLTLProperties_global );
     if ( p->vSignalNames )
     Vec_PtrFreeFree( p->vSignalNames );
+    if ( p->vNodeRetention )
+    Vec_PtrFree( p->vNodeRetention );
     ABC_FREE( p->pSpecName );
     Abc_FrameDeleteAllNetworks( p );
     ABC_FREE( p->pDrivingCell );

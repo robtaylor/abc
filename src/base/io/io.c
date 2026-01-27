@@ -586,22 +586,6 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     // debug: print origin nodes from retention manager
     Nr_ManPrintDebug( pAbc->pNtkCur->pNodeRetention, "read_blif" );
-    // debug: print global node retention map
-    {
-        int i, num_entries = 0;
-        Vec_Ptr_t * vNR = pAbc->vNodeRetention;
-        printf( "Global vNodeRetention map (%d entries):\n", Vec_PtrSize(vNR) );
-        for ( i = 0; i < Vec_PtrSize(vNR); i++ )
-        {
-            char * pName = (char *)Vec_PtrEntry( vNR, i );
-            if ( pName ) {
-                printf( "  ID %d: %s\n", i, pName );
-                num_entries++;
-            }
-        }
-        printf( "Total number of entries: %d\n", num_entries );
-    }
-    // # DEBUG advay
     Abc_FrameClearVerifStatus( pAbc );
     return 0;
 

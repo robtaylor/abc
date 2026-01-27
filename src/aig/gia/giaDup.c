@@ -3882,7 +3882,6 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
             Gia_ManChoiceMiter_rec( pNew, pGia, Gia_ManCo( pGia, k ) );
     }
 
-    printf("HEREHERE Called this first. node manager entries: %d. And number of objects: %d", Nr_ManNumEntries(pNew->pNodeRetention), Gia_ManObjNum(pNew));
     Gia_ManHashStop( pNew );
     // check the presence of dangling nodes
     nNodes = Gia_ManHasDangling( pNew );

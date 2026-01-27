@@ -784,7 +784,6 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         return;
     }
     assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
-    nObjsBefore = Gia_ManObjNum(pNew);
     for ( i = 1; i <= pSet[0]; i++ )
     {
         Gia_Obj_t * pTemp = Gia_ManObj( p, Abc_Lit2Var(pSet[i]) );
@@ -792,6 +791,7 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         pSet[i] = Abc_LitNotCond( pTemp->Value, Abc_LitIsCompl(pSet[i]) );
     }
     // create balanced gate
+    nObjsBefore = Gia_ManObjNum(pNew);
     pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
     nObjsAfter = Gia_ManObjNum(pNew);
     for ( j = nObjsBefore; j < nObjsAfter; j++ )
@@ -967,6 +967,8 @@ void Dam_ManUpdate( Dam_Man_t * p, int iDiv )
 //    printf( "%d ", Gia_ObjLevel(p->pGia, Gia_ManObj(p->pGia, Abc_Lit2Var(iLitNew))) );
     // replace entries
     assert( pNods[0] >= 2 );
+    for ( i = 1; i <= pNods[0]; i++ )
+        Nr_ManCopyOrigins( p->pGia->pNodeRetention, p->pGia->pNodeRetention, Abc_Lit2Var(iLitNew), pNods[i] );
     nPairsStart = Hash_IntManEntryNum(p->vHash) + 1;
     Vec_IntClear( vDivs );
     for ( i = 1; i <= pNods[0]; i++ )

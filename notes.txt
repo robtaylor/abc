@@ -406,3 +406,6 @@ Dch_ComputeChoices
 
 And need to fix this function:
 Aig_ManDupDfsGuided
+
+TODO: consider making it a set rather than a vector for stoaring the original node entries
+A hashmap with a bunch of sets

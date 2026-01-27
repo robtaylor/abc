@@ -18,11 +18,38 @@ synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: 36
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 3654
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 3424
 synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 3424
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 4124
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 4112
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 4112
-=== &synch2 === TotalOrigins: 4112
-=== &nf === TotalOrigins: 4112
-=== &put === TotalOrigins: 3838
+synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 3412
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 3400
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 3400
+=== &synch2 === TotalOrigins: 3400
+=== &nf === TotalOrigins: 3400
+=== &put === TotalOrigins: 3610
+.node_retention_begin
+.node_retention_end
+=== &get === TotalOrigins: 488
+=== &st === TotalOrigins: 488
+=== &sweep === TotalOrigins: 976
+=== &nf === TotalOrigins: 976
+=== &st === TotalOrigins: 976
+=== &syn2 === TotalOrigins: 1322
+=== &if === TotalOrigins: 1308
+synch2:Gia_ManDup TotalOrigins: 1308
+synch2:Gia_ManAreaBalance1 TotalOrigins: 1308
+synch2:Lf_ManPerformMapping TotalOrigins: 1280
+synch2:Gia_ManAreaBalance2 TotalOrigins: 1280
+synch2:Gia_ManPerformDsdBalance TotalOrigins: 1210
+synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 1308
+synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 3798
+synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 3654
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: 3654
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 3654
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 3424
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 3424
+synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 3412
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 3400
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 3400
+=== &synch2 === TotalOrigins: 3400
+=== &nf === TotalOrigins: 3400
+=== &put === TotalOrigins: 3610
 .node_retention_begin
 .node_retention_end

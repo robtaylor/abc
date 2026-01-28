@@ -586,6 +586,22 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     // debug: print origin nodes from retention manager
     Nr_ManPrintDebug( pAbc->pNtkCur->pNodeRetention, "read_blif" );
+    // debug: print global node retention vector contents
+    // {
+    //     FILE * f = fopen("node_ret/debug_output.txt", "a");
+    //     if ( f ) {
+    //         int i;
+    //         char * pName;
+    //         fprintf( f, "=== read_blif: vNodeRetention contents (size=%d) ===\n", Vec_PtrSize(pAbc->vNodeRetention) );
+    //         Vec_PtrForEachEntry( char *, pAbc->vNodeRetention, pName, i )
+    //         {
+    //             if ( pName )
+    //                 fprintf( f, "%d %s\n", i, pName );
+    //         }
+    //         fprintf( f, "=== end vNodeRetention ===\n" );
+    //         fclose( f );
+    //     }
+    // }
     Abc_FrameClearVerifStatus( pAbc );
     return 0;
 
@@ -2612,6 +2628,23 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
             }
         }
     }
+    
+    // debug: print global node retention vector contents after write_blif
+    // {
+    //     FILE * f = fopen("node_ret/debug_output.txt", "a");
+    //     if ( f ) {
+    //         int i;
+    //         char * pName;
+    //         fprintf( f, "=== write_blif: vNodeRetention contents (size=%d) ===\n", Vec_PtrSize(pAbc->vNodeRetention) );
+    //         Vec_PtrForEachEntry( char *, pAbc->vNodeRetention, pName, i )
+    //         {
+    //             if ( pName )
+    //                 fprintf( f, "%d %s\n", i, pName );
+    //         }
+    //         fprintf( f, "=== end vNodeRetention ===\n" );
+    //         fclose( f );
+    //     }
+    // }
     
     return 0;
 

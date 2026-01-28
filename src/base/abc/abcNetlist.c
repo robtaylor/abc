@@ -84,7 +84,12 @@ Abc_Ntk_t * Abc_NtkToLogic( Abc_Ntk_t * pNtk )
         pName = pObj->pCopy ? Abc_ObjName(pObj->pCopy) : NULL;
         if ( pName )
         {
-            Vec_PtrWriteEntry( pAbc->vNodeRetention, pObj->pCopy->Id, pName );
+            // Free old entry if it exists (to avoid memory leak)
+            char * pOldName = (char *)Vec_PtrEntry( pAbc->vNodeRetention, pObj->pCopy->Id );
+            if ( pOldName )
+                ABC_FREE( pOldName );
+            // Make a copy of the name so it survives network deletion
+            Vec_PtrWriteEntry( pAbc->vNodeRetention, pObj->pCopy->Id, Abc_UtilStrsav(pName) );
             Nr_ManAddOrigin( pNtkNew->pNodeRetention, pObj->pCopy->Id, pObj->pCopy->Id );
             // printf("The copy id is %d and the original id is %d\n", pObj->pCopy->Id, pObj->Id);
         }

@@ -244,7 +244,14 @@ void Abc_FrameDeallocate( Abc_Frame_t * p )
     if ( p->vSignalNames )
     Vec_PtrFreeFree( p->vSignalNames );
     if ( p->vNodeRetention )
-    Vec_PtrFree( p->vNodeRetention );
+    {
+        int i;
+        char * pName;
+        Vec_PtrForEachEntry( char *, p->vNodeRetention, pName, i )
+            if ( pName )
+                ABC_FREE( pName );
+        Vec_PtrFree( p->vNodeRetention );
+    }
     ABC_FREE( p->pSpecName );
     Abc_FrameDeleteAllNetworks( p );
     ABC_FREE( p->pDrivingCell );

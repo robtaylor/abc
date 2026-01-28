@@ -635,6 +635,7 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
     fprintf( pFile, ".node_retention_end\n" );
 }
 
+
 int Nr_ManTotalOriginCount( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry;

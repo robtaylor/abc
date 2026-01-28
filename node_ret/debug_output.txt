@@ -24,7 +24,7 @@ synch2:Gia_ManAigSynch2Choices TotalOrigins: 47456
 === &synch2 === TotalOrigins: 47456
 === &nf === TotalOrigins: 47456
 put:pre_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41833 nEntries: 4341 nObjs: 4342
-put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41869 nEntries: 4342 nObjs: 4407
-=== &put === TotalOrigins: 41869
+put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41934 nEntries: 4407 nObjs: 4407
+=== &put === TotalOrigins: 41934
 .node_retention_begin
 .node_retention_end

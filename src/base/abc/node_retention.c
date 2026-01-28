@@ -312,6 +312,8 @@ void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
     {
         Vec_IntForEachEntry( vOrigins, OriginId, j )
             Nr_ManAddOrigin( pNew, NewId, OriginId );
+    } else {
+        printf( "Nr_ManCopyOrigins: No origins found for node %d\n", OldId );
     }
 }
 

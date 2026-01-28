@@ -1094,7 +1094,8 @@ int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_t * pNtk, int fDuplicate )
         if ( !Abc_NodeIsConst(pDriver) )
             continue;
         pDriverNew = (Abc_ObjFaninC0(pNode) == Abc_NodeIsConst0(pDriver)) ? Abc_NtkCreateNodeConst1(pNtk) : Abc_NtkCreateNodeConst0(pNtk);
-        Nr_ManCopyOrigins( pNtk->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pDriverNew), Abc_ObjId(pDriver) );
+        // copying the destination if one of the inputs is a constant node
+        Nr_ManCopyOrigins( pNtk->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pDriverNew), Abc_ObjId(pNode) );
         if ( Abc_ObjFaninC0(pNode) )
             Abc_ObjXorFaninC( pNode, 0 );
         Abc_ObjPatchFanin( pNode, pDriver, pDriverNew );

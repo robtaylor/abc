@@ -1076,24 +1076,10 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     Gia_ManForEachBuf( p, pObj, i )
         if ( Gia_ObjFaninId0p(p, pObj) == 0 )
             fNeedConst[Gia_ObjFaninC0(pObj)] = 1;
-    // if ( fNeedConst[0] )
-    //     Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(Abc_NtkCreateNodeConst0(pNtkNew)) );
-    // if ( fNeedConst[1] )
-    //     Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(Abc_NtkCreateNodeConst1(pNtkNew)) );
     if ( fNeedConst[0] )
-    {
-        pObjNew = Abc_NtkCreateNodeConst0(pNtkNew);
-        Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(pObjNew) );
-        // Const0 derives from GIA const0 (object 0)
-        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), 0 );
-    }
+        Abc_NtkFromCellWrite( vCopyLits, 0, 0, Abc_ObjId(Abc_NtkCreateNodeConst0(pNtkNew)) );
     if ( fNeedConst[1] )
-    {
-        pObjNew = Abc_NtkCreateNodeConst1(pNtkNew);
-        Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(pObjNew) );
-        // Const1 also derives from GIA const0 (object 0)
-        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), 0 );
-    }
+        Abc_NtkFromCellWrite( vCopyLits, 0, 1, Abc_ObjId(Abc_NtkCreateNodeConst1(pNtkNew)) );
 
     // rebuild the AIG
     Gia_ManForEachCell( p, iLit )

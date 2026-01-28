@@ -426,9 +426,7 @@ void Io_Write( Abc_Ntk_t * pNtk, char * pFileName, Io_FileType_t FileType )
     }
     else
     {
-        Nr_ManPrintDebug( pNtk->pNodeRetention, "Io_Write before conversion" );
         pNtkTemp = Abc_NtkToNetlist( pNtk );
-        Nr_ManPrintDebug( pNtkTemp->pNodeRetention, "Io_Write after conversion" );
     }
 
     if ( pNtkTemp == NULL )

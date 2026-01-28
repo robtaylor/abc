@@ -1,30 +1,30 @@
 
-=== &get === TotalOrigins: 17458
-=== &st === TotalOrigins: 17458
-=== &sweep === TotalOrigins: 17011
-=== &nf === TotalOrigins: 17011
-=== &st === TotalOrigins: 17011
-=== &syn2 === TotalOrigins: 18574
-=== &if === TotalOrigins: 18703
-synch2:Gia_ManDup TotalOrigins: 18703
-synch2:Gia_ManAreaBalance1 TotalOrigins: 18725
-synch2:Lf_ManPerformMapping TotalOrigins: 18989
-synch2:Gia_ManAreaBalance2 TotalOrigins: 17914
-synch2:Gia_ManPerformDsdBalance TotalOrigins: 18779
-synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 18703
-synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 55396
-synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 54298
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: 54298
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 54298
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 47456
-synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 47456
-synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 47456
-synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 47456
-synch2:Gia_ManAigSynch2Choices TotalOrigins: 47456
-=== &synch2 === TotalOrigins: 47456
-=== &nf === TotalOrigins: 47456
+=== &get === TotalOrigins: 17458 nEntries: 6760 nObjs: 6761
+=== &st === TotalOrigins: 17458 nEntries: 6760 nObjs: 6761
+=== &sweep === TotalOrigins: 17011 nEntries: 6298 nObjs: 6299
+=== &nf === TotalOrigins: 17011 nEntries: 6298 nObjs: 6299
+=== &st === TotalOrigins: 17011 nEntries: 6298 nObjs: 6299
+=== &syn2 === TotalOrigins: 18574 nEntries: 5567 nObjs: 5568
+=== &if === TotalOrigins: 18703 nEntries: 5528 nObjs: 5529
+synch2:Gia_ManDup TotalOrigins: 18703 nEntries: 5528 nObjs: 5529
+synch2:Gia_ManAreaBalance1 TotalOrigins: 18725 nEntries: 5401 nObjs: 5402
+synch2:Lf_ManPerformMapping TotalOrigins: 18989 nEntries: 5868 nObjs: 5869
+synch2:Gia_ManAreaBalance2 TotalOrigins: 17914 nEntries: 5454 nObjs: 5455
+synch2:Gia_ManPerformDsdBalance TotalOrigins: 18779 nEntries: 5460 nObjs: 5461
+synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: 18703 nEntries: 5528 nObjs: 5529
+synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: 55396 nEntries: 10908 nObjs: 10909
+synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: 54298 nEntries: 9810 nObjs: 9811
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: 54298 nEntries: 9810 nObjs: 9811
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: 54298 nEntries: 9810 nObjs: 9811
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+synch2:Gia_ManAigSynch2Choices TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+=== &synch2 === TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
+=== &nf === TotalOrigins: 47456 nEntries: 7586 nObjs: 7587
 put:pre_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41833 nEntries: 4341 nObjs: 4342
-put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41934 nEntries: 4407 nObjs: 4407
-=== &put === TotalOrigins: 41934
+put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: 41916 nEntries: 4407 nObjs: 4407
+=== &put === TotalOrigins: 41916 nEntries: 4407 nObjs: 4407
 .node_retention_begin
 .node_retention_end

@@ -411,3 +411,6 @@ TODO: consider making it a set rather than a vector for stoaring the original no
 A hashmap with a bunch of sets
 
 Consider deleting entries (in calls like int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_t * pNtk, int fDuplicate ))
+
+
+TODO: fix reliance on Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pObj->pNtk->pNodeRetention, pObjNew->Id, pObj->Id );

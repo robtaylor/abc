@@ -180,12 +180,20 @@ Abc_Ntk_t * Abc_NtkStartFrom( Abc_Ntk_t * pNtk, Abc_NtkType_t Type, Abc_NtkFunc_
     if ( Abc_NtkIsStrash(pNtk) && Abc_NtkIsStrash(pNtkNew) )
         Abc_AigConst1(pNtk)->pCopy = Abc_AigConst1(pNtkNew);
     // clone CIs/CIs/boxes
-    Abc_NtkForEachPi( pNtk, pObj, i )
+    Abc_NtkForEachPi( pNtk, pObj, i ) {
         Abc_NtkDupObj( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     Abc_NtkForEachPo( pNtk, pObj, i )
+    {
         Abc_NtkDupObj( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     Abc_NtkForEachBox( pNtk, pObj, i )
+    {
         Abc_NtkDupBox( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     // transfer logic level
     Abc_NtkForEachCi( pNtk, pObj, i )
         pObj->pCopy->Level = pObj->Level;

@@ -34494,7 +34494,6 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             {
                 // Nr_ManSetCanModify( pStrash->pNodeRetention, 0 );
                 // Nr_ManSetCanCopyFromOld( pStrash->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pStrash->pNodeRetention, "strash" );
             }
 
             // save/restore node retention before Abc_NtkToDar
@@ -34510,7 +34509,6 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             {
                 // Nr_ManSetCanModify( pAig->pNodeRetention, 0 );
                 // Nr_ManSetCanCopyFromOld( pAig->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pAig->pNodeRetention, "Abc_NtkToDar" );
             }
 
             Abc_NtkDelete( pStrash );
@@ -34527,7 +34525,6 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             {
                 // Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
                 // Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pGia->pNodeRetention, "Gia_ManFromAig" );
             }
 
             
@@ -34540,7 +34537,6 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             {
                 // Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
                 // Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
-                Nr_ManPrintDebug( pGia->pNodeRetention, "Gia_ManDupZeroUndc" );
             }
             Gia_ManStop( pTemp );
             ABC_FREE( pInits );
@@ -34573,7 +34569,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         pGia->vOutReqs = Vec_FltAllocArray( Abc_NtkGetCoRequiredFloats(pNtk), Abc_NtkCoNum(pNtk) );
         pGia->And2Delay = pNtk->AndGateDelay;
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &get === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pGia->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &get === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia->pNodeRetention), Nr_ManNumEntries(pGia->pNodeRetention), Gia_ManObjNum(pGia)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pGia );
     return 0;
 
@@ -34659,16 +34655,13 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         // debug: print node retention after Abc_NtkFromCellMappedGia
         // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
         // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-        Nr_ManPrintDebug( pNtk->pNodeRetention, "&put v1: Abc_NtkFromCellMappedGia" );
     }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
     else if ( Gia_ManHasDangling(pAbc->pGia) == 0 )
     {
         pMan = Gia_ManToAig( pAbc->pGia, 0 );
-        Nr_ManPrintDebug( pMan->pNodeRetention, "&put v2: Gia_ManToAig" );
         pNtk = Abc_NtkFromAigPhase( pMan );
-        Nr_ManPrintDebug( pNtk->pNodeRetention, "&put v2: Abc_NtkFromAigPhase" );
         pNtk->pName = Extra_UtilStrsav(pMan->pName);
         
         Aig_ManStop( pMan );
@@ -34743,7 +34736,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
 
     // replace the current network
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &put === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNtk->pNodeRetention)); Nr_ManPrintRetentionMap(f, pNtk, pNtk->pNodeRetention); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &put === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNtk->pNodeRetention), Nr_ManNumEntries(pNtk->pNodeRetention), Abc_NtkObjNum(pNtk)); Nr_ManPrintRetentionMap(f, pNtk, pNtk->pNodeRetention); fclose(f); } }
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     if ( fStatusClear )
         Abc_FrameClearVerifStatus( pAbc );
@@ -36550,7 +36543,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pGia->pCellStr = pTemp->pCellStr;     pTemp->pCellStr = NULL;
         pAbc->pGia->vConfigs2= pTemp->vConfigs2;    pTemp->vConfigs2= NULL;
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &st === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &st === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention), Nr_ManNumEntries(pTemp->pNodeRetention), Gia_ManObjNum(pTemp)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -40264,7 +40257,7 @@ int Abc_CommandAbc9Syn2( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
     }
     pTemp = Gia_ManAigSyn2( pAbc->pGia, fOldAlgo, fCoarsen, fCutMin, nRelaxRatio, fDelayMin, fVerbose, fVeryVerbose );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &syn2 === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &syn2 === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention), Nr_ManNumEntries(pTemp->pNodeRetention), Gia_ManObjNum(pTemp)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -40384,7 +40377,7 @@ int Abc_CommandAbc9Synch2( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     pTemp = Gia_ManAigSynch2( pAbc->pGia, pPars, nLutSize, nRelaxRatio );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &synch2 === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &synch2 === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention), Nr_ManNumEntries(pTemp->pNodeRetention), Gia_ManObjNum(pTemp)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pTemp );
     return 0;
 
@@ -43363,7 +43356,7 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_FrameUpdateGia( pAbc, pTemp );
     // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
     // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &sweep === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &sweep === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pTemp->pNodeRetention), Nr_ManNumEntries(pTemp->pNodeRetention), Gia_ManObjNum(pTemp)); fclose(f); } }
     return 0;
 
 usage:
@@ -44632,7 +44625,7 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9If(): Mapping of GIA has failed.\n" );
         return 1;
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &if === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &if === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention), Nr_ManNumEntries(pNew->pNodeRetention), Gia_ManObjNum(pNew)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pNew );
     return 0;
 
@@ -46070,7 +46063,7 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( -1, "Abc_CommandAbc9Nf(): Mapping into LUTs has failed.\n" );
         return 1;
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &nf === TotalOrigins: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention)); fclose(f); } }
+    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "=== &nf === TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention), Nr_ManNumEntries(pNew->pNodeRetention), Gia_ManObjNum(pNew)); fclose(f); } }
     Abc_FrameUpdateGia( pAbc, pNew );
     return 0;
 

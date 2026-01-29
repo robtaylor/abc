@@ -19,7 +19,6 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
-#include "base/abc/node_retention.h"
 #include "base/main/main.h"
 #include "base/main/mainInt.h"
 #include "proof/fraig/fraig.h"
@@ -34480,52 +34479,13 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
         else
         {
-            // create temporary retention manager for strashed network
-            // pRetOld = pAbc->pNodeRetention;
-            // pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkStrash", 1, 1 );
-            // pAbc->pNodeRetention = pRetNew;
-            // pAbc->pNodeRetention = pRetOld;
-            // // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
-            // debug: print strashed network retention info
 
-            // unset flags after usage
-            if ( pStrash->pNodeRetention )
-            {
-                // Nr_ManSetCanModify( pStrash->pNodeRetention, 0 );
-                // Nr_ManSetCanCopyFromOld( pStrash->pNodeRetention, 0 );
-            }
-
-            // save/restore node retention before Abc_NtkToDar
-            // pRetOld = pAbc->pNodeRetention;
-            // pRetNew = Nr_ManCreate( 1000, "&get:Abc_NtkToDar", 1, 1 );
-            // pAbc->pNodeRetention = pRetNew;
-            // pAbc->pNodeRetention = pRetOld;
-            // # DEBUG advay
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
-            // debug: print node retention after Abc_NtkToDar
-            // unset flags after usage
-            if ( pAig->pNodeRetention )
-            {
-                // Nr_ManSetCanModify( pAig->pNodeRetention, 0 );
-                // Nr_ManSetCanCopyFromOld( pAig->pNodeRetention, 0 );
-            }
 
             Abc_NtkDelete( pStrash );
             
-            // save/restore node retention before Gia_ManFromAig
-            // pRetOld = pAbc->pNodeRetention;
-            // pRetNew = Nr_ManCreate( 1000, "&get:Gia_ManFromAig", 1, 1 );
-            // pAbc->pNodeRetention = pRetNew;
-            // pAbc->pNodeRetention = pRetOld;
             pGia = Gia_ManFromAig( pAig );
-            // debug: print node retention after Gia_ManFromAig
-            // unset flags after usage
-            if ( pGia->pNodeRetention )
-            {
-                // Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
-                // Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
-            }
 
             
             Aig_ManStop( pAig );
@@ -34533,11 +34493,6 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
             // perform undc/zero
             pInits = Abc_NtkCollectLatchValuesStr( pAbc->pNtkCur );
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );
-            if ( pGia->pNodeRetention )
-            {
-                // Nr_ManSetCanModify( pGia->pNodeRetention, 0 );
-                // Nr_ManSetCanCopyFromOld( pGia->pNodeRetention, 0 );
-            }
             Gia_ManStop( pTemp );
             ABC_FREE( pInits );
         }
@@ -34643,17 +34598,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 1, fUseBuffs );
     else if ( Gia_ManHasCellMapping(pAbc->pGia) )
     {
-        // save/restore node retention before Abc_NtkFromCellMappedGia
-        // TODO Advay: consider adding this on multiple paths for &put
-        // Nr_ManFree( pAbc->pNodeRetention );
-        // pRetOld = pAbc->pNodeRetention;
-        // pRetNew = Nr_ManCreate( 1000, "&put:Abc_NtkFromCellMappedGia", 1, 1 );
-        // pAbc->pNodeRetention = pRetNew;
-        // pAbc->pNodeRetention = pRetOld;
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
-        // debug: print node retention after Abc_NtkFromCellMappedGia
-        // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-        // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
     }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
@@ -36522,17 +36467,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     else
     {
-        // save/restore node retention before Gia_ManRehash
-        // pRetOld = pAbc->pNodeRetention;
-        // pRetNew = Nr_ManCreate( 1000, "&st:Gia_ManRehash", 1, 1 );
-        // pAbc->pNodeRetention = pRetNew;
-        // pAbc->pNodeRetention = pRetOld;
         pTemp = Gia_ManRehash( pAbc->pGia, fAddStrash );
-        // unset flags after usage
-        // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-        // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
-//        if ( !Abc_FrameReadFlag("silentmode") )
-//            printf( "Rehashed the current AIG.\n" );
     }
     if ( !(fCollapse && pAbc->pGia->pAigExtra) )
     {
@@ -43339,18 +43274,11 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
         printf( "Timing manager is given but there is no GIA of boxes.\n" );
         return 0;
     }
-    // Nr_ManFree( pAbc->pNodeRetention );
-    // pRetOld = pAbc->pNodeRetention;
-    // pRetNew = Nr_ManCreate( 1000, "&sweep:Gia_ManFraigSweepSimple", 1, 1 );
-    // pAbc->pNodeRetention = pRetNew;
-    // pAbc->pNodeRetention = pRetOld;
     if ( Gia_ManBoxNum(pAbc->pGia) )
         pTemp = Gia_ManSweepWithBoxes( pAbc->pGia, pPars, NULL, 0, 0, pPars->fVerbose, 0 );
     else
         pTemp = Gia_ManFraigSweepSimple( pAbc->pGia, pPars );
     Abc_FrameUpdateGia( pAbc, pTemp );
-    // Nr_ManSetCanModify( pAbc->pNodeRetention, 0 );
-    // Nr_ManSetCanCopyFromOld( pAbc->pNodeRetention, 0 );
     return 0;
 
 usage:

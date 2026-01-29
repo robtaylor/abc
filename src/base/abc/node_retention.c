@@ -606,16 +606,26 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
     Abc_Obj_t * pNet;
     Vec_Int_t * vOrigins;
     Abc_Frame_t * pAbc;
+    Nr_Man_t * pPruned;
     int i, j;
     
     if ( pFile == NULL || pNtk == NULL || p == NULL )
         return;
+    
+    // Create pruned version with unique origins only
+    pPruned = Nr_ManPrune( p );
+    if ( pPruned == NULL )
+        return;
+    
+    // Validate that all nets have retention entries
+    Nr_ManValidateEntries( pNtk, pPruned );
+    
     pAbc = Abc_FrameGetGlobalFrame();
     fprintf( pFile, ".node_retention_begin\n" );
     Abc_NtkForEachNet( pNtk, pNet, i )
     {
         int NetId = Abc_ObjId(pNet);
-        vOrigins = Nr_ManGetOrigins( p, NetId );
+        vOrigins = Nr_ManGetOrigins( pPruned, NetId );
         if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
         {
             int OriginId;
@@ -631,6 +641,9 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
         }
     }
     fprintf( pFile, ".node_retention_end\n" );
+    
+    // Free the pruned manager
+    Nr_ManFree( pPruned );
 }
 
 
@@ -644,6 +657,90 @@ int Nr_ManTotalOriginCount( Nr_Man_t * p )
             if ( pEntry->vOrigins )
                 nTotal += Vec_IntSize(pEntry->vOrigins);
     return nTotal;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Creates a pruned copy of the manager with unique origins only.]
+
+  Description [Returns a new manager where each node has only unique origin IDs
+               (duplicates are removed).]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
+{
+    Nr_Man_t * pNew;
+    Nr_Entry_t * pEntry;
+    Vec_Int_t * vUnique;
+    int i, j, OriginId;
+    
+    if ( p == NULL )
+        return NULL;
+    
+    pNew = Nr_ManCreate( p->nBins, p->fCanModify, p->fCanCopyFromOld );
+    vUnique = Vec_IntAlloc( 100 );
+    
+    for ( i = 0; i < p->nBins; i++ )
+    {
+        for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
+        {
+            if ( pEntry->vOrigins == NULL )
+                continue;
+            // Collect unique origins
+            Vec_IntClear( vUnique );
+            Vec_IntForEachEntry( pEntry->vOrigins, OriginId, j )
+            {
+                if ( Vec_IntFind( vUnique, OriginId ) == -1 )
+                    Vec_IntPush( vUnique, OriginId );
+            }
+            // Add unique origins to new manager
+            Vec_IntForEachEntry( vUnique, OriginId, j )
+                Nr_ManAddOrigin( pNew, pEntry->NodeId, OriginId );
+        }
+    }
+    Vec_IntFree( vUnique );
+    return pNew;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Validates that all nets in network have retention entries.]
+
+  Description [Checks each net in the network and prints an error if
+               any net is missing from the retention manager.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p )
+{
+    Abc_Obj_t * pNet;
+    Vec_Int_t * vOrigins;
+    int i, nMissing = 0;
+    
+    if ( pNtk == NULL || p == NULL )
+        return;
+    
+    Abc_NtkForEachNet( pNtk, pNet, i )
+    {
+        int NetId = Abc_ObjId(pNet);
+        vOrigins = Nr_ManGetOrigins( p, NetId );
+        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+        {
+            fprintf( stderr, "Warning: Net '%s' (id=%d) has no retention entry\n", 
+                     Abc_ObjName(pNet), NetId );
+            nMissing++;
+        }
+    }
+    
+    if ( nMissing > 0 )
+        fprintf( stderr, "Node retention validation: %d nets missing entries\n", nMissing );
 }
 
 ABC_NAMESPACE_IMPL_END

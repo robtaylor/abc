@@ -720,27 +720,31 @@ Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
 ***********************************************************************/
 void Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p )
 {
-    Abc_Obj_t * pNet;
+    Abc_Obj_t * pObj;
     Vec_Int_t * vOrigins;
-    int i, nMissing = 0;
+    int i;
     
     if ( pNtk == NULL || p == NULL )
         return;
     
-    Abc_NtkForEachNet( pNtk, pNet, i )
+    if ( Abc_NtkIsNetlist(pNtk) )
     {
-        int NetId = Abc_ObjId(pNet);
-        vOrigins = Nr_ManGetOrigins( p, NetId );
-        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+        Abc_NtkForEachNet( pNtk, pObj, i )
         {
-            fprintf( stderr, "Warning: Net '%s' (id=%d) has no retention entry\n", 
-                     Abc_ObjName(pNet), NetId );
-            nMissing++;
+            vOrigins = Nr_ManGetOrigins( p, pObj->Id );
+            if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+                fprintf( stderr, "Warning: Net '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
         }
     }
-    
-    if ( nMissing > 0 )
-        fprintf( stderr, "Node retention validation: %d nets missing entries\n", nMissing );
+    else
+    {
+        Abc_NtkForEachNode( pNtk, pObj, i )
+        {
+            vOrigins = Nr_ManGetOrigins( p, pObj->Id );
+            if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+                fprintf( stderr, "Warning: Node '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
+        }
+    }
 }
 
 ABC_NAMESPACE_IMPL_END

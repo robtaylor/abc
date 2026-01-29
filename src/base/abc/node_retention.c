@@ -742,6 +742,9 @@ void Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p )
     {
         Abc_NtkForEachNode( pNtk, pObj, i )
         {
+            // Skip constant node (type ABC_OBJ_CONST1 in strashed networks)
+            if ( pObj->Type == ABC_OBJ_CONST1 )
+                continue;
             vOrigins = Nr_ManGetOrigins( p, pObj->Id );
             if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
                 fprintf( stderr, "Warning: Node '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
@@ -758,6 +761,9 @@ void Nr_ManValidateEntriesGia( Gia_Man_t * pGia, Nr_Man_t * p )
         return;
     Gia_ManForEachAnd( pGia, pObj, i )
     {
+        // Skip constant node (index 0 in GIA stores the constant)
+        if ( i == 0 || Gia_ObjIsConst0(pObj) )
+            continue;
         vOrigins = Nr_ManGetOrigins( p, i );
         if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
             fprintf( stderr, "Warning: GIA node (id=%d) has no retention entry\n", i );
@@ -773,6 +779,9 @@ void Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p )
         return;
     Aig_ManForEachNode( pAig, pObj, i )
     {
+        // Skip constant node (stored in pAig->pConst1, type AIG_OBJ_CONST1)
+        if ( Aig_ObjIsConst1(pObj) )
+            continue;
         vOrigins = Nr_ManGetOrigins( p, Aig_ObjId(pObj) );
         if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
             fprintf( stderr, "Warning: AIG node (id=%d) has no retention entry\n", Aig_ObjId(pObj) );

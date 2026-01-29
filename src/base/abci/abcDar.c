@@ -1152,7 +1152,6 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     Abc_NtkAddDummyBoxNames( pNtkNew );
 
     // decouple the PO driver nodes to reduce the number of levels
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "put:pre_Abc_NtkLogicMakeSimpleCos TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNtkNew->pNodeRetention), Nr_ManNumEntries(pNtkNew->pNodeRetention), Abc_NtkObjNum(pNtkNew)); fclose(f); } }
     if ( fFixDrivers )
     {
         int nDupGates = Abc_NtkLogicMakeSimpleCos( pNtkNew, !fUseBuffs );
@@ -1164,7 +1163,6 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                 printf( "Duplicated %d gates to decouple the CO drivers.\n", nDupGates );
         }
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "put:post_Abc_NtkLogicMakeSimpleCos TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNtkNew->pNodeRetention), Nr_ManNumEntries(pNtkNew->pNodeRetention), Abc_NtkObjNum(pNtkNew)); fclose(f); } }
 
     assert( Gia_ManPiNum(p) == Abc_NtkPiNum(pNtkNew) );
     assert( Gia_ManPoNum(p) == Abc_NtkPoNum(pNtkNew) );

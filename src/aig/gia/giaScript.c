@@ -381,25 +381,20 @@ Gia_Man_t * Gia_ManAigSynch2Choices( Gia_Man_t * pGia1, Gia_Man_t * pGia2, Gia_M
     if ( pGia2 ) Vec_PtrPush( vGias, pGia2 );
     if ( pGia1 ) Vec_PtrPush( vGias, pGia1 );
     pMiter = Gia_ManChoiceMiter( vGias );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Gia_ManChoiceMiter TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pMiter->pNodeRetention), Nr_ManNumEntries(pMiter->pNodeRetention), Gia_ManObjNum(pMiter)); fclose(f); } }
     Vec_PtrFree( vGias );
     // transform into an AIG
     pMan = Gia_ManToAigSkip( pMiter, 3 );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Gia_ManToAigSkip TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention), Nr_ManNumEntries(pMan->pNodeRetention), Aig_ManObjNum(pMan)); fclose(f); } }
     Gia_ManStop( pMiter );
     // compute choices
     pMan = Dch_ComputeChoices( pTemp = pMan, pPars );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention), Nr_ManNumEntries(pMan->pNodeRetention), Aig_ManObjNum(pMan)); fclose(f); } }
     Aig_ManStop( pTemp );
     // reconstruct the network
     vPios = Gia_ManOrderPios( pMan, pGia1 ); 
     pMan = Aig_ManDupDfsGuided( pTemp = pMan, vPios );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Aig_ManDupDfsGuided TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pMan->pNodeRetention), Nr_ManNumEntries(pMan->pNodeRetention), Aig_ManObjNum(pMan)); fclose(f); } }
     Aig_ManStop( pTemp );
     Vec_PtrFree( vPios );
     // convert to GIA
     pGia = Gia_ManFromAigChoices( pMan );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Gia_ManFromAigChoices TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia->pNodeRetention), Nr_ManNumEntries(pGia->pNodeRetention), Gia_ManObjNum(pGia)); fclose(f); } }
     Aig_ManStop( pMan );
     return pGia;
 }
@@ -419,7 +414,6 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
     pPars->fVerbose    = fVerbose;
     if ( fVerbose )  Gia_ManPrintStats( pInit, NULL );
     pGia1 = Gia_ManDup( pInit );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManDup TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia1->pNodeRetention), Nr_ManNumEntries(pGia1->pNodeRetention), Gia_ManObjNum(pGia1)); fclose(f); } }
     if ( Gia_ManAndNum(pGia1) == 0 )
     {
         Gia_ManTransferTiming( pGia1, pInit );
@@ -433,7 +427,6 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
         Gia_ManTransferMapping( pGia1, pInit );
         pGia1 = (Gia_Man_t *)Dsm_ManDeriveGia( pTemp = pGia1, 0 );
         Gia_ManStop( pTemp );
-        { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Dsm_ManDeriveGia TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia1->pNodeRetention), Nr_ManNumEntries(pGia1->pNodeRetention), Gia_ManObjNum(pGia1)); fclose(f); } }
     }
     // perform balancing
     if ( Gia_ManBufNum(pGia1) || 1 )
@@ -444,11 +437,9 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
         pGia2 = Gia_ManAreaBalance( pTemp = pGia2, 0, ABC_INFINITY, 0, 0 );
         Gia_ManStop( pTemp );
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAreaBalance1 TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia2->pNodeRetention), Nr_ManNumEntries(pGia2->pNodeRetention), Gia_ManObjNum(pGia2)); fclose(f); } }
     if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
     // perform mapping
     pGia2 = Lf_ManPerformMapping( pTemp = pGia2, pPars );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Lf_ManPerformMapping TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia2->pNodeRetention), Nr_ManNumEntries(pGia2->pNodeRetention), Gia_ManObjNum(pGia2)); fclose(f); } }
     if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
     if ( pTemp != pGia2 )
         Gia_ManStop( pTemp );
@@ -456,18 +447,15 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
     if ( pParsDch->fLightSynth || Gia_ManBufNum(pGia2) )
     {
         pGia3 = Gia_ManAreaBalance( pGia2, 0, ABC_INFINITY, 0, 0 );
-        { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAreaBalance2_light TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia3->pNodeRetention), Nr_ManNumEntries(pGia3->pNodeRetention), Gia_ManObjNum(pGia3)); fclose(f); } }
     }
     else
     {
         assert( Gia_ManBufNum(pGia2) == 0 );
         pGia2 = Gia_ManAreaBalance( pTemp = pGia2, 0, ABC_INFINITY, 0, 0 );
-        { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAreaBalance2 TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia2->pNodeRetention), Nr_ManNumEntries(pGia2->pNodeRetention), Gia_ManObjNum(pGia2)); fclose(f); } }
         if ( fVerbose )     Gia_ManPrintStats( pGia2, NULL );
         Gia_ManStop( pTemp );
         // perform DSD balancing
         pGia3 = Gia_ManPerformDsdBalance( pGia2, 6, 8, 0, 0 );
-        { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManPerformDsdBalance TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia3->pNodeRetention), Nr_ManNumEntries(pGia3->pNodeRetention), Gia_ManObjNum(pGia3)); fclose(f); } }
     }
     if ( fVerbose )     Gia_ManPrintStats( pGia3, NULL );
     // perform choice computation
@@ -483,9 +471,7 @@ Gia_Man_t * Gia_ManAigSynch2( Gia_Man_t * pInit, void * pPars0, int nLutSize, in
         pGia3 = Gia_ManDupFromBarBufs( pTemp = pGia3 );
         Gia_ManStop( pTemp );
     }
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:pre_Gia_ManAigSynch2Choices TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pGia1->pNodeRetention), Nr_ManNumEntries(pGia1->pNodeRetention), Gia_ManObjNum(pGia1)); fclose(f); } }
     pNew = Gia_ManAigSynch2Choices( pGia1, pGia2, pGia3, pParsDch );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pNew->pNodeRetention), Nr_ManNumEntries(pNew->pNodeRetention), Gia_ManObjNum(pNew)); fclose(f); } }
     Gia_ManStop( pGia1 );
     Gia_ManStop( pGia2 );
     Gia_ManStop( pGia3 );

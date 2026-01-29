@@ -95,7 +95,6 @@ Aig_Man_t * Dch_ComputeChoices( Aig_Man_t * pAig, Dch_Pars_t * pPars )
     Aig_ManRandom(1);
     // start the choicing manager
     p = Dch_ManCreate( pAig, pPars );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManCreate TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pAig->pNodeRetention), Nr_ManNumEntries(pAig->pNodeRetention), Aig_ManObjNum(pAig)); fclose(f); } }
     // compute candidate equivalence classes
 clk = Abc_Clock(); 
     p->ppClasses = Dch_CreateCandEquivClasses( pAig, pPars->nWords, pPars->fVerbose );
@@ -104,7 +103,6 @@ p->timeSimInit = Abc_Clock() - clk;
     p->nLits = Dch_ClassesLitNum( p->ppClasses );
     // perform SAT sweeping
     Dch_ManSweep( p );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_ManSweep TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pAig->pNodeRetention), Nr_ManNumEntries(pAig->pNodeRetention), Aig_ManObjNum(pAig)); fclose(f); } }
     // free memory ahead of time
 p->timeTotal = Abc_Clock() - clkTotal;
     Dch_ManStop( p );
@@ -113,7 +111,6 @@ p->timeTotal = Abc_Clock() - clkTotal;
     // create choices
     ABC_FREE( pAig->pTable );
     pResult = Dch_DeriveChoiceAig( pAig, pPars->fSkipRedSupp );
-    { FILE * f = fopen("node_ret/debug_output.txt", "a"); if (f) { fprintf(f, "synch2:Gia_ManAigSynch2Choices:Dch_ComputeChoices:Dch_DeriveChoiceAig TotalOrigins: %d nEntries: %d nObjs: %d\n", Nr_ManTotalOriginCount(pResult->pNodeRetention), Nr_ManNumEntries(pResult->pNodeRetention), Aig_ManObjNum(pResult)); fclose(f); } }
     // count the number of representatives
     if ( pPars->fVerbose ) 
         Abc_Print( 1, "STATS:  Ands:%8d  ->%8d.  Reprs:%7d  ->%7d.  Choices =%7d.\n", 

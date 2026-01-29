@@ -4,6 +4,7 @@ print_level -n;
 &get -n;
 &st
 &sweep;
+&dch;
 &nf;
 &st;
 &syn2;

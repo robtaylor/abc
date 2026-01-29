@@ -414,3 +414,5 @@ Consider deleting entries (in calls like int Abc_NtkLogicMakeSimpleCos( Abc_Ntk_
 
 
 TODO: fix reliance on Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pObj->pNtk->pNodeRetention, pObjNew->Id, pObj->Id );
+
+TODO: prune Dar_Balance_rec

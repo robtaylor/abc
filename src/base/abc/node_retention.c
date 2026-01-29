@@ -777,7 +777,7 @@ void Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p )
     int i;
     if ( pAig == NULL || p == NULL )
         return;
-    Aig_ManForEachNode( pAig, pObj, i )
+    Aig_ManForEachObj( pAig, pObj, i )
     {
         // Skip constant node (stored in pAig->pConst1, type AIG_OBJ_CONST1)
         if ( Aig_ObjIsConst1(pObj) )

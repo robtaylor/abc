@@ -585,7 +585,14 @@ p->timeEval += Abc_Clock() - clk;
 
         // if we end up here, a rewriting step is accepted
         nNodeBefore = Aig_ManNodeNum( pAig );
-        pObjNew = Dar_RefactBuildGraph( pAig, p->vLeavesBest, p->pGraphBest );
+        {
+            // Track max object ID before building replacement
+            int nObjsBefore = Aig_ManObjNumMax( pAig );
+            pObjNew = Dar_RefactBuildGraph( pAig, p->vLeavesBest, p->pGraphBest );
+            int j, nObjsAfter = Aig_ManObjNumMax( pAig );
+            for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                Nr_ManCopyOrigins( pAig->pNodeRetention, pAig->pNodeRetention, j, Aig_ObjId(pObj) );
+        }
         //assert( (int)Aig_Regular(pObjNew)->Level <= Required );
         // replace the node
         Aig_ObjReplace( pAig, pObj, pObjNew, p->pPars->fUpdateLevel );

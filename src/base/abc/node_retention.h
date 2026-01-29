@@ -32,6 +32,8 @@ ABC_NAMESPACE_HEADER_START
 typedef struct Extra_MmFlex_t_ Extra_MmFlex_t;
 
 typedef struct Abc_Ntk_t_ Abc_Ntk_t;
+typedef struct Gia_Man_t_ Gia_Man_t;
+typedef struct Aig_Man_t_ Aig_Man_t;
 
 ////////////////////////////////////////////////////////////////////////
 ///                         BASIC TYPES                              ///
@@ -84,6 +86,8 @@ extern void          Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr
 extern int           Nr_ManTotalOriginCount( Nr_Man_t * p );
 extern Nr_Man_t *    Nr_ManPrune( Nr_Man_t * p );
 extern void          Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p );
+extern void          Nr_ManValidateEntriesGia( Gia_Man_t * pGia, Nr_Man_t * p );
+extern void          Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p );
 
 ABC_NAMESPACE_HEADER_END
 

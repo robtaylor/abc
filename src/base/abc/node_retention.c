@@ -22,6 +22,8 @@
 #include "base/abc/node_retention.h"
 #include "base/main/main.h"
 #include "base/main/mainInt.h"
+#include "aig/gia/gia.h"
+#include "aig/aig/aig.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -744,6 +746,36 @@ void Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p )
             if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
                 fprintf( stderr, "Warning: Node '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
         }
+    }
+}
+
+void Nr_ManValidateEntriesGia( Gia_Man_t * pGia, Nr_Man_t * p )
+{
+    Gia_Obj_t * pObj;
+    Vec_Int_t * vOrigins;
+    int i;
+    if ( pGia == NULL || p == NULL )
+        return;
+    Gia_ManForEachAnd( pGia, pObj, i )
+    {
+        vOrigins = Nr_ManGetOrigins( p, i );
+        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+            fprintf( stderr, "Warning: GIA node (id=%d) has no retention entry\n", i );
+    }
+}
+
+void Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p )
+{
+    Aig_Obj_t * pObj;
+    Vec_Int_t * vOrigins;
+    int i;
+    if ( pAig == NULL || p == NULL )
+        return;
+    Aig_ManForEachNode( pAig, pObj, i )
+    {
+        vOrigins = Nr_ManGetOrigins( p, Aig_ObjId(pObj) );
+        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+            fprintf( stderr, "Warning: AIG node (id=%d) has no retention entry\n", Aig_ObjId(pObj) );
     }
 }
 

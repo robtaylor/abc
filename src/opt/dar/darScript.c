@@ -461,7 +461,7 @@ Aig_Man_t * Dar_NewCompress( Aig_Man_t * pAig, int fBalance, int fUpdateLevel, i
     pAig = Aig_ManDupDfs( pTemp = pAig ); 
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "Refactor:  " ), Aig_ManPrintStats( pAig );
-    
+
     // balance
     if ( fBalance )
     {

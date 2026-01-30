@@ -1,4 +1,5 @@
 /**CFile****************************************************************
+
   FileName    [giaBalance.c]
 
   SystemName  [ABC: Logic synthesis and verification system.]
@@ -23,7 +24,6 @@
 #include "opt/dau/dau.h"
 
 ABC_NAMESPACE_IMPL_START
-
 
 
 ////////////////////////////////////////////////////////////////////////

@@ -1,2 +1,0 @@
-#!/bin/bash
-./abc -f node_ret/v4.script 2>&1 | tee node_ret/abc_output.log

@@ -1,3 +1,0 @@
-=== write_blif ===
-.node_retention_begin
-.node_retention_end

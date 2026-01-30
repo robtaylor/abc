@@ -735,7 +735,6 @@ Gia_Man_t * Gia_ManEquivReduce( Gia_Man_t * p, int fUseAll, int fDualOut, int fS
         return NULL;
     }
 */
-;
     if ( !fSkipPhase )
         Gia_ManSetPhase( p );
     if ( fDualOut )

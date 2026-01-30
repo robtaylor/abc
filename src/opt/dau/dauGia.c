@@ -538,9 +538,8 @@ void * Dsm_ManDeriveGia( void * pGia, int fUseMuxes )
                 Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
             continue;
         }
-        if ( !Gia_ObjIsLut(p, iLut) ) {
+        if ( !Gia_ObjIsLut(p, iLut) )
             continue;
-        }
         // collect leaves
         Vec_IntClear( vLeaves );
         Gia_LutForEachFanin( p, iLut, iVar, k )

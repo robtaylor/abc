@@ -466,7 +466,6 @@ Aig_Man_t * Dar_NewCompress( Aig_Man_t * pAig, int fBalance, int fUpdateLevel, i
     if ( fBalance )
     {
     pAig = Dar_ManBalance( pTemp = pAig, fUpdateLevel );
-    Nr_ManValidateEntriesAig( pAig, pAig->pNodeRetention );
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "Balance:   " ), Aig_ManPrintStats( pAig );
     }

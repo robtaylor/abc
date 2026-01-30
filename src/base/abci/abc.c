@@ -34480,16 +34480,10 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         else
         {
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
-
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
-
             Abc_NtkDelete( pStrash );
-            
             pGia = Gia_ManFromAig( pAig );
-
-            
             Aig_ManStop( pAig );
-
             // perform undc/zero
             pInits = Abc_NtkCollectLatchValuesStr( pAbc->pNtkCur );
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );

@@ -97,7 +97,6 @@ struct Gia_Obj_t_
 typedef struct Gia_Man_t_ Gia_Man_t;
 struct Gia_Man_t_
 {
-    Nr_Man_t *      pNodeRetention;    // node retention manager
     char *         pName;         // name of the AIG
     char *         pSpec;         // name of the input file
     int            nRegs;         // number of registers
@@ -207,6 +206,7 @@ struct Gia_Man_t_
     int            fVerbose;      // verbose reports
     int            MappedArea;    // area after mapping
     int            MappedDelay;   // delay after mapping
+    Nr_Man_t *     pNodeRetention;   // node retention manager
     // bit-parallel simulation
     int            fBuiltInSim;
     int            iPatsPi;

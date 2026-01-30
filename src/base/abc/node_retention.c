@@ -367,50 +367,6 @@ int Nr_ManNumEntries( Nr_Man_t * p )
     return p ? p->nEntries : 0;
 }
 
-/**Function*************************************************************
- *
- *  Synopsis    [Returns the number of unique original nodes mapped.]
- *
- *  Description [Counts the number of unique origin names across all entries.]
- *               
- *  SideEffects []
- *
- *  SeeAlso     []
- *
-***********************************************************************/
-int Nr_ManNumOriginalNodes( Nr_Man_t * p )
-{
-    Nr_Entry_t * pEntry;
-    Vec_Int_t * vUniqueIds;
-    int i, j, OriginId, k, nUnique = 0;
-    if ( p == NULL || p->nEntries == 0 )
-        return 0;
-    // collect all unique origin IDs
-    vUniqueIds = Vec_IntAlloc( 100 );
-    for ( i = 0; i < p->nBins; i++ )
-    {
-        pEntry = p->pBins[i];
-        while ( pEntry )
-        {
-            if ( pEntry->vOrigins )
-            {
-                Vec_IntForEachEntry( pEntry->vOrigins, OriginId, j )
-                {
-                    // check if already in vector
-                    Vec_IntForEachEntry( vUniqueIds, k, k )
-                        if ( k == OriginId )
-                            goto skip;
-                    Vec_IntPush( vUniqueIds, OriginId );
-                    skip:;
-                }
-            }
-            pEntry = pEntry->pNext;
-        }
-    }
-    nUnique = Vec_IntSize(vUniqueIds);
-    Vec_IntFree( vUniqueIds );
-    return nUnique;
-}
 
 /**Function*************************************************************
 
@@ -532,63 +488,7 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
         printf( "  [%d] OriginID: %d\n", i, OriginId );
 }
 
-/**Function*************************************************************
 
-  Synopsis    [Prints origins for all nodes in the manager.]
-
-  Description []
-               
-  SideEffects []
-
-  SeeAlso     []
-
-***********************************************************************/
-void Nr_ManPrintAllOrigins( Nr_Man_t * p )
-{
-    // Nr_Entry_t * pEntry;
-    // int i;
-    // if ( p == NULL )
-    // {
-    //     printf( "Nr_ManPrintAllOrigins: Manager is NULL.\n" );
-    //     return;
-    // }
-    // if ( p->nEntries == 0 )
-    // {
-    //     printf( "Node retention manager is empty.\n" );
-    //     return;
-    // }
-    // printf( "Printing all origins (%d entries):\n", p->nEntries );
-    // for ( i = 0; i < p->nBins; i++ )
-    // {
-    //     pEntry = p->pBins[i];
-    //     while ( pEntry )
-    //     {
-    //         Nr_ManPrintOrigins( p, pEntry->NodeId );
-    //         pEntry = pEntry->pNext;
-    //     }
-    // }
-}
-
-/**Function*************************************************************
-
-  Synopsis    [Prints debug information about node retention manager.]
-
-  Description [Takes a function name and prints node retention info after that function.]
-               
-  SideEffects []
-
-  SeeAlso     []
-
-***********************************************************************/
-void Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName )
-{
-    if ( p == NULL )
-        return;
-    printf( "DEBUG: Node retention after %s:\n", pFuncName );
-    Nr_ManPrintAllOrigins( p );
-    // printf( "DEBUG: Number of entries: %d\n", Nr_ManNumEntries( p ) );
-    // printf( "DEBUG: Number of original nodes mapped: %d\n", Nr_ManNumOriginalNodes( p ) );
-}
 
 /**Function*************************************************************
 
@@ -619,8 +519,6 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
     if ( pPruned == NULL )
         return;
     
-    // Validate that all nets have retention entries
-    Nr_ManValidateEntries( pNtk, pPruned );
     
     pAbc = Abc_FrameGetGlobalFrame();
     fprintf( pFile, ".node_retention_begin\n" );
@@ -708,85 +606,6 @@ Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
     return pNew;
 }
 
-/**Function*************************************************************
-
-  Synopsis    [Validates that all nets in network have retention entries.]
-
-  Description [Checks each net in the network and prints an error if
-               any net is missing from the retention manager.]
-               
-  SideEffects []
-
-  SeeAlso     []
-
-***********************************************************************/
-void Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p )
-{
-    Abc_Obj_t * pObj;
-    Vec_Int_t * vOrigins;
-    int i;
-    
-    if ( pNtk == NULL || p == NULL )
-        return;
-    
-    if ( Abc_NtkIsNetlist(pNtk) )
-    {
-        Abc_NtkForEachNet( pNtk, pObj, i )
-        {
-            vOrigins = Nr_ManGetOrigins( p, pObj->Id );
-            if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
-                fprintf( stderr, "Warning: Net '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
-        }
-    }
-    else
-    {
-        Abc_NtkForEachNode( pNtk, pObj, i )
-        {
-            // Skip constant node (type ABC_OBJ_CONST1 in strashed networks)
-            if ( pObj->Type == ABC_OBJ_CONST1 )
-                continue;
-            vOrigins = Nr_ManGetOrigins( p, pObj->Id );
-            if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
-                fprintf( stderr, "Warning: Node '%s' (id=%d) has no retention entry\n", Abc_ObjName(pObj), pObj->Id );
-        }
-    }
-}
-
-void Nr_ManValidateEntriesGia( Gia_Man_t * pGia, Nr_Man_t * p )
-{
-    Gia_Obj_t * pObj;
-    Vec_Int_t * vOrigins;
-    int i;
-    if ( pGia == NULL || p == NULL )
-        return;
-    Gia_ManForEachAnd( pGia, pObj, i )
-    {
-        // Skip constant node (index 0 in GIA stores the constant)
-        if ( i == 0 || Gia_ObjIsConst0(pObj) )
-            continue;
-        vOrigins = Nr_ManGetOrigins( p, i );
-        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
-            fprintf( stderr, "Warning: GIA node (id=%d) has no retention entry\n", i );
-    }
-}
-
-void Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p )
-{
-    Aig_Obj_t * pObj;
-    Vec_Int_t * vOrigins;
-    int i;
-    if ( pAig == NULL || p == NULL )
-        return;
-    Aig_ManForEachObj( pAig, pObj, i )
-    {
-        // Skip constant node (stored in pAig->pConst1, type AIG_OBJ_CONST1)
-        if ( Aig_ObjIsConst1(pObj) )
-            continue;
-        vOrigins = Nr_ManGetOrigins( p, Aig_ObjId(pObj) );
-        if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
-            fprintf( stderr, "Warning: AIG node (id=%d) has no retention entry\n", Aig_ObjId(pObj) );
-    }
-}
 
 ABC_NAMESPACE_IMPL_END
 

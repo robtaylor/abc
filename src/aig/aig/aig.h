@@ -94,7 +94,6 @@ struct Aig_Obj_t_  // 8 words
 // the AIG manager
 struct Aig_Man_t_
 {
-    Nr_Man_t *      pNodeRetention; // node retention manager
     char *           pName;          // the design name
     char *           pSpec;          // the input file name
     // AIG nodes
@@ -144,6 +143,7 @@ struct Aig_Man_t_
     int              fCatchExor;     // enables EXOR nodes
     int              fAddStrash;     // performs additional strashing
     Aig_Obj_t **     pObjCopies;     // mapping of AIG nodes into FRAIG nodes
+    Nr_Man_t *       pNodeRetention; // node retention manager
     void (*pImpFunc) (void*, void*); // implication checking precedure
     void *           pImpData;       // implication checking data
     void *           pManTime;       // the timing manager

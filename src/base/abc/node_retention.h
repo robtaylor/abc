@@ -76,18 +76,12 @@ extern void          Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int Ne
 extern Vec_Int_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManHasEntry( Nr_Man_t * p, int NodeId );
 extern int           Nr_ManNumEntries( Nr_Man_t * p );
-extern int           Nr_ManNumOriginalNodes( Nr_Man_t * p );
 extern void          Nr_ManClear( Nr_Man_t * p );
 extern void          Nr_ManProfile( Nr_Man_t * p );
 extern void          Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId );
-extern void          Nr_ManPrintAllOrigins( Nr_Man_t * p );
-extern void          Nr_ManPrintDebug( Nr_Man_t * p, char * pFuncName );
 extern void          Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p );
 extern int           Nr_ManTotalOriginCount( Nr_Man_t * p );
 extern Nr_Man_t *    Nr_ManPrune( Nr_Man_t * p );
-extern void          Nr_ManValidateEntries( Abc_Ntk_t * pNtk, Nr_Man_t * p );
-extern void          Nr_ManValidateEntriesGia( Gia_Man_t * pGia, Nr_Man_t * p );
-extern void          Nr_ManValidateEntriesAig( Aig_Man_t * pAig, Nr_Man_t * p );
 
 ABC_NAMESPACE_HEADER_END
 

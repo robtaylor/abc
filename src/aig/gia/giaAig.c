@@ -104,7 +104,6 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
     if ( pNew->pNexts )
         Gia_ManDeriveReprs( pNew );
     // map names from original AIG objects to retained nodes in new GIA objects       
-    // TODO: Do this iteration for each obj to avoid repeating code
     Aig_ManForEachCi( p, pObj, i )
         Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->iData ), Aig_ObjId(pObj) );
     Aig_ManForEachNode( p, pObj, i )

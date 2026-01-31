@@ -417,7 +417,7 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
 {
     Vec_Ptr_t * vNodes;
     Abc_Obj_t * pNodeOld;
-    int i;
+    int i; //, clk = Abc_Clock();
     assert( Abc_NtkIsLogic(pNtkOld) );
     assert( Abc_NtkIsStrash(pNtkNew) );
 //    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );

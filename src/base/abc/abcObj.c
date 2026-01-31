@@ -403,9 +403,9 @@ Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName 
         pObjNew->pData = pObj->pData;
     pObjNew->fPersist = pObj->fPersist;
     // transfer HAIG
+//    pObjNew->pEquiv = pObj->pEquiv;
     // remember the new node in the old node
     pObj->pCopy = pObjNew;
-//    pObjNew->pEquiv = pObj->pEquiv;
     return pObjNew;
 }
 

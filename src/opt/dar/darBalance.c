@@ -528,18 +528,6 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObjOl
     if ( vSuper->nSize == 1 )
         return (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0);
     // build the supergate
-// #ifdef USE_LUTSIZE_BALANCE
-//     pObjNew = Dar_BalanceBuildSuperTop( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
-// #else
-//     pObjNew = Dar_BalanceBuildSuper( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
-// #endif
-//     if ( pNew->Time2Quit && !(Aig_Regular(pObjNew)->Id & 255) && Abc_Clock() > pNew->Time2Quit )
-//         return NULL;
-//     // make sure the balanced node is not assigned
-// //    assert( pObjOld->Level >= Aig_Regular(pObjNew)->Level );
-//     assert( pObjOld->pData == NULL );
-//     Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObjOld) );
-//     return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 int nObjsBefore = Aig_ManObjNumMax( pNew );
 #ifdef USE_LUTSIZE_BALANCE
     pObjNew = Dar_BalanceBuildSuperTop( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
@@ -547,12 +535,9 @@ int nObjsBefore = Aig_ManObjNumMax( pNew );
     pObjNew = Dar_BalanceBuildSuper( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
 #endif
     // All nodes created for this pObjOld trace back to it
-    if ( pNew->pNodeRetention )
-    {
         int j, nObjsAfter = Aig_ManObjNumMax( pNew );
         for ( j = nObjsBefore; j < nObjsAfter; j++ )
             Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
-    }
     return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 }
 

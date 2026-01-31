@@ -319,7 +319,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
         for ( j = nObjsBefore; j < nObjsAfter; j++ )
             Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, j, pObj->Id );
 //        Abc_Print( 1, "%d->%d ", pObj->Id, ((Aig_Obj_t *)pObj->pCopy)->Id );
-    }     
+    }
     Vec_PtrFree( vNodes );
     pMan->fAddStrash = 0;
     // create the POs

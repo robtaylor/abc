@@ -553,7 +553,7 @@ int nObjsBefore = Aig_ManObjNumMax( pNew );
         for ( j = nObjsBefore; j < nObjsAfter; j++ )
             Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
     }
-return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
+    return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 }
 
 /**Function*************************************************************

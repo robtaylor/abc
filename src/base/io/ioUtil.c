@@ -425,9 +425,7 @@ void Io_Write( Abc_Ntk_t * pNtk, char * pFileName, Io_FileType_t FileType )
         pNtkTemp = Abc_NtkToNetlistBench( pNtk );
     }
     else
-    {
         pNtkTemp = Abc_NtkToNetlist( pNtk );
-    }
 
     if ( pNtkTemp == NULL )
     {

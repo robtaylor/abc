@@ -784,6 +784,7 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         return;
     }
     assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
+    // call recursively
     for ( i = 1; i <= pSet[0]; i++ )
     {
         Gia_Obj_t * pTemp = Gia_ManObj( p, Abc_Lit2Var(pSet[i]) );

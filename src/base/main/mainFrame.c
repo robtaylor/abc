@@ -270,7 +270,7 @@ void Abc_FrameDeallocate( Abc_Frame_t * p )
     Vec_IntFreeP( &p->vCopyMiniLut );
     ABC_FREE( p->pArray );
     ABC_FREE( p->pBoxes );
-
+    
 
     ABC_FREE( p );
     s_GlobalFrame = NULL;

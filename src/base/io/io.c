@@ -560,9 +560,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fReadAsAig )
         pNtk = Io_ReadBlifAsAig( pFileName, fCheck );
     else if ( fUseNewParser )
-    {
         pNtk = Io_Read( pFileName, IO_FILE_BLIF, fCheck, 0 );
-    }
     else
     {
         Abc_Ntk_t * pTemp;
@@ -2577,13 +2575,11 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         goto usage;
     // get the output file name
     pFileName = argv[globalUtilOptind];
-    { 
-        // call the corresponding file writer
-        if ( fSpecial || pLutStruct )
-            Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
-        else
-            Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
-    }
+    // call the corresponding file writer
+    if ( fSpecial || pLutStruct )
+        Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
+    else
+        Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
     
     return 0;
 

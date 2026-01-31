@@ -602,9 +602,7 @@ Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
     // create a new net
     pNet = Abc_NtkCreateNet( pNtk );
     if ( pName )
-    {
         Nm_ManStoreIdName( pNtk->pManName, pNet->Id, pNet->Type, pName, NULL );
-    }
     return pNet;
 }
 

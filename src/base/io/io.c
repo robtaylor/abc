@@ -2580,7 +2580,6 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
     else
         Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
-    
     return 0;
 
 usage:

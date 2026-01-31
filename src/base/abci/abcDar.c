@@ -1062,6 +1062,8 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
         pObjNewLo = Abc_NtkCreateBo( pNtkNew );
         Abc_ObjAddFanin( pObjNew, pObjNewLi );
         Abc_ObjAddFanin( pObjNewLo, pObjNew );
+//        pObjLi->Value = Abc_ObjId( pObjNewLi );
+//        pObjLo->Value = Abc_ObjId( pObjNewLo );
         Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObjLi), 0, Abc_ObjId( pObjNewLi ) );
         Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObjLo), 0, Abc_ObjId( pObjNewLo ) );
         Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNewLi), Gia_ObjId(p, pObjLi) );

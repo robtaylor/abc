@@ -3881,7 +3881,6 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
         Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i )
             Gia_ManChoiceMiter_rec( pNew, pGia, Gia_ManCo( pGia, k ) );
     }
-
     Gia_ManHashStop( pNew );
     // check the presence of dangling nodes
     nNodes = Gia_ManHasDangling( pNew );

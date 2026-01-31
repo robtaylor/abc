@@ -14,6 +14,10 @@
 #include <array>
 #include <regex>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include <base/wlc/wlc.h>
 #include <sat/cnf/cnf.h>
 #include <aig/gia/giaAig.h>

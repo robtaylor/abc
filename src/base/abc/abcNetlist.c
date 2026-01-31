@@ -259,7 +259,6 @@ Abc_Ntk_t * Abc_NtkLogicToNetlist( Abc_Ntk_t * pNtk )
         pNtkNew->pExdc = Abc_NtkToNetlist( pNtk->pExdc );
     
     // copy node retention: add all nets (from CIs, COs, and internal nodes) to retention manager
-    // TODO: consider moving this to the end of the function to avoid repeating code
         // copy origins for CI nets
         Abc_NtkForEachCi( pNtk, pObj, i )
         {

@@ -1,6 +1,6 @@
 /**CFile****************************************************************
 
-  FileName    [node_retention.h]
+  FileName    [node_retention.c]
 
   SystemName  [ABC: Logic synthesis and verification system.]
 
@@ -8,11 +8,11 @@
 
   Synopsis    [Tracks original node IDs for transformed nodes.]
 
-  Author      Silimate
+  Author      Advay Singh
 
   Affiliation Silimate
 
-  Date        
+  Date        [Jan 2026]
 
   Revision    
 

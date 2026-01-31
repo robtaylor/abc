@@ -667,7 +667,7 @@ Abc_Ntk_t * Abc_NtkFromAigPhase( Aig_Man_t * pMan )
     Abc_NtkAddDummyPoNames( pNtkNew );
     Abc_NtkAddDummyBoxNames( pNtkNew );
 
-    // node retnetion information
+    // node retention information
     Aig_ManForEachCi( pMan, pObj, i )
         Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId((Abc_Obj_t *)pObj->pData), Aig_ObjId(pObj) );
     Aig_ManForEachNode( pMan, pObj, i )

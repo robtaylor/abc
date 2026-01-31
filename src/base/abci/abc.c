@@ -34479,6 +34479,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
         else
         {
+            // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
             Abc_NtkDelete( pStrash );
@@ -34591,9 +34592,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fFindEnables )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 1, fUseBuffs );
     else if ( Gia_ManHasCellMapping(pAbc->pGia) )
-    {
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
-    }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
     else if ( Gia_ManHasDangling(pAbc->pGia) == 0 )
@@ -34601,7 +34600,6 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         pMan = Gia_ManToAig( pAbc->pGia, 0 );
         pNtk = Abc_NtkFromAigPhase( pMan );
         pNtk->pName = Extra_UtilStrsav(pMan->pName);
-        
         Aig_ManStop( pMan );
     }
     else
@@ -36462,6 +36460,8 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     else
     {
         pTemp = Gia_ManRehash( pAbc->pGia, fAddStrash );
+//        if ( !AbcFrameReadFlag("silentmode") )
+//            printf( "Rehashed the current AIG.\n" );
     }
     if ( !(fCollapse && pAbc->pGia->pAigExtra) )
     {

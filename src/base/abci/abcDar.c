@@ -1167,7 +1167,6 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     assert( Gia_ManPiNum(p) == Abc_NtkPiNum(pNtkNew) );
     assert( Gia_ManPoNum(p) == Abc_NtkPoNum(pNtkNew) );
     assert( Gia_ManRegNum(p) == Abc_NtkLatchNum(pNtkNew) );
-
     Vec_IntFree( vCopyLits );
     ABC_FREE( pCells );
 

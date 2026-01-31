@@ -36460,7 +36460,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     else
     {
         pTemp = Gia_ManRehash( pAbc->pGia, fAddStrash );
-//        if ( !AbcFrameReadFlag("silentmode") )
+//        if ( !Abc_FrameReadFlag("silentmode") )
 //            printf( "Rehashed the current AIG.\n" );
     }
     if ( !(fCollapse && pAbc->pGia->pAigExtra) )

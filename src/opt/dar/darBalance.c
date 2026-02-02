@@ -528,7 +528,7 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObjOl
     if ( vSuper->nSize == 1 )
         return (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0);
     // build the supergate
-int nObjsBefore = Aig_ManObjNumMax( pNew );
+    int nObjsBefore = Aig_ManObjNumMax( pNew );
 #ifdef USE_LUTSIZE_BALANCE
     pObjNew = Dar_BalanceBuildSuperTop( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
 #else

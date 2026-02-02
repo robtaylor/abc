@@ -33,8 +33,12 @@ ABC_NAMESPACE_IMPL_START
 
 static Nr_Entry_t * Nr_ManTableLookup( Nr_Man_t * p, int NodeId );
 static void         Nr_ManTableAdd( Nr_Man_t * p, Nr_Entry_t * pEntry );
-static void         Nr_ManTableDelete( Nr_Man_t * p, int NodeId );
 static void         Nr_ManTableResize( Nr_Man_t * p );
+
+// Origin hash set helpers
+static Nr_OriginSet_t * Nr_EntryOriginLookup( Nr_Entry_t * pEntry, int OriginId, int * pBin );
+static void         Nr_EntryOriginAdd( Nr_Entry_t * pEntry, int OriginId );
+static void         Nr_EntryOriginsFree( Nr_Entry_t * pEntry );
 
 ////////////////////////////////////////////////////////////////////////
 ///                     FUNCTION DEFINITIONS                         ///
@@ -86,6 +90,39 @@ void Nr_ManSetEnabled( Nr_Man_t * p, int fEnabled )
 
 /**Function*************************************************************
 
+  Synopsis    [Frees the origin hash set for an entry.]
+
+  Description []
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+static void Nr_EntryOriginsFree( Nr_Entry_t * pEntry )
+{
+    Nr_OriginSet_t * pOrig, * pNext;
+    int i;
+    if ( pEntry->pOriginBins == NULL )
+        return;
+    for ( i = 0; i < pEntry->nOriginBins; i++ )
+    {
+        pOrig = pEntry->pOriginBins[i];
+        while ( pOrig )
+        {
+            pNext = pOrig->pNext;
+            ABC_FREE( pOrig );
+            pOrig = pNext;
+        }
+    }
+    ABC_FREE( pEntry->pOriginBins );
+    pEntry->pOriginBins = NULL;
+    pEntry->nOriginBins = 0;
+    pEntry->nOrigins = 0;
+}
+
+/**Function*************************************************************
+
   Synopsis    [Frees the node retention manager.]
 
   Description []
@@ -101,15 +138,14 @@ void Nr_ManFree( Nr_Man_t * p )
     int i;
     if ( p == NULL )
         return;
-    // free all entries and their origins
+    // free all entries and their origin hash sets
     for ( i = 0; i < p->nBins; i++ )
     {
         pEntry = p->pBins[i];
         while ( pEntry )
         {
             pNext = pEntry->pNext;
-            if ( pEntry->vOrigins )
-                Vec_IntFree( pEntry->vOrigins );
+            Nr_EntryOriginsFree( pEntry );
             ABC_FREE( pEntry );
             pEntry = pNext;
         }
@@ -133,12 +169,10 @@ static Nr_Entry_t * Nr_ManTableLookup( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry;
     int i = NodeId % p->nBins;
-    pEntry = p->pBins[i];
-    while ( pEntry != NULL && pEntry->NodeId != NodeId )
-    {
-        pEntry = pEntry->pNext;
-    }
-    return pEntry;
+    for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
+        if ( pEntry->NodeId == NodeId )
+            return pEntry;
+    return NULL;
 }
 
 /**Function*************************************************************
@@ -207,49 +241,68 @@ static void Nr_ManTableAdd( Nr_Man_t * p, Nr_Entry_t * pEntry )
 
 /**Function*************************************************************
 
-  Synopsis    [Deletes an entry from the hash table.]
+  Synopsis    [Looks up origin in hash set, returns pointer or NULL.]
 
-  Description []
+  Description [Returns pointer to origin entry if found, NULL otherwise.
+               Also sets *pBin to the bin index for use by caller.]
                
   SideEffects []
 
   SeeAlso     []
 
 ***********************************************************************/
-static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
+static Nr_OriginSet_t * Nr_EntryOriginLookup( Nr_Entry_t * pEntry, int OriginId, int * pBin )
 {
-    Nr_Entry_t * pEntry, * pPrev, * pEntryToDelete;
+    Nr_OriginSet_t * pOrig;
     int i;
-    // use lookup to find the entry
-    pEntryToDelete = Nr_ManTableLookup( p, NodeId );
-    if ( pEntryToDelete == NULL )
-        return;
-    // find predecessor in hash table chain
-    i = NodeId % p->nBins;
-    pPrev = NULL;
-    pEntry = p->pBins[i];
-    while ( pEntry && pEntry != pEntryToDelete )
+    if ( pEntry->pOriginBins == NULL )
+        return NULL;
+    i = OriginId % pEntry->nOriginBins;
+    if ( pBin ) *pBin = i;
+    for ( pOrig = pEntry->pOriginBins[i]; pOrig; pOrig = pOrig->pNext )
+        if ( pOrig->OriginId == OriginId )
+            return pOrig;
+    return NULL;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Adds an origin to the entry's origin hash set.]
+
+  Description [Creates hash set if needed. Ignores duplicates.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+static void Nr_EntryOriginAdd( Nr_Entry_t * pEntry, int OriginId )
+{
+    Nr_OriginSet_t * pOrig;
+    int iBin;
+    // initialize origin hash set if needed
+    if ( pEntry->pOriginBins == NULL )
     {
-        pPrev = pEntry;
-        pEntry = pEntry->pNext;
+        pEntry->nOriginBins = Abc_PrimeCudd( 8 );
+        pEntry->pOriginBins = ABC_ALLOC( Nr_OriginSet_t *, pEntry->nOriginBins );
+        memset( pEntry->pOriginBins, 0, sizeof(Nr_OriginSet_t *) * pEntry->nOriginBins );
     }
-    // remove from hash table
-    if ( pPrev )
-        pPrev->pNext = pEntryToDelete->pNext;
-    else
-        p->pBins[i] = pEntryToDelete->pNext;
-    // free origins
-    if ( pEntryToDelete->vOrigins )
-        Vec_IntFree( pEntryToDelete->vOrigins );
-    ABC_FREE( pEntryToDelete );
-    p->nEntries--;
+    // lookup returns existing entry or NULL, and sets iBin
+    if ( Nr_EntryOriginLookup( pEntry, OriginId, &iBin ) )
+        return;
+    // add new origin at iBin (no rehash needed)
+    pOrig = ABC_ALLOC( Nr_OriginSet_t, 1 );
+    pOrig->OriginId = OriginId;
+    pOrig->pNext = pEntry->pOriginBins[iBin];
+    pEntry->pOriginBins[iBin] = pOrig;
+    pEntry->nOrigins++;
 }
 
 /**Function*************************************************************
 
   Synopsis    [Adds an origin (name) to a node's origin list.]
 
-  Description []
+  Description [Uses hash set to automatically prevent duplicates.]
                
   SideEffects []
 
@@ -267,12 +320,11 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
     if ( pEntry == NULL )
     {
         pEntry = ABC_ALLOC( Nr_Entry_t, 1 );
+        memset( pEntry, 0, sizeof(Nr_Entry_t) );
         pEntry->NodeId = NodeId;
-        pEntry->vOrigins = Vec_IntAlloc( 4 );
-        pEntry->pNext = NULL;
         Nr_ManTableAdd( p, pEntry );
     }
-    Vec_IntPush( pEntry->vOrigins, OriginId );
+    Nr_EntryOriginAdd( pEntry, OriginId );
 }
 
 /**Function*************************************************************
@@ -289,27 +341,29 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
 ***********************************************************************/
 void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
 {
-    Vec_Int_t * vOrigins;
-    int j, OriginId;
+    Nr_Entry_t * pEntry;
+    Nr_OriginSet_t * pOrig;
+    int i;
     // check if enabled
     if ( !pNew || !pNew->fEnabled || !pOld )
         return;
-    // get origins from old manager
-    vOrigins = Nr_ManGetOrigins( pOld, OldId );
-    if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
-    {
-        Vec_IntForEachEntry( vOrigins, OriginId, j )
-            Nr_ManAddOrigin( pNew, NewId, OriginId );
-    }
+    // get entry from old manager
+    pEntry = Nr_ManTableLookup( pOld, OldId );
+    if ( pEntry == NULL || pEntry->pOriginBins == NULL )
+        return;
+    // copy all origins using the iteration macro
+    Nr_EntryForEachOrigin( pEntry, pOrig, i )
+        Nr_ManAddOrigin( pNew, NewId, pOrig->OriginId );
 }
 
 /**Function*************************************************************
 
   Synopsis    [Gets the list of origins for a node.]
 
-  Description [Returns Vec_Int_t of origin IDs. Returns NULL if node not found.]
+  Description [Returns Vec_Int_t of origin IDs. Returns NULL if node not found.
+               Caller must free the returned vector.]
                
-  SideEffects []
+  SideEffects [Allocates new vector that caller must free.]
 
   SeeAlso     []
 
@@ -317,8 +371,17 @@ void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
 Vec_Int_t * Nr_ManGetOrigins( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry;
+    Nr_OriginSet_t * pOrig;
+    Vec_Int_t * vOrigins;
+    int i;
     pEntry = Nr_ManTableLookup( p, NodeId );
-    return pEntry ? pEntry->vOrigins : NULL;
+    if ( pEntry == NULL || pEntry->nOrigins == 0 )
+        return NULL;
+    // build vector from hash set
+    vOrigins = Vec_IntAlloc( pEntry->nOrigins );
+    Nr_EntryForEachOrigin( pEntry, pOrig, i )
+        Vec_IntPush( vOrigins, pOrig->OriginId );
+    return vOrigins;
 }
 
 /**Function*************************************************************
@@ -353,6 +416,35 @@ int Nr_ManNumEntries( Nr_Man_t * p )
     return p ? p->nEntries : 0;
 }
 
+/**Function*************************************************************
+
+  Synopsis    [Prints shape info: entries, total origins, and ratio.]
+
+  Description [Outputs to node_ret/shape.log with label for identification.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManPrintShape( Nr_Man_t * p, const char * pLabel )
+{
+    FILE * f;
+    int nEntries, nOrigins;
+    float ratio;
+    if ( p == NULL )
+        return;
+    f = fopen( "node_ret/shape.log", !strcmp(pLabel, "read_blif") ? "w" : "a" );
+    if ( f == NULL )
+        return;
+    nEntries = Nr_ManNumEntries( p );
+    nOrigins = Nr_ManTotalOriginCount( p );
+    ratio = nEntries > 0 ? (float)nOrigins / nEntries : 0.0;
+    fprintf( f, "%-30s  |  Entries: %8d  |  Origins: %8d  |  Ratio: %6.2f\n", 
+             pLabel ? pLabel : "", nEntries, nOrigins, ratio );
+    fclose( f );
+}
+
 
 /**Function*************************************************************
 
@@ -363,6 +455,7 @@ int Nr_ManNumEntries( Nr_Man_t * p )
   SideEffects []
 
   SeeAlso     []
+
 
 ***********************************************************************/
 void Nr_ManClear( Nr_Man_t * p )
@@ -377,8 +470,7 @@ void Nr_ManClear( Nr_Man_t * p )
         while ( pEntry )
         {
             pNext = pEntry->pNext;
-            if ( pEntry->vOrigins )
-                Vec_IntFree( pEntry->vOrigins );
+            Nr_EntryOriginsFree( pEntry );
             ABC_FREE( pEntry );
             pEntry = pNext;
         }
@@ -413,12 +505,8 @@ void Nr_ManProfile( Nr_Man_t * p )
     for ( i = 0; i < p->nBins; i++ )
     {
         nChain = 0;
-        pEntry = p->pBins[i];
-        while ( pEntry )
-        {
+        for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
             nChain++;
-            pEntry = pEntry->pNext;
-        }
         if ( nChain == 0 )
             nEmpty++;
         else
@@ -450,8 +538,8 @@ void Nr_ManProfile( Nr_Man_t * p )
 void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
 {
     Nr_Entry_t * pEntry;
-    Vec_Int_t * vOrigins;
-    int i, OriginId;
+    Nr_OriginSet_t * pOrig;
+    int i, nPrinted;
     if ( p == NULL )
     {
         printf( "Nr_ManPrintOrigins: Manager is NULL.\n" );
@@ -463,15 +551,15 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
         printf( "Node %d: No entry found.\n", NodeId );
         return;
     }
-    vOrigins = pEntry->vOrigins;
-    if ( vOrigins == NULL || Vec_IntSize(vOrigins) == 0 )
+    if ( pEntry->nOrigins == 0 )
     {
         printf( "Node %d: No origins.\n", NodeId );
         return;
     }
-    printf( "Node %d has %d origin(s):\n", NodeId, Vec_IntSize(vOrigins) );
-    Vec_IntForEachEntry( vOrigins, OriginId, i )
-        printf( "  [%d] OriginID: %d\n", i, OriginId );
+    printf( "Node %d has %d origin(s):\n", NodeId, pEntry->nOrigins );
+    nPrinted = 0;
+    Nr_EntryForEachOrigin( pEntry, pOrig, i )
+        printf( "  [%d] OriginID: %d\n", nPrinted++, pOrig->OriginId );
 }
 
 
@@ -492,34 +580,27 @@ void Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId )
 void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
 {
     Abc_Obj_t * pNet;
-    Vec_Int_t * vOrigins;
+    Nr_Entry_t * pEntry;
+    Nr_OriginSet_t * pOrig;
     Abc_Frame_t * pAbc;
-    Nr_Man_t * pPruned;
     int i, j;
     
     if ( pFile == NULL || pNtk == NULL || p == NULL )
         return;
-    
-    // Create pruned version with unique origins only
-    pPruned = Nr_ManPrune( p );
-    if ( pPruned == NULL )
-        return;
-    
     
     pAbc = Abc_FrameGetGlobalFrame();
     fprintf( pFile, ".node_retention_begin\n" );
     Abc_NtkForEachNet( pNtk, pNet, i )
     {
         int NetId = Abc_ObjId(pNet);
-        vOrigins = Nr_ManGetOrigins( pPruned, NetId );
-        if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
+        pEntry = Nr_ManTableLookup( p, NetId );
+        if ( pEntry && pEntry->nOrigins > 0 )
         {
-            int OriginId;
             char * pName;
             fprintf( pFile, "%s SRC", Abc_ObjName(pNet) );
-            Vec_IntForEachEntry( vOrigins, OriginId, j )
+            Nr_EntryForEachOrigin( pEntry, pOrig, j )
             {
-                pName = (char *)Vec_PtrEntry( pAbc->vNodeRetention, OriginId );
+                pName = (char *)Vec_PtrEntry( pAbc->vNodeRetention, pOrig->OriginId );
                 if ( pName )
                     fprintf( pFile, " %s", pName );
             }
@@ -527,75 +608,30 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
         }
     }
     fprintf( pFile, ".node_retention_end\n" );
-    
-    // Free the pruned manager
-    Nr_ManFree( pPruned );
 }
 
-
-int Nr_ManTotalOriginCount( Nr_Man_t * p )
-{
-    Nr_Entry_t * pEntry;
-    int i, nTotal = 0;
-    if ( p == NULL ) return 0;
-    for ( i = 0; i < p->nBins; i++ )
-        for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
-            if ( pEntry->vOrigins )
-                nTotal += Vec_IntSize(pEntry->vOrigins);
-    return nTotal;
-}
 
 /**Function*************************************************************
 
-  Synopsis    [Creates a deduplicated copy of the retention manager.]
+  Synopsis    [Returns total number of origins across all entries.]
 
-  Description [Iterates all entries, removes duplicate origin IDs per node,
-               and returns a new manager with unique origins only. Used to
-               clean up before output when origins may have been added multiple
-               times during transformations.]
+  Description []
                
-  SideEffects [Allocates new manager; caller must free.]
+  SideEffects []
 
   SeeAlso     []
 
 ***********************************************************************/
-Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
+int Nr_ManTotalOriginCount( Nr_Man_t * p )
 {
-    Nr_Man_t * pNew;
     Nr_Entry_t * pEntry;
-    Vec_Int_t * vUnique;
-    int i, j, OriginId;
-    
-    if ( p == NULL )
-        return NULL;
-    
-    pNew = Nr_ManCreate( p->nBins );
-    pNew->fEnabled = p->fEnabled;  // preserve enabled state from original
-    vUnique = Vec_IntAlloc( 100 );  // temp buffer for deduplication
-    
-    // iterate all hash bins and entries
-    for ( i = 0; i < p->nBins; i++ )
-    {
-        for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
-        {
-            if ( pEntry->vOrigins == NULL )
-                continue;
-            // collect unique origins for this node
-            Vec_IntClear( vUnique );
-            Vec_IntForEachEntry( pEntry->vOrigins, OriginId, j )
-            {
-                if ( Vec_IntFind( vUnique, OriginId ) == -1 )
-                    Vec_IntPush( vUnique, OriginId );
-            }
-            // copy deduplicated origins to new manager
-            Vec_IntForEachEntry( vUnique, OriginId, j )
-                Nr_ManAddOrigin( pNew, pEntry->NodeId, OriginId );
-        }
-    }
-    Vec_IntFree( vUnique );
-    return pNew;
+    int i, nTotal = 0;
+    if ( p == NULL ) 
+        return 0;
+    Nr_ManForEachEntry( p, pEntry, i )
+        nTotal += pEntry->nOrigins;
+    return nTotal;
 }
-
 
 ABC_NAMESPACE_IMPL_END
 

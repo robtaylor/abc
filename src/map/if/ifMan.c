@@ -165,7 +165,7 @@ If_Man_t * If_ManStart( If_Par_t * pPars )
 //        Abc_PrintTime( 1, "Setup time", Abc_Clock() - clk );
     }
     // node retention manager
-    p->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
+    p->pNodeRetention = Nr_ManCreate( 1000 );
     // create the constant node
     p->pConst1   = If_ManSetupObj( p );
     p->pConst1->Type   = IF_CONST1;

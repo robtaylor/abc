@@ -66,7 +66,7 @@ Gia_Man_t * Gia_ManStart( int nObjsMax )
     p->nObjs = 1;
     p->vCis  = Vec_IntAlloc( nObjsMax / 20 );
     p->vCos  = Vec_IntAlloc( nObjsMax / 20 );
-    p->pNodeRetention = Nr_ManCreate( nObjsMax, 1, 1 );
+    p->pNodeRetention = Nr_ManCreate( nObjsMax );
     return p;
 }
 

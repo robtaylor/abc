@@ -45,16 +45,17 @@ static void         Nr_ManTableResize( Nr_Man_t * p );
   Synopsis    [Creates the node retention manager.]
 
   Description [Allocates and initializes a hash table to track node origins.
-               nSize hints initial capacity; fCanModify/fCanCopyFromOld 
-               control whether entries can be added or copied from other managers.]
+               nSize hints initial capacity. Reads fNodeRetention from global
+               frame to determine if tracking is enabled.]
                
   SideEffects []
 
   SeeAlso     []
 
 ***********************************************************************/
-Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
+Nr_Man_t * Nr_ManCreate( int nSize )
 {
+    Abc_Frame_t * pAbc = Abc_FrameGetGlobalFrame();
     Nr_Man_t * p;
     p = ABC_ALLOC( Nr_Man_t, 1 );
     memset( p, 0, sizeof(Nr_Man_t) );
@@ -62,14 +63,13 @@ Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
     p->nBins = Abc_PrimeCudd( nSize > 0 ? nSize : 100 );     // prime-sized hash table
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
-    p->fCanModify = fCanModify;
-    p->fCanCopyFromOld = fCanCopyFromOld;
+    p->fEnabled = pAbc ? pAbc->fNodeRetention : 0;
     return p;
 }
 
 /**Function*************************************************************
 
-  Synopsis    [Sets the fCanModify flag.]
+  Synopsis    [Sets the fEnabled flag.]
 
   Description []
                
@@ -78,27 +78,10 @@ Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
   SeeAlso     []
 
 ***********************************************************************/
-void Nr_ManSetCanModify( Nr_Man_t * p, int fCanModify )
+void Nr_ManSetEnabled( Nr_Man_t * p, int fEnabled )
 {
     if ( p )
-        p->fCanModify = fCanModify;
-}
-
-/**Function*************************************************************
-
-  Synopsis    [Sets the fCanCopyFromOld flag.]
-
-  Description []
-               
-  SideEffects []
-
-  SeeAlso     []
-
-***********************************************************************/
-void Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld )
-{
-    if ( p )
-        p->fCanCopyFromOld = fCanCopyFromOld;
+        p->fEnabled = fEnabled;
 }
 
 /**Function*************************************************************
@@ -276,8 +259,8 @@ static void Nr_ManTableDelete( Nr_Man_t * p, int NodeId )
 void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
 {
     Nr_Entry_t * pEntry;
-    // check if modification is allowed
-    if ( !p || !p->fCanModify )
+    // check if enabled
+    if ( !p || !p->fEnabled )
         return;
     // find or create entry
     pEntry = Nr_ManTableLookup( p, NodeId );
@@ -297,7 +280,7 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
   Synopsis    [Copies origins from old manager to new manager.]
 
   Description [Copies all origins associated with OldId in pOld to NewId in pNew.
-               Only copies if pNew->fCanCopyFromOld is true.]
+               Only copies if pNew is enabled.]
                
   SideEffects []
 
@@ -308,8 +291,8 @@ void Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId )
 {
     Vec_Int_t * vOrigins;
     int j, OriginId;
-    // check if copying is allowed
-    if ( !pNew || !pNew->fCanCopyFromOld || !pOld )
+    // check if enabled
+    if ( !pNew || !pNew->fEnabled || !pOld )
         return;
     // get origins from old manager
     vOrigins = Nr_ManGetOrigins( pOld, OldId );
@@ -586,7 +569,8 @@ Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
     if ( p == NULL )
         return NULL;
     
-    pNew = Nr_ManCreate( p->nBins, p->fCanModify, p->fCanCopyFromOld );
+    pNew = Nr_ManCreate( p->nBins );
+    pNew->fEnabled = p->fEnabled;  // preserve enabled state from original
     vUnique = Vec_IntAlloc( 100 );  // temp buffer for deduplication
     
     // iterate all hash bins and entries

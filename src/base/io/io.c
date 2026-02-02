@@ -529,6 +529,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     fReadAsAig = 0;
     fUseNewParser = 1;
     fSaveNames = 0;
+    pAbc->fNodeRetention = 0;
     Extra_UtilGetoptReset();
     while ( ( c = Extra_UtilGetopt( argc, argv, "nmach" ) ) != EOF )
     {
@@ -545,6 +546,9 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
                 break;
             case 'c':
                 fCheck ^= 1;
+                break;
+            case 'r':
+                pAbc->fNodeRetention ^= 1;
                 break;
             case 'h':
                 goto usage;
@@ -583,13 +587,14 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     return 0;
 
 usage:
-    fprintf( pAbc->Err, "usage: read_blif [-nmach] <file>\n" );
+    fprintf( pAbc->Err, "usage: read_blif [-nmacrh] <file>\n" );
     fprintf( pAbc->Err, "\t         reads the network in binary BLIF format\n" );
     fprintf( pAbc->Err, "\t         (if this command does not work, try \"read\")\n" );
     fprintf( pAbc->Err, "\t-n     : toggle using old BLIF parser without hierarchy support [default = %s]\n", !fUseNewParser? "yes":"no" );
     fprintf( pAbc->Err, "\t-m     : toggle saving original circuit names into a file [default = %s]\n", fSaveNames? "yes":"no" );
     fprintf( pAbc->Err, "\t-a     : toggle creating AIG while reading the file [default = %s]\n", fReadAsAig? "yes":"no" );
     fprintf( pAbc->Err, "\t-c     : toggle network check after reading [default = %s]\n", fCheck? "yes":"no" );
+    fprintf( pAbc->Err, "\t-r     : toggle node retention tracking [default = %s]\n", pAbc->fNodeRetention? "yes":"no" );
     fprintf( pAbc->Err, "\t-h     : prints the command summary\n" );
     fprintf( pAbc->Err, "\tfile   : the name of a file to read\n" );
     return 1;

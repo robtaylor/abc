@@ -54,8 +54,7 @@ struct Nr_Man_t_
     int              nBins;          // number of bins
     int              nEntries;       // number of entries
     int              nSizeFactor;    // determines when to resize (default: 2)
-    int              fCanModify;     // whether this manager can be modified
-    int              fCanCopyFromOld;// whether we can copy from old manager
+    int              fEnabled;       // whether node retention tracking is enabled
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,10 +66,9 @@ struct Nr_Man_t_
 ////////////////////////////////////////////////////////////////////////
 
 /*=== node_retention.c ================================================*/
-extern Nr_Man_t *    Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld );
+extern Nr_Man_t *    Nr_ManCreate( int nSize );
 extern void          Nr_ManFree( Nr_Man_t * p );
-extern void          Nr_ManSetCanModify( Nr_Man_t * p, int fCanModify );
-extern void          Nr_ManSetCanCopyFromOld( Nr_Man_t * p, int fCanCopyFromOld );
+extern void          Nr_ManSetEnabled( Nr_Man_t * p, int fEnabled );
 extern void          Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId );
 extern void          Nr_ManCopyOrigins( Nr_Man_t * pNew, Nr_Man_t * pOld, int NewId, int OldId );
 extern Vec_Int_t *   Nr_ManGetOrigins( Nr_Man_t * p, int NodeId );

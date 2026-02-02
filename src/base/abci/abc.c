@@ -34520,6 +34520,7 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         pGia->And2Delay = pNtk->AndGateDelay;
     }
     Abc_FrameUpdateGia( pAbc, pGia );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&get" );
     return 0;
 
 usage:
@@ -34675,6 +34676,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     if ( fStatusClear )
         Abc_FrameClearVerifStatus( pAbc );
+    Nr_ManPrintShape( pAbc->pNtkCur->pNodeRetention, "&put" );
     return 0;
 
 usage:
@@ -36482,6 +36484,7 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
         pAbc->pGia->vConfigs2= pTemp->vConfigs2;    pTemp->vConfigs2= NULL;
     }
     Abc_FrameUpdateGia( pAbc, pTemp );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&st" );
     return 0;
 
 usage:
@@ -40196,6 +40199,7 @@ int Abc_CommandAbc9Syn2( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     pTemp = Gia_ManAigSyn2( pAbc->pGia, fOldAlgo, fCoarsen, fCutMin, nRelaxRatio, fDelayMin, fVerbose, fVeryVerbose );
     Abc_FrameUpdateGia( pAbc, pTemp );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&syn2" );
     return 0;
 
 usage:
@@ -40315,6 +40319,7 @@ int Abc_CommandAbc9Synch2( Abc_Frame_t * pAbc, int argc, char ** argv )
     }
     pTemp = Gia_ManAigSynch2( pAbc->pGia, pPars, nLutSize, nRelaxRatio );
     Abc_FrameUpdateGia( pAbc, pTemp );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&synch2" );
     return 0;
 
 usage:
@@ -43285,6 +43290,7 @@ int Abc_CommandAbc9Sweep( Abc_Frame_t * pAbc, int argc, char ** argv )
     else
         pTemp = Gia_ManFraigSweepSimple( pAbc->pGia, pPars );
     Abc_FrameUpdateGia( pAbc, pTemp );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&sweep" );
     return 0;
 
 usage:
@@ -44554,6 +44560,7 @@ int Abc_CommandAbc9If( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     Abc_FrameUpdateGia( pAbc, pNew );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&if" );
     return 0;
 
 usage:
@@ -45991,6 +45998,7 @@ int Abc_CommandAbc9Nf( Abc_Frame_t * pAbc, int argc, char ** argv )
         return 1;
     }
     Abc_FrameUpdateGia( pAbc, pNew );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&nf" );
     return 0;
 
 usage:
@@ -48788,6 +48796,7 @@ int Abc_CommandAbc9Dch( Abc_Frame_t * pAbc, int argc, char ** argv )
             pTemp = Gia_ManEquivReduce2( pAbc->pGia, fRandom );
     }
     Abc_FrameUpdateGia( pAbc, pTemp );
+    Nr_ManPrintShape( pAbc->pGia->pNodeRetention, "&dch" );
     return 0;
 
 usage:

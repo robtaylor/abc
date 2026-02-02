@@ -80,6 +80,7 @@ extern void          Nr_ManPrintOrigins( Nr_Man_t * p, int NodeId );
 extern void          Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p );
 extern int           Nr_ManTotalOriginCount( Nr_Man_t * p );
 extern Nr_Man_t *    Nr_ManPrune( Nr_Man_t * p );
+extern void          Nr_ManPrintShape( Nr_Man_t * p, const char * pLabel );
 
 ABC_NAMESPACE_HEADER_END
 

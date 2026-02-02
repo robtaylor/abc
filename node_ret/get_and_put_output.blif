@@ -1,0 +1,263 @@
+# Benchmark "netlist" written by ABC on Fri Jan 23 16:28:50 2026
+.model netlist
+.inputs ys__n7 ys__n8 ys__n11 ys__n17 ys__n19 ys__n25 ys__n27 ys__n33 \
+ ys__n35 ys__n41 ys__n43 ys__n49 ys__n51 ys__n57 ys__n59 ys__n65 ys__n67 \
+ ys__n73 ys__n75 ys__n81 ys__n83 ys__n89 ys__n91 ys__n97 ys__n99 ys__n105 \
+ ys__n107 ys__n113 ys__n115 ys__n121 ys__n123 ys__n129 ys__n131 ys__n137 \
+ ys__n139 ys__n145 ys__n147 ys__n153 ys__n155 ys__n161 ys__n163 ys__n169 \
+ ys__n171 ys__n177 ys__n179 ys__n185 ys__n187 ys__n193 ys__n195 ys__n201 \
+ ys__n203 ys__n209 ys__n211 ys__n217 ys__n219 ys__n225 ys__n227 ys__n233 \
+ ys__n235 ys__n241 ys__n243 ys__n249 ys__n251 ys__n257 ys__n259 ys__n260 \
+ ys__n264 ys__n267 ys__n279 ys__n293 ys__n304 ys__n314 ys__n324 ys__n334 \
+ ys__n342 ys__n350 ys__n363 ys__n373 ys__n383 ys__n393 ys__n403 ys__n411 \
+ ys__n419 ys__n431 ys__n439 ys__n447 ys__n521 ys__n522
+.outputs ys__n3 ys__n13 ys__n21 ys__n29 ys__n37 ys__n45 ys__n53 ys__n61 \
+ ys__n69 ys__n77 ys__n85 ys__n93 ys__n101 ys__n109 ys__n117 ys__n125 \
+ ys__n133 ys__n141 ys__n149 ys__n157 ys__n165 ys__n173 ys__n181 ys__n189 \
+ ys__n197 ys__n205 ys__n213 ys__n221 ys__n229 ys__n237 ys__n245 ys__n253 \
+ ys__n265 ys__n268 ys__n270 ys__n506
+.gate NOT  A=ys__n293 Y=new_n125
+.gate NOT  A=ys__n304 Y=new_n126
+.gate NOT  A=ys__n314 Y=new_n127
+.gate NOT  A=ys__n324 Y=new_n128
+.gate NOT  A=ys__n334 Y=new_n129
+.gate NOT  A=ys__n342 Y=new_n130
+.gate NOT  A=ys__n363 Y=new_n131
+.gate NOT  A=ys__n393 Y=new_n132
+.gate NOT  A=ys__n403 Y=new_n133
+.gate NOT  A=ys__n431 Y=new_n134
+.gate NOT  A=ys__n439 Y=new_n135
+.gate NOT  A=ys__n447 Y=new_n136
+.gate MUX  A=ys__n11 B=ys__n8 S=ys__n7 Y=ys__n3
+.gate MUX  A=ys__n19 B=ys__n17 S=ys__n7 Y=ys__n13
+.gate MUX  A=ys__n27 B=ys__n25 S=ys__n7 Y=ys__n21
+.gate MUX  A=ys__n35 B=ys__n33 S=ys__n7 Y=ys__n29
+.gate MUX  A=ys__n43 B=ys__n41 S=ys__n7 Y=ys__n37
+.gate MUX  A=ys__n51 B=ys__n49 S=ys__n7 Y=ys__n45
+.gate MUX  A=ys__n59 B=ys__n57 S=ys__n7 Y=ys__n53
+.gate MUX  A=ys__n67 B=ys__n65 S=ys__n7 Y=ys__n61
+.gate MUX  A=ys__n75 B=ys__n73 S=ys__n7 Y=ys__n69
+.gate MUX  A=ys__n83 B=ys__n81 S=ys__n7 Y=ys__n77
+.gate MUX  A=ys__n91 B=ys__n89 S=ys__n7 Y=ys__n85
+.gate MUX  A=ys__n99 B=ys__n97 S=ys__n7 Y=ys__n93
+.gate MUX  A=ys__n107 B=ys__n105 S=ys__n7 Y=ys__n101
+.gate MUX  A=ys__n115 B=ys__n113 S=ys__n7 Y=ys__n109
+.gate MUX  A=ys__n123 B=ys__n121 S=ys__n7 Y=ys__n117
+.gate MUX  A=ys__n131 B=ys__n129 S=ys__n7 Y=ys__n125
+.gate MUX  A=ys__n139 B=ys__n137 S=ys__n7 Y=ys__n133
+.gate MUX  A=ys__n147 B=ys__n145 S=ys__n7 Y=ys__n141
+.gate MUX  A=ys__n155 B=ys__n153 S=ys__n7 Y=ys__n149
+.gate MUX  A=ys__n163 B=ys__n161 S=ys__n7 Y=ys__n157
+.gate MUX  A=ys__n171 B=ys__n169 S=ys__n7 Y=ys__n165
+.gate MUX  A=ys__n179 B=ys__n177 S=ys__n7 Y=ys__n173
+.gate MUX  A=ys__n187 B=ys__n185 S=ys__n7 Y=ys__n181
+.gate MUX  A=ys__n195 B=ys__n193 S=ys__n7 Y=ys__n189
+.gate MUX  A=ys__n203 B=ys__n201 S=ys__n7 Y=ys__n197
+.gate MUX  A=ys__n211 B=ys__n209 S=ys__n7 Y=ys__n205
+.gate MUX  A=ys__n219 B=ys__n217 S=ys__n7 Y=ys__n213
+.gate MUX  A=ys__n227 B=ys__n225 S=ys__n7 Y=ys__n221
+.gate MUX  A=ys__n235 B=ys__n233 S=ys__n7 Y=ys__n229
+.gate MUX  A=ys__n243 B=ys__n241 S=ys__n7 Y=ys__n237
+.gate MUX  A=ys__n251 B=ys__n249 S=ys__n7 Y=ys__n245
+.gate MUX  A=ys__n259 B=ys__n257 S=ys__n7 Y=ys__n253
+.gate AND  A=ys__n411 B=ys__n419 Y=new_n169
+.gate AND  A=new_n133 B=new_n169 Y=new_n170
+.gate AND  A=new_n132 B=new_n170 Y=new_n171
+.gate AND  A=ys__n383 B=new_n171 Y=new_n172
+.gate AND  A=ys__n373 B=new_n172 Y=new_n173
+.gate AND  A=new_n131 B=new_n173 Y=new_n174
+.gate AND  A=ys__n260 B=new_n174 Y=new_n175
+.gate AND  A=new_n130 B=ys__n350 Y=new_n176
+.gate AND  A=new_n129 B=new_n176 Y=new_n177
+.gate AND  A=new_n128 B=new_n177 Y=new_n178
+.gate AND  A=new_n127 B=new_n178 Y=new_n179
+.gate AND  A=new_n126 B=new_n179 Y=new_n180
+.gate AND  A=new_n125 B=new_n180 Y=new_n181
+.gate AND  A=new_n175 B=new_n181 Y=new_n182
+.gate AND  A=ys__n279 B=new_n182 Y=new_n183
+.gate AND  A=new_n135 B=ys__n447 Y=new_n184
+.gate AND  A=new_n134 B=new_n184 Y=new_n185
+.gate AND  A=new_n183 B=new_n185 Y=new_n186
+.gate AND  A=ys__n264 B=new_n186 Y=ys__n265
+.gate AND  A=ys__n439 B=new_n136 Y=new_n188
+.gate AND  A=new_n134 B=new_n188 Y=new_n189
+.gate AND  A=new_n183 B=new_n189 Y=new_n190
+.gate OR   A=new_n186 B=new_n190 Y=new_n191
+.gate AND  A=ys__n267 B=new_n191 Y=ys__n268
+.gate AND  A=ys__n439 B=ys__n447 Y=new_n193
+.gate AND  A=new_n134 B=new_n193 Y=new_n194
+.gate AND  A=new_n183 B=new_n194 Y=new_n195
+.gate OR   A=new_n190 B=new_n195 Y=new_n196
+.gate OR   A=new_n186 B=new_n196 Y=ys__n506
+.gate AND  A=new_n134 B=new_n183 Y=new_n198
+.gate OR   A=ys__n521 B=ys__n522 Y=new_n199
+.gate NOT  A=new_n199 Y=new_n200
+.gate AND  A=new_n198 B=new_n200 Y=ys__n270
+.end
+.node_retention_begin
+ys__n7 SRC ys__n7 ys__n10
+ys__n8 SRC ys__n8
+ys__n11 SRC ys__n11
+ys__n17 SRC ys__n17
+ys__n19 SRC ys__n19
+ys__n25 SRC ys__n25
+ys__n27 SRC ys__n27
+ys__n33 SRC ys__n33
+ys__n35 SRC ys__n35
+ys__n41 SRC ys__n41
+ys__n43 SRC ys__n43
+ys__n49 SRC ys__n49
+ys__n51 SRC ys__n51
+ys__n57 SRC ys__n57
+ys__n59 SRC ys__n59
+ys__n65 SRC ys__n65
+ys__n67 SRC ys__n67
+ys__n73 SRC ys__n73
+ys__n75 SRC ys__n75
+ys__n81 SRC ys__n81
+ys__n83 SRC ys__n83
+ys__n89 SRC ys__n89
+ys__n91 SRC ys__n91
+ys__n97 SRC ys__n97
+ys__n99 SRC ys__n99
+ys__n105 SRC ys__n105
+ys__n107 SRC ys__n107
+ys__n113 SRC ys__n113
+ys__n115 SRC ys__n115
+ys__n121 SRC ys__n121
+ys__n123 SRC ys__n123
+ys__n129 SRC ys__n129
+ys__n131 SRC ys__n131
+ys__n137 SRC ys__n137
+ys__n139 SRC ys__n139
+ys__n145 SRC ys__n145
+ys__n147 SRC ys__n147
+ys__n153 SRC ys__n153
+ys__n155 SRC ys__n155
+ys__n161 SRC ys__n161
+ys__n163 SRC ys__n163
+ys__n169 SRC ys__n169
+ys__n171 SRC ys__n171
+ys__n177 SRC ys__n177
+ys__n179 SRC ys__n179
+ys__n185 SRC ys__n185
+ys__n187 SRC ys__n187
+ys__n193 SRC ys__n193
+ys__n195 SRC ys__n195
+ys__n201 SRC ys__n201
+ys__n203 SRC ys__n203
+ys__n209 SRC ys__n209
+ys__n211 SRC ys__n211
+ys__n217 SRC ys__n217
+ys__n219 SRC ys__n219
+ys__n225 SRC ys__n225
+ys__n227 SRC ys__n227
+ys__n233 SRC ys__n233
+ys__n235 SRC ys__n235
+ys__n241 SRC ys__n241
+ys__n243 SRC ys__n243
+ys__n249 SRC ys__n249
+ys__n251 SRC ys__n251
+ys__n257 SRC ys__n257
+ys__n259 SRC ys__n259
+ys__n260 SRC ys__n260
+ys__n264 SRC ys__n264
+ys__n267 SRC ys__n267
+ys__n279 SRC ys__n279
+ys__n293 SRC ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283
+ys__n304 SRC ys__n304 ys__n301 ys__n300 ys__n297 ys__n295 ys__n288
+ys__n314 SRC ys__n314 ys__n311 ys__n310 ys__n307 ys__n305 ys__n299
+ys__n324 SRC ys__n324 ys__n321 ys__n320 ys__n317 ys__n315 ys__n309
+ys__n334 SRC ys__n334 ys__n331 ys__n330 ys__n327 ys__n325 ys__n319
+ys__n342 SRC ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329
+ys__n350 SRC ys__n350 ys__n349 ys__n344 ys__n347 ys__n343 ys__n328
+ys__n363 SRC ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353
+ys__n373 SRC ys__n373 ys__n372 ys__n365 ys__n370 ys__n364 ys__n358
+ys__n383 SRC ys__n383 ys__n382 ys__n375 ys__n380 ys__n374 ys__n368
+ys__n393 SRC ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378
+ys__n403 SRC ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388
+ys__n411 SRC ys__n411 ys__n410 ys__n405 ys__n408 ys__n404 ys__n398
+ys__n419 SRC ys__n419 ys__n418 ys__n413 ys__n416 ys__n412 ys__n397
+ys__n431 SRC ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421
+ys__n439 SRC ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426
+ys__n447 SRC ys__n447 ys__n497 ys__n492 ys__n495 ys__n491 ys__n478 ys__n470 ys__n469 ys__n468 ys__n466 ys__n453 ys__n501 ys__n446 ys__n441 ys__n444 ys__n440 ys__n425
+ys__n521 SRC ys__n521 ys__n520
+ys__n522 SRC ys__n522 ys__n519
+ys__n3 SRC ys__n3 ys__n2 ys__n3
+ys__n13 SRC ys__n13 ys__n12 ys__n13
+ys__n21 SRC ys__n21 ys__n20 ys__n21
+ys__n29 SRC ys__n29 ys__n28 ys__n29
+ys__n37 SRC ys__n37 ys__n36 ys__n37
+ys__n45 SRC ys__n45 ys__n44 ys__n45
+ys__n53 SRC ys__n53 ys__n52 ys__n53
+ys__n61 SRC ys__n61 ys__n60 ys__n61
+ys__n69 SRC ys__n69 ys__n68 ys__n69
+ys__n77 SRC ys__n77 ys__n76 ys__n77
+ys__n85 SRC ys__n85 ys__n84 ys__n85
+ys__n93 SRC ys__n93 ys__n92 ys__n93
+ys__n101 SRC ys__n101 ys__n100 ys__n101
+ys__n109 SRC ys__n109 ys__n108 ys__n109
+ys__n117 SRC ys__n117 ys__n116 ys__n117
+ys__n125 SRC ys__n125 ys__n124 ys__n125
+ys__n133 SRC ys__n133 ys__n132 ys__n133
+ys__n141 SRC ys__n141 ys__n140 ys__n141
+ys__n149 SRC ys__n149 ys__n148 ys__n149
+ys__n157 SRC ys__n157 ys__n156 ys__n157
+ys__n165 SRC ys__n165 ys__n164 ys__n165
+ys__n173 SRC ys__n173 ys__n172 ys__n173
+ys__n181 SRC ys__n181 ys__n180 ys__n181
+ys__n189 SRC ys__n189 ys__n188 ys__n189
+ys__n197 SRC ys__n197 ys__n196 ys__n197
+ys__n205 SRC ys__n205 ys__n204 ys__n205
+ys__n213 SRC ys__n213 ys__n212 ys__n213
+ys__n221 SRC ys__n221 ys__n220 ys__n221
+ys__n229 SRC ys__n229 ys__n228 ys__n229
+ys__n237 SRC ys__n237 ys__n236 ys__n237
+ys__n245 SRC ys__n245 ys__n244 ys__n245
+ys__n253 SRC ys__n253 ys__n252 ys__n253
+ys__n265 SRC ys__n265 ys__n265
+ys__n268 SRC ys__n268 ys__n268
+ys__n270 SRC ys__n270 ys__n270
+ys__n506 SRC ys__n506 ys__n513 ys__n505 ys__n506
+new_n125 SRC ys__n293 ys__n290 ys__n289 ys__n286 ys__n284 ys__n283
+new_n126 SRC ys__n304 ys__n301 ys__n300 ys__n297 ys__n295 ys__n288
+new_n127 SRC ys__n314 ys__n311 ys__n310 ys__n307 ys__n305 ys__n299
+new_n128 SRC ys__n324 ys__n321 ys__n320 ys__n317 ys__n315 ys__n309
+new_n129 SRC ys__n334 ys__n331 ys__n330 ys__n327 ys__n325 ys__n319
+new_n130 SRC ys__n342 ys__n339 ys__n338 ys__n337 ys__n335 ys__n329
+new_n131 SRC ys__n363 ys__n360 ys__n359 ys__n356 ys__n354 ys__n353
+new_n132 SRC ys__n393 ys__n390 ys__n389 ys__n386 ys__n384 ys__n378
+new_n133 SRC ys__n403 ys__n400 ys__n399 ys__n396 ys__n394 ys__n388
+new_n134 SRC ys__n431 ys__n481 ys__n480 ys__n477 ys__n475 ys__n474 ys__n456 ys__n455 ys__n452 ys__n450 ys__n449 ys__n498 ys__n428 ys__n427 ys__n424 ys__n422 ys__n421
+new_n135 SRC ys__n439 ys__n488 ys__n487 ys__n486 ys__n484 ys__n479 ys__n465 ys__n460 ys__n463 ys__n459 ys__n454 ys__n500 ys__n438 ys__n433 ys__n436 ys__n432 ys__n426
+new_n136 SRC ys__n447 ys__n497 ys__n492 ys__n495 ys__n491 ys__n478 ys__n470 ys__n469 ys__n468 ys__n466 ys__n453 ys__n501 ys__n446 ys__n441 ys__n444 ys__n440 ys__n425
+new_n169 SRC ys__n387
+new_n170 SRC ys__n377
+new_n171 SRC ys__n367
+new_n172 SRC ys__n357
+new_n173 SRC ys__n352
+new_n174 SRC ys__n261
+new_n175 SRC ys__n262
+new_n176 SRC ys__n318
+new_n177 SRC ys__n308
+new_n178 SRC ys__n298
+new_n179 SRC ys__n287
+new_n180 SRC ys__n282
+new_n181 SRC ys__n281
+new_n182 SRC ys__n280
+new_n183 SRC ys__n271
+new_n184 SRC ys__n473
+new_n185 SRC ys__n276
+new_n186 SRC ys__n263 ys__n503 ys__n514 ys__n507
+new_n188 SRC ys__n448
+new_n189 SRC ys__n274
+new_n190 SRC ys__n275 ys__n504 ys__n516 ys__n509
+new_n191 SRC ys__n502 ys__n266
+new_n193 SRC ys__n420
+new_n194 SRC ys__n272
+new_n195 SRC ys__n273 ys__n517 ys__n510
+new_n196 SRC ys__n515 ys__n508
+new_n198 SRC ys__n511 ys__n269
+new_n199 SRC ys__n518 ys__n0 ys__n1
+new_n200 SRC ys__n518 ys__n0 ys__n1
+.node_retention_end

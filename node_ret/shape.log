@@ -1,0 +1,13 @@
+read_blif                       |  Entries:      559  |  Origins:      559  |  Ratio:   1.00
+&get                            |  Entries:      255  |  Origins:      488  |  Ratio:   1.91
+&st                             |  Entries:      255  |  Origins:      488  |  Ratio:   1.91
+&sweep                          |  Entries:      255  |  Origins:      976  |  Ratio:   3.83
+&dch                            |  Entries:      342  |  Origins:     9818  |  Ratio:  28.71
+&nf                             |  Entries:      342  |  Origins:     9818  |  Ratio:  28.71
+&st                             |  Entries:      246  |  Origins:     9050  |  Ratio:  36.79
+&syn2                           |  Entries:      249  |  Origins:    10052  |  Ratio:  40.37
+&if                             |  Entries:      249  |  Origins:    10126  |  Ratio:  40.67
+&synch2                         |  Entries:      259  |  Origins:    26644  |  Ratio: 102.87
+&nf                             |  Entries:      259  |  Origins:    26644  |  Ratio: 102.87
+&put                            |  Entries:      193  |  Origins:    14474  |  Ratio:  74.99
+write_blif                      |  Entries:      193  |  Origins:    14474  |  Ratio:  74.99

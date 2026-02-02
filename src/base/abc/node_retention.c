@@ -353,6 +353,35 @@ int Nr_ManNumEntries( Nr_Man_t * p )
     return p ? p->nEntries : 0;
 }
 
+/**Function*************************************************************
+
+  Synopsis    [Prints shape info: entries, total origins, and ratio.]
+
+  Description [Outputs to node_ret/shape.log with label for identification.]
+               
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Nr_ManPrintShape( Nr_Man_t * p, const char * pLabel )
+{
+    FILE * f;
+    int nEntries, nOrigins;
+    float ratio;
+    if ( p == NULL )
+        return;
+    f = fopen( "node_ret/shape.log", !strcmp(pLabel, "read_blif") ? "w" : "a" );
+    if ( f == NULL )
+        return;
+    nEntries = Nr_ManNumEntries( p );
+    nOrigins = Nr_ManTotalOriginCount( p );
+    ratio = nEntries > 0 ? (float)nOrigins / nEntries : 0.0;
+    fprintf( f, "%-30s  |  Entries: %8d  |  Origins: %8d  |  Ratio: %6.2f\n", 
+             pLabel ? pLabel : "", nEntries, nOrigins, ratio );
+    fclose( f );
+}
+
 
 /**Function*************************************************************
 
@@ -363,6 +392,7 @@ int Nr_ManNumEntries( Nr_Man_t * p )
   SideEffects []
 
   SeeAlso     []
+
 
 ***********************************************************************/
 void Nr_ManClear( Nr_Man_t * p )

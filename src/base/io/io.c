@@ -584,6 +584,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     // replace the current network
     Abc_FrameReplaceCurrentNetwork( pAbc, pNtk );
     Abc_FrameClearVerifStatus( pAbc );
+    Nr_ManPrintShape( pAbc->pNtkCur->pNodeRetention, "read_blif" );
     return 0;
 
 usage:
@@ -2585,6 +2586,7 @@ int IoCommandWriteBlif( Abc_Frame_t * pAbc, int argc, char **argv )
         Io_WriteBlifSpecial( pAbc->pNtkCur, pFileName, pLutStruct, fUseHie );
     else
         Io_Write( pAbc->pNtkCur, pFileName, IO_FILE_BLIF );
+    Nr_ManPrintShape( pAbc->pNtkCur->pNodeRetention, "write_blif" );
     return 0;
 
 usage:

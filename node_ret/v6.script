@@ -1,0 +1,14 @@
+read_blif -r "node_ret/input.blif";
+read_library node_ret/stdcells.genlib;
+&get -n;
+&st
+&sweep;
+&dch;
+&nf;
+&st;
+&syn2;
+&if -g -K 6;
+&synch2;
+&nf;
+&put;
+write_blif "node_ret/v6.blif";

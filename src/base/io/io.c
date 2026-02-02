@@ -531,7 +531,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     fSaveNames = 0;
     pAbc->fNodeRetention = 0;
     Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nmach" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( argc, argv, "nmacrh" ) ) != EOF )
     {
         switch ( c )
         {

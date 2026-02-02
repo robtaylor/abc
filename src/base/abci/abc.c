@@ -635,6 +635,7 @@ static int Abc_CommandAbc9Gen                ( Abc_Frame_t * pAbc, int argc, cha
 static int Abc_CommandAbc9Cfs                ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9ProdAdd            ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9AddFlop            ( Abc_Frame_t * pAbc, int argc, char ** argv );
+static int Abc_CommandAbc9Init1              ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9BMiter             ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9GenHie             ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9PutOnTop           ( Abc_Frame_t * pAbc, int argc, char ** argv );
@@ -1477,6 +1478,7 @@ void Abc_Init( Abc_Frame_t * pAbc )
     Cmd_CommandAdd( pAbc, "ABC9",         "&cfs",          Abc_CommandAbc9Cfs,                    0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&prodadd",      Abc_CommandAbc9ProdAdd,                0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&addflop",      Abc_CommandAbc9AddFlop,                0 );    
+    Cmd_CommandAdd( pAbc, "ABC9",         "&init1",        Abc_CommandAbc9Init1,                  0 );    
     Cmd_CommandAdd( pAbc, "ABC9",         "&bmiter",       Abc_CommandAbc9BMiter,                 0 );    
     Cmd_CommandAdd( pAbc, "ABC9",         "&gen_hie",      Abc_CommandAbc9GenHie,                 0 );    
     Cmd_CommandAdd( pAbc, "ABC9",         "&putontop",     Abc_CommandAbc9PutOnTop,               0 );    
@@ -10938,15 +10940,35 @@ int Abc_CommandLutExact( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_Print( 0, "If LUT mapping is not enabled (switch \"-r\"), permutation has not effect.\n" );
     if ( argc == globalUtilOptind + 1 )
         pPars->pTtStr = argv[globalUtilOptind];
-    else if ( argc == globalUtilOptind && Abc_FrameReadNtk(pAbc) ) 
+    else if ( argc == globalUtilOptind && Abc_FrameReadNtk(pAbc) )
     {
-        pPars->pTtStr = Abc_NtkReadTruth( Abc_FrameReadNtk(pAbc) );
-        if ( pPars->pTtStr )  
-            pPars->nVars = Abc_NtkCiNum(Abc_FrameReadNtk(pAbc));
+        Abc_Ntk_t * pNtk = Abc_FrameReadNtk(pAbc);
+        if ( Abc_NtkCiNum(pNtk) > 30 )
+        {
+            Abc_Print( -1, "Cannot derive truth table from network: too many inputs (%d > 30).\n", Abc_NtkCiNum(pNtk) );
+            Abc_Print( -1, "Please provide truth table on the command line or use a smaller network.\n" );
+            return 1;
+        }
+        if ( Abc_NtkCoNum(pNtk) != 1 )
+        {
+            Abc_Print( -1, "Cannot derive truth table from network: network must have exactly one output (has %d).\n", Abc_NtkCoNum(pNtk) );
+            return 1;
+        }
+        pPars->pTtStr = Abc_NtkReadTruth( pNtk );
+        if ( pPars->pTtStr )
+        {
+            pPars->nVars = Abc_NtkCiNum(pNtk);
+            Abc_Print( 0, "Derived %d-input truth table from current network.\n", pPars->nVars );
+        }
+        else
+        {
+            Abc_Print( -1, "Failed to derive truth table from current network.\n" );
+            return 1;
+        }
     }
     if ( pPars->pTtStr == NULL && pPars->pSymStr == NULL && pPars->nRandFuncs == 0 )
     {
-        Abc_Print( -1, "Truth table should be given on the command line.\n" );
+        Abc_Print( -1, "Truth table should be given on the command line, or derived from current single-output network.\n" );
         return 1;
     }
     if ( pPars->nVars == 0 && pPars->pTtStr )
@@ -34617,6 +34639,11 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         Abc_NtkDelete( pNtkNoCh );
         Aig_ManStop( pMan );
     }
+    // transfer the spec name to the pNtk
+    if( pAbc->pGia->pSpec )
+    {
+        pNtk->pSpec = Extra_UtilStrsav( pAbc->pGia->pSpec );
+    }
     // transfer PI names to pNtk
     if ( pAbc->pGia->vNamesIn )
     {
@@ -57042,6 +57069,59 @@ usage:
     Abc_Print( -2, "\t-h     : print the command usage\n");
     return 1;
 }
+
+/**Function*************************************************************
+
+  Synopsis    []
+
+  Description []
+
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+int Abc_CommandAbc9Init1( Abc_Frame_t * pAbc, int argc, char ** argv )
+{
+    extern void Gia_ManFlipInit1( Gia_Man_t * p, Vec_Int_t * vInit );
+    int c, fVerbose = 0;
+    Extra_UtilGetoptReset();
+    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    {
+        switch ( c )
+        {
+        case 'v':
+            fVerbose ^= 1;
+            break;
+        case 'h':
+            goto usage;
+        default:
+            goto usage;
+        }
+    }
+    if ( pAbc->pGia == NULL ) {
+        Abc_Print( -1, "Abc_CommandAbc9Init1(): There is no AIG.\n" );
+        return 0;
+    }
+    if ( Gia_ManRegNum(pAbc->pGia) == 0 )  {
+        Abc_Print( -1, "Abc_CommandAbc9Init1(): There is no flops.\n" );
+        return 0;
+    }
+    if ( pAbc->pGia->vRegInits == NULL ) {
+        Abc_Print( -1, "Abc_CommandAbc9Init1(): Flop init states are not available.\n" );
+        return 0;
+    }
+    Gia_ManFlipInit1( pAbc->pGia, pAbc->pGia->vRegInits );
+    return 0;
+
+usage:
+    Abc_Print( -2, "usage: &init1 [-vh]\n" );
+    Abc_Print( -2, "\t         complements the inputs/outputs of flops with const-1 initial state\n" );
+    Abc_Print( -2, "\t-v     : toggles printing verbose information [default = %s]\n",  fVerbose? "yes": "no" );
+    Abc_Print( -2, "\t-h     : print the command usage\n");
+    return 1;
+}
+
 
 /**Function*************************************************************
 

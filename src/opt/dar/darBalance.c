@@ -535,8 +535,9 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObjOl
     pObjNew = Dar_BalanceBuildSuper( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
 #endif
     // All nodes created for this pObjOld trace back to it
-        int j, nObjsAfter = Aig_ManObjNumMax( pNew );
-        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+    int j, nObjsAfter = Aig_ManObjNumMax( pNew );
+    for ( j = nObjsBefore; j < nObjsAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
             Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
     return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 }

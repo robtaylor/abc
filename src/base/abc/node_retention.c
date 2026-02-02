@@ -8,7 +8,7 @@
 
   Synopsis    [Tracks original node IDs for transformed nodes.]
 
-  Author      Silimate
+  Author      Advay Singh
 
   Affiliation Silimate
 
@@ -44,7 +44,9 @@ static void         Nr_ManTableResize( Nr_Man_t * p );
 
   Synopsis    [Creates the node retention manager.]
 
-  Description []
+  Description [Allocates and initializes a hash table to track node origins.
+               nSize hints initial capacity; fCanModify/fCanCopyFromOld 
+               control whether entries can be added or copied from other managers.]
                
   SideEffects []
 
@@ -56,8 +58,8 @@ Nr_Man_t * Nr_ManCreate( int nSize, int fCanModify, int fCanCopyFromOld )
     Nr_Man_t * p;
     p = ABC_ALLOC( Nr_Man_t, 1 );
     memset( p, 0, sizeof(Nr_Man_t) );
-    p->nSizeFactor = 2;
-    p->nBins = Abc_PrimeCudd( nSize > 0 ? nSize : 100 );
+    p->nSizeFactor = 2;                                      // resize threshold multiplier
+    p->nBins = Abc_PrimeCudd( nSize > 0 ? nSize : 100 );     // prime-sized hash table
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
     p->fCanModify = fCanModify;
@@ -158,9 +160,10 @@ static Nr_Entry_t * Nr_ManTableLookup( Nr_Man_t * p, int NodeId )
 
 /**Function*************************************************************
 
-  Synopsis    [Resizes the hash table when too many collisions occur.]
+  Synopsis    [Resizes the hash table when load factor exceeded.]
 
-  Description []
+  Description [Triples table size (to next prime) and rehashes all entries.
+               Called automatically when nEntries > nSizeFactor * nBins.]
                
   SideEffects []
 
@@ -172,17 +175,17 @@ static void Nr_ManTableResize( Nr_Man_t * p )
     Nr_Entry_t ** pBinsOld;
     Nr_Entry_t * pEntry, * pNext;
     int nBinsOld, i, iNew;
-    // check if resize is needed
+    // skip if load factor not exceeded
     if ( p->nEntries < p->nSizeFactor * p->nBins )
         return;
     // save old table
     pBinsOld = p->pBins;
     nBinsOld = p->nBins;
-    // create new larger table
+    // allocate 3x larger table (prime-sized for better distribution)
     p->nBins = Abc_PrimeCudd( 3 * p->nBins );
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
-    // rehash all entries
+    // rehash: move each entry to new bin based on new table size
     for ( i = 0; i < nBinsOld; i++ )
     {
         pEntry = pBinsOld[i];
@@ -561,12 +564,14 @@ int Nr_ManTotalOriginCount( Nr_Man_t * p )
 
 /**Function*************************************************************
 
-  Synopsis    [Creates a pruned copy of the manager with unique origins only.]
+  Synopsis    [Creates a deduplicated copy of the retention manager.]
 
-  Description [Returns a new manager where each node has only unique origin IDs
-               (duplicates are removed).]
+  Description [Iterates all entries, removes duplicate origin IDs per node,
+               and returns a new manager with unique origins only. Used to
+               clean up before output when origins may have been added multiple
+               times during transformations.]
                
-  SideEffects []
+  SideEffects [Allocates new manager; caller must free.]
 
   SeeAlso     []
 
@@ -582,22 +587,23 @@ Nr_Man_t * Nr_ManPrune( Nr_Man_t * p )
         return NULL;
     
     pNew = Nr_ManCreate( p->nBins, p->fCanModify, p->fCanCopyFromOld );
-    vUnique = Vec_IntAlloc( 100 );
+    vUnique = Vec_IntAlloc( 100 );  // temp buffer for deduplication
     
+    // iterate all hash bins and entries
     for ( i = 0; i < p->nBins; i++ )
     {
         for ( pEntry = p->pBins[i]; pEntry; pEntry = pEntry->pNext )
         {
             if ( pEntry->vOrigins == NULL )
                 continue;
-            // Collect unique origins
+            // collect unique origins for this node
             Vec_IntClear( vUnique );
             Vec_IntForEachEntry( pEntry->vOrigins, OriginId, j )
             {
                 if ( Vec_IntFind( vUnique, OriginId ) == -1 )
                     Vec_IntPush( vUnique, OriginId );
             }
-            // Add unique origins to new manager
+            // copy deduplicated origins to new manager
             Vec_IntForEachEntry( vUnique, OriginId, j )
                 Nr_ManAddOrigin( pNew, pEntry->NodeId, OriginId );
         }

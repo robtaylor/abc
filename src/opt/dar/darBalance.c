@@ -20,6 +20,7 @@
 
 #include "darInt.h"
 #include "misc/tim/tim.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -396,7 +397,7 @@ void Dar_BalancePushUniqueOrderByLevel( Vec_Ptr_t * vStore, Aig_Obj_t * pObj, in
   SeeAlso     []
 
 ***********************************************************************/
-Aig_Obj_t * Dar_BalanceBuildSuper( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Type_t Type, int fUpdateLevel )
+Aig_Obj_t * Dar_BalanceBuildSuper( Aig_Man_t * pNew, Aig_Man_t * pOld, Vec_Ptr_t * vSuper, Aig_Type_t Type, int fUpdateLevel )
 {
     Aig_Obj_t * pObj1, * pObj2;
     int LeftBound;
@@ -409,14 +410,25 @@ Aig_Obj_t * Dar_BalanceBuildSuper( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Type_t
         // find the left bound on the node to be paired
         LeftBound = (!fUpdateLevel)? 0 : Dar_BalanceFindLeft( vSuper );
         // find the node that can be shared (if no such node, randomize choice)
-        Dar_BalancePermute( p, vSuper, LeftBound, Type == AIG_OBJ_EXOR );
+        Dar_BalancePermute( pNew, vSuper, LeftBound, Type == AIG_OBJ_EXOR );
         // pull out the last two nodes
         pObj1 = (Aig_Obj_t *)Vec_PtrPop(vSuper);
         pObj2 = (Aig_Obj_t *)Vec_PtrPop(vSuper);
-        Aig_Obj_t * pResult = Aig_Oper(p, pObj1, pObj2, Type);
+        int nObjsBefore = Aig_ManObjNumMax( pNew );
+        Aig_Obj_t * pResult = Aig_Oper(pNew, pObj1, pObj2, Type);
+        // copy origins from both inputs for accurate tracking
+        if ( Aig_ObjId(Aig_Regular(pResult)) >= nObjsBefore )
+        {
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pOld->pNodeRetention,
+                               Aig_ObjId(Aig_Regular(pResult)),
+                               Aig_ObjId(Aig_Regular(pObj1)) );
+            // Nr_ManCopyOrigins( pNew->pNodeRetention, pOld->pNodeRetention,
+            //                    Aig_ObjId(Aig_Regular(pResult)),
+            //                    Aig_ObjId(Aig_Regular(pObj2)) );
+        }
         Dar_BalancePushUniqueOrderByLevel( vSuper, pResult, Type == AIG_OBJ_EXOR );
     }
-    return vSuper->nSize ? (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0) : Aig_ManConst0(p);
+    return vSuper->nSize ? (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0) : Aig_ManConst0(pNew);
 }
 
 
@@ -456,7 +468,7 @@ int Aig_BaseSize( Aig_Man_t * p, Aig_Obj_t * pObj, int nLutSize )
   SeeAlso     []
 
 ***********************************************************************/
-Aig_Obj_t * Dar_BalanceBuildSuperTop( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Type_t Type, int fUpdateLevel, int nLutSize )
+Aig_Obj_t * Dar_BalanceBuildSuperTop( Aig_Man_t * pNew, Aig_Man_t * pOld, Vec_Ptr_t * vSuper, Aig_Type_t Type, int fUpdateLevel, int nLutSize )
 {
     Vec_Ptr_t * vSubset;
     Aig_Obj_t * pObj;
@@ -472,7 +484,7 @@ Aig_Obj_t * Dar_BalanceBuildSuperTop( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Typ
         vSubset = Vec_PtrAlloc( nLutSize );
         Vec_PtrForEachEntryReverse( Aig_Obj_t *, vSuper, pObj, i )
         {
-            nBaseSize = Aig_BaseSize( p, pObj, nLutSize );
+            nBaseSize = Aig_BaseSize( pNew, pObj, nLutSize );
             if ( nBaseSizeAll + nBaseSize > nLutSize && Vec_PtrSize(vSubset) > 1 )
                 break;
             nBaseSizeAll += nBaseSize;
@@ -481,7 +493,7 @@ Aig_Obj_t * Dar_BalanceBuildSuperTop( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Typ
         // remove them from vSuper
         Vec_PtrShrink( vSuper, Vec_PtrSize(vSuper) - Vec_PtrSize(vSubset) );
         // create the new supergate
-        pObj = Dar_BalanceBuildSuper( p, vSubset, Type, fUpdateLevel );
+        pObj = Dar_BalanceBuildSuper( pNew, pOld, vSubset, Type, fUpdateLevel );
         Vec_PtrFree( vSubset );
         // add the new output
         Dar_BalancePushUniqueOrderByLevel( vSuper, pObj, Type == AIG_OBJ_EXOR );
@@ -528,17 +540,11 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObjOl
     if ( vSuper->nSize == 1 )
         return (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0);
     // build the supergate
-    int nObjsBefore = Aig_ManObjNumMax( pNew );
 #ifdef USE_LUTSIZE_BALANCE
-    pObjNew = Dar_BalanceBuildSuperTop( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
+    pObjNew = Dar_BalanceBuildSuperTop( pNew, p, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
 #else
-    pObjNew = Dar_BalanceBuildSuper( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
+    pObjNew = Dar_BalanceBuildSuper( pNew, p, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
 #endif
-    // All nodes created for this pObjOld trace back to it
-    int j, nObjsAfter = Aig_ManObjNumMax( pNew );
-    for ( j = nObjsBefore; j < nObjsAfter; j++ )
-        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
-            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
     return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 }
 

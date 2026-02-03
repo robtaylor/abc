@@ -22,6 +22,7 @@
 #include "proof/dch/dch.h"
 #include "aig/gia/gia.h"
 #include "aig/gia/giaAig.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -455,12 +456,14 @@ Aig_Man_t * Dar_NewCompress( Aig_Man_t * pAig, int fBalance, int fUpdateLevel, i
     pAig = Aig_ManDupDfs( pTemp = pAig ); 
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "Rewrite:   " ), Aig_ManPrintStats( pAig );
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t\tDar_NewCompress:Rewrite" );
     
     // refactor
     Dar_ManRefactor( pAig, pParsRef );
     pAig = Aig_ManDupDfs( pTemp = pAig ); 
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "Refactor:  " ), Aig_ManPrintStats( pAig );
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t\tDar_NewCompress:Refactor" );
 
     // balance
     if ( fBalance )
@@ -468,6 +471,7 @@ Aig_Man_t * Dar_NewCompress( Aig_Man_t * pAig, int fBalance, int fUpdateLevel, i
     pAig = Dar_ManBalance( pTemp = pAig, fUpdateLevel );
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "Balance:   " ), Aig_ManPrintStats( pAig );
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t\tDar_NewCompress:Balance" );
     }
 
     pParsRwr->fUseZeros = 1;
@@ -478,6 +482,7 @@ Aig_Man_t * Dar_NewCompress( Aig_Man_t * pAig, int fBalance, int fUpdateLevel, i
     pAig = Aig_ManDupDfs( pTemp = pAig ); 
     Aig_ManStop( pTemp );
     if ( fVerbose ) printf( "RewriteZ:  " ), Aig_ManPrintStats( pAig );
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t\tDar_NewCompress:RewriteZ" );
 
     return pAig;
 }
@@ -648,15 +653,21 @@ Gia_Man_t * Dar_NewChoiceSynthesis( Aig_Man_t * pAig, int fBalance, int fUpdateL
     pGia = Gia_ManFromAig(pAig);
     Vec_PtrPush( vGias, pGia );
 
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t&dch:Dar_ManChoiceNew:Dar_NewChoiceSynthesis:Aig_ManFromAig" );
+
     pAig = Dar_NewCompress( pAig, fBalance, fUpdateLevel, fPower, fVerbose );
     pGia = Gia_ManFromAig(pAig);
     Vec_PtrPush( vGias, pGia );
 //Aig_ManPrintStats( pAig );
 
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t&dch:Dar_ManChoiceNew:Dar_NewChoiceSynthesis:Dar_NewCompress" );
+
     pAig = Dar_NewCompress2( pAig, fBalance, fUpdateLevel, 1, fPower, fLightSynth, fVerbose );
     pGia = Gia_ManFromAig(pAig);
     Vec_PtrPush( vGias, pGia );
 //Aig_ManPrintStats( pAig );
+
+    Nr_ManPrintShape( pAig->pNodeRetention, "\t\t\t&dch:Dar_ManChoiceNew:Dar_NewChoiceSynthesis:Dar_NewCompress2" );
 
     Aig_ManStop( pAig );
 
@@ -673,6 +684,8 @@ Gia_Man_t * Dar_NewChoiceSynthesis( Aig_Man_t * pAig, int fBalance, int fUpdateL
 
     // derive the miter
     pGia = Gia_ManChoiceMiter( vGias );
+
+    Nr_ManPrintShape( pGia->pNodeRetention, "\t\t&dch:Dar_ManChoiceNew:Dar_NewChoiceSynthesis:Gia_ManChoiceMiter" );
 
     // cleanup
     Vec_PtrForEachEntry( Gia_Man_t *, vGias, pTemp, i )
@@ -871,6 +884,7 @@ clk = Abc_Clock();
     pGia = Dar_NewChoiceSynthesis( Aig_ManDupDfs(pAig), 1, 1, pPars->fPower, pPars->fLightSynth, pPars->fVerbose );
 pPars->timeSynth = Abc_Clock() - clk;
 
+    Nr_ManPrintShape( pGia->pNodeRetention, "\t\t&dch:Dar_ManChoiceNew:Dar_NewChoiceSynthesis" );
     // perform choice computation
     if ( pPars->fUseNew )
         pMan = Cec_ComputeChoicesNew( pGia, pPars->nBTLimit, pPars->fVerbose );
@@ -885,6 +899,7 @@ pPars->timeSynth = Abc_Clock() - clk;
         Aig_ManStop( pTemp );
     }
     Gia_ManStop( pGia );
+    Nr_ManPrintShape( pMan->pNodeRetention, "\t\t&dch:Dar_ManChoiceNew:Gia_ManToAigSkip" );
 
     // create guidence
     vPios = Aig_ManOrderPios( pMan, pAig ); 
@@ -894,7 +909,7 @@ pPars->timeSynth = Abc_Clock() - clk;
     pMan = Aig_ManDupDfsGuided( pTemp = pMan, vPios );
     Aig_ManStop( pTemp );
     Vec_PtrFree( vPios );
-
+    Nr_ManPrintShape( pMan->pNodeRetention, "\t\t&dch:Dar_ManChoiceNew:Aig_ManDupDfsGuided" );
     // reset levels
     pMan->pManTime = pManTime;
     Aig_ManChoiceLevel( pMan );

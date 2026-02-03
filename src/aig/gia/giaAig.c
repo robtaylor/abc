@@ -670,10 +670,13 @@ Gia_Man_t * Gia_ManPerformDch( Gia_Man_t * p, void * pPars )
     else
         pGia1 = Gia_ManDup( p );
     pNew = Gia_ManToAig( pGia1, 0 );
+    Nr_ManPrintShape( pNew->pNodeRetention, "\t&dch:Gia_ManToAig" );
     Gia_ManStop( pGia1 );
     pNew = Dar_ManChoiceNew( pNew, (Dch_Pars_t *)pPars );
+    Nr_ManPrintShape( pNew->pNodeRetention, "\t&dch:Dar_ManChoiceNew" );
 //    pGia = Gia_ManFromAig( pNew );
     pGia = Gia_ManFromAigChoices( pNew );
+    Nr_ManPrintShape( pGia->pNodeRetention, "\t&dch:Gia_ManFromAigChoices" );
     Aig_ManStop( pNew );
     if ( !p->pManTime && !Gia_ManTestChoices(pGia) )
     {

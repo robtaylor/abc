@@ -132,6 +132,9 @@ Gia_Man_t * Gia_ManDupMuxes( Gia_Man_t * p, int Limit )
             pFanC = Gia_ObjRecognizeMux( pObj, &pFan1, &pFan0 );
             pObj->Value = Gia_ManHashMuxReal( pNew, Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFanC)), Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFan1)), Gia_ObjLitCopy(p, Gia_ObjToLit(p, pFan0)) );
         }
+        // copy origins from old manager to new manager
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
         if ( !Gia_ObjSibl(p, i) )
             continue;
         pObjNew  = Gia_ManObj( pNew, Abc_Lit2Var(pObj->Value) );
@@ -239,18 +242,32 @@ Gia_Man_t * Gia_ManDupNoMuxes( Gia_Man_t * p, int fSkipBufs )
     Gia_ManHashStart( pNew );
     Gia_ManForEachObj1( p, pObj, i )
     {
-        if ( Gia_ObjIsCi(pObj) )
+        if ( Gia_ObjIsCi(pObj) ) {
             pObj->Value = Gia_ManAppendCi( pNew );
-        else if ( Gia_ObjIsCo(pObj) )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
+        else if ( Gia_ObjIsCo(pObj) ) {
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
-        else if ( Gia_ObjIsBuf(pObj) )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
+        else if ( Gia_ObjIsBuf(pObj) ) {
             pObj->Value = fSkipBufs ? Gia_ObjFanin0Copy(pObj) : Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) );
-        else if ( Gia_ObjIsMuxId(p, i) )
-            pObj->Value = Gia_ManHashMux( pNew, Gia_ObjFanin2Copy(p, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
-        else if ( Gia_ObjIsXor(pObj) )
-            pObj->Value = Gia_ManHashXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        else 
-            pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
+        else
+        {
+            int nObjsBefore = Gia_ManObjNum(pNew);
+            if ( Gia_ObjIsMuxId(p, i) )
+                pObj->Value = Gia_ManHashMux( pNew, Gia_ObjFanin2Copy(p, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+            else if ( Gia_ObjIsXor(pObj) )
+                pObj->Value = Gia_ManHashXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+            else 
+                pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+            int nObjsAfter = Gia_ManObjNum(pNew);
+            int j;
+            for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
+        }
     }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );

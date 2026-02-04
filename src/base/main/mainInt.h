@@ -137,6 +137,9 @@ struct Abc_Frame_t_
     Vec_Ptr_t *     vPlugInComBinPairs;    // pairs of command and its binary name
     Vec_Ptr_t *     vLTLProperties_global; // related to LTL
     Vec_Ptr_t *     vSignalNames;  // temporary storage for signal names
+    Vec_Ptr_t *     vNodeRetention; // global map from node ID to name (char*)
+    int             fNodeRetention; // whether node retention tracking is enabled
+    int             nMaxRetentionOrigins; // max origins per entry (default 5, 0 = unlimited)
     char *          pSpecName;
     void *          pSave1; 
     void *          pSave2; 

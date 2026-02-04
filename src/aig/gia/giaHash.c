@@ -19,6 +19,10 @@
 ***********************************************************************/
 
 #include "gia.h"
+#include "base/abc/abc.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -758,6 +762,9 @@ Gia_Man_t * Gia_ManRehash( Gia_Man_t * p, int fAddStrash )
             pObj->Value = Gia_ManAppendCi( pNew );
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        if ( Gia_ObjIsAnd(pObj) || Gia_ObjIsCi(pObj) || Gia_ObjIsCo(pObj) ) {
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->Value ), i );
+        }
     }
     Gia_ManHashStop( pNew );
     pNew->fAddStrash = 0;

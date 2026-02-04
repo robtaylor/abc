@@ -78,6 +78,7 @@ extern int              Nm_ManTableAdd( Nm_Man_t * p, Nm_Entry_t * pEntry );
 extern int              Nm_ManTableDelete( Nm_Man_t * p, int ObjId );
 extern Nm_Entry_t *     Nm_ManTableLookupId( Nm_Man_t * p, int ObjId );
 extern Nm_Entry_t *     Nm_ManTableLookupName( Nm_Man_t * p, char * pName, int Type );
+extern void             Nm_ManProfile( Nm_Man_t * p );
 
 
 

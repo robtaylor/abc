@@ -33,6 +33,7 @@
 
 #include "misc/vec/vec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -142,6 +143,7 @@ struct Aig_Man_t_
     int              fCatchExor;     // enables EXOR nodes
     int              fAddStrash;     // performs additional strashing
     Aig_Obj_t **     pObjCopies;     // mapping of AIG nodes into FRAIG nodes
+    Nr_Man_t *       pNodeRetention; // node retention manager
     void (*pImpFunc) (void*, void*); // implication checking precedure
     void *           pImpData;       // implication checking data
     void *           pManTime;       // the timing manager

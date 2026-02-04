@@ -413,7 +413,8 @@ Aig_Obj_t * Dar_BalanceBuildSuper( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Type_t
         // pull out the last two nodes
         pObj1 = (Aig_Obj_t *)Vec_PtrPop(vSuper);
         pObj2 = (Aig_Obj_t *)Vec_PtrPop(vSuper);
-        Dar_BalancePushUniqueOrderByLevel( vSuper, Aig_Oper(p, pObj1, pObj2, Type), Type == AIG_OBJ_EXOR );
+        Aig_Obj_t * pResult = Aig_Oper(p, pObj1, pObj2, Type);
+        Dar_BalancePushUniqueOrderByLevel( vSuper, pResult, Type == AIG_OBJ_EXOR );
     }
     return vSuper->nSize ? (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0) : Aig_ManConst0(p);
 }
@@ -499,7 +500,7 @@ Aig_Obj_t * Dar_BalanceBuildSuperTop( Aig_Man_t * p, Vec_Ptr_t * vSuper, Aig_Typ
   SeeAlso     []
 
 ***********************************************************************/
-Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Obj_t * pObjOld, Vec_Vec_t * vStore, int Level, int fUpdateLevel )
+Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObjOld, Vec_Vec_t * vStore, int Level, int fUpdateLevel )
 {
     Aig_Obj_t * pObjNew;
     Vec_Ptr_t * vSuper;
@@ -518,7 +519,7 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Obj_t * pObjOld, Vec_Vec_t * 
     // for each old node, derive the new well-balanced node
     for ( i = 0; i < Vec_PtrSize(vSuper); i++ )
     {
-        pObjNew = Dar_Balance_rec( pNew, Aig_Regular((Aig_Obj_t *)vSuper->pArray[i]), vStore, Level + 1, fUpdateLevel );
+        pObjNew = Dar_Balance_rec( pNew, p, Aig_Regular((Aig_Obj_t *)vSuper->pArray[i]), vStore, Level + 1, fUpdateLevel );
         if ( pObjNew == NULL )
             return NULL;
         vSuper->pArray[i] = Aig_NotCond( pObjNew, Aig_IsComplement((Aig_Obj_t *)vSuper->pArray[i]) );
@@ -527,16 +528,17 @@ Aig_Obj_t * Dar_Balance_rec( Aig_Man_t * pNew, Aig_Obj_t * pObjOld, Vec_Vec_t * 
     if ( vSuper->nSize == 1 )
         return (Aig_Obj_t *)Vec_PtrEntry(vSuper, 0);
     // build the supergate
+    int nObjsBefore = Aig_ManObjNumMax( pNew );
 #ifdef USE_LUTSIZE_BALANCE
     pObjNew = Dar_BalanceBuildSuperTop( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel, 6 );
 #else
     pObjNew = Dar_BalanceBuildSuper( pNew, vSuper, Aig_ObjType(pObjOld), fUpdateLevel );
 #endif
-    if ( pNew->Time2Quit && !(Aig_Regular(pObjNew)->Id & 255) && Abc_Clock() > pNew->Time2Quit )
-        return NULL;
-    // make sure the balanced node is not assigned
-//    assert( pObjOld->Level >= Aig_Regular(pObjNew)->Level );
-    assert( pObjOld->pData == NULL );
+    // All nodes created for this pObjOld trace back to it
+    int j, nObjsAfter = Aig_ManObjNumMax( pNew );
+    for ( j = nObjsBefore; j < nObjsAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Aig_ObjId(pObjOld) );
     return (Aig_Obj_t *)(pObjOld->pData = pObjNew);
 }
 
@@ -589,12 +591,13 @@ Aig_Man_t * Dar_ManBalance( Aig_Man_t * p, int fUpdateLevel )
                 // set the arrival time of the new PI
                 arrTime = Tim_ManGetCiArrival( (Tim_Man_t *)p->pManTime, Aig_ObjCioId(pObj) );
                 pObjNew->Level = (int)arrTime;
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
             }
             else if ( Aig_ObjIsCo(pObj) )
             {
                 // perform balancing
                 pDriver = Aig_ObjReal_rec( Aig_ObjChild0(pObj) );
-                pObjNew = Dar_Balance_rec( pNew, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
+                pObjNew = Dar_Balance_rec( pNew, p, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
                 if ( pObjNew == NULL )
                 {
                     Vec_VecFree( vStore );
@@ -607,6 +610,7 @@ Aig_Man_t * Dar_ManBalance( Aig_Man_t * p, int fUpdateLevel )
                 Tim_ManSetCoArrival( (Tim_Man_t *)p->pManTime, Aig_ObjCioId(pObj), arrTime );
                 // create PO
                 pObjNew = Aig_ObjCreateCo( pNew, pObjNew );
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
             }
             else
                 assert( 0 );
@@ -621,13 +625,14 @@ Aig_Man_t * Dar_ManBalance( Aig_Man_t * p, int fUpdateLevel )
             pObjNew = Aig_ObjCreateCi(pNew); 
             pObjNew->Level = pObj->Level;
             pObj->pData = pObjNew;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
         }
         if ( p->nBarBufs == 0 )
         {
             Aig_ManForEachCo( p, pObj, i )
             {
                 pDriver = Aig_ObjReal_rec( Aig_ObjChild0(pObj) );
-                pObjNew = Dar_Balance_rec( pNew, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
+                pObjNew = Dar_Balance_rec( pNew, p, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
                 if ( pObjNew == NULL )
                 {
                     Vec_VecFree( vStore );
@@ -636,6 +641,7 @@ Aig_Man_t * Dar_ManBalance( Aig_Man_t * p, int fUpdateLevel )
                 }
                 pObjNew = Aig_NotCond( pObjNew, Aig_IsComplement(pDriver) );
                 pObjNew = Aig_ObjCreateCo( pNew, pObjNew );
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
             }
         }
         else
@@ -646,7 +652,7 @@ Aig_Man_t * Dar_ManBalance( Aig_Man_t * p, int fUpdateLevel )
                 int k = i < p->nBarBufs ? Aig_ManCoNum(p) - p->nBarBufs + i : i - p->nBarBufs;
                 pObj = Aig_ManCo( p, k );
                 pDriver = Aig_ObjReal_rec( Aig_ObjChild0(pObj) );
-                pObjNew = Dar_Balance_rec( pNew, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
+                pObjNew = Dar_Balance_rec( pNew, p, Aig_Regular(pDriver), vStore, 0, fUpdateLevel );
                 if ( pObjNew == NULL )
                 {
                     Vec_VecFree( vStore );

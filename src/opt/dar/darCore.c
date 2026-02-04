@@ -19,6 +19,7 @@
 ***********************************************************************/
 
 #include "darInt.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_IMPL_START
 
@@ -191,7 +192,13 @@ p->timeCuts += Abc_Clock() - clk;
         Dar_ObjSetCuts( pObj, NULL );
         // if we end up here, a rewriting step is accepted
         nNodeBefore = Aig_ManNodeNum( pAig );
-        pObjNew = Dar_LibBuildBest( p ); // pObjNew can be complemented!
+        {
+            int nObjsBefore = Aig_ManObjNumMax( pAig );
+            pObjNew = Dar_LibBuildBest( p ); // pObjNew can be complemented!
+            int j, nObjsAfter = Aig_ManObjNumMax( pAig );
+            for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                Nr_ManCopyOrigins( pAig->pNodeRetention, pAig->pNodeRetention, j, Aig_ObjId(pObj) );
+        }
         pObjNew = Aig_NotCond( pObjNew, Aig_ObjPhaseReal(pObjNew) ^ pObj->fPhase );
         assert( (int)Aig_Regular(pObjNew)->Level <= Required );
         // replace the node

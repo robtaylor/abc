@@ -19,6 +19,9 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
+#include "base/abc/node_retention.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
 #include "bool/dec/dec.h"
 
 ABC_NAMESPACE_IMPL_START
@@ -421,12 +424,16 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
     vNodes = Abc_NtkDfsIter( pNtkOld, fAllNodes );
 //printf( "Nodes = %d. ", Vec_PtrSize(vNodes) );
 //ABC_PRT( "Time", Abc_Clock() - clk );
+    // get retention managers (new one should already be set in frame)
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
     {
         if ( Abc_ObjIsBarBuf(pNodeOld) )
             pNodeOld->pCopy = Abc_ObjChild0Copy(pNodeOld);
         else
             pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
+        // track mapping: copy origins from old node to new node
+        if ( pNodeOld->pCopy )
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtkOld->pNodeRetention, Abc_ObjId(Abc_ObjRegular(pNodeOld->pCopy)), Abc_ObjId(pNodeOld) );
     }
     Vec_PtrFree( vNodes );
 }

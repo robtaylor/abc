@@ -40,6 +40,7 @@
 #include "misc/mem/mem.h"
 #include "misc/util/utilCex.h"
 #include "misc/extra/extra.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -215,6 +216,7 @@ struct Abc_Ntk_t_
     Vec_Int_t *       vNameIds;      // name IDs
     Vec_Int_t *       vFins;         // obj/type info
     Vec_Int_t *       vOrigNodeIds;  // original node IDs
+    Nr_Man_t *        pNodeRetention; // node retention manager
 };
 
 struct Abc_Des_t_ 

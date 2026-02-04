@@ -24,6 +24,7 @@
 #include "misc/tim/tim.h"
 #include "proof/abs/abs.h"
 #include "opt/dar/dar.h"
+#include "base/abc/node_retention.h"
 #include "misc/extra/extra.h"
 
 #ifdef WIN32
@@ -65,6 +66,7 @@ Gia_Man_t * Gia_ManStart( int nObjsMax )
     p->nObjs = 1;
     p->vCis  = Vec_IntAlloc( nObjsMax / 20 );
     p->vCos  = Vec_IntAlloc( nObjsMax / 20 );
+    p->pNodeRetention = Nr_ManCreate( nObjsMax );
     return p;
 }
 
@@ -179,6 +181,7 @@ void Gia_ManStop( Gia_Man_t * p )
     ABC_FREE( p->pObjs );
     ABC_FREE( p->pSpec );
     ABC_FREE( p->pName );
+    Nr_ManFree( p->pNodeRetention );
     ABC_FREE( p );
 }
 

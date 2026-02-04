@@ -24,6 +24,10 @@
 #include "proof/dch/dch.h"
 #include "opt/dar/dar.h"
 #include "opt/dau/dau.h"
+#include "base/abc/abc.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include <assert.h>
 
 ABC_NAMESPACE_IMPL_START
@@ -95,10 +99,17 @@ Gia_Man_t * Gia_ManFromAig( Aig_Man_t * p )
     Aig_ManForEachCo( p, pObj, i )
         Gia_ManFromAig_rec( pNew, p, Aig_ObjFanin0(pObj) );        
     Aig_ManForEachCo( p, pObj, i )
-        Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
+        pObj->iData = Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
     Gia_ManSetRegNum( pNew, Aig_ManRegNum(p) );
     if ( pNew->pNexts )
         Gia_ManDeriveReprs( pNew );
+    // map names from original AIG objects to retained nodes in new GIA objects       
+    Aig_ManForEachCi( p, pObj, i )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->iData ), Aig_ObjId(pObj) );
+    Aig_ManForEachNode( p, pObj, i )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->iData ), Aig_ObjId(pObj) );
+    Aig_ManForEachCo( p, pObj, i )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var( pObj->iData ), Aig_ObjId(pObj) );
     return pNew;
 }
 
@@ -157,6 +168,7 @@ void Gia_ManFromAigChoices_rec( Gia_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pOb
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin1(pObj) );
     Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjEquiv(p, pObj) );
     pObj->iData = Gia_ManAppendAnd( pNew, Gia_ObjChild0Copy(pObj), Gia_ObjChild1Copy(pObj) );
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
     if ( Aig_ObjEquiv(p, pObj) )
     {
         int iObjNew, iNextNew;
@@ -183,13 +195,17 @@ Gia_Man_t * Gia_ManFromAigChoices( Aig_Man_t * p )
     // create the PIs
     Aig_ManCleanData( p );
     Aig_ManConst1(p)->iData = 1;
-    Aig_ManForEachCi( p, pObj, i )
+    Aig_ManForEachCi( p, pObj, i )  {
         pObj->iData = Gia_ManAppendCi( pNew );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
+    }
     // add logic for the POs
     Aig_ManForEachCo( p, pObj, i )
         Gia_ManFromAigChoices_rec( pNew, p, Aig_ObjFanin0(pObj) );        
-    Aig_ManForEachCo( p, pObj, i )
-        Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
+    Aig_ManForEachCo( p, pObj, i ) {
+        pObj->iData = Gia_ManAppendCo( pNew, Gia_ObjChild0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->iData), Aig_ObjId(pObj) );
+    }
     Gia_ManSetRegNum( pNew, Aig_ManRegNum(p) );
     //assert( Gia_ManObjNum(pNew) == Aig_ManObjNum(p) );
     //Gia_ManCheckChoices( pNew );
@@ -347,6 +363,9 @@ Aig_Man_t * Gia_ManToAig( Gia_Man_t * p, int fChoices )
         ppNodes[Gia_ObjId(p, pObj)] = Aig_ObjCreateCo( pNew, Gia_ObjChild0Copy2(ppNodes, pObj, Gia_ObjId(p, pObj)) );
     }
     Aig_ManSetRegNum( pNew, Gia_ManRegNum(p) );
+    for ( i = 0; i < Gia_ManObjNum(p); i++ )
+        if ( ppNodes[i] )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(ppNodes[i]), i );
     ABC_FREE( ppNodes );
     return pNew;
 }
@@ -390,6 +409,9 @@ Aig_Man_t * Gia_ManToAigSkip( Gia_Man_t * p, int nOutDelta )
         ppNodes[Gia_ObjId(p, pObj)] = Aig_ObjCreateCo( pNew, Gia_ObjChild0Copy2(ppNodes, pObj, Gia_ObjId(p, pObj)) );
     }
     Aig_ManSetRegNum( pNew, Gia_ManRegNum(p) );
+    for ( i = 0; i < Gia_ManObjNum(p); i++ )
+        if ( ppNodes[i] )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(ppNodes[i]), i );
     ABC_FREE( ppNodes );
     return pNew;
 }

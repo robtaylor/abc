@@ -41,6 +41,7 @@
 #include "misc/vec/vecHash.h"
 #include "misc/vec/vecWec.h"
 #include "map/if/acd/ac_wrapper.h"
+#include "base/abc/node_retention.h"
 
 ABC_NAMESPACE_HEADER_START
 
@@ -303,6 +304,8 @@ struct If_Man_t_
     // timing manager
     Tim_Man_t *        pManTim;
     Vec_Int_t *        vCoAttrs;      // CO attributes   0=optimize; 1=keep; 2=relax
+    // node retention manager
+    Nr_Man_t *         pNodeRetention;
     // hash table for functions
     int                nTableSize[2];    // hash table size
     int                nTableEntries[2]; // hash table entries

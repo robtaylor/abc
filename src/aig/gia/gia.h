@@ -34,6 +34,7 @@
 #include "misc/vec/vec.h"
 #include "misc/vec/vecWec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -205,6 +206,7 @@ struct Gia_Man_t_
     int            fVerbose;      // verbose reports
     int            MappedArea;    // area after mapping
     int            MappedDelay;   // delay after mapping
+    Nr_Man_t *     pNodeRetention;   // node retention manager
     // bit-parallel simulation
     int            fBuiltInSim;
     int            iPatsPi;

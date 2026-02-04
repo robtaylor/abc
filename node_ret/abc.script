@@ -1,8 +1,9 @@
-read_blif -r "node_ret/large.blif";
+read_blif -M 2 -r "node_ret/large.blif";
 read_library node_ret/stdcells.genlib;
 &get -n;
 &st;
 &sweep;
+
 &nf;
 &st;
 &syn2;

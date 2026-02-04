@@ -65,6 +65,7 @@ struct Nr_Man_t_
     int              nEntries;       // number of entries
     int              nSizeFactor;    // determines when to resize (default: 2)
     int              fEnabled;       // whether node retention tracking is enabled
+    int              nMaxOrigins;    // max origins per entry (0 = unlimited, default 5)
 };
 
 ////////////////////////////////////////////////////////////////////////

@@ -68,6 +68,7 @@ Nr_Man_t * Nr_ManCreate( int nSize )
     p->pBins = ABC_ALLOC( Nr_Entry_t *, p->nBins );
     memset( p->pBins, 0, sizeof(Nr_Entry_t *) * p->nBins );
     p->fEnabled = pAbc ? pAbc->fNodeRetention : 0;
+    p->nMaxOrigins = pAbc ? pAbc->nMaxRetentionOrigins : 5;  // default 5, 0 = unlimited
     return p;
 }
 
@@ -324,6 +325,9 @@ void Nr_ManAddOrigin( Nr_Man_t * p, int NodeId, int OriginId )
         pEntry->NodeId = NodeId;
         Nr_ManTableAdd( p, pEntry );
     }
+    // check max origins limit (0 = unlimited)
+    if ( p->nMaxOrigins > 0 && pEntry->nOrigins >= p->nMaxOrigins )
+        return;
     Nr_EntryOriginAdd( pEntry, OriginId );
 }
 

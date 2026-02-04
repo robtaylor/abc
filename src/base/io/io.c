@@ -522,6 +522,7 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     int fCheck;
     int fUseNewParser;
     int fSaveNames;
+    int nMaxOrigins;
     int c;
     extern Abc_Ntk_t * Io_ReadBlifAsAig( char * pFileName, int fCheck );
 
@@ -529,12 +530,22 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     fReadAsAig = 0;
     fUseNewParser = 1;
     fSaveNames = 0;
+    pAbc->nMaxRetentionOrigins = 5;
     pAbc->fNodeRetention = 0;
     Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "nmacrh" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( argc, argv, "Mnmacrh" ) ) != EOF )
     {
         switch ( c )
         {
+            case 'M':
+                if ( globalUtilOptind >= argc )
+                {
+                    Abc_Print( -1, "Command line switch \"-M\" should be followed by an integer.\n" );
+                    goto usage;
+                }
+                pAbc->nMaxRetentionOrigins = atoi(argv[globalUtilOptind]);
+                globalUtilOptind++;
+                break;
             case 'n':
                 fUseNewParser ^= 1;
                 break;
@@ -588,9 +599,10 @@ int IoCommandReadBlif( Abc_Frame_t * pAbc, int argc, char ** argv )
     return 0;
 
 usage:
-    fprintf( pAbc->Err, "usage: read_blif [-nmacrh] <file>\n" );
+    fprintf( pAbc->Err, "usage: read_blif [-M num] [-nmacrh] <file>\n" );
     fprintf( pAbc->Err, "\t         reads the network in binary BLIF format\n" );
     fprintf( pAbc->Err, "\t         (if this command does not work, try \"read\")\n" );
+    fprintf( pAbc->Err, "\t-M num : max origins per node for retention (0=unlimited) [default = %d]\n", nMaxOrigins );
     fprintf( pAbc->Err, "\t-n     : toggle using old BLIF parser without hierarchy support [default = %s]\n", !fUseNewParser? "yes":"no" );
     fprintf( pAbc->Err, "\t-m     : toggle saving original circuit names into a file [default = %s]\n", fSaveNames? "yes":"no" );
     fprintf( pAbc->Err, "\t-a     : toggle creating AIG while reading the file [default = %s]\n", fReadAsAig? "yes":"no" );

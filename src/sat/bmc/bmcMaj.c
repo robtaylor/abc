@@ -1084,9 +1084,13 @@ Vec_Wec_t * Exa3_ChooseInputVars( int nVars, int nLuts, int nLutSize, int Seed )
     if ( Seed ) 
         srand(Seed); 
     else {
+#if defined(LIN) || defined(LIN64)
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         unsigned int seed = (unsigned int)(ts.tv_sec ^ ts.tv_nsec);
+#else
+        unsigned int seed = (unsigned int)time(NULL);
+#endif
         srand(seed);
     }
     for ( int i = 0; i < 1000; i++ ) {

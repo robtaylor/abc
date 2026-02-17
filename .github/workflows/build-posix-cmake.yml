@@ -69,6 +69,14 @@ jobs:
       run: |
         bash node_ret/scripts/ci_validate.sh
 
+    - name: Test GIA Node Retention (&write_retention)
+      run: |
+        ./build/abc -f node_ret/gia_retention.script
+
+    - name: Validate GIA Retention Output
+      run: |
+        bash node_ret/scripts/validate_gia_retention.sh
+
     - name: Test Library
       run: |
         ${DEMO_GCC} ${DEMO_ARGS} -Wall -c src/demo.c -o demo.o

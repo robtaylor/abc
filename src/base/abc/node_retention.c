@@ -649,6 +649,86 @@ void Nr_ManPrintRetentionMap( FILE * pFile, Abc_Ntk_t * pNtk, Nr_Man_t * p )
 }
 
 
+/**Function*************************************************************
+
+  Synopsis    [Writes retention map for GIA manager to a file.]
+
+  Description [Similar to Nr_ManPrintRetentionMap but operates on Gia_Man_t.
+               Outputs GIA object IDs directly (no name resolution).
+               Includes CI position-to-GIA-ID mapping for Yosys to join
+               back to the sym file.
+               Format:
+                 .gia_retention_begin
+                 CI <ci_position> <gia_object_id>
+                 <gia_id> SRC <origin_gia_id_1> <origin_gia_id_2> ...
+                 .gia_retention_end
+              ]
+
+  SideEffects []
+
+  SeeAlso     [Nr_ManPrintRetentionMap]
+
+***********************************************************************/
+void Nr_ManPrintRetentionMapGia( FILE * pFile, Gia_Man_t * pGia, Nr_Man_t * p )
+{
+    Gia_Obj_t * pObj;
+    Vec_Int_t * vOrigins;
+    Nr_Man_t * pPruned;
+    int i, j, OriginId;
+
+    if ( pFile == NULL || pGia == NULL || p == NULL )
+        return;
+
+    // Create pruned version with unique origins only
+    pPruned = Nr_ManPrune( p );
+    if ( pPruned == NULL )
+        return;
+
+    // Validate that all AND nodes have retention entries
+    Nr_ManValidateEntriesGia( pGia, pPruned );
+
+    fprintf( pFile, ".gia_retention_begin\n" );
+
+    // Write CI position to GIA object ID mapping
+    Gia_ManForEachCi( pGia, pObj, i )
+        fprintf( pFile, "CI %d %d\n", i, Gia_ObjId(pGia, pObj) );
+
+    // Write retention entries for AND nodes
+    Gia_ManForEachAnd( pGia, pObj, i )
+    {
+        if ( i == 0 || Gia_ObjIsConst0(pObj) )
+            continue;
+        vOrigins = Nr_ManGetOrigins( pPruned, i );
+        if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
+        {
+            fprintf( pFile, "%d SRC", i );
+            Vec_IntForEachEntry( vOrigins, OriginId, j )
+                fprintf( pFile, " %d", OriginId );
+            fprintf( pFile, "\n" );
+        }
+    }
+
+    // Write retention entries for CO nodes
+    Gia_ManForEachCo( pGia, pObj, i )
+    {
+        int CoId = Gia_ObjId(pGia, pObj);
+        vOrigins = Nr_ManGetOrigins( pPruned, CoId );
+        if ( vOrigins && Vec_IntSize(vOrigins) > 0 )
+        {
+            fprintf( pFile, "%d SRC", CoId );
+            Vec_IntForEachEntry( vOrigins, OriginId, j )
+                fprintf( pFile, " %d", OriginId );
+            fprintf( pFile, "\n" );
+        }
+    }
+
+    fprintf( pFile, ".gia_retention_end\n" );
+
+    // Free the pruned manager
+    Nr_ManFree( pPruned );
+}
+
+
 int Nr_ManTotalOriginCount( Nr_Man_t * p )
 {
     Nr_Entry_t * pEntry;

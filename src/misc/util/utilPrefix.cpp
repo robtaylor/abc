@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <list>
 #include <iostream>
+#include <string>
 #include <set>
 #include <assert.h>
 #include <limits>

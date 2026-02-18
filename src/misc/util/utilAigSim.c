@@ -25,7 +25,9 @@
 #include <assert.h>
 #include <ctype.h>
 #include <time.h>
+#ifndef WIN32
 #include <unistd.h>   // mkstemp(), close(), unlink()
+#endif
 #include <fcntl.h>
 #include <sys/stat.h>
 

@@ -1,0 +1,6 @@
+# Test script for GIA node retention via &write_retention
+# Tests that retention data propagates correctly through &st and &if
+&r i10.aig
+&st
+&if -K 4
+&write_retention -v node_ret/gia_retention_output.txt

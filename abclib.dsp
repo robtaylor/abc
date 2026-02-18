@@ -189,6 +189,10 @@ SOURCE=.\src\base\abc\abcSop.c
 
 SOURCE=.\src\base\abc\abcUtil.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\base\abc\node_retention.c
+# End Source File
 # End Group
 # Begin Group "abci"
 
@@ -513,6 +517,10 @@ SOURCE=.\src\base\abci\abcVerify.c
 
 SOURCE=.\src\base\abci\abcXsim.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\base\abci\abcTopo.c
+# End Source File
 # End Group
 # Begin Group "cmd"
 
@@ -708,6 +716,10 @@ SOURCE=.\src\base\io\ioWriteSmv.c
 # Begin Source File
 
 SOURCE=.\src\base\io\ioWriteVerilog.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\base\io\ioJsonc.c
 # End Source File
 # End Group
 # Begin Group "main"
@@ -2152,6 +2164,18 @@ SOURCE=.\src\sat\bmc\bmcMulti.c
 # Begin Source File
 
 SOURCE=.\src\sat\bmc\bmcUnroll.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\sat\bmc\bmcMaj7.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\sat\bmc\bmcMaj8.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\sat\bmc\bmcMaj9.c
 # End Source File
 # End Group
 # Begin Group "bsat2"
@@ -4166,6 +4190,14 @@ SOURCE=.\src\opt\eslim\utils.hpp
 SOURCE=.\src\opt\eslim\synthesisEngine.hpp
 # End Source File
 # End Group
+# Begin Group "ufar"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\opt\ufar\UfarCmd.cpp
+# End Source File
+# End Group
 # End Group
 # Begin Group "map"
 
@@ -4444,6 +4476,10 @@ SOURCE=.\src\map\if\acd\ac_wrapper.cpp
 # Begin Source File
 
 SOURCE=.\src\map\if\ifUtil.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\map\if\ifDecJ.c
 # End Source File
 # End Group
 # Begin Group "amap"
@@ -5020,6 +5056,22 @@ SOURCE=.\src\misc\util\utilSort.c
 # Begin Source File
 
 SOURCE=.\src\misc\util\utilTruth.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\util\utilMiniver.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\util\utilMulSim.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\util\utilAigSim.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\misc\util\utilNet.c
 # End Source File
 # End Group
 # Begin Group "nm"
@@ -6240,6 +6292,18 @@ SOURCE=.\src\aig\gia\giaUnate.c
 # Begin Source File
 
 SOURCE=.\src\aig\gia\giaUtil.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\aig\gia\giaLutCas.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\aig\gia\giaMulFind3.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\aig\gia\giaDecGraph.cpp
 # End Source File
 # End Group
 # Begin Group "miniaig"

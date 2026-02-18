@@ -2437,7 +2437,7 @@ Gia_Man_t * Gia_ManFromIfLogic( If_Man_t * pIfMan )
     Vec_Str_t * vConfigsStr = NULL;
     Ifn_Ntk_t * pNtkCell = NULL;
     sat_solver * pSat = NULL;
-    int i, k, Entry;
+    int i, j, k, Entry, nNodesStart, nNodesEnd;
     assert( !pIfMan->pPars->fDeriveLuts || pIfMan->pPars->fTruth );
     //if ( pIfMan->pPars->fEnableCheck07 )
     //    pIfMan->pPars->fDeriveLuts = 0;
@@ -2474,6 +2474,7 @@ Gia_Man_t * Gia_ManFromIfLogic( If_Man_t * pIfMan )
     {
         if ( pIfObj->nRefs == 0 && !If_ObjIsTerm(pIfObj) )
             continue;
+        nNodesStart = Gia_ManObjNum(pNew);
         if ( If_ObjIsAnd(pIfObj) )
         {
             pCutBest = If_ObjCutBest( pIfObj );
@@ -2587,6 +2588,10 @@ Gia_Man_t * Gia_ManFromIfLogic( If_Man_t * pIfMan )
             Vec_IntPush( vMapping2, 0 );
         }
         else assert( 0 );
+        // copy node retention origins for newly created nodes
+        nNodesEnd = Gia_ManObjNum(pNew);
+        for ( j = nNodesStart; j < nNodesEnd; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pIfMan->pNodeRetention, j, pIfObj->Id );
     }
     Vec_IntFree( vLits );
     Vec_IntFree( vCover );

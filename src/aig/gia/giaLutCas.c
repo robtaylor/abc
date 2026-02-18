@@ -183,9 +183,13 @@ Gia_Man_t * Gia_ManGenLutCas( Gia_Man_t * p, char * pPermStr, int nVars, int nLu
     if ( Seed ) 
         srand(Seed); 
     else {
+#if defined(LIN) || defined(LIN64)
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         unsigned int seed = (unsigned int)(ts.tv_sec ^ ts.tv_nsec);
+#else
+        unsigned int seed = (unsigned int)time(NULL);
+#endif
         srand(seed);
     }
     int fOwnPerm = (pPermStr == NULL);

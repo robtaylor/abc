@@ -22,7 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #include <time.h>
 
 #include "abc_global.h"

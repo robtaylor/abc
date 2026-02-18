@@ -34,6 +34,7 @@
 #include "misc/vec/vec.h"
 #include "misc/vec/vecWec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -96,6 +97,7 @@ struct Gia_Obj_t_
 typedef struct Gia_Man_t_ Gia_Man_t;
 struct Gia_Man_t_
 {
+    Nr_Man_t *      pNodeRetention;    // node retention manager
     char *         pName;         // name of the AIG
     char *         pSpec;         // name of the input file
     int            nRegs;         // number of registers

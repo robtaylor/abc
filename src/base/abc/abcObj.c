@@ -20,7 +20,8 @@
 
 #include "abc.h"
 #include "abcInt.h"
-#include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "map/mio/mio.h"
 
 #ifdef ABC_USE_CUDD
@@ -342,6 +343,9 @@ void Abc_NtkDeleteAll_rec( Abc_Obj_t * pObj )
 Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName )
 {
     Abc_Obj_t * pObjNew;
+    char * pName = NULL;
+    Abc_Frame_t * pAbc;
+    pAbc = Abc_FrameGetGlobalFrame();
     // create the new object
     pObjNew = Abc_NtkCreateObj( pNtkNew, (Abc_ObjType_t)pObj->Type );
     // transfer names of the terminal objects
@@ -350,19 +354,23 @@ Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName 
         if ( Abc_ObjIsCi(pObj) )
         {
             if ( !Abc_NtkIsNetlist(pNtkNew) )
-                Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanout0Ntk(pObj)), NULL );
+            {
+                pName = Abc_ObjName(Abc_ObjFanout0Ntk(pObj));
+                Abc_ObjAssignName( pObjNew, pName, NULL );
+            }
         }
         else if ( Abc_ObjIsCo(pObj) )
         {
             if ( !Abc_NtkIsNetlist(pNtkNew) )
             {
                 if ( Abc_ObjIsPo(pObj) )
-                    Abc_ObjAssignName( pObjNew, Abc_ObjName(Abc_ObjFanin0Ntk(pObj)), NULL );
+                    pName = Abc_ObjName(Abc_ObjFanin0Ntk(pObj));
                 else
                 {
                     assert( Abc_ObjIsLatch(Abc_ObjFanout0(pObj)) );
-                    Abc_ObjAssignName( pObjNew, Abc_ObjName(pObj), NULL );
+                    pName = Abc_ObjName(pObj);
                 }
+                Abc_ObjAssignName( pObjNew, pName, NULL );
             }
         }
         else if ( Abc_ObjIsBox(pObj) || Abc_ObjIsNet(pObj) )
@@ -395,9 +403,9 @@ Abc_Obj_t * Abc_NtkDupObj( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pObj, int fCopyName 
         pObjNew->pData = pObj->pData;
     pObjNew->fPersist = pObj->fPersist;
     // transfer HAIG
-//    pObjNew->pEquiv = pObj->pEquiv;
     // remember the new node in the old node
     pObj->pCopy = pObjNew;
+//    pObjNew->pEquiv = pObj->pEquiv;
     return pObjNew;
 }
 
@@ -594,7 +602,9 @@ Abc_Obj_t * Abc_NtkFindOrCreateNet( Abc_Ntk_t * pNtk, char * pName )
     // create a new net
     pNet = Abc_NtkCreateNet( pNtk );
     if ( pName )
+    {
         Nm_ManStoreIdName( pNtk->pManName, pNet->Id, pNet->Type, pName, NULL );
+    }
     return pNet;
 }
 

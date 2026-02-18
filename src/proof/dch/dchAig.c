@@ -42,13 +42,18 @@ ABC_NAMESPACE_IMPL_START
   SeeAlso     []
 
 ***********************************************************************/
-void Dch_DeriveTotalAig_rec( Aig_Man_t * p, Aig_Obj_t * pObj )
+void Dch_DeriveTotalAig_rec( Aig_Man_t * p, Aig_Man_t * pSrc, Aig_Obj_t * pObj )
 {
+    int nNodesBefore, nNodesAfter, i;
     if ( pObj->pData )
         return;
-    Dch_DeriveTotalAig_rec( p, Aig_ObjFanin0(pObj) );
-    Dch_DeriveTotalAig_rec( p, Aig_ObjFanin1(pObj) );
+    Dch_DeriveTotalAig_rec( p, pSrc, Aig_ObjFanin0(pObj) );
+    Dch_DeriveTotalAig_rec( p, pSrc, Aig_ObjFanin1(pObj) );
+    nNodesBefore = Aig_ManObjNum(p);
     pObj->pData = Aig_And( p, Aig_ObjChild0Copy(pObj), Aig_ObjChild1Copy(pObj) );
+    nNodesAfter = Aig_ManObjNum(p);
+    for ( i = nNodesBefore; i < nNodesAfter; i++ )
+        Nr_ManCopyOrigins( p->pNodeRetention, pSrc->pNodeRetention, i, Aig_ObjId(pObj) );
 }
 
 /**Function*************************************************************
@@ -86,6 +91,7 @@ Aig_Man_t * Dch_DeriveTotalAig( Vec_Ptr_t * vAigs )
     Aig_ManForEachCi( pAig, pObj, i )
     {
         pObjPi = Aig_ObjCreateCi( pAigTotal );
+        Nr_ManCopyOrigins( pAigTotal->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(pObjPi), Aig_ObjId(pObj) );
         Vec_PtrForEachEntry( Aig_Man_t *, vAigs, pAig2, k )
             Aig_ManCi( pAig2, i )->pData = pObjPi;
     }
@@ -95,9 +101,10 @@ Aig_Man_t * Dch_DeriveTotalAig( Vec_Ptr_t * vAigs )
         Vec_PtrForEachEntry( Aig_Man_t *, vAigs, pAig2, k )
         {
             pObjPo = Aig_ManCo( pAig2, i );
-            Dch_DeriveTotalAig_rec( pAigTotal, Aig_ObjFanin0(pObjPo) );
+            Dch_DeriveTotalAig_rec( pAigTotal, pAig2, Aig_ObjFanin0(pObjPo) );
         }
-        Aig_ObjCreateCo( pAigTotal, Aig_ObjChild0Copy(pObj) );
+        pObjPo = Aig_ObjCreateCo( pAigTotal, Aig_ObjChild0Copy(pObj) );
+        Nr_ManCopyOrigins( pAigTotal->pNodeRetention, pAig->pNodeRetention, Aig_ObjId(pObjPo), Aig_ObjId(pObj) );
     }
 /*
     // mark the cone of the first AIG

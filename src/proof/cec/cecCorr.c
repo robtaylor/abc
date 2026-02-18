@@ -674,6 +674,7 @@ void Gia_ManCorrReduce_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
     Gia_ManCorrReduce_rec( pNew, p, Gia_ObjFanin0(pObj) );
     Gia_ManCorrReduce_rec( pNew, p, Gia_ObjFanin1(pObj) );
     pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
 }
 
 /**Function*************************************************************
@@ -699,12 +700,18 @@ Gia_Man_t * Gia_ManCorrReduce( Gia_Man_t * p )
     Gia_ManFillValue( p );
     Gia_ManConst0(p)->Value = 0;
     Gia_ManForEachCi( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCi(pNew);
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     Gia_ManHashAlloc( pNew );
     Gia_ManForEachCo( p, pObj, i )
         Gia_ManCorrReduce_rec( pNew, p, Gia_ObjFanin0(pObj) );
     Gia_ManForEachCo( p, pObj, i )
-        Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+    {
+        pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     return pNew;

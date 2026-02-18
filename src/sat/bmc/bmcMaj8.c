@@ -27,6 +27,9 @@
 #include "base/main/main.h"
 #include "base/cmd/cmd.h"
 
+#include <stdint.h>
+#include <limits.h>
+
 #define KISSAT_UNSAT 20
 #define KISSAT_SAT   10
 #define KISSAT_UNDEC  0

@@ -164,6 +164,8 @@ If_Man_t * If_ManStart( If_Par_t * pPars )
         Bat_ManFuncSetupTable();
 //        Abc_PrintTime( 1, "Setup time", Abc_Clock() - clk );
     }
+    // node retention manager
+    p->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     // create the constant node
     p->pConst1   = If_ManSetupObj( p );
     p->pConst1->Type   = IF_CONST1;
@@ -496,6 +498,8 @@ void If_ManStop( If_Man_t * p )
     ABC_FREE( p->pPars->pTimesReq );
     if ( p->pManTim )
         Tim_ManStop( p->pManTim );
+    if ( p->pNodeRetention )
+        Nr_ManFree( p->pNodeRetention );
     if ( p->vSwitching )
         Vec_IntFree( p->vSwitching );
     if ( p->pPars->fUseBat )

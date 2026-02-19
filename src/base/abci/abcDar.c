@@ -451,10 +451,13 @@ Abc_Ntk_t * Abc_NtkFromDar( Abc_Ntk_t * pNtkOld, Aig_Man_t * pMan )
     // rebuild the AIG
     vNodes = Aig_ManDfs( pMan, 1 );
     Vec_PtrForEachEntry( Aig_Obj_t *, vNodes, pObj, i )
+    {
         if ( Aig_ObjIsBuf(pObj) )
             pObj->pData = (Abc_Obj_t *)Aig_ObjChild0Copy(pObj);
         else
             pObj->pData = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, (Abc_Obj_t *)Aig_ObjChild0Copy(pObj), (Abc_Obj_t *)Aig_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, ((Abc_Obj_t *)pObj->pData)->Id, Aig_ObjId(pObj) );
+    }
     Vec_PtrFree( vNodes );
     // connect the PO nodes
     Aig_ManForEachCo( pMan, pObj, i )
@@ -1298,6 +1301,7 @@ Abc_Ntk_t * Abc_NtkFromDarChoices( Abc_Ntk_t * pNtkOld, Aig_Man_t * pMan )
     Aig_ManForEachNode( pMan, pObj, i )
     {
         pObj->pData = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, (Abc_Obj_t *)Aig_ObjChild0Copy(pObj), (Abc_Obj_t *)Aig_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, ((Abc_Obj_t *)pObj->pData)->Id, Aig_ObjId(pObj) );
     }
     Aig_ManForEachNode( pMan, pObj, i ) {
         if ( (pTemp = Aig_ObjEquiv(pMan, pObj)) )

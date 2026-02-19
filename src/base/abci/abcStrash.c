@@ -66,7 +66,10 @@ Abc_Ntk_t * Abc_NtkRestrash( Abc_Ntk_t * pNtk, int fCleanup )
     // restrash the nodes (assuming a topological order of the old network)
     vNodes = Abc_NtkDfs( pNtk, 0 );
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pObj, i )
+    {
         pObj->pCopy = Abc_AigAnd( (Abc_Aig_t *)pNtkAig->pManFunc, Abc_ObjChild0Copy(pObj), Abc_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkAig->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+    }
     Vec_PtrFree( vNodes );
     // finalize the network
     Abc_NtkFinalize( pNtk, pNtkAig );

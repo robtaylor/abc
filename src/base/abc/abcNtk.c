@@ -495,7 +495,10 @@ Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * pNtk )
     {
         // copy the AND gates
         Abc_AigForEachAnd( pNtk, pObj, i )
+        {
             pObj->pCopy = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, Abc_ObjChild0Copy(pObj), Abc_ObjChild1Copy(pObj) );
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+        }
         // relink the choice nodes
         Abc_AigForEachAnd( pNtk, pObj, i )
             if ( pObj->pData )
@@ -513,7 +516,10 @@ Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * pNtk )
         // duplicate the nets and nodes (CIs/COs/latches already dupped)
         Abc_NtkForEachObj( pNtk, pObj, i )
             if ( pObj->pCopy == NULL )
+            {
                 Abc_NtkDupObj(pNtkNew, pObj, Abc_NtkHasBlackbox(pNtk) && Abc_ObjIsNet(pObj));
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+            }
         // reconnect all objects (no need to transfer attributes on edges)
         Abc_NtkForEachObj( pNtk, pObj, i )
             if ( !Abc_ObjIsBox(pObj) && !Abc_ObjIsBo(pObj) )

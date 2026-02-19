@@ -284,6 +284,7 @@ Abc_Obj_t * Abc_NodeBalance_rec( Abc_Ntk_t * pNtkNew, Abc_Obj_t * pNodeOld, Vec_
     assert( pNodeOld->pCopy == NULL );
     // mark the old node with the new node
     pNodeOld->pCopy = (Abc_Obj_t *)vSuper->pArray[0];
+    Nr_ManCopyOrigins( pNtkNew->pNodeRetention, Abc_ObjNtk(pNodeOld)->pNodeRetention, Abc_ObjId(Abc_ObjRegular(pNodeOld->pCopy)), Abc_ObjId(pNodeOld) );
     vSuper->nSize = 0;
 //    if ( Abc_ObjRegular(pNodeOld->pCopy) == Abc_AigConst1(pNtkNew) )
 //        printf( "Constant node\n" );

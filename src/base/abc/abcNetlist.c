@@ -336,6 +336,7 @@ Abc_Ntk_t * Abc_NtkAigToLogicSop( Abc_Ntk_t * pNtk )
     Abc_NtkForEachNode( pNtk, pObj, i )
     {
         Abc_NtkDupObj(pNtkNew, pObj, 0);
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
         pObj->pCopy->pData = Abc_SopCreateAnd2( (Mem_Flex_t *)pNtkNew->pManFunc, Abc_ObjFaninC0(pObj), Abc_ObjFaninC1(pObj) );
     }
     // create the choice nodes

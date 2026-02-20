@@ -300,11 +300,9 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
 
     // complement the 1-values registers
     if ( fRegisters ) {
-        Abc_NtkForEachLatch( pNtk, pObj, i ) {
+        Abc_NtkForEachLatch( pNtk, pObj, i )
             if ( Abc_LatchIsInit1(pObj) )
                 Abc_ObjFanout0(pObj)->pCopy = Abc_ObjNot(Abc_ObjFanout0(pObj)->pCopy);
-                Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId((Abc_Obj_t *)Abc_ObjFanout0(pObj)->pCopy), Abc_ObjId(pObj) );
-        }
     }
     // perform the conversion of the internal nodes (assumes DFS ordering)
 //    pMan->fAddStrash = 1;

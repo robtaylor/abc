@@ -59,7 +59,6 @@ typedef void (*Abc_Frame_Callback_BmcFrameDone_Func)(int frame, int po, int stat
 
 struct Abc_Frame_t_
 {
-    // TODO move this one down
     Vec_Ptr_t *     vNodeRetention; // global map from node ID to name (char*)
     // general info
     char *          sVersion;      // the name of the current version
@@ -139,7 +138,6 @@ struct Abc_Frame_t_
     Vec_Ptr_t *     vPlugInComBinPairs;    // pairs of command and its binary name
     Vec_Ptr_t *     vLTLProperties_global; // related to LTL
     Vec_Ptr_t *     vSignalNames;  // temporary storage for signal names
-    // Vec_Ptr_t *     vNodeRetention; // global map from node ID to name (char*)
     char *          pSpecName;
     void *          pSave1; 
     void *          pSave2; 

@@ -2,63 +2,53 @@ name: Build Windows
 
 on:
   push:
+    branches: [main, master]
   pull_request:
 
 jobs:
 
   build-windows:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
 
     steps:
+
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: false
+        install: >-
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-ninja
+          make
 
     - name: Git Checkout
       uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - name: Prepare MSVC
-      uses: bus1/cabuild/action/msdevshell@v1
-      with:
-        architecture: x86
-
-    - name: Upgrade project files to latest Visual Studio, ignoring upgrade errors, and build
+    - name: Configure CMake
       run: |
-        devenv abcspace.dsw /upgrade
-        # Fix the upgraded vcxproj files to use C++17
-        if (Test-Path abclib.vcxproj) {
-            $content = Get-Content abclib.vcxproj -Raw
-            if ($content -match '<LanguageStandard>') {
-                $content = $content -replace '<LanguageStandard>Default</LanguageStandard>', '<LanguageStandard>stdcpp17</LanguageStandard>'
-            } else {
-                # Add LanguageStandard if it doesn't exist
-                $content = $content -replace '(<ClCompile>)', '$1<LanguageStandard>stdcpp17</LanguageStandard>'
-            }
-            Set-Content abclib.vcxproj -NoNewline $content
-        }
-        if (Test-Path abcexe.vcxproj) {
-            $content = Get-Content abcexe.vcxproj -Raw
-            if ($content -match '<LanguageStandard>') {
-                $content = $content -replace '<LanguageStandard>Default</LanguageStandard>', '<LanguageStandard>stdcpp17</LanguageStandard>'
-            } else {
-                # Add LanguageStandard if it doesn't exist
-                $content = $content -replace '(<ClCompile>)', '$1<LanguageStandard>stdcpp17</LanguageStandard>'
-            }
-            Set-Content abcexe.vcxproj -NoNewline $content
-        }
-        msbuild abcspace.sln /m /nologo /v:m /p:Configuration=Release /p:UseMultiToolTask=true /p:PlatformToolset=v142 /p:PreprocessorDefinitions="_WINSOCKAPI_"
-        if ($LASTEXITCODE -ne 0) { throw "Build failed with exit code $LASTEXITCODE" }
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DABC_USE_NO_READLINE=1 -B build
+
+    - name: Build
+      run: |
+        cmake --build build
 
     - name: Test Executable
       run: |
-        copy lib\x86\pthreadVC2.dll _TEST\
-        .\_TEST\abc.exe -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
-        if ($LASTEXITCODE -ne 0) { throw "Test failed with exit code $LASTEXITCODE" }
+        ./build/abc.exe -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
 
     - name: Stage Executable
       run: |
-        mkdir staging
-        copy _TEST\abc.exe staging\
+        mkdir -p staging
+        cp build/abc.exe staging/
 
     - name: Upload package artifact
       uses: actions/upload-artifact@v4

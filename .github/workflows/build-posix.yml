@@ -2,6 +2,7 @@ name: Build Posix
 
 on:
   push:
+    branches: [main, master]
   pull_request:
 
 jobs:

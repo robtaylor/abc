@@ -2,50 +2,55 @@ name: Build Windows
 
 on:
   push:
+    branches: [main, master]
   pull_request:
 
 jobs:
 
   build-windows:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
 
     steps:
+
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: false
+        install: >-
+          mingw-w64-x86_64-gcc
+          mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-ninja
+          make
 
     - name: Git Checkout
       uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - name: Process project files to compile on Github Actions
+    - name: Configure CMake
       run: |
-        sed -i 's#ABC_USE_PTHREADS\"#ABC_DONT_USE_PTHREADS\" /D \"_ALLOW_KEYWORD_MACROS=1\"#g' *.dsp
-        awk 'BEGIN { del=0; } /# Begin Group "uap"/ { del=1; } /# End Group/ { if( del > 0 ) {del=0; next;} } del==0 {print;} ' abclib.dsp > tmp.dsp
-        copy tmp.dsp abclib.dsp
-        del tmp.dsp
-        unix2dos *.dsp
+        cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS="-DWIN32 -DWIN32_NO_DLL" -DCMAKE_CXX_FLAGS="-DWIN32 -DWIN32_NO_DLL" -DREADLINE_FOUND=FALSE -DABC_SKIP_TESTS=1 -B build
 
-    - name: Prepare MSVC
-      uses: bus1/cabuild/action/msdevshell@v1
-      with:
-        architecture: x86
-
-    - name: Upgrade project files to latest Visual Studio, ignoring upgrade errors, and build
+    - name: Build
       run: |
-        devenv abcspace.dsw /upgrade  ; if (-not $? ) { cat UpgradeLog.htm }
-        msbuild abcspace.sln /m /nologo /p:Configuration=Release /p:PlatformTarget=x86
+        cmake --build build
 
     - name: Test Executable
       run: |
-        _TEST\abc.exe -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
+        ./build/abc.exe -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
 
     - name: Stage Executable
       run: |
-       mkdir staging
-       copy _TEST/abc.exe staging/
-       copy UpgradeLog.htm staging/
+        mkdir -p staging
+        cp build/abc.exe staging/
 
-    - name: Upload pacakge artifact
+    - name: Upload package artifact
       uses: actions/upload-artifact@v4
       with:
         name: package-windows

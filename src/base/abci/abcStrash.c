@@ -19,6 +19,9 @@
 ***********************************************************************/
 
 #include "base/abc/abc.h"
+#include "base/abc/node_retention.h"
+#include "base/main/main.h"
+#include "base/main/mainInt.h"
 #include "bool/dec/dec.h"
 
 ABC_NAMESPACE_IMPL_START
@@ -63,7 +66,10 @@ Abc_Ntk_t * Abc_NtkRestrash( Abc_Ntk_t * pNtk, int fCleanup )
     // restrash the nodes (assuming a topological order of the old network)
     vNodes = Abc_NtkDfs( pNtk, 0 );
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pObj, i )
+    {
         pObj->pCopy = Abc_AigAnd( (Abc_Aig_t *)pNtkAig->pManFunc, Abc_ObjChild0Copy(pObj), Abc_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkAig->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+    }
     Vec_PtrFree( vNodes );
     // finalize the network
     Abc_NtkFinalize( pNtk, pNtkAig );
@@ -414,19 +420,23 @@ void Abc_NtkStrashPerform( Abc_Ntk_t * pNtkOld, Abc_Ntk_t * pNtkNew, int fAllNod
 {
     Vec_Ptr_t * vNodes;
     Abc_Obj_t * pNodeOld;
-    int i; //, clk = Abc_Clock();
+    int i;
     assert( Abc_NtkIsLogic(pNtkOld) );
     assert( Abc_NtkIsStrash(pNtkNew) );
 //    vNodes = Abc_NtkDfs( pNtkOld, fAllNodes );
     vNodes = Abc_NtkDfsIter( pNtkOld, fAllNodes );
 //printf( "Nodes = %d. ", Vec_PtrSize(vNodes) );
 //ABC_PRT( "Time", Abc_Clock() - clk );
+    // get retention managers (new one should already be set in frame)
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNodeOld, i )
     {
         if ( Abc_ObjIsBarBuf(pNodeOld) )
             pNodeOld->pCopy = Abc_ObjChild0Copy(pNodeOld);
         else
             pNodeOld->pCopy = Abc_NodeStrash( pNtkNew, pNodeOld, fRecord );
+        // track mapping: copy origins from old node to new node
+        if ( pNodeOld->pCopy )
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtkOld->pNodeRetention, Abc_ObjId(Abc_ObjRegular(pNodeOld->pCopy)), Abc_ObjId(pNodeOld) );
     }
     Vec_PtrFree( vNodes );
 }

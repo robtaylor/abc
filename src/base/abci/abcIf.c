@@ -232,6 +232,7 @@ If_Man_t * Abc_NtkToIf( Abc_Ntk_t * pNtk, If_Par_t * pPars )
     {
         If_Obj_t * pIfObj = If_ManCreateCi( pIfMan );
         pNode->pCopy = (Abc_Obj_t *)pIfObj;
+        Nr_ManCopyOrigins( pIfMan->pNodeRetention, pNtk->pNodeRetention, If_ObjId(pIfObj), Abc_ObjId(pNode) );
         // transfer logic level information
         Abc_ObjIfCopy(pNode)->Level = pNode->Level;
         // mark the largest level
@@ -246,9 +247,10 @@ If_Man_t * Abc_NtkToIf( Abc_Ntk_t * pNtk, If_Par_t * pPars )
     {
         Extra_ProgressBarUpdate( pProgress, i, "Initial" );
         // add the node to the mapper
-        pNode->pCopy = (Abc_Obj_t *)If_ManCreateAnd( pIfMan, 
-            If_NotCond( Abc_ObjIfCopy(Abc_ObjFanin0(pNode)), Abc_ObjFaninC0(pNode) ), 
+        pNode->pCopy = (Abc_Obj_t *)If_ManCreateAnd( pIfMan,
+            If_NotCond( Abc_ObjIfCopy(Abc_ObjFanin0(pNode)), Abc_ObjFaninC0(pNode) ),
             If_NotCond( Abc_ObjIfCopy(Abc_ObjFanin1(pNode)), Abc_ObjFaninC1(pNode) ) );
+        Nr_ManCopyOrigins( pIfMan->pNodeRetention, pNtk->pNodeRetention, If_ObjId(Abc_ObjIfCopy(pNode)), Abc_ObjId(pNode) );
         // set up the choice node
         if ( Abc_AigNodeIsChoice( pNode ) )
         {
@@ -681,6 +683,7 @@ Abc_Obj_t * Abc_NodeFromIf_rec( Abc_Ntk_t * pNtkNew, If_Man_t * pIfMan, If_Obj_t
         pNodeNew->pData = Abc_NodeIfToHop( (Hop_Man_t *)pNtkNew->pManFunc, pIfMan, pIfObj );
     }
     If_ObjSetCopy( pIfObj, pNodeNew );
+    Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pIfMan->pNodeRetention, Abc_ObjId(pNodeNew), If_ObjId(pIfObj) );
     return pNodeNew;
 }
 

@@ -529,15 +529,22 @@ Aig_Man_t * Aig_ManDupExor( Aig_Man_t * p )
 Aig_Obj_t * Aig_ManDupDfs_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj )
 {
     Aig_Obj_t * pObjNew, * pEquivNew = NULL;
+    int nNodesBefore, nNodesAfter, i;
     if ( pObj->pData )
         return (Aig_Obj_t *)pObj->pData;
     if ( p->pEquivs && Aig_ObjEquiv(p, pObj) )
         pEquivNew = Aig_ManDupDfs_rec( pNew, p, Aig_ObjEquiv(p, pObj) );
     Aig_ManDupDfs_rec( pNew, p, Aig_ObjFanin0(pObj) );
-    if ( Aig_ObjIsBuf(pObj) )
-        return (Aig_Obj_t *)(pObj->pData = Aig_ObjChild0Copy(pObj));
+    if ( Aig_ObjIsBuf(pObj) ) {
+        pObjNew = Aig_ObjChild0Copy(pObj);
+        pObj->pData = pObjNew;
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
+        return (Aig_Obj_t *)pObjNew;
+    }
     Aig_ManDupDfs_rec( pNew, p, Aig_ObjFanin1(pObj) );
+    nNodesBefore = Aig_ManObjNum(pNew);
     pObjNew = Aig_Oper( pNew, Aig_ObjChild0Copy(pObj), Aig_ObjChild1Copy(pObj), Aig_ObjType(pObj) );
+    nNodesAfter = Aig_ManObjNum(pNew);
     if ( pEquivNew )
     {
         assert( Aig_Regular(pEquivNew)->Id < Aig_Regular(pObjNew)->Id );
@@ -546,7 +553,12 @@ Aig_Obj_t * Aig_ManDupDfs_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj
         if ( pNew->pReprs )
             pNew->pReprs[Aig_Regular(pEquivNew)->Id] = Aig_Regular(pObjNew);
     }
-    return (Aig_Obj_t *)(pObj->pData = pObjNew);
+    pObj->pData = pObjNew;
+    // Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
+    for (i = nNodesBefore; i < nNodesAfter; i++) {
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, i, Aig_ObjId(pObj) );
+    }
+    return (Aig_Obj_t *)pObjNew;
 }
 
 /**Function*************************************************************
@@ -590,6 +602,7 @@ Aig_Man_t * Aig_ManDupDfs( Aig_Man_t * p )
             pObjNew = Aig_ObjCreateCi( pNew );
             pObjNew->Level = pObj->Level;
             pObj->pData = pObjNew;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
         }
         else if ( Aig_ObjIsCo(pObj) )
         {
@@ -597,6 +610,7 @@ Aig_Man_t * Aig_ManDupDfs( Aig_Man_t * p )
 //            assert( pObj->Level == ((Aig_Obj_t*)pObj->pData)->Level );
             pObjNew = Aig_ObjCreateCo( pNew, Aig_ObjChild0Copy(pObj) );
             pObj->pData = pObjNew;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
         }
     }
     assert( p->pEquivs != NULL || Aig_ManBufNum(p) != 0 || Aig_ManNodeNum(p) == Aig_ManNodeNum(pNew) );
@@ -657,6 +671,7 @@ Vec_Ptr_t * Aig_ManOrderPios( Aig_Man_t * p, Aig_Man_t * pOrder )
 Aig_Obj_t * Aig_ManDupDfsGuided_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t * pObj )
 {
     Aig_Obj_t * pObjNew, * pEquivNew = NULL;
+    int nNodesBefore, nNodesAfter, i;
     if ( pObj->pData )
         return (Aig_Obj_t *)pObj->pData;
     if ( Aig_ObjIsCi(pObj) )
@@ -666,10 +681,17 @@ Aig_Obj_t * Aig_ManDupDfsGuided_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t 
     if ( !Aig_ManDupDfsGuided_rec( pNew, p, Aig_ObjFanin0(pObj) ) )
         return NULL;
     if ( Aig_ObjIsBuf(pObj) )
-        return (Aig_Obj_t *)(pObj->pData = Aig_ObjChild0Copy(pObj));
+    {
+        pObjNew = Aig_ObjChild0Copy(pObj);
+        pObj->pData = pObjNew;
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
+        return (Aig_Obj_t *)pObjNew;
+    }
     if ( !Aig_ManDupDfsGuided_rec( pNew, p, Aig_ObjFanin1(pObj) ) )
         return NULL;
+    nNodesBefore = Aig_ManObjNum(pNew);
     pObjNew = Aig_Oper( pNew, Aig_ObjChild0Copy(pObj), Aig_ObjChild1Copy(pObj), Aig_ObjType(pObj) );
+    nNodesAfter = Aig_ManObjNum(pNew);
     if ( pEquivNew )
     {
         if ( pNew->pEquivs )
@@ -677,7 +699,11 @@ Aig_Obj_t * Aig_ManDupDfsGuided_rec( Aig_Man_t * pNew, Aig_Man_t * p, Aig_Obj_t 
         if ( pNew->pReprs )
             pNew->pReprs[Aig_Regular(pEquivNew)->Id] = Aig_Regular(pObjNew);
     }
-    return (Aig_Obj_t *)(pObj->pData = pObjNew);
+    pObj->pData = pObjNew;
+    for (i = nNodesBefore; i < nNodesAfter; i++) {
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, i, Aig_ObjId(pObj) );
+    }
+    return (Aig_Obj_t *)pObjNew;
 }
 
 /**Function*************************************************************
@@ -727,6 +753,7 @@ Aig_Man_t * Aig_ManDupDfsGuided( Aig_Man_t * p, Vec_Ptr_t * vPios )
             pObjNew = Aig_ObjCreateCi( pNew );
             pObjNew->Level = pObj->Level;
             pObj->pData = pObjNew;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
         }
         else if ( Aig_ObjIsCo(pObj) )
         {
@@ -734,6 +761,7 @@ Aig_Man_t * Aig_ManDupDfsGuided( Aig_Man_t * p, Vec_Ptr_t * vPios )
 //            assert( pObj->Level == ((Aig_Obj_t*)pObj->pData)->Level );
             pObjNew = Aig_ObjCreateCo( pNew, Aig_ObjChild0Copy(pObj) );
             pObj->pData = pObjNew;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Aig_ObjId(pObjNew), Aig_ObjId(pObj) );
         }
     }
 //    assert( Aig_ManBufNum(p) != 0 || Aig_ManNodeNum(p) == Aig_ManNodeNum(pNew) );

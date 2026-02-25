@@ -359,7 +359,10 @@ Gia_Man_t * Cec4_ManStartNew( Gia_Man_t * pAig )
     Gia_ManFillValue( pAig );
     Gia_ManConst0(pAig)->Value = 0;
     Gia_ManForEachCi( pAig, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCi( pNew );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, pAig->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pAig, pObj) );
+    }
     Gia_ManHashAlloc( pNew );
     Vec_IntFill( &pNew->vCopies2, Gia_ManObjNum(pAig), -1 );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(pAig) );
@@ -1954,11 +1957,12 @@ int Cec4_ManPerformSweeping( Gia_Man_t * p, Cec_ParFra_t * pPars, Gia_Man_t ** p
             pObj->Value = Gia_ManHashXorReal( pMan->pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else
             pObj->Value = Gia_ManHashAnd( pMan->pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        Nr_ManCopyOrigins( pMan->pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
         if ( pPars->nLevelMax && Gia_ObjLevel(p, pObj) > pPars->nLevelMax )
             continue;
         pObjNew = Gia_ManObj( pMan->pNew, Abc_Lit2Var(pObj->Value) );
         if ( Gia_ObjIsAnd(pObjNew) )
-        if ( Vec_BitEntry(pMan->vFails, Gia_ObjFaninId0(pObjNew, Abc_Lit2Var(pObj->Value))) || 
+        if ( Vec_BitEntry(pMan->vFails, Gia_ObjFaninId0(pObjNew, Abc_Lit2Var(pObj->Value))) ||
              Vec_BitEntry(pMan->vFails, Gia_ObjFaninId1(pObjNew, Abc_Lit2Var(pObj->Value))) )
             Vec_BitWriteEntry( pMan->vFails, Abc_Lit2Var(pObjNew->Value), 1 );
         //if ( Gia_ObjIsAnd(pObjNew) )
@@ -1978,7 +1982,7 @@ int Cec4_ManPerformSweeping( Gia_Man_t * p, Cec_ParFra_t * pPars, Gia_Man_t ** p
 
         if ( Abc_Lit2Var(pObj->Value) == Abc_Lit2Var(pRepr->Value) )
         {
-            if ( pPars->fBMiterInfo ) 
+            if ( pPars->fBMiterInfo )
             {
                 Bnd_ManMerge( id_repr, id_obj, pObj->fPhase ^ pRepr->fPhase );
             }
@@ -2023,7 +2027,10 @@ int Cec4_ManPerformSweeping( Gia_Man_t * p, Cec_ParFra_t * pPars, Gia_Man_t ** p
     if ( ppNew )
     {
         Gia_ManForEachCo( p, pObj, i )
+        {
             pObj->Value = Gia_ManAppendCo( pMan->pNew, Gia_ObjFanin0Copy(pObj) );
+            Nr_ManCopyOrigins( pMan->pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
         *ppNew = Gia_ManCleanup( pMan->pNew );
     }
 finalize:
@@ -2141,6 +2148,7 @@ Gia_Man_t * Gia_ManLocalRehash( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCi( pNew );
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     Gia_ManHashStop( pNew );
     pNew = Gia_ManCleanup( pTemp = pNew );
@@ -4190,17 +4198,18 @@ void Cec4_CallSATsolver(Gia_Man_t * p, Cec4_Man_t * pMan, Cec_ParFra_t * pPars){
     pMan->pNew = Cec4_ManStartNew( p );
     Gia_ManForEachAnd( p, pObj, i )
     {
-        Gia_Obj_t * pObjNew; 
+        Gia_Obj_t * pObjNew;
         pMan->nAndNodes++;
         if ( Gia_ObjIsXor(pObj) )
             pObj->Value = Gia_ManHashXorReal( pMan->pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else
             pObj->Value = Gia_ManHashAnd( pMan->pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        Nr_ManCopyOrigins( pMan->pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
         if ( pPars->nLevelMax && Gia_ObjLevel(p, pObj) > pPars->nLevelMax )
             continue;
         pObjNew = Gia_ManObj( pMan->pNew, Abc_Lit2Var(pObj->Value) );
         if ( Gia_ObjIsAnd(pObjNew) )
-        if ( Vec_BitEntry(pMan->vFails, Gia_ObjFaninId0(pObjNew, Abc_Lit2Var(pObj->Value))) || 
+        if ( Vec_BitEntry(pMan->vFails, Gia_ObjFaninId0(pObjNew, Abc_Lit2Var(pObj->Value))) ||
              Vec_BitEntry(pMan->vFails, Gia_ObjFaninId1(pObjNew, Abc_Lit2Var(pObj->Value))) )
             Vec_BitWriteEntry( pMan->vFails, Abc_Lit2Var(pObjNew->Value), 1 );
         //if ( Gia_ObjIsAnd(pObjNew) )
@@ -4208,7 +4217,7 @@ void Cec4_CallSATsolver(Gia_Man_t * p, Cec4_Man_t * pMan, Cec_ParFra_t * pPars){
         // select representative based on candidate equivalence classes
         pRepr= Gia_ObjReprObj( p, i );
         if ( pRepr == NULL )
-            continue; 
+            continue;
         if ( 1 ) // select representative based on recent counter-examples
         {
             pRepr = (Gia_Obj_t *) Cec4_ManFindRepr( p, pMan, i );

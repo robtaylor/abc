@@ -1,5 +1,4 @@
 /**CFile****************************************************************
-
   FileName    [giaBalance.c]
 
   SystemName  [ABC: Logic synthesis and verification system.]
@@ -24,6 +23,7 @@
 #include "opt/dau/dau.h"
 
 ABC_NAMESPACE_IMPL_START
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -752,7 +752,7 @@ void Dam_ManCreatePairs( Dam_Man_t * p, int fVerbose )
 ***********************************************************************/
 void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 {
-    int i, * pSet;
+    int i, * pSet, nObjsBefore, nObjsAfter, j;
     if ( ~pObj->Value )
         return;
     assert( Gia_ObjIsAnd(pObj) );
@@ -764,17 +764,26 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         if ( Gia_ObjIsMux(p, pObj) )
         {
             Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin2(p, pObj) );
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashMuxReal( pNew, Gia_ObjFanin2Copy(p, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
         }
         else if ( Gia_ObjIsXor(pObj) )
+        {
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashXorReal( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        }
         else 
+        {
+            nObjsBefore = Gia_ManObjNum(pNew);
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        }
+        nObjsAfter = Gia_ManObjNum(pNew);
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
         Gia_ObjSetGateLevel( pNew, Gia_ManObj(pNew, Abc_Lit2Var(pObj->Value)) );
         return;
     }
     assert( Gia_ObjIsXor(pObj) || Gia_ObjIsAndReal(p, pObj) );
-    // call recursively
     for ( i = 1; i <= pSet[0]; i++ )
     {
         Gia_Obj_t * pTemp = Gia_ManObj( p, Abc_Lit2Var(pSet[i]) );
@@ -782,7 +791,11 @@ void Dam_ManMultiAig_rec( Dam_Man_t * pMan, Gia_Man_t * pNew, Gia_Man_t * p, Gia
         pSet[i] = Abc_LitNotCond( pTemp->Value, Abc_LitIsCompl(pSet[i]) );
     }
     // create balanced gate
+    nObjsBefore = Gia_ManObjNum(pNew);
     pObj->Value = Gia_ManBalanceGate( pNew, pObj, p->vSuper, pSet + 1, pSet[0] );
+    nObjsAfter = Gia_ManObjNum(pNew);
+    for ( j = nObjsBefore; j < nObjsAfter; j++ )
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
 }
 Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
 {
@@ -803,6 +816,7 @@ Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
     {
         pObj->Value = Gia_ManAppendCi( pNew );
         Vec_IntWriteEntry( pNew->vLevels, Abc_Lit2Var(pObj->Value), Gia_ObjLevel(p, pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     // create internal nodes
     Gia_ManHashStart( pNew );
@@ -811,11 +825,13 @@ Gia_Man_t * Dam_ManMultiAig( Dam_Man_t * pMan )
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) );
         Gia_ObjSetGateLevel( pNew, Gia_ManObj(pNew, Abc_Lit2Var(pObj->Value)) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManForEachCo( p, pObj, i )
     {
         Dam_ManMultiAig_rec( pMan, pNew, p, Gia_ObjFanin0(pObj) );
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
 //    assert( Gia_ManObjNum(pNew) <= Gia_ManObjNum(p) );
     Gia_ManHashStop( pNew );
@@ -951,6 +967,8 @@ void Dam_ManUpdate( Dam_Man_t * p, int iDiv )
 //    printf( "%d ", Gia_ObjLevel(p->pGia, Gia_ManObj(p->pGia, Abc_Lit2Var(iLitNew))) );
     // replace entries
     assert( pNods[0] >= 2 );
+    for ( i = 1; i <= pNods[0]; i++ )
+        Nr_ManCopyOrigins( p->pGia->pNodeRetention, p->pGia->pNodeRetention, Abc_Lit2Var(iLitNew), pNods[i] );
     nPairsStart = Hash_IntManEntryNum(p->vHash) + 1;
     Vec_IntClear( vDivs );
     for ( i = 1; i <= pNods[0]; i++ )

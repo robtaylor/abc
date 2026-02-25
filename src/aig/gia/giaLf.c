@@ -1750,17 +1750,45 @@ Gia_Man_t * Lf_ManDeriveMappingCoarse( Lf_Man_t * p )
     Gia_ManForEachObj1( pGia, pObj, i )
     {
         if ( Gia_ObjIsCi(pObj) )
-            { pObj->Value = Gia_ManAppendCi( pNew ); continue; }
+            {
+                pObj->Value = Gia_ManAppendCi( pNew ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsCo(pObj) )
-            { pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) ); continue; }
+            { 
+                pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsBuf(pObj) )
-            { pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) ); continue; }
+            { pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) ); 
+                if (pObj->Value)
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+                continue; }
         if ( Gia_ObjIsMuxId(pGia, i) )
-            pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+            { 
+                // for muxes and xors, there's three and gates which are appended
+                int nObjsBefore = Gia_ManObjNum(pNew);
+                pObj->Value = Gia_ManAppendMux( pNew, Gia_ObjFanin2Copy(pGia, pObj), Gia_ObjFanin1Copy(pObj), Gia_ObjFanin0Copy(pObj) );
+                int nObjsAfter = Gia_ManObjNum(pNew);
+                int j;
+                for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, j, Gia_ObjId(pGia, pObj) );
+            }
         else if ( Gia_ObjIsXor(pObj) )
-            pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
-        else 
+            { 
+                int nObjsBefore = Gia_ManObjNum(pNew);
+                pObj->Value = Gia_ManAppendXor( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+                int nObjsAfter = Gia_ManObjNum(pNew);
+                int j;
+                for ( j = nObjsBefore; j < nObjsAfter; j++ )
+                    Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, j, Gia_ObjId(pGia, pObj) );
+            }
+        else {
             pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(pGia, pObj) );
+            }
         if ( !Lf_ObjMapRefNum(p, i) )
             continue;
         pCut = Lf_ObjCutBest( p, i );
@@ -1856,7 +1884,7 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
     Vec_Int_t * vCover    = Vec_IntAlloc( 1 << 16 );
     Vec_Int_t * vLeaves   = Vec_IntAlloc( 16 );
     Lf_Cut_t * pCut;
-    int i, iLit; 
+    int i, iLit, nNodesStart, nNodesEnd, j; 
     assert( p->pPars->fCutMin );
     // create new manager
     pNew = Gia_ManStart( Gia_ManObjNum(p->pGia) );
@@ -1865,15 +1893,22 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
     Vec_IntWriteEntry( vCopies, 0, 0 );
     Gia_ManForEachObj1( p->pGia, pObj, i )
     {
+        nNodesStart = Gia_ManObjNum(pNew);
         if ( Gia_ObjIsCi(pObj) )
         {
             Vec_IntWriteEntry( vCopies, i, Gia_ManAppendCi(pNew) );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( Gia_ObjIsCo(pObj) )
         {
             iLit = Vec_IntEntry( vCopies, Gia_ObjFaninId0p(p->pGia, pObj) );
             iLit = Gia_ManAppendCo( pNew, Abc_LitNotCond(iLit, Gia_ObjFaninC0(pObj)) );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( Gia_ObjIsBuf(pObj) )
@@ -1881,6 +1916,9 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
             iLit = Vec_IntEntry( vCopies, Gia_ObjFaninId0p(p->pGia, pObj) );
             iLit = Gia_ManAppendBuf( pNew, Abc_LitNotCond(iLit, Gia_ObjFaninC0(pObj)) );
             Vec_IntWriteEntry( vCopies, i, iLit );
+            nNodesEnd = Gia_ManObjNum(pNew);
+            for ( j = nNodesStart; j < nNodesEnd; j++ )
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
             continue;
         }
         if ( !Lf_ObjMapRefNum(p, i) )
@@ -1902,6 +1940,9 @@ Gia_Man_t * Lf_ManDeriveMappingGia( Lf_Man_t * p )
         }
         iLit = Lf_ManDerivePart( p, pNew, vMapping, vMapping2, vCopies, pCut, vLeaves, vCover, pObj );
         Vec_IntWriteEntry( vCopies, i, Abc_LitNotCond(iLit, Abc_LitIsCompl(pCut->iFunc)) );
+        nNodesEnd = Gia_ManObjNum(pNew);
+        for ( j = nNodesStart; j < nNodesEnd; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pGia->pNodeRetention, j, i );
     }
     Vec_IntFree( vCopies );
     Vec_IntFree( vCover );

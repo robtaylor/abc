@@ -150,7 +150,11 @@ Gia_Man_t * Gia_ManDupNormalize( Gia_Man_t * p, int fHashMapping )
     if ( !Gia_ManIsSeqWithBoxes(p) )
     {
         Gia_ManForEachCi( p, pObj, i )
+        {
             pObj->Value = Gia_ManAppendCi(pNew);
+            if (pObj->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
     }
     else
     {
@@ -163,26 +167,44 @@ Gia_Man_t * Gia_ManDupNormalize( Gia_Man_t * p, int fHashMapping )
         assert( nPis > 0 );
         // copy PIs first
         for ( i = 0; i < nPis; i++ )
+        {
             Gia_ManCi(p, i)->Value = Gia_ManAppendCi(pNew);
+            if (Gia_ManCi(p, i)->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(Gia_ManCi(p, i)->Value), Gia_ObjId(p, Gia_ManCi(p, i)) );
+        }
        // copy new CIs second
         for ( i = nCIs; i < nAll; i++ )
+        {
             Gia_ManCi(p, i)->Value = Gia_ManAppendCi(pNew);
+            if (Gia_ManCi(p, i)->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(Gia_ManCi(p, i)->Value), Gia_ObjId(p, Gia_ManCi(p, i)) );
+        }
         // copy flops last
         for ( i = nCIs - Gia_ManRegNum(p); i < nCIs; i++ )
+        {
             Gia_ManCi(p, i)->Value = Gia_ManAppendCi(pNew);
+            if (Gia_ManCi(p, i)->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(Gia_ManCi(p, i)->Value), Gia_ObjId(p, Gia_ManCi(p, i)) );
+        }
         printf( "Warning: Shuffled CI order to be correct sequential AIG.\n" );
     }
     if ( fHashMapping ) Gia_ManHashAlloc( pNew );
-    Gia_ManForEachAnd( p, pObj, i )
+    Gia_ManForEachAnd( p, pObj, i ) {
         if ( Gia_ObjIsBuf(pObj) )
             pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) );
         else if ( fHashMapping )
             pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
         else
             pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     if ( fHashMapping ) Gia_ManHashStop( pNew );
-    Gia_ManForEachCo( p, pObj, i )
+    Gia_ManForEachCo( p, pObj, i ) {
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     pNew->nConstrs = p->nConstrs;
     assert( Gia_ManIsNormalized(pNew) );

@@ -1,0 +1,8 @@
+# Test basic &get/&put roundtrip preserves node retention
+r i10.aig
+b
+ps
+&get -n
+&put
+ps
+write_blif node_ret/get_and_put_output.blif

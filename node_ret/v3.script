@@ -1,0 +1,9 @@
+# Test synthesis pipeline preserves node retention
+r i10.aig
+b
+&get -n
+&st
+&if -K 4
+&put
+ps
+write_blif node_ret/v3.blif

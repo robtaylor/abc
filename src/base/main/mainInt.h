@@ -59,6 +59,7 @@ typedef void (*Abc_Frame_Callback_BmcFrameDone_Func)(int frame, int po, int stat
 
 struct Abc_Frame_t_
 {
+    Vec_Ptr_t *     vNodeRetention; // global map from node ID to name (char*)
     // general info
     char *          sVersion;      // the name of the current version
     char *          sBinary;       // the name of the binary running

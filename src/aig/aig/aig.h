@@ -33,6 +33,7 @@
 
 #include "misc/vec/vec.h"
 #include "misc/util/utilCex.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -93,6 +94,7 @@ struct Aig_Obj_t_  // 8 words
 // the AIG manager
 struct Aig_Man_t_
 {
+    Nr_Man_t *      pNodeRetention; // node retention manager
     char *           pName;          // the design name
     char *           pSpec;          // the input file name
     // AIG nodes

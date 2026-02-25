@@ -40,6 +40,7 @@
 #include "misc/mem/mem.h"
 #include "misc/util/utilCex.h"
 #include "misc/extra/extra.h"
+#include "base/abc/node_retention.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///                         PARAMETERS                               ///
@@ -152,6 +153,7 @@ struct Abc_Obj_t_     // 48/72 bytes (32-bits/64-bits)
 
 struct Abc_Ntk_t_ 
 {
+    Nr_Man_t *        pNodeRetention; // node retention manager
     // general information 
     Abc_NtkType_t     ntkType;       // type of the network
     Abc_NtkFunc_t     ntkFunc;       // functionality of the network

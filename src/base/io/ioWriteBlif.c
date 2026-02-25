@@ -20,6 +20,8 @@
 
 #include "ioAbc.h"
 #include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "map/mio/mio.h"
 #include "bool/kit/kit.h"
 #include "map/if/if.h"
@@ -142,6 +144,9 @@ void Io_NtkWrite( FILE * pFile, Abc_Ntk_t * pNtk, int fWriteLatches, int fBb2Wb,
     }
     // finalize the file
     fprintf( pFile, ".end\n" );
+    
+    // print node retention map for nets
+    Nr_ManPrintRetentionMap( pFile, pNtk, pNtk->pNodeRetention );
 }
 
 /**Function*************************************************************

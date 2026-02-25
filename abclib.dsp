@@ -171,6 +171,14 @@ SOURCE=.\src\base\abc\abcNtk.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\base\abc\node_retention.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\base\abc\node_retention.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\base\abc\abcObj.c
 # End Source File
 # Begin Source File

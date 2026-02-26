@@ -52,11 +52,14 @@ static inline int create_buffer(Wlc_Ntk_t * p, Wlc_Obj_t * pObj, Vec_Int_t * vFa
 Gia_Man_t * BitBlast(Wlc_Ntk_t * pNtk) {
     Wlc_BstPar_t Par, * pPar = &Par;
     Wlc_BstParDefault( pPar );
-    return Wlc_NtkBitBlast(pNtk, pPar);
-    //Gia_Man_t * pGia = Wlc_NtkBitBlast2(pNtk, NULL);
-    //printf( "Usingn old bit-blaster: " );
-    //Gia_ManPrintStats( pGia, NULL );
-    //return pGia;
+    Gia_Man_t * pGia = Wlc_NtkBitBlast(pNtk, pPar);
+    if ( pGia == NULL )
+        return NULL;
+    if ( pGia->pName == NULL )
+        pGia->pName = Abc_UtilStrsav( pNtk->pName ? pNtk->pName : pNtk->pSpec );
+    if ( pGia->pSpec == NULL )
+        pGia->pSpec = Abc_UtilStrsav( pNtk->pName ? pNtk->pName : pNtk->pSpec );
+    return pGia;
 }
 
 template<typename Functor>
@@ -1119,7 +1122,8 @@ Wlc_Ntk_t * CreateMiter(Wlc_Ntk_t *pNtk, bool fXor)
     assert(Wlc_NtkPoNum(pNtk) == 2);
 
     Wlc_Ntk_t *pNew = Wlc_NtkDupDfsSimple(pNtk);
-    Wlc_NtkTransferNames( pNew, pNtk );
+    if ( !Wlc_NtkHasNameId(pNew) && Wlc_NtkHasNameId(pNtk) )
+        Wlc_NtkTransferNames( pNew, pNtk );
 
     Wlc_Obj_t *pOldPo0 = Wlc_NtkPo(pNew, 0);
     Wlc_Obj_t *pOldPo1 = Wlc_NtkPo(pNew, 1);
@@ -1145,7 +1149,8 @@ Wlc_Ntk_t * CreateMiter(Wlc_Ntk_t *pNtk, bool fXor)
     Wlc_NtkObj(pNew, iOldPo1)->fIsPo = 0;
 
     Wlc_Ntk_t *pNewNew = Wlc_NtkDupDfsSimple(pNew);
-    Wlc_NtkTransferNames( pNewNew, pNew );
+    if ( !Wlc_NtkHasNameId(pNewNew) && Wlc_NtkHasNameId(pNew) )
+        Wlc_NtkTransferNames( pNewNew, pNew );
     Wlc_NtkFree(pNew);
     return pNewNew;
 }
@@ -1245,9 +1250,11 @@ static void readCexFromFile(int& ret, FILE * file, Abc_Cex_t ** ppCex, int nOrig
     }
 }
 
-int verify_model(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileName, const string* pParSetting, bool fSyn, struct timespec * timeout) {
+int verify_model(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileName, const string* pParSetting, bool fSyn, struct timespec * timeout, int (*pFuncStop)(int), int RunId) {
+    if ( pFuncStop && pFuncStop(RunId) )
+        return -1;
     if ( !pParSetting || pParSetting->empty() || Wlc_NtkFfNum(pNtk) == 0 )
-        return bit_level_solve( pNtk, ppCex, pFileName, pParSetting, fSyn );
+        return bit_level_solve( pNtk, ppCex, pFileName, pParSetting, fSyn, pFuncStop, RunId );
     
     if(*ppCex) {
         Abc_CexFree(*ppCex);
@@ -1262,11 +1269,15 @@ int verify_model(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileName, 
 
     ret = RunConcurrentSolver( pNtk, parSolvers, ppCex, timeout );
 
+    if ( pFuncStop && pFuncStop(RunId) )
+        return -1;
     return ret;
 }
 
 
-int bit_level_solve(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileName, const string* pParSetting, bool fSyn) {
+int bit_level_solve(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileName, const string* pParSetting, bool fSyn, int (*pFuncStop)(int), int RunId) {
+    if ( pFuncStop && pFuncStop(RunId) )
+        return -1;
     if(*ppCex) {
         Abc_CexFree(*ppCex);
         *ppCex = NULL;
@@ -1284,7 +1295,15 @@ int bit_level_solve(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileNam
     }
 
     Aig_Man_t * pAig = Gia_ManToAig(pGia, 0);
+    if ( pAig->pName == NULL )
+        pAig->pName = Abc_UtilStrsav( pGia->pName ? pGia->pName : pGia->pSpec );
+    if ( pAig->pSpec == NULL )
+        pAig->pSpec = Abc_UtilStrsav( pGia->pName ? pGia->pName : pGia->pSpec );
     Abc_Ntk_t * pAbcNtk = Abc_NtkFromAigPhase(pAig);
+    if ( pAbcNtk->pName == NULL )
+        pAbcNtk->pName = Abc_UtilStrsav( pAig->pName ? pAig->pName : pAig->pSpec );
+    if ( pAbcNtk->pSpec == NULL )
+        pAbcNtk->pSpec = Abc_UtilStrsav( pAig->pName ? pAig->pName : pAig->pSpec );
 
     if (pFileName && !pFileName->empty())
         Gia_AigerWriteSimple(pGia, &((*pFileName + ".aig")[0u]));
@@ -1303,6 +1322,8 @@ int bit_level_solve(Wlc_Ntk_t * pNtk, Abc_Cex_t ** ppCex, const string* pFileNam
             Pdr_Par_t PdrPars, *pPdrPars = &PdrPars;
             Pdr_ManSetDefaultParams(pPdrPars);
             pPdrPars->nConfLimit = 0;
+            pPdrPars->RunId = RunId;
+            pPdrPars->pFuncStop = pFuncStop;
             //pPdrPars->fDumpInv = 1;
             Abc_FrameReadGlobalFrame()->pNtkCur = pAbcNtk;
             int res = Abc_NtkDarPdr(pAbcNtk, pPdrPars);

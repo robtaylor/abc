@@ -819,8 +819,8 @@ void CexUifPairFinder::ComputeCoreUifPairs(const set<UIF_PAIR>& set_candidates, 
 }
 
 void CexUifPairFinder::FindUifPairsBasic(const VecVecChar& cex_po_values, unsigned nLookBack, set<UIF_PAIR>& set_new_pairs) {
-    assert(Wlc_NtkPoNum(_pOrigNtk) == 1);
-    assert(Wlc_ObjRange(Wlc_NtkPo(_pOrigNtk, 0)) == 1);
+    if ( Wlc_NtkPoNum(_pOrigNtk) != 1 || Wlc_ObjRange(Wlc_NtkPo(_pOrigNtk, 0)) != 1 )
+        return;
 
     _inputs.clear();
     _outputs.clear();
@@ -879,8 +879,8 @@ void CexUifPairFinder::FindUifPairsBasic(const VecVecChar& cex_po_values, unsign
 }
 
 void CexUifPairFinder::FindUifPairs(const VecVecChar& cex_po_values, unsigned nLookBack, set<UIF_PAIR>& set_new_pairs) {
-    assert(Wlc_NtkPoNum(_pOrigNtk) == 1);
-    assert(Wlc_ObjRange(Wlc_NtkPo(_pOrigNtk, 0)) == 1);
+    if ( Wlc_NtkPoNum(_pOrigNtk) != 1 || Wlc_ObjRange(Wlc_NtkPo(_pOrigNtk, 0)) != 1 )
+        return;
 
     _compute_max_bw();
 
@@ -931,7 +931,14 @@ void CexUifPairFinder::FindUifPairs(const VecVecChar& cex_po_values, unsigned nL
 
 }
 
+static inline int Ufar_ShouldStop( const UfarManager::Params & p )
+{
+    return p.pFuncStop && p.pFuncStop( p.RunId );
+}
+
 UfarManager::Params::Params() :
+                RunId(-1),
+                pFuncStop(NULL),
                 fCexMin(true),
                 fPbaUif(false),
                 fLazySim(true),
@@ -974,6 +981,10 @@ void UfarManager::Initialize(Wlc_Ntk_t * pNtk, const set<unsigned>& types) {
     profile = Profile();
 
     _pOrigNtk = Wlc_NtkDupDfsSimple(pNtk);
+    if ( _pOrigNtk->pName == NULL )
+        _pOrigNtk->pName = Abc_UtilStrsav( pNtk->pName ? pNtk->pName : pNtk->pSpec );
+    if ( _pOrigNtk->pSpec == NULL )
+        _pOrigNtk->pSpec = Abc_UtilStrsav( pNtk->pName ? pNtk->pName : pNtk->pSpec );
 
     Wlc_Obj_t * pObj;
     int i;
@@ -1075,6 +1086,16 @@ Wlc_Ntk_t * UfarManager::BuildCurrentAbstraction() {
 
     pNew = RemoveAuxPOs(pTemp = pNew, Wlc_NtkPoNum(_pOrigNtk));
     Wlc_NtkFree(pTemp);
+
+    // Preserve benchmark identity through abstraction refinements so
+    // downstream bit-level engines report a meaningful miter name.
+    if ( _pOrigNtk )
+    {
+        ABC_FREE( pNew->pName );
+        ABC_FREE( pNew->pSpec );
+        pNew->pName = Abc_UtilStrsav( _pOrigNtk->pName ? _pOrigNtk->pName : _pOrigNtk->pSpec );
+        pNew->pSpec = Abc_UtilStrsav( _pOrigNtk->pName ? _pOrigNtk->pName : _pOrigNtk->pSpec );
+    }
 
     // Wlc_WriteVer(pNew, "Abs.v", 0, 0);
 
@@ -1359,8 +1380,14 @@ void UfarManager::DetermineWhiteBoxes(Abc_Cex_t * pCex) {
 int UfarManager::VerifyCurrentAbstraction(Abc_Cex_t ** ppCex) {
     timeval t1, t2;
     gettimeofday(&t1, NULL);
+    if ( Ufar_ShouldStop(params) )
+        return -1;
 
     Wlc_Ntk_t * pCurrent = BuildCurrentAbstraction();
+    if ( Ufar_ShouldStop(params) ) {
+        Wlc_NtkFree(pCurrent);
+        return -1;
+    }
     if(!params.fileAbs.empty())
         Wlc_WriteVer(pCurrent, &((params.fileAbs + "_abs.v")[0u]), 0, 0);
 
@@ -1376,7 +1403,7 @@ int UfarManager::VerifyCurrentAbstraction(Abc_Cex_t ** ppCex) {
         }
     }
     */
-    ret = verify_model(pCurrent, ppCex, &params.fileName, &params.parSetting, params.fSyn, &_timeout);
+    ret = verify_model(pCurrent, ppCex, &params.fileName, &params.parSetting, params.fSyn, &_timeout, params.pFuncStop, params.RunId);
     Wlc_NtkFree(pCurrent);
 
     gettimeofday(&t2, NULL);
@@ -1428,6 +1455,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
         if(!params.fileStatesOut.empty()) _dump_states(params.fileStatesOut);
     };
 
+    if ( Ufar_ShouldStop(params) )
+        return -1;
     if (!params.fileStatesIn.empty()) {
         _read_states(params.fileStatesIn);
         if (params.iExp != -1) _massage_state_b();
@@ -1435,6 +1464,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
     }
 
     if (!params.fLazySim && !params.simSetting.empty()) {
+        if ( Ufar_ShouldStop(params) )
+            return -1;
         unsigned origSize = _set_uif_pairs.size();
         LOG(1) << "Try using simulation to find UIF pairs";
         _simulate();
@@ -1450,6 +1481,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
 
     while(true) {
         while(true) {
+            if ( Ufar_ShouldStop(params) )
+                return -1;
             if (params.fPbaCex && mem.pCex2) {
                 if(mem.pCex) Abc_CexFree(mem.pCex);
                 mem.pCex = mem.pCex2;
@@ -1462,6 +1495,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
             }
 
             if (ret ==  0) { // SAT
+                if ( Ufar_ShouldStop(params) )
+                    return -1;
                 // GetOperatorsInCex(mem.pCex);
                 if (verify_cex_on_original(_pOrigNtk, mem.pCex)) {
                     PrintWordCEX(_pOrigNtk, mem.pCex, &_vec_orig_names);
@@ -1470,11 +1505,15 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
                 unsigned n_before = _set_uif_pairs.size();
 
                 FindUifPairsUsingCex(mem.pCex, &mem.pCex2);
+                if ( Ufar_ShouldStop(params) )
+                    return -1;
 
                 if (n_before == _set_uif_pairs.size()) {
                     LOG(1) << "No new UIF pair is found in CEX";
 
                     if(!params.simSetting.empty()) {
+                        if ( Ufar_ShouldStop(params) )
+                            return -1;
                         LOG(1) << "Try using simulation to find UIF pairs";
                         _simulate();
                         FindUifPairsUsingSim();
@@ -1485,6 +1524,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
                     }
 
                     if (params.nGrey) {
+                        if ( Ufar_ShouldStop(params) )
+                            return -1;
                         DetermineGreyness(mem.pCex);
                     }
 
@@ -1509,6 +1550,8 @@ int UfarManager::PerformUIFProve(const timeval& timer) {
             }
         }
 
+        if ( Ufar_ShouldStop(params) )
+            return -1;
         DetermineWhiteBoxes(mem.pCex);
 
         ++n_iter_wb;

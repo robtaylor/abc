@@ -939,15 +939,21 @@ Gia_Man_t * Gia_AigerReadFromMemory( char * pContents, int nFileSize, int fGiaSi
                     else if ( fVerbose ) printf( "Finished reading extension \"y\".\n" );
                 }
                 else {
-                    if ( fVerbose ) printf( "Cannot read extension \"y\" because AIG is rehashed. Use \"&r -s <file.aig>\".\n" );
+                    if ( fVerbose ) printf( "Skipped extension \"y\" for vEquLitIds (AIG is rehashed).\n" );
                 }
-                // also populate vOrigins (converting literals to object IDs)
-                if ( nInts == Gia_ManObjNum(pNew) ) {
+                // populate vOrigins using vNodes to map AIG→GIA object indices
+                if ( nInts == Vec_IntSize(vNodes) ) {
                     int k;
                     int * pData = (int *)pCur;
-                    pNew->vOrigins = Vec_IntStart( nInts );
+                    pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
                     for ( k = 0; k < nInts; k++ )
-                        Vec_IntWriteEntry( pNew->vOrigins, k, Abc_Lit2Var(pData[k]) );
+                    {
+                        int giaLit = Vec_IntEntry( vNodes, k );
+                        int giaObj = Abc_Lit2Var( giaLit );
+                        int origObj = Abc_Lit2Var( pData[k] );
+                        if ( giaObj < Gia_ManObjNum(pNew) )
+                            Vec_IntWriteEntry( pNew->vOrigins, giaObj, origObj );
+                    }
                 }
                 pCur += 4*nInts;
             }

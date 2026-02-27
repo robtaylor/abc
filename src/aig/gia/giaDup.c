@@ -194,10 +194,40 @@ int Gia_ManDupOrderDfs_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 
 /**Function*************************************************************
 
+  Synopsis    [Propagates origin mapping from old to new manager.]
+
+  Description [Uses Value field of old objects to find corresponding new objects.]
+
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Gia_ManOriginsDup( Gia_Man_t * pNew, Gia_Man_t * pOld )
+{
+    Gia_Obj_t * pObj;
+    int i;
+    if ( !pOld->vOrigins )
+        return;
+    pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
+    Gia_ManForEachObj( pOld, pObj, i )
+    {
+        if ( (int)Gia_ObjValue(pObj) != -1 )
+        {
+            int iNew = Abc_Lit2Var( Gia_ObjValue(pObj) );
+            if ( iNew < Gia_ManObjNum(pNew) )
+                Vec_IntWriteEntry( pNew->vOrigins, iNew,
+                    Vec_IntEntry(pOld->vOrigins, i) );
+        }
+    }
+}
+
+/**Function*************************************************************
+
   Synopsis    [Duplicates AIG while putting objects in the DFS order.]
 
   Description []
-               
+
   SideEffects []
 
   SeeAlso     []
@@ -220,6 +250,7 @@ Gia_Man_t * Gia_ManDupOrderDfs( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCi(pNew);
     assert( Gia_ManCiNum(pNew) == Gia_ManCiNum(p) );
     Gia_ManDupRemapCis( pNew, p );
+    Gia_ManOriginsDup( pNew, p );
     Gia_ManDupRemapEquiv( pNew, p );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     return pNew;
@@ -544,6 +575,7 @@ Gia_Man_t * Gia_ManDupOrderAiger( Gia_Man_t * p )
         pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
     Gia_ManForEachCo( p, pObj, i )
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+    Gia_ManOriginsDup( pNew, p );
     Gia_ManDupRemapEquiv( pNew, p );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     assert( Gia_ManIsNormalized(pNew) );
@@ -777,6 +809,7 @@ Gia_Man_t * Gia_ManDup( Gia_Man_t * p )
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
     }
+    Gia_ManOriginsDup( pNew, p );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     if ( p->pCexSeq )
         pNew->pCexSeq = Abc_CexDup( p->pCexSeq, Gia_ManRegNum(p) );
@@ -1574,6 +1607,7 @@ Gia_Man_t * Gia_ManDupMarked( Gia_Man_t * p )
             pNew->pSibls[Abc_Lit2Var(pObj->Value)] = Abc_Lit2Var(pSibl->Value);
         }
     }
+    Gia_ManOriginsDup( pNew, p );
     return pNew;
 }
 
@@ -3889,6 +3923,8 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
             Gia_ManChoiceMiter_rec( pNew, pGia, Gia_ManCo( pGia, k ) );
     }
     Gia_ManHashStop( pNew );
+    // propagate origins from the first (primary) AIG
+    Gia_ManOriginsDup( pNew, pGia0 );
     // check the presence of dangling nodes
     nNodes = Gia_ManHasDangling( pNew );
     //assert( nNodes == 0 );

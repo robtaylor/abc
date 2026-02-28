@@ -224,6 +224,69 @@ void Gia_ManOriginsDup( Gia_Man_t * pNew, Gia_Man_t * pOld )
 
 /**Function*************************************************************
 
+  Synopsis    [Restores origins after GIA->AIG->GIA round-trip.]
+
+  Description [CIs are mapped 1:1 in order. AND node origins are
+  propagated bottom-up from parents using a heuristic: inherit the
+  parent origin with the lower valid ID.]
+
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Gia_ManOriginsAfterRoundTrip( Gia_Man_t * pNew, Gia_Man_t * pOld )
+{
+    Gia_Obj_t * pObj;
+    int i;
+    if ( !pOld->vOrigins )
+        return;
+    assert( Gia_ManCiNum(pNew) == Gia_ManCiNum(pOld) );
+    assert( Gia_ManCoNum(pNew) == Gia_ManCoNum(pOld) );
+    pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
+    // const0
+    if ( Vec_IntSize(pOld->vOrigins) > 0 )
+        Vec_IntWriteEntry( pNew->vOrigins, 0, Vec_IntEntry(pOld->vOrigins, 0) );
+    // CIs map 1:1 in order
+    Gia_ManForEachCi( pNew, pObj, i )
+    {
+        int iNewObj = Gia_ObjId( pNew, pObj );
+        int iOldCi  = Gia_ObjId( pOld, Gia_ManCi(pOld, i) );
+        Vec_IntWriteEntry( pNew->vOrigins, iNewObj,
+            Vec_IntEntry(pOld->vOrigins, iOldCi) );
+    }
+    // CO drivers map 1:1 (output correspondence preserved through optimization)
+    Gia_ManForEachCo( pNew, pObj, i )
+    {
+        int iNewDriver = Gia_ObjFaninId0p( pNew, pObj );
+        Gia_Obj_t * pOldCo = Gia_ManCo( pOld, i );
+        int iOldDriver = Gia_ObjFaninId0p( pOld, pOldCo );
+        if ( iNewDriver > 0 && Vec_IntEntry(pNew->vOrigins, iNewDriver) == -1 )
+            Vec_IntWriteEntry( pNew->vOrigins, iNewDriver,
+                Vec_IntEntry(pOld->vOrigins, iOldDriver) );
+    }
+    // Top-down propagation: spread CO driver origins backward through fanin cones
+    // Walk AND nodes in reverse topological order (high to low ID)
+    for ( i = Gia_ManObjNum(pNew) - 1; i > 0; i-- )
+    {
+        int f0, f1, orig;
+        pObj = Gia_ManObj( pNew, i );
+        if ( !Gia_ObjIsAnd(pObj) )
+            continue;
+        orig = Vec_IntEntry( pNew->vOrigins, i );
+        if ( orig < 0 )
+            continue;
+        f0 = Gia_ObjFaninId0(pObj, i);
+        f1 = Gia_ObjFaninId1(pObj, i);
+        if ( f0 > 0 && Vec_IntEntry(pNew->vOrigins, f0) == -1 )
+            Vec_IntWriteEntry( pNew->vOrigins, f0, orig );
+        if ( f1 > 0 && Vec_IntEntry(pNew->vOrigins, f1) == -1 )
+            Vec_IntWriteEntry( pNew->vOrigins, f1, orig );
+    }
+}
+
+/**Function*************************************************************
+
   Synopsis    [Duplicates AIG while putting objects in the DFS order.]
 
   Description []

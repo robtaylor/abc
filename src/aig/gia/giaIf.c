@@ -3035,15 +3035,14 @@ Gia_Man_t * Gia_ManPerformMappingInt( Gia_Man_t * p, If_Par_t * pPars )
     if ( p->vOrigins )
     {
         If_Obj_t * pIfObj = NULL;
-        pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
+        pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
         If_ManForEachObj( pIfMan, pIfObj, i )
         {
-            if ( i < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
+            if ( i * GIA_ORIGINS_STRIDE < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
             {
                 int iNewObj = Abc_Lit2Var( pIfObj->iCopy );
                 if ( iNewObj < Gia_ManObjNum(pNew) )
-                    Vec_IntWriteEntry( pNew->vOrigins, iNewObj,
-                        Vec_IntEntry(p->vOrigins, i) );
+                    Gia_ObjUnionOrigins( pNew, iNewObj, p, i );
             }
         }
     }
@@ -3147,15 +3146,14 @@ Gia_Man_t * Gia_ManPerformSopBalance( Gia_Man_t * p, int nCutNum, int nRelaxRati
     {
         If_Obj_t * pIfObj = NULL;
         int j;
-        pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
+        pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
         If_ManForEachObj( pIfMan, pIfObj, j )
         {
-            if ( j < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
+            if ( j * GIA_ORIGINS_STRIDE < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
             {
                 int iNewObj = Abc_Lit2Var( pIfObj->iCopy );
                 if ( iNewObj < Gia_ManObjNum(pNew) )
-                    Vec_IntWriteEntry( pNew->vOrigins, iNewObj,
-                        Vec_IntEntry(p->vOrigins, j) );
+                    Gia_ObjUnionOrigins( pNew, iNewObj, p, j );
             }
         }
     }
@@ -3197,15 +3195,14 @@ Gia_Man_t * Gia_ManPerformDsdBalance( Gia_Man_t * p, int nLutSize, int nCutNum, 
     {
         If_Obj_t * pIfObj = NULL;
         int j;
-        pNew->vOrigins = Vec_IntStartFull( Gia_ManObjNum(pNew) );
+        pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
         If_ManForEachObj( pIfMan, pIfObj, j )
         {
-            if ( j < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
+            if ( j * GIA_ORIGINS_STRIDE < Vec_IntSize(p->vOrigins) && pIfObj->iCopy >= 0 )
             {
                 int iNewObj = Abc_Lit2Var( pIfObj->iCopy );
                 if ( iNewObj < Gia_ManObjNum(pNew) )
-                    Vec_IntWriteEntry( pNew->vOrigins, iNewObj,
-                        Vec_IntEntry(p->vOrigins, j) );
+                    Gia_ObjUnionOrigins( pNew, iNewObj, p, j );
             }
         }
     }

@@ -950,25 +950,12 @@ Gia_Man_t * Gia_AigerReadFromMemory( char * pContents, int nFileSize, int fGiaSi
                     if ( fVerbose ) printf( "Skipped extension \"y\" for vEquLitIds (AIG is rehashed).\n" );
                 }
                 // populate vOrigins using vNodes to map AIG→GIA object indices
-                if ( nInts == Vec_IntSize(vNodes) ) {
-                    // old single-origin format: one literal per AIG object
-                    int k;
-                    int * pData = (int *)pCur;
-                    pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
-                    for ( k = 0; k < nInts; k++ )
-                    {
-                        int giaLit = Vec_IntEntry( vNodes, k );
-                        int giaObj = Abc_Lit2Var( giaLit );
-                        int rawLit = pData[k];
-                        if ( rawLit >= 0 && giaObj < Gia_ManObjNum(pNew) )
-                            Gia_ObjSetOrigin( pNew, giaObj, Abc_Lit2Var(rawLit) );
-                    }
-                }
-                else if ( nInts > Vec_IntSize(vNodes) ) {
-                    // new multi-origin format: [count, lit0, lit1, ...] per AIG object
+                // sentinel -2 at pData[0] distinguishes new format from old
+                if ( vNodes && nInts >= 1 && ((int *)pCur)[0] == -2 ) {
+                    // new multi-origin format: sentinel, then [count, lit0, lit1, ...] per AIG object
                     int k, nAigObjs = Vec_IntSize(vNodes);
                     int * pData = (int *)pCur;
-                    int pos = 0;
+                    int pos = 1; // skip sentinel
                     pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
                     for ( k = 0; k < nAigObjs && pos < nInts; k++ )
                     {
@@ -984,6 +971,20 @@ Gia_Man_t * Gia_AigerReadFromMemory( char * pContents, int nFileSize, int fGiaSi
                         }
                     }
                     if ( fVerbose ) printf( "Finished reading extension \"y\" (multi-origin).\n" );
+                }
+                else if ( vNodes && nInts == Vec_IntSize(vNodes) ) {
+                    // old single-origin format: one literal per AIG object
+                    int k;
+                    int * pData = (int *)pCur;
+                    pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
+                    for ( k = 0; k < nInts; k++ )
+                    {
+                        int giaLit = Vec_IntEntry( vNodes, k );
+                        int giaObj = Abc_Lit2Var( giaLit );
+                        int rawLit = pData[k];
+                        if ( rawLit >= 0 && giaObj < Gia_ManObjNum(pNew) )
+                            Gia_ObjSetOrigin( pNew, giaObj, Abc_Lit2Var(rawLit) );
+                    }
                 }
                 pCur += 4*nInts;
             }
@@ -1873,12 +1874,13 @@ void Gia_AigerWriteS( Gia_Man_t * pInit, char * pFileName, int fWriteSymbols, in
         fwrite( Vec_IntArray(p->vObjClasses), 1, 4*Gia_ManObjNum(p), pFile );
     }
     // write object origins (vOrigins takes priority over vEquLitIds)
-    // New variable-length format: for each object [count, lit0, lit1, ...]
+    // New variable-length format: sentinel -2, then for each object [count, lit0, lit1, ...]
     if ( p->vOrigins )
     {
         int k, nObjs = Gia_ManObjNum(p);
-        Vec_Int_t * vData = Vec_IntAlloc( nObjs * 2 );
+        Vec_Int_t * vData = Vec_IntAlloc( 1 + nObjs * 2 );
         assert( Vec_IntSize(p->vOrigins) >= nObjs * GIA_ORIGINS_STRIDE );
+        Vec_IntPush( vData, -2 ); // sentinel distinguishes new format from old
         for ( k = 0; k < nObjs; k++ )
         {
             int nOrig = Gia_ObjOriginsNum( p, k );

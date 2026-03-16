@@ -543,9 +543,7 @@ static inline void Gia_ObjSetOrigin( Gia_Man_t * p, int iObj, int iOrig )
 // Grow vOrigins to accommodate object iObj
 static inline void Gia_ManOriginsGrow( Gia_Man_t * p, int iObj )
 {
-    int needed = (iObj + 1) * GIA_ORIGINS_STRIDE;
-    while ( Vec_IntSize(p->vOrigins) < needed )
-        Vec_IntPush( p->vOrigins, -1 );
+    Vec_IntFillExtra( p->vOrigins, (iObj + 1) * GIA_ORIGINS_STRIDE, -1 );
 }
 // Allocate vOrigins for nObjs objects (all entries initialized to -1)
 static inline Vec_Int_t * Gia_ManOriginsAlloc( int nObjs )
@@ -1449,6 +1447,7 @@ extern void                Gia_ManOriginsFreeOverflows( Gia_Man_t * p );
 extern void                Gia_ManOriginsDup( Gia_Man_t * pNew, Gia_Man_t * pOld );
 extern void                Gia_ManOriginsDupVec( Gia_Man_t * pNew, Gia_Man_t * pOld, Vec_Int_t * vCopies );
 extern void                Gia_ManOriginsAfterRoundTrip( Gia_Man_t * pNew, Gia_Man_t * pOld );
+extern void                Gia_ManOriginsDupIf( Gia_Man_t * pNew, Gia_Man_t * p, void * pIfMan );
 extern Gia_Man_t *         Gia_ManDupOrderAiger( Gia_Man_t * p );
 extern Gia_Man_t *         Gia_ManDupLastPis( Gia_Man_t * p, int nLastPis );
 extern Gia_Man_t *         Gia_ManDupFlip( Gia_Man_t * p, int * pInitState );

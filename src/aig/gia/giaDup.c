@@ -260,7 +260,7 @@ void Gia_ObjAddOrigin( Gia_Man_t * p, int iObj, int iOrig )
 ***********************************************************************/
 void Gia_ObjUnionOrigins( Gia_Man_t * p, int iDst, Gia_Man_t * pSrc, int iSrc )
 {
-    int idx, orig;
+    int idx, orig, _nOrig;
     Gia_ObjForEachOrigin( pSrc, iSrc, orig, idx )
         Gia_ObjAddOrigin( p, iDst, orig );
 }
@@ -293,6 +293,25 @@ void Gia_ManOriginsFreeOverflows( Gia_Man_t * p )
 
 /**Function*************************************************************
 
+  Synopsis    [Frees existing vOrigins (overflows + vec).]
+
+  Description [Used before reallocation to prevent leaks.]
+
+  SideEffects []
+
+  SeeAlso     []
+
+***********************************************************************/
+void Gia_ManOriginsReset( Gia_Man_t * p )
+{
+    if ( !p->vOrigins )
+        return;
+    Gia_ManOriginsFreeOverflows( p );
+    Vec_IntFreeP( &p->vOrigins );
+}
+
+/**Function*************************************************************
+
   Synopsis    [Propagates origin mapping from old to new manager.]
 
   Description [Uses Value field of old objects to find corresponding
@@ -309,11 +328,7 @@ void Gia_ManOriginsDup( Gia_Man_t * pNew, Gia_Man_t * pOld )
     int i;
     if ( !pOld->vOrigins )
         return;
-    if ( pNew->vOrigins )
-    {
-        Gia_ManOriginsFreeOverflows( pNew );
-        Vec_IntFreeP( &pNew->vOrigins );
-    }
+    Gia_ManOriginsReset( pNew );
     pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
     Gia_ManForEachObj( pOld, pObj, i )
     {
@@ -344,11 +359,7 @@ void Gia_ManOriginsDupVec( Gia_Man_t * pNew, Gia_Man_t * pOld, Vec_Int_t * vCopi
     int i, iLit;
     if ( !pOld->vOrigins )
         return;
-    if ( pNew->vOrigins )
-    {
-        Gia_ManOriginsFreeOverflows( pNew );
-        Vec_IntFreeP( &pNew->vOrigins );
-    }
+    Gia_ManOriginsReset( pNew );
     pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
     Vec_IntForEachEntry( vCopies, iLit, i )
     {
@@ -383,11 +394,7 @@ void Gia_ManOriginsAfterRoundTrip( Gia_Man_t * pNew, Gia_Man_t * pOld )
         return;
     assert( Gia_ManCiNum(pNew) == Gia_ManCiNum(pOld) );
     assert( Gia_ManCoNum(pNew) == Gia_ManCoNum(pOld) );
-    if ( pNew->vOrigins )
-    {
-        Gia_ManOriginsFreeOverflows( pNew );
-        Vec_IntFreeP( &pNew->vOrigins );
-    }
+    Gia_ManOriginsReset( pNew );
     pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
     // const0
     Gia_ObjUnionOrigins( pNew, 0, pOld, 0 );
@@ -444,11 +451,7 @@ void Gia_ManOriginsDupIf( Gia_Man_t * pNew, Gia_Man_t * p, void * pIfManVoid )
     int i;
     if ( !p->vOrigins )
         return;
-    if ( pNew->vOrigins )
-    {
-        Gia_ManOriginsFreeOverflows( pNew );
-        Vec_IntFreeP( &pNew->vOrigins );
-    }
+    Gia_ManOriginsReset( pNew );
     pNew->vOrigins = Gia_ManOriginsAlloc( Gia_ManObjNum(pNew) );
     If_ManForEachObj( pIfMan, pIfObj, i )
     {
@@ -1105,11 +1108,7 @@ Gia_Man_t * Gia_ManDupWithAttributes( Gia_Man_t * p )
     {
         int iObj, nObjs;
         Gia_OriginsEntry_t * eSrc, * eDst;
-        if ( pNew->vOrigins )
-        {
-            Gia_ManOriginsFreeOverflows( pNew );
-            Vec_IntFreeP( &pNew->vOrigins );
-        }
+        Gia_ManOriginsReset( pNew );
         pNew->vOrigins = Vec_IntDup( p->vOrigins );
         nObjs = Vec_IntSize(p->vOrigins) / GIA_ORIGINS_STRIDE;
         for ( iObj = 0; iObj < nObjs; iObj++ )

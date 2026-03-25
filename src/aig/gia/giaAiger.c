@@ -1884,7 +1884,7 @@ void Gia_AigerWriteS( Gia_Man_t * pInit, char * pFileName, int fWriteSymbols, in
         for ( k = 0; k < nObjs; k++ )
         {
             int nOrig = Gia_ObjOriginsNum( p, k );
-            int idx, orig;
+            int idx, orig, _nOrig;
             Vec_IntPush( vData, nOrig );
             Gia_ObjForEachOrigin( p, k, orig, idx )
                 Vec_IntPush( vData, orig >= 0 ? 2 * orig : -1 );

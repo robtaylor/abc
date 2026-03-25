@@ -65,6 +65,11 @@ typedef union {
 #define GIA_ORIGINS_STRIDE   ((int)(sizeof(Gia_OriginsEntry_t) / sizeof(int)))
 #define GIA_ORIGINS_SENTINEL INT_MIN
 
+// Compile-time check: inline slots must cover the overflow header (sentinel+count+pointer)
+typedef char Gia_OriginsEntry_SizeCheck_t[
+    (GIA_ORIGINS_INLINE * sizeof(int) >= sizeof(int) + sizeof(int) + sizeof(int *)) ? 1 : -1
+];
+
 ////////////////////////////////////////////////////////////////////////
 ///                         BASIC TYPES                              ///
 ////////////////////////////////////////////////////////////////////////
@@ -535,7 +540,7 @@ static inline void Gia_ObjSetOrigin( Gia_Man_t * p, int iObj, int iOrig )
         return;
     e = Gia_ObjOriginsEntry( p, iObj );
     if ( Gia_ObjOriginsIsOverflow(e) && e->large.overflow )
-        free( e->large.overflow );
+        ABC_FREE( e->large.overflow );
     e->small.origins[0] = iOrig;
     for ( k = 1; k < GIA_ORIGINS_INLINE; k++ )
         e->small.origins[k] = -1;
@@ -550,10 +555,10 @@ static inline Vec_Int_t * Gia_ManOriginsAlloc( int nObjs )
 {
     return Vec_IntStartFull( nObjs * GIA_ORIGINS_STRIDE );
 }
-// Iteration macro
+// Iteration macro (caller must declare int _nOrig before use, or use nOrig variant)
 #define Gia_ObjForEachOrigin( p, iObj, orig, idx ) \
-    for ( idx = 0; (idx < Gia_ObjOriginsNum(p, iObj)) && \
-         ((orig = Gia_ObjOriginsGet(p, iObj, idx)), 1); idx++ )
+    for ( idx = 0, _nOrig = Gia_ObjOriginsNum(p, iObj); \
+          (idx < _nOrig) && ((orig = Gia_ObjOriginsGet(p, iObj, idx)), 1); idx++ )
 
 static inline Gia_Obj_t *  Gia_Regular( Gia_Obj_t * p )        { return (Gia_Obj_t *)((ABC_PTRUINT_T)(p) & ~01);                           }
 static inline Gia_Obj_t *  Gia_Not( Gia_Obj_t * p )            { return (Gia_Obj_t *)((ABC_PTRUINT_T)(p) ^  01);                           }
@@ -1444,6 +1449,7 @@ extern Gia_Man_t *         Gia_ManDupSelectedOutputs( Gia_Man_t * p, Vec_Int_t *
 extern void                Gia_ObjAddOrigin( Gia_Man_t * p, int iObj, int iOrig );
 extern void                Gia_ObjUnionOrigins( Gia_Man_t * p, int iDst, Gia_Man_t * pSrc, int iSrc );
 extern void                Gia_ManOriginsFreeOverflows( Gia_Man_t * p );
+extern void                Gia_ManOriginsReset( Gia_Man_t * p );
 extern void                Gia_ManOriginsDup( Gia_Man_t * pNew, Gia_Man_t * pOld );
 extern void                Gia_ManOriginsDupVec( Gia_Man_t * pNew, Gia_Man_t * pOld, Vec_Int_t * vCopies );
 extern void                Gia_ManOriginsAfterRoundTrip( Gia_Man_t * pNew, Gia_Man_t * pOld );

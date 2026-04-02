@@ -66,6 +66,7 @@
 #include "base/acb/acbPar.h"
 #include "misc/extra/extra.h"
 #include "opt/eslim/eSLIM.h"
+#include "base/abc/node_retention.h"
 
 
 #ifndef _WIN32
@@ -424,6 +425,7 @@ static int Abc_CommandAbc9ReadStg            ( Abc_Frame_t * pAbc, int argc, cha
 static int Abc_CommandAbc9ReadVer            ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9WriteVer           ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9Write              ( Abc_Frame_t * pAbc, int argc, char ** argv );
+static int Abc_CommandAbc9WriteRetention     ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9WriteLut           ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9Ps                 ( Abc_Frame_t * pAbc, int argc, char ** argv );
 static int Abc_CommandAbc9PFan               ( Abc_Frame_t * pAbc, int argc, char ** argv );
@@ -1266,6 +1268,7 @@ void Abc_Init( Abc_Frame_t * pAbc )
     Cmd_CommandAdd( pAbc, "ABC9",         "&write_ver",    Abc_CommandAbc9WriteVer,     0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&w",            Abc_CommandAbc9Write,        0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&write",        Abc_CommandAbc9Write,        0 );
+    Cmd_CommandAdd( pAbc, "ABC9",         "&write_retention", Abc_CommandAbc9WriteRetention, 0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&wlut",         Abc_CommandAbc9WriteLut,     0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&ps",           Abc_CommandAbc9Ps,           0 );
     Cmd_CommandAdd( pAbc, "ABC9",         "&pfan",         Abc_CommandAbc9PFan,         0 );
@@ -32673,7 +32676,7 @@ int Abc_CommandPdr( Abc_Frame_t * pAbc, int argc, char ** argv )
     int c;
     Pdr_ManSetDefaultParams( pPars );
     Extra_UtilGetoptReset();
-    while ( ( c = Extra_UtilGetopt( argc, argv, "MFCDQTHGSLIaxrmuyfqipdegjonctkvwzhb" ) ) != EOF )
+    while ( ( c = Extra_UtilGetopt( argc, argv, "MFCDQTHGSLIXalxrmuyfqipdegjonctkvwzhb" ) ) != EOF )
     {
         switch ( c )
         {
@@ -32794,8 +32797,20 @@ int Abc_CommandPdr( Abc_Frame_t * pAbc, int argc, char ** argv )
             pPars->pInvFileName = argv[globalUtilOptind];
             globalUtilOptind++;
             break;
+        case 'X':
+            if ( globalUtilOptind >= argc )
+            {
+                Abc_Print( -1, "Command line switch \"-X\" should be followed by a directory name.\n" );
+                goto usage;
+            }
+            pPars->pCexFilePrefix = argv[globalUtilOptind];
+            globalUtilOptind++;
+            break;
         case 'a':
             pPars->fSolveAll ^= 1;
+            break;
+        case 'l':
+            pPars->fAnytime ^= 1;
             break;
         case 'x':
             pPars->fStoreCex ^= 1;
@@ -32904,7 +32919,7 @@ int Abc_CommandPdr( Abc_Frame_t * pAbc, int argc, char ** argv )
     return 0;
 
 usage:
-    Abc_Print( -2, "usage: pdr [-MFCDQTHGS <num>] [-LI <file>] [-axrmuyfqipdegjonctkvwzh]\n" );
+    Abc_Print( -2, "usage: pdr [-MFCDQTHGS <num>] [-LI <file>] [-X <prefix>] [-axrmuyfqipdegjonctkvwzh]\n" );
     Abc_Print( -2, "\t         model checking using property directed reachability (aka IC3)\n" );
     Abc_Print( -2, "\t         pioneered by Aaron R. Bradley (http://theory.stanford.edu/~arbrad/)\n" );
     Abc_Print( -2, "\t         with improvements by Niklas Een (http://een.se/niklas/)\n" );
@@ -32919,7 +32934,9 @@ usage:
     Abc_Print( -2, "\t-S num : * value to seed the SAT solver with [default = %d]\n",                          pPars->nRandomSeed );
     Abc_Print( -2, "\t-L file: the log file name [default = %s]\n",                                          pLogFileName ? pLogFileName : "no logging" );
     Abc_Print( -2, "\t-I file: the invariant file name [default = %s]\n",                                    pPars->pInvFileName ? pPars->pInvFileName : "default name" );
+    Abc_Print( -2, "\t-X pref: when solving all outputs, store CEXes immediately as <pref>*.aiw [default = %s]\n", pPars->pCexFilePrefix ? pPars->pCexFilePrefix : "disabled");
     Abc_Print( -2, "\t-a     : toggle solving all outputs even if one of them is SAT [default = %s]\n",      pPars->fSolveAll? "yes": "no" );
+    Abc_Print( -2, "\t-l     : toggle anytime schedule when solving all outputs [default = %s]\n",           pPars->fAnytime? "yes": "no" );
     Abc_Print( -2, "\t-x     : toggle storing CEXes when solving all outputs [default = %s]\n",              pPars->fStoreCex? "yes": "no" );
     Abc_Print( -2, "\t-r     : toggle using more effort in generalization [default = %s]\n",                 pPars->fTwoRounds? "yes": "no" );
     Abc_Print( -2, "\t-m     : toggle using monolythic CNF computation [default = %s]\n",                    pPars->fMonoCnf? "yes": "no" );
@@ -34119,6 +34136,18 @@ int Abc_CommandAbc9Read( Abc_Frame_t * pAbc, int argc, char ** argv )
             Gia_ManStop( pTemp );
         }
     }
+    // Seed node retention with self-origins for all CI and AND objects.
+    // This establishes the baseline so that subsequent GIA transformations
+    // can track which original nodes contributed to each post-opt node.
+    if ( pAig && pAig->pNodeRetention )
+    {
+        Gia_Obj_t * pObj;
+        int k;
+        Gia_ManForEachCi( pAig, pObj, k )
+            Nr_ManAddOrigin( pAig->pNodeRetention, Gia_ObjId(pAig, pObj), Gia_ObjId(pAig, pObj) );
+        Gia_ManForEachAnd( pAig, pObj, k )
+            Nr_ManAddOrigin( pAig->pNodeRetention, Gia_ObjId(pAig, pObj), Gia_ObjId(pAig, pObj) );
+    }
     if ( pAig )
         Abc_FrameUpdateGia( pAbc, pAig );
     return 0;
@@ -34492,12 +34521,17 @@ int Abc_CommandAbc9Get( Abc_Frame_t * pAbc, int argc, char ** argv )
         }
         else
         {
-            // derive comb GIA
             pStrash = Abc_NtkStrash( pAbc->pNtkCur, 0, 1, 0 );
+
             pAig = Abc_NtkToDar( pStrash, 0, 0 );
+
             Abc_NtkDelete( pStrash );
+            
             pGia = Gia_ManFromAig( pAig );
+
+            
             Aig_ManStop( pAig );
+
             // perform undc/zero
             pInits = Abc_NtkCollectLatchValuesStr( pAbc->pNtkCur );
             pGia = Gia_ManDupZeroUndc( pTemp = pGia, pInits, 0, 0, fVerbose );
@@ -34605,7 +34639,9 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
     if ( fFindEnables )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 1, fUseBuffs );
     else if ( Gia_ManHasCellMapping(pAbc->pGia) )
+    {
         pNtk = Abc_NtkFromCellMappedGia( pAbc->pGia, fUseBuffs );
+    }
     else if ( Gia_ManHasMapping(pAbc->pGia) || pAbc->pGia->pMuxes )
         pNtk = Abc_NtkFromMappedGia( pAbc->pGia, 0, fUseBuffs );
     else if ( Gia_ManHasDangling(pAbc->pGia) == 0 )
@@ -34613,6 +34649,7 @@ int Abc_CommandAbc9Put( Abc_Frame_t * pAbc, int argc, char ** argv )
         pMan = Gia_ManToAig( pAbc->pGia, 0 );
         pNtk = Abc_NtkFromAigPhase( pMan );
         pNtk->pName = Extra_UtilStrsav(pMan->pName);
+        
         Aig_ManStop( pMan );
     }
     else
@@ -35335,6 +35372,82 @@ usage:
     Abc_Print( -2, "\t-n     : toggle writing \'\\n\' after \'c\' in the AIGER file [default = %s]\n", fWriteNewLine? "yes": "no" );
     //Abc_Print( -2, "\t-r     : toggle reversing the order of input/output bits [default = %s]\n", fReverse? "yes": "no" );    
     Abc_Print( -2, "\t-s     : toggle skipping the timestamp in the output file [default = %s]\n", fSkipComment? "yes": "no" );
+    Abc_Print( -2, "\t-v     : toggle verbose output [default = %s]\n", fVerbose? "yes": "no" );
+    Abc_Print( -2, "\t-h     : print the command usage\n");
+    Abc_Print( -2, "\t<file> : the file name\n");
+    return 1;
+}
+
+/**Function*************************************************************
+
+  Synopsis    [Writes GIA node retention map to a file.]
+
+  Description [Writes the retention map from the current GIA's
+               pNodeRetention manager. The output contains CI position
+               to GIA object ID mappings and AND/CO node to origin
+               GIA ID mappings, enabling Yosys to recover source
+               location attributes through ABC synthesis.]
+
+  SideEffects []
+
+  SeeAlso     [Nr_ManPrintRetentionMapGia]
+
+***********************************************************************/
+int Abc_CommandAbc9WriteRetention( Abc_Frame_t * pAbc, int argc, char ** argv )
+{
+    char * pFileName;
+    char ** pArgvNew;
+    int c, nArgcNew;
+    int fVerbose = 0;
+    FILE * pFile;
+    Extra_UtilGetoptReset();
+    while ( ( c = Extra_UtilGetopt( argc, argv, "vh" ) ) != EOF )
+    {
+        switch ( c )
+        {
+        case 'v':
+            fVerbose ^= 1;
+            break;
+        case 'h':
+            goto usage;
+        default:
+            goto usage;
+        }
+    }
+    pArgvNew = argv + globalUtilOptind;
+    nArgcNew = argc - globalUtilOptind;
+    if ( nArgcNew != 1 )
+    {
+        Abc_Print( -1, "There is no file name.\n" );
+        return 1;
+    }
+    if ( pAbc->pGia == NULL )
+    {
+        Abc_Print( -1, "Abc_CommandAbc9WriteRetention(): There is no GIA.\n" );
+        return 1;
+    }
+    if ( pAbc->pGia->pNodeRetention == NULL )
+    {
+        Abc_Print( -1, "Abc_CommandAbc9WriteRetention(): GIA has no node retention data.\n" );
+        return 1;
+    }
+    pFileName = pArgvNew[0];
+    pFile = fopen( pFileName, "w" );
+    if ( pFile == NULL )
+    {
+        Abc_Print( -1, "Cannot open output file \"%s\".\n", pFileName );
+        return 1;
+    }
+    Nr_ManPrintRetentionMapGia( pFile, pAbc->pGia, pAbc->pGia->pNodeRetention );
+    fclose( pFile );
+    if ( fVerbose )
+        Abc_Print( 1, "Written retention map for GIA with %d CIs, %d ANDs, %d COs to \"%s\".\n",
+            Gia_ManCiNum(pAbc->pGia), Gia_ManAndNum(pAbc->pGia), Gia_ManCoNum(pAbc->pGia), pFileName );
+    return 0;
+
+usage:
+    Abc_Print( -2, "usage: &write_retention [-vh] <file>\n" );
+    Abc_Print( -2, "\t         writes the GIA node retention map to a file\n" );
     Abc_Print( -2, "\t-v     : toggle verbose output [default = %s]\n", fVerbose? "yes": "no" );
     Abc_Print( -2, "\t-h     : print the command usage\n");
     Abc_Print( -2, "\t<file> : the file name\n");
@@ -36510,8 +36623,6 @@ int Abc_CommandAbc9Strash( Abc_Frame_t * pAbc, int argc, char ** argv )
     else
     {
         pTemp = Gia_ManRehash( pAbc->pGia, fAddStrash );
-//        if ( !Abc_FrameReadFlag("silentmode") )
-//            printf( "Rehashed the current AIG.\n" );
     }
     if ( !(fCollapse && pAbc->pGia->pAigExtra) )
     {

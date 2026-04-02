@@ -113,18 +113,26 @@ void Dch_ManSweep( Dch_Man_t * p )
     Aig_ManCleanData( p->pAigTotal );
     Aig_ManConst1(p->pAigTotal)->pData = Aig_ManConst1(p->pAigFraig);
     Aig_ManForEachCi( p->pAigTotal, pObj, i )
+    {
         pObj->pData = Aig_ObjCreateCi( p->pAigFraig );
+        Nr_ManCopyOrigins( p->pAigFraig->pNodeRetention, p->pAigTotal->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pData), Aig_ObjId(pObj) );
+    }
     // sweep internal nodes
     pProgress = Bar_ProgressStart( stdout, Aig_ManObjNumMax(p->pAigTotal) );
     Aig_ManForEachNode( p->pAigTotal, pObj, i )
     {
+        int nNodesBefore, nNodesAfter, k;
         Bar_ProgressUpdate( pProgress, i, NULL );
-        if ( Dch_ObjFraig(Aig_ObjFanin0(pObj)) == NULL || 
+        if ( Dch_ObjFraig(Aig_ObjFanin0(pObj)) == NULL ||
              Dch_ObjFraig(Aig_ObjFanin1(pObj)) == NULL )
             continue;
+        nNodesBefore = Aig_ManObjNum(p->pAigFraig);
         pObjNew = Aig_And( p->pAigFraig, Dch_ObjChild0Fra(pObj), Dch_ObjChild1Fra(pObj) );
+        nNodesAfter = Aig_ManObjNum(p->pAigFraig);
         if ( pObjNew == NULL )
             continue;
+        for ( k = nNodesBefore; k < nNodesAfter; k++ )
+            Nr_ManCopyOrigins( p->pAigFraig->pNodeRetention, p->pAigTotal->pNodeRetention, k, Aig_ObjId(pObj) );
         Dch_ObjSetFraig( pObj, pObjNew );
         Dch_ManSweepNode( p, pObj );
     }

@@ -2,6 +2,7 @@ name: Build Posix CMake
 
 on:
   push:
+    branches: [main, master]
   pull_request:
 
 jobs:
@@ -46,11 +47,35 @@ jobs:
 
     - name: Run Unit Tests
       run: |
-        ctest --output-on-failure
+        ctest --test-dir build --output-on-failure
 
     - name: Test Executable
       run: |
         ./build/abc -c "r i10.aig; b; ps; b; rw -l; rw -lz; b; rw -lz; b; ps; cec"
+
+    - name: Test Node Retention - Basic Get/Put
+      run: |
+        ./build/abc -f node_ret/get_and_put.script
+
+    - name: Test Node Retention - Synthesis Pipeline
+      run: |
+        ./build/abc -f node_ret/v3.script
+
+    - name: Test Node Retention - Full Pipeline
+      run: |
+        ./build/abc -f node_ret/abc.script
+
+    - name: Validate Node Retention Outputs
+      run: |
+        bash node_ret/scripts/ci_validate.sh
+
+    - name: Test GIA Node Retention (&write_retention)
+      run: |
+        ./build/abc -f node_ret/gia_retention.script
+
+    - name: Validate GIA Retention Output
+      run: |
+        bash node_ret/scripts/validate_gia_retention.sh
 
     - name: Test Library
       run: |

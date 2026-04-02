@@ -148,6 +148,7 @@ Gia_Man_t * Gia_ManDupWithBoxes( Gia_Man_t * p, int fSeq )
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
         else assert( 0 );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     assert( !Gia_ManHasDangling(pNew) );
     // collect remaining flops
@@ -302,6 +303,7 @@ Gia_Man_t * Gia_ManFraigCreateGia( Gia_Man_t * p )
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
         else assert( 0 );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     // update timing manager
     pNew->pManTime = Gia_ManUpdateTimMan( p, vBoxPres );
@@ -366,6 +368,7 @@ Gia_Man_t * Gia_ManFraigReduceGia( Gia_Man_t * p, int * pReprs )
         else if ( Gia_ObjIsConst0(pObj) )
             pObj->Value = 0;
         else assert( 0 );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     Gia_ManHashStop( pNew );
     return pNew;

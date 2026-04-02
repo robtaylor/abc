@@ -1,0 +1,10 @@
+# Test full synthesis pipeline preserves node retention
+r i10.aig
+b
+strash
+dc2
+dch -f
+if -K 6
+mfs2
+ps
+write_blif node_ret/output.blif

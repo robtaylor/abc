@@ -94,6 +94,8 @@ Abc_Ntk_t * Abc_NtkAlloc( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan
     pNtk->vAttrs = Vec_PtrStart( VEC_ATTR_TOTAL_NUM );
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
+    // node retention manager
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     return pNtk;
 }
 Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMemMan, int nVars )
@@ -140,6 +142,8 @@ Abc_Ntk_t * Abc_NtkAllocBdd( Abc_NtkType_t Type, Abc_NtkFunc_t Func, int fUseMem
     pNtk->vAttrs = Vec_PtrStart( VEC_ATTR_TOTAL_NUM );
     // estimated AndGateDelay
     pNtk->AndGateDelay = 0.0;
+    // node retention manager
+    pNtk->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     return pNtk;
 }
 
@@ -176,12 +180,20 @@ Abc_Ntk_t * Abc_NtkStartFrom( Abc_Ntk_t * pNtk, Abc_NtkType_t Type, Abc_NtkFunc_
     if ( Abc_NtkIsStrash(pNtk) && Abc_NtkIsStrash(pNtkNew) )
         Abc_AigConst1(pNtk)->pCopy = Abc_AigConst1(pNtkNew);
     // clone CIs/CIs/boxes
-    Abc_NtkForEachPi( pNtk, pObj, i )
+    Abc_NtkForEachPi( pNtk, pObj, i ) {
         Abc_NtkDupObj( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     Abc_NtkForEachPo( pNtk, pObj, i )
+    {
         Abc_NtkDupObj( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     Abc_NtkForEachBox( pNtk, pObj, i )
+    {
         Abc_NtkDupBox( pNtkNew, pObj, fCopyNames );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, pObj->pCopy->Id, pObj->Id );
+    }
     // transfer logic level
     Abc_NtkForEachCi( pNtk, pObj, i )
         pObj->pCopy->Level = pObj->Level;
@@ -483,7 +495,10 @@ Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * pNtk )
     {
         // copy the AND gates
         Abc_AigForEachAnd( pNtk, pObj, i )
+        {
             pObj->pCopy = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, Abc_ObjChild0Copy(pObj), Abc_ObjChild1Copy(pObj) );
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+        }
         // relink the choice nodes
         Abc_AigForEachAnd( pNtk, pObj, i )
             if ( pObj->pData )
@@ -501,7 +516,10 @@ Abc_Ntk_t * Abc_NtkDup( Abc_Ntk_t * pNtk )
         // duplicate the nets and nodes (CIs/COs/latches already dupped)
         Abc_NtkForEachObj( pNtk, pObj, i )
             if ( pObj->pCopy == NULL )
+            {
                 Abc_NtkDupObj(pNtkNew, pObj, Abc_NtkHasBlackbox(pNtk) && Abc_ObjIsNet(pObj));
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pNtk->pNodeRetention, Abc_ObjId(pObj->pCopy), Abc_ObjId(pObj) );
+            }
         // reconnect all objects (no need to transfer attributes on edges)
         Abc_NtkForEachObj( pNtk, pObj, i )
             if ( !Abc_ObjIsBox(pObj) && !Abc_ObjIsBo(pObj) )
@@ -1540,6 +1558,7 @@ void Abc_NtkDelete( Abc_Ntk_t * pNtk )
     Vec_IntFreeP( &pNtk->vTopo );
     Vec_IntFreeP( &pNtk->vFins );
     Vec_IntFreeP( &pNtk->vOrigNodeIds );
+    Nr_ManFree( pNtk->pNodeRetention );
     ABC_FREE( pNtk );
 }
 

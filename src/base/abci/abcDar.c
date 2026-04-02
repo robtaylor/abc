@@ -23,6 +23,8 @@
 
 #include "base/abc/abc.h"
 #include "base/main/main.h"
+#include "base/main/mainInt.h"
+#include "base/abc/node_retention.h"
 #include "aig/gia/giaAig.h"
 #include "opt/dar/dar.h"
 #include "sat/cnf/cnf.h"
@@ -293,6 +295,7 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
         pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCi(pMan);
         // initialize logic level of the CIs
         ((Aig_Obj_t *)pObj->pCopy)->Level = pObj->Level;
+        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
     }
 
     // complement the 1-values registers
@@ -307,14 +310,21 @@ Aig_Man_t * Abc_NtkToDar( Abc_Ntk_t * pNtk, int fExors, int fRegisters )
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pObj, i )
 //    Abc_NtkForEachNode( pNtk, pObj, i )
     {
+        int nObjsBefore = Aig_ManObjNum(pMan);
         pObj->pCopy = (Abc_Obj_t *)Aig_And( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj), (Aig_Obj_t *)Abc_ObjChild1Copy(pObj) );
+        int nObjsAfter = Aig_ManObjNum(pMan);
+        int j;
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, j, pObj->Id );
 //        Abc_Print( 1, "%d->%d ", pObj->Id, ((Aig_Obj_t *)pObj->pCopy)->Id );
-    }
+    }     
     Vec_PtrFree( vNodes );
     pMan->fAddStrash = 0;
     // create the POs
-    Abc_NtkForEachCo( pNtk, pObj, i )
-        Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
+    Abc_NtkForEachCo( pNtk, pObj, i ) {
+        pObj->pCopy = (Abc_Obj_t *)Aig_ObjCreateCo( pMan, (Aig_Obj_t *)Abc_ObjChild0Copy(pObj) );
+        Nr_ManCopyOrigins( pMan->pNodeRetention, pNtk->pNodeRetention, Aig_ObjId((Aig_Obj_t *)pObj->pCopy), pObj->Id );
+    }
     // complement the 1-valued registers
     Aig_ManSetRegNum( pMan, Abc_NtkLatchNum(pNtk) );
     if ( fRegisters )
@@ -439,10 +449,13 @@ Abc_Ntk_t * Abc_NtkFromDar( Abc_Ntk_t * pNtkOld, Aig_Man_t * pMan )
     // rebuild the AIG
     vNodes = Aig_ManDfs( pMan, 1 );
     Vec_PtrForEachEntry( Aig_Obj_t *, vNodes, pObj, i )
+    {
         if ( Aig_ObjIsBuf(pObj) )
             pObj->pData = (Abc_Obj_t *)Aig_ObjChild0Copy(pObj);
         else
             pObj->pData = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, (Abc_Obj_t *)Aig_ObjChild0Copy(pObj), (Abc_Obj_t *)Aig_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, ((Abc_Obj_t *)pObj->pData)->Id, Aig_ObjId(pObj) );
+    }
     Vec_PtrFree( vNodes );
     // connect the PO nodes
     Aig_ManForEachCo( pMan, pObj, i )
@@ -654,6 +667,14 @@ Abc_Ntk_t * Abc_NtkFromAigPhase( Aig_Man_t * pMan )
     Abc_NtkAddDummyPiNames( pNtkNew );
     Abc_NtkAddDummyPoNames( pNtkNew );
     Abc_NtkAddDummyBoxNames( pNtkNew );
+
+    // node retnetion information
+    Aig_ManForEachCi( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId((Abc_Obj_t *)pObj->pData), Aig_ObjId(pObj) );
+    Aig_ManForEachNode( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId((Abc_Obj_t *)pObj->pData), Aig_ObjId(pObj) );
+    Aig_ManForEachCo( pMan, pObj, i )
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, Abc_ObjId((Abc_Obj_t *)pObj->pData), Aig_ObjId(pObj) );
 
     // check the resulting AIG
     if ( !Abc_NtkCheck( pNtkNew ) )
@@ -1022,10 +1043,18 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     vCopyLits = Vec_IntStartFull( 2*Gia_ManObjNum(p) );
     // create PIs
     Gia_ManForEachPi( p, pObj, i )
-        Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObj), 0, Abc_ObjId( Abc_NtkCreatePi( pNtkNew ) ) );
+    {
+        pObjNew = Abc_NtkCreatePi( pNtkNew );
+        Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObj), 0, Abc_ObjId(pObjNew) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), Gia_ObjId(p, pObj) );
+    }
     // create POs
     Gia_ManForEachPo( p, pObj, i )
-        Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObj), 0, Abc_ObjId( Abc_NtkCreatePo( pNtkNew ) ) );
+    {
+        pObjNew = Abc_NtkCreatePo( pNtkNew );
+        Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObj), 0, Abc_ObjId(pObjNew) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), Gia_ObjId(p, pObj) );
+    }
     // create as many latches as there are registers in the manager
     Gia_ManForEachRiRo( p, pObjLi, pObjLo, i )
     {
@@ -1034,10 +1063,10 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
         pObjNewLo = Abc_NtkCreateBo( pNtkNew );
         Abc_ObjAddFanin( pObjNew, pObjNewLi );
         Abc_ObjAddFanin( pObjNewLo, pObjNew );
-//        pObjLi->Value = Abc_ObjId( pObjNewLi );
-//        pObjLo->Value = Abc_ObjId( pObjNewLo );
         Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObjLi), 0, Abc_ObjId( pObjNewLi ) );
         Abc_NtkFromCellWrite( vCopyLits, Gia_ObjId(p, pObjLo), 0, Abc_ObjId( pObjNewLo ) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNewLi), Gia_ObjId(p, pObjLi) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNewLo), Gia_ObjId(p, pObjLo) );
         Abc_LatchSetInit0( pObjNew );
     }
 
@@ -1057,6 +1086,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     Gia_ManForEachCell( p, iLit )
     {
         int fSkip = 0;
+        int iGiaId = Abc_Lit2Var(iLit);
         if ( Gia_ObjIsCellBuf(p, iLit) )
         {
             assert( !Abc_LitIsCompl(iLit) );
@@ -1067,6 +1097,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             pObjNew->pData = NULL; // barrier buffer
             assert( Abc_ObjIsBarBuf(pObjNew) );
             pNtkNew->nBarBufs2++;
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), iGiaId );
         }
         else if ( Gia_ObjIsCellInv(p, iLit) )
         {
@@ -1081,6 +1112,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
                     Abc_ObjAddFanin( pObjNew, Abc_NtkFromCellRead(pNtkNew, vCopyLits, Abc_Lit2Var(iFanLit), Abc_LitIsCompl(iFanLit)) );
                 pObjNew->pData = Mio_LibraryReadGateByName( (Mio_Library_t *)pNtkNew->pManFunc, pCells[Gia_ObjCellId(p, iLitNot)].pName, NULL );
                 Abc_NtkFromCellWrite( vCopyLits, Abc_Lit2Var(iLitNot), Abc_LitIsCompl(iLitNot), Abc_ObjId(pObjNew) );
+                Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), iGiaId );
                 fSkip = 1;
             }
             else // negative phase
@@ -1092,6 +1124,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             pObjNew = Abc_NtkCreateNode( pNtkNew );
             Abc_ObjAddFanin( pObjNew, Abc_NtkFromCellRead(pNtkNew, vCopyLits, Abc_Lit2Var(iLit), Abc_LitIsCompl(iLitNot)) );
             pObjNew->pData = Mio_LibraryReadGateByName( (Mio_Library_t *)pNtkNew->pManFunc, pCells[3].pName, NULL );
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), iGiaId );
         }
         else
         {
@@ -1100,6 +1133,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
             Gia_CellForEachFanin( p, iLit, iFanLit, k )
                 Abc_ObjAddFanin( pObjNew, Abc_NtkFromCellRead(pNtkNew, vCopyLits, Abc_Lit2Var(iFanLit), Abc_LitIsCompl(iFanLit)) );
             pObjNew->pData = Mio_LibraryReadGateByName( (Mio_Library_t *)pNtkNew->pManFunc, pCells[Gia_ObjCellId(p, iLit)].pName, NULL );
+            Nr_ManCopyOrigins( pNtkNew->pNodeRetention, p->pNodeRetention, Abc_ObjId(pObjNew), iGiaId );
         }
         assert( Vec_IntEntry(vCopyLits, iLit) == -1 );
         Abc_NtkFromCellWrite( vCopyLits, Abc_Lit2Var(iLit), Abc_LitIsCompl(iLit), Abc_ObjId(pObjNew) );
@@ -1134,6 +1168,7 @@ Abc_Ntk_t * Abc_NtkFromCellMappedGia( Gia_Man_t * p, int fUseBuffs )
     assert( Gia_ManPiNum(p) == Abc_NtkPiNum(pNtkNew) );
     assert( Gia_ManPoNum(p) == Abc_NtkPoNum(pNtkNew) );
     assert( Gia_ManRegNum(p) == Abc_NtkLatchNum(pNtkNew) );
+
     Vec_IntFree( vCopyLits );
     ABC_FREE( pCells );
 
@@ -1264,6 +1299,7 @@ Abc_Ntk_t * Abc_NtkFromDarChoices( Abc_Ntk_t * pNtkOld, Aig_Man_t * pMan )
     Aig_ManForEachNode( pMan, pObj, i )
     {
         pObj->pData = Abc_AigAnd( (Abc_Aig_t *)pNtkNew->pManFunc, (Abc_Obj_t *)Aig_ObjChild0Copy(pObj), (Abc_Obj_t *)Aig_ObjChild1Copy(pObj) );
+        Nr_ManCopyOrigins( pNtkNew->pNodeRetention, pMan->pNodeRetention, ((Abc_Obj_t *)pObj->pData)->Id, Aig_ObjId(pObj) );
     }
     Aig_ManForEachNode( pMan, pObj, i ) {
         if ( (pTemp = Aig_ObjEquiv(pMan, pObj)) )

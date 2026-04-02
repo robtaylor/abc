@@ -776,6 +776,8 @@ Gia_Man_t * Gia_ManDup( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCi( pNew );
         else if ( Gia_ObjIsCo(pObj) )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     if ( p->pCexSeq )
@@ -1531,6 +1533,8 @@ Gia_Man_t * Gia_ManDupMarked( Gia_Man_t * p )
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
             nRis += Gia_ObjIsRi(p, pObj);
         }
+        // copy origins from old manager to new manager
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), i );
     }
     assert( pNew->nObjsAlloc == pNew->nObjs );
     assert( nRos == nRis );
@@ -3633,7 +3637,10 @@ Gia_Man_t * Gia_ManDupZeroUndc( Gia_Man_t * p, char * pInit, int nNewPis, int fG
     Gia_ManConst0(p)->Value = 0;
     // create primary inputs
     Gia_ManForEachPi( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCi( pNew );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create additional primary inputs
     for ( i = Gia_ManPiNum(p); i < CountPis; i++ )
         Gia_ManAppendCi( pNew );
@@ -3659,20 +3666,31 @@ Gia_Man_t * Gia_ManDupZeroUndc( Gia_Man_t * p, char * pInit, int nNewPis, int fG
         }
         else if ( pInit[i] != '0' )
             assert( 0 );
+        // copy origins for flop outputs (after potential modifications)
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
     }
     Gia_ManCleanMark0( p );
     // build internal nodes
     Gia_ManForEachAnd( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create POs
     Gia_ManForEachPo( p, pObj, i )
+    {
         pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create flop inputs
     Gia_ManForEachRi( p, pObj, i )
+    {
         if ( pInit[i] == '1' )
             pObj->Value = Gia_ManAppendCo( pNew, Abc_LitNot(Gia_ObjFanin0Copy(pObj)) );
         else
             pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // create reset flop input
     if ( CountPis > Gia_ManPiNum(p) )
         Gia_ManAppendCo( pNew, 1 );
@@ -3835,13 +3853,20 @@ Gia_Man_t * Gia_ManMiter2( Gia_Man_t * pStart, char * pInit, int fVerbose )
 ***********************************************************************/
 int Gia_ManChoiceMiter_rec( Gia_Man_t * pNew, Gia_Man_t * p, Gia_Obj_t * pObj )
 {
+    int iNode;
     if ( ~pObj->Value )
         return pObj->Value;
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin0(pObj) );
     if ( Gia_ObjIsCo(pObj) )
-        return pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+    {
+        iNode = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+        return pObj->Value = iNode;
+    }
     Gia_ManChoiceMiter_rec( pNew, p, Gia_ObjFanin1(pObj) );
-    return pObj->Value = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+    iNode = Gia_ManHashAnd( pNew, Gia_ObjFanin0Copy(pObj), Gia_ObjFanin1Copy(pObj) );
+    Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(p, pObj) );
+    return pObj->Value = iNode;
 } 
 
 /**Function*************************************************************
@@ -3878,8 +3903,10 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
     for ( k = 0; k < Gia_ManCiNum(pGia0); k++ )
     {
         iNode = Gia_ManAppendCi(pNew);
-        Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i )
-            Gia_ManCi( pGia, k )->Value = iNode; 
+        Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i ) {
+            Gia_ManCi( pGia, k )->Value = iNode;
+            Nr_ManCopyOrigins( pNew->pNodeRetention, pGia->pNodeRetention, Abc_Lit2Var(iNode), Gia_ObjId(pGia, Gia_ManCi(pGia, k)) );
+        }
     }
     // create internal nodes
     Gia_ManHashAlloc( pNew );
@@ -3888,6 +3915,7 @@ Gia_Man_t * Gia_ManChoiceMiter( Vec_Ptr_t * vGias )
         Vec_PtrForEachEntry( Gia_Man_t *, vGias, pGia, i )
             Gia_ManChoiceMiter_rec( pNew, pGia, Gia_ManCo( pGia, k ) );
     }
+
     Gia_ManHashStop( pNew );
     // check the presence of dangling nodes
     nNodes = Gia_ManHasDangling( pNew );

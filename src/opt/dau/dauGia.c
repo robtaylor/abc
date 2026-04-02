@@ -519,8 +519,11 @@ void * Dsm_ManDeriveGia( void * pGia, int fUseMuxes )
     // map primary inputs
     Gia_ManFillValue(p);
     Gia_ManConst0(p)->Value = 0;
-    Gia_ManForEachCi( p, pObj, i )
+    Gia_ManForEachCi( p, pObj, i ) {
         pObj->Value = Gia_ManAppendCi(pNew);
+        if (pObj->Value)
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+    }
     // iterate through nodes used in the mapping
     vLeaves = Vec_IntAlloc( 16 );
     vCover  = Vec_IntAlloc( 1 << 16 );
@@ -531,10 +534,13 @@ void * Dsm_ManDeriveGia( void * pGia, int fUseMuxes )
         if ( Gia_ObjIsBuf(pObj) )
         {
             pObj->Value = Gia_ManAppendBuf( pNew, Gia_ObjFanin0Copy(pObj) );
+            if (pObj->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
             continue;
         }
-        if ( !Gia_ObjIsLut(p, iLut) )
+        if ( !Gia_ObjIsLut(p, iLut) ) {
             continue;
+        }
         // collect leaves
         Vec_IntClear( vLeaves );
         Gia_LutForEachFanin( p, iLut, iVar, k )
@@ -544,11 +550,19 @@ void * Dsm_ManDeriveGia( void * pGia, int fUseMuxes )
         Vec_IntClear( vLeaves );
         Gia_LutForEachFanin( p, iLut, iVar, k )
             Vec_IntPush( vLeaves, Gia_ManObj(p, iVar)->Value );
+        int nObjsBefore = Gia_ManObjNum(pNew);
         Gia_ManObj(p, iLut)->Value = Dsm_ManTruthToGia( pNew, pTruth, vLeaves, vCover );
+        int nObjsAfter = Gia_ManObjNum(pNew);
+        int j;
+        for ( j = nObjsBefore; j < nObjsAfter; j++ )
+            Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, j, Gia_ObjId(p, pObj) );
     }
     Gia_ObjComputeTruthTableStop( p );
     Gia_ManForEachCo( p, pObj, i )
-        pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+        { pObj->Value = Gia_ManAppendCo( pNew, Gia_ObjFanin0Copy(pObj) );
+            if (pObj->Value)
+                Nr_ManCopyOrigins( pNew->pNodeRetention, p->pNodeRetention, Abc_Lit2Var(pObj->Value), Gia_ObjId(p, pObj) );
+        }
     Gia_ManHashStop( pNew );
     Gia_ManSetRegNum( pNew, Gia_ManRegNum(p) );
     Vec_IntFree( vLeaves );

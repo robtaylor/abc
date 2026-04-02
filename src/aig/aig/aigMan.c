@@ -75,6 +75,8 @@ Aig_Man_t * Aig_ManStart( int nNodesMax )
     p->nTableSize = Abc_PrimeCudd( nNodesMax );
     p->pTable = ABC_ALLOC( Aig_Obj_t *, p->nTableSize );
     memset( p->pTable, 0, sizeof(Aig_Obj_t *) * p->nTableSize );
+    // node retention manager
+    p->pNodeRetention = Nr_ManCreate( 1000, 1, 1 );
     return p;
 }
 
@@ -229,6 +231,7 @@ void Aig_ManStop( Aig_Man_t * p )
     ABC_FREE( p->pReprs );
     ABC_FREE( p->pEquivs );
     ABC_FREE( p->pTable );
+    Nr_ManFree( p->pNodeRetention );
     ABC_FREE( p );
 }
 

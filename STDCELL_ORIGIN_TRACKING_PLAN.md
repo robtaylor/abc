@@ -57,10 +57,38 @@ Ravenslofty (YosysHQ, final say on abc-in-yosys), and the PR threads:
 | `&dc2` / `&dch` | `giaAig.c` (`…AfterRoundTrip`) | yes |
 | `&syn2` / `&synch2` | `giaScript.c` | yes |
 | `&b` (balance) | `giaBalAig.c` | yes |
-| **`&nf` (std-cell map)** | **`giaNf.c`** | **NO — this PR** |
+| **`&nf` (std-cell map)** | **`giaNf.c`** | **yes — by construction (see spike)** |
 
-`grep -c Origin src/aig/gia/giaNf.c` = 0. `&nf` is the only engine from Alan's
-list still uninstrumented.
+`grep -c Origin src/aig/gia/giaNf.c` = 0 — but this is **expected and fine**.
+
+### Spike result (verified): `&nf` preserves origins without code changes
+
+`&nf` maps **in place**: `Nf_ManDeriveMapping` attaches `vCellMapping` to
+`p->pGia` and returns the *same* GIA (`giaNf.c:2409` → `return p->pGia`) — no
+object renumbering. `Nf_StoCreate` only allocates side arrays; it does not dup
+the GIA. The only renumbering operations in the `Nf_ManPerformMapping` wrapper
+are `Gia_ManDupMuxes` (coarsen), `Gia_ManDupUnnormalize` and
+`Gia_ManDupNormalize` (boxes path) — **all already origin-instrumented**. So
+`vOrigins` on the AIG nodes survive `&nf` untouched.
+
+**Empirically confirmed** (standalone abc, PR #487 binary, sky130 liberty, on a
+yosys-produced XAIGER carrying the `"y"` extension):
+
+```
+&read input.xaig; &origins -M 100; &origins   -> Origins: 13 entries
+&nf;                                &origins   -> Origins: 13 entries   (preserved)
+```
+
+Consequence: **no propagation code is needed in `giaNf.c`**, and a
+`Gia_ManOriginsDupNf` helper is **not** required. Alan's "cover `&nf`" item is
+satisfied by construction.
+
+> Open/inconclusive: a plain standalone `&write`→`&read` round-trip of the
+> *mapped* GIA did not restore origins, but that test was not faithful (missing
+> `read_box`; the real abc9 write-back path differs). Whether `&write` emits the
+> `"y"` extension correctly for a cell-mapped GIA must be checked on the
+> yosys-integration side — it belongs to the consumption work below, not to
+> `&nf` itself.
 
 ## Verified current state (why std-cell doesn't work today)
 
@@ -98,69 +126,35 @@ list still uninstrumented.
   (`abc9` is currently LUT-only). That is the larger follow-on and is **out of
   scope for this ABC PR**, but documented below so the boundary is explicit.
 
-## ABC PR scope (this branch) — minimal changes
+## ABC PR scope (this branch) — verification, not new code
 
-Deliverable: **`vOrigins` survive `&nf` standard-cell mapping and are emitted by
-`&write`'s `"y"` extension**, with ABC-level tests proving it.
+The spike (above) shows `&nf` already preserves `vOrigins`. So there is **no
+`giaNf.c` change and no `Gia_ManOriginsDupNf` helper**. The deliverable is a
+**regression test** that locks in the behaviour, plus a one-line code comment.
 
 ### Changes
 
-1. **`src/aig/gia/giaNf.c` — propagate origins through mapping.**
-   `&nf` reads an input GIA `p` and produces a mapped GIA `pNew` (mapping stored
-   in `pNew->vCellMapping`, freed at `giaNf.c:382`). At the point `pNew` is
-   derived, call a new helper:
+1. **Regression test** (`test/origins/stdcell_nf.sh` or extend the existing
+   origin tests): seed origins from a yosys-produced XAIGER with the `"y"`
+   extension (or an equivalent fixture), `read_lib <lib>; &read in.xaig;
+   &origins -M 100; &nf; &origins`, and assert the post-`&nf` origin count is
+   preserved (≈ pre-`&nf`, non-zero). Keep it hermetic with a small library.
+2. **Comment in `giaNf.c`** noting that `&nf` maps in place and relies on the
+   already-instrumented dups, so origins are preserved without explicit code —
+   so a future reader doesn't "fix" a non-bug.
 
-   ```c
-   if ( p->vOrigins )
-       Gia_ManOriginsDupNf( pNew, p, pNfMan );   // mirror of Gia_ManOriginsDupIf
-   ```
+### Why this is right (and matches Alan's constraint)
 
-   The exact derivation site and the source→mapped-node correspondence in
-   `Nf_Man_t` must be pinned during implementation (candidate: the `iCopy`/
-   object-copy bookkeeping used when `Nf_ManDeriveMapping` builds `pNew`). If
-   `&nf` maps **in place** (annotating `p` with `vCellMapping`) rather than
-   producing a fresh GIA, no remap is needed and `vOrigins` already align by
-   object index — verify which case holds first.
+Zero behaviour change by definition — there is no code path change at all. This
+is the cleanest possible form of "cover `&nf`".
 
-2. **`src/aig/gia/giaDup.c` — add `Gia_ManOriginsDupNf`.**
-   Analogue of `Gia_ManOriginsDupIf`: reset/alloc `pNew->vOrigins`, copy
-   `nOriginsMax`, iterate the Nf correspondence, and
-   `Gia_ObjUnionOrigins(pNew, iNewObj, p, i)` for each mapped node. Declare in
-   `src/aig/gia/gia.h` next to the existing `Gia_ManOriginsDup*` prototypes.
+### Note on PR placement
 
-3. **Sanity-check `&write` for mapped GIAs (`giaAiger.c`).**
-   Confirm the `"y"` writer (line 1876) indexes objects consistently when the
-   GIA also carries `vCellMapping` (mapped POs / cell boxes). Adjust the object
-   walk only if mapping changes the object numbering assumptions.
-
-4. **Cover the remaining std-cell `&`-space steps.** The LibreLane area script
-   uses `&get -n; &st; &dch; &nf; &put`. `&st`/`&dch` are already instrumented;
-   confirm `&put` (GIA→`Abc_Ntk_t`) is not on the critical path for the XAIGER
-   route (it is only needed for the BLIF route, which we are not using for
-   provenance). No `&put` change expected for this PR.
-
-### Tests (ABC-level, no yosys needed)
-
-Add `test/origins/stdcell_nf.sh` (or extend the existing origin tests):
-
-- Build a small AIG with known per-object origins (reuse the PR #487 origin
-  test fixtures), run `&get; &st; &dch; &nf -L <genlib>; &write -y out.xaig`,
-  read back, and assert via `&origins` that mapped nodes carry the expected
-  origin literals (non-empty, trace to the seeded sources).
-- Negative control: same flow without instrumentation regressed → origins empty.
-- Keep a tiny genlib (e.g. the bundled `mcnc.genlib`/a 4-gate library) so the
-  test is hermetic and fast.
-
-### Risks / open questions
-
-- **`Nf_Man_t` correspondence.** Unlike `If_Man_t` (clean `pIfObj->iCopy`), the
-  cut-based `&nf` mapper may not expose a 1:1 source→mapped-node map directly;
-  may need to record it during `Nf_ManDeriveMapping`. This is the main unknown
-  and should be spiked first.
-- **Origin blow-up.** Std-cell mapping fans many AIG nodes into one cell; union
-  semantics already dedup, and `nOriginsMax` (`&origins -M`) caps accumulation.
-  Confirm the cap is honored on the `&nf` path.
-- **Mapped-object indexing in `&write`** (item 3) — most likely fine, but verify.
+Because this is verify-only (no engine code), the "split engines into separate
+PRs" rationale does not really apply to `&nf` — there is nothing to review but a
+test. Simplest: fold the test into #487 (origin-tracking-clean) and treat the
+`&nf` engine-coverage item as closed. Engine-splitting matters for engines that
+need real propagation code; `&nf` is not one.
 
 ## Companion yosys work (out of scope here, documented for the boundary)
 

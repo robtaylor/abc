@@ -18,6 +18,50 @@ applies `\src` to `$lut` cells. Validated end-to-end by
 The standard-cell path is **not** covered. This plan closes the ABC-side gap and
 scopes the companion yosys work.
 
+## Maintainer guidance (authoritative)
+
+From direct correspondence with Alan Mishchenko (ABC maintainer) and Dan
+Ravenslofty (YosysHQ, final say on abc-in-yosys), and the PR threads:
+
+- **The lightweight per-object `vOrigins` approach (PR #487) is endorsed.** Alan:
+  "your implementation is quite clean and has low resource usage … Glad this
+  method works for mapping RTL code into the resulting AIG nodes (as well gates
+  and LUTs after mapping)." So origins on **mapped std-cell gates** are an
+  accepted goal, not just LUTs.
+- **Alan explicitly named the engines to cover**: `&dc2, &if, &nf, &mfs, &syn2,
+  &dch, &synch2, &sweep, &scorr`. **`&nf` is on that list** — this PR is exactly
+  the remaining item.
+- **Acceptance criterion: zero change to default behavior.** Alan: "If the
+  resulting integration does not change the default behavior, I will be happy to
+  include it in the public version." The `&nf` change must be a no-op unless
+  `p->vOrigins` is set.
+- **The heavyweight `Nr_Man_t` retention manager is rejected — do NOT revive it.**
+  Alan: "the idea of 'origin annotation' [hash-table manager] is hard to
+  implement, because it requires modifications to 10+ different packages … it
+  reminds me of [HAIG] which was one of the most complicated things I ever
+  implemented in ABC — and it did not work." This rules out the
+  `YosysHQ/abc#41` / `Silimate/abc#4` (`Nr_Man_t` on `Abc_Ntk_t`) lineage,
+  including its classic-`abc`/`write_blif` provenance path. The `vOrigins`
+  (GIA-only) line is the sanctioned successor.
+- **Lofty originally suggested the XAIGER `"y"` extension** as the yosys↔abc
+  channel (`YosysHQ/abc#41` discussion); the abc internals are "up to Alan".
+
+### Current engine coverage (verified on `origin-tracking-clean`)
+
+| Engine (Alan's list) | File | `vOrigins` covered |
+|---|---|---|
+| `&if` (LUT map) | `giaIf.c` | yes |
+| `&mfs` | `giaMfs.c` | yes |
+| `&sweep` | `giaSweep.c` | yes |
+| `&scorr` | `cecCorr.c` | yes |
+| `&dc2` / `&dch` | `giaAig.c` (`…AfterRoundTrip`) | yes |
+| `&syn2` / `&synch2` | `giaScript.c` | yes |
+| `&b` (balance) | `giaBalAig.c` | yes |
+| **`&nf` (std-cell map)** | **`giaNf.c`** | **NO — this PR** |
+
+`grep -c Origin src/aig/gia/giaNf.c` = 0. `&nf` is the only engine from Alan's
+list still uninstrumented.
+
 ## Verified current state (why std-cell doesn't work today)
 
 1. **`&nf` (the std-cell mapper, `src/aig/gia/giaNf.c`) is not origin-instrumented.**
@@ -128,16 +172,30 @@ identity). Options, lowest-risk first:
   XAIGER write/read (as `abc9 -lut` does for LUTs) so object ids — and thus the
   `"y"` extension — survive, then apply `\src` to mapped std-cell instances
   (today `aigerparse.cc` applies only to `$lut`; extend to mapped boxes/cells).
-  This is the real unlock and the bulk of the remaining effort. `abc9` is
-  currently LUT-only, so this is non-trivial yosys work.
+  This is the real unlock and the bulk of the remaining effort.
 - **B. Origin sidecar keyed by stable net names.** Have the classic `abc` pass
   emit, alongside `output.blif`, an origin map keyed by the BLIF net/PO names
   (which survive the round-trip, as ABC's `dress` already relies on), and apply
   `\src` on the yosys side by net→driver correspondence. Avoids touching the
   mapping channel but adds a fragile naming dependency.
 
-Recommendation: land this ABC PR (A's foundation, independently useful), then
-pursue yosys option **A** to complete the LibreLane flow.
+### Upstream-home reality (important)
+
+- **The yosys consumer side has no upstream home.** `YosysHQ/yosys#5712` (the
+  `\src`-via-"y" consumer) was **closed** by YosysHQ staff on process +
+  technical grounds. So the yosys/librelane integration lives in our fork
+  (`robtaylor/yosys @ src-retention-y-ext`) + the `reference/origin-shell` flake.
+- **"abc9 everywhere" is ruled out.** `YosysHQ/yosys#5679` (merged) *removed*
+  `abc9 -liberty` because "our `abc9` command isn't set up to make use of Liberty
+  files." abc9 is LUT-only upstream and nothing drives abc9+liberty; making
+  abc9 the std-cell mapper would be a fully self-maintained yosys effort with
+  real QoR-regression risk. Not pursued.
+- **The abc side does have an upstream home** (`berkeley-abc/abc#487` + this
+  follow-on): Alan is willing to take it provided default behavior is unchanged.
+
+Recommendation: land this ABC PR (the sanctioned `&nf` item — independently
+useful and upstreamable), then implement consumption as **fork-only** yosys work
+via option **A** (preferred) or **B**. Do not block on, or attempt, abc9-everywhere.
 
 ## Validation harness
 

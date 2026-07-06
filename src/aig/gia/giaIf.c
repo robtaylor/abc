@@ -3010,9 +3010,19 @@ Gia_Man_t * Gia_ManPerformMappingInt( Gia_Man_t * p, If_Par_t * pPars )
     if ( p->pManTime && pPars->pTimesReq == NULL )
     {
         Tim_Man_t * pManTime = (Tim_Man_t *)p->pManTime;
-        pPars->pTimesReq = ABC_CALLOC( float, Gia_ManCoNum(p) );
+        int fHasFiniteReq = 0;
         for ( i = 0; i < Gia_ManCoNum(p); i++ )
-            pPars->pTimesReq[i] = Tim_ManGetCoRequired( pManTime, i );
+            if ( Tim_ManGetCoRequired( pManTime, i ) < TIM_ETERNITY )
+            {
+                fHasFiniteReq = 1;
+                break;
+            }
+        if ( fHasFiniteReq )
+        {
+            pPars->pTimesReq = ABC_CALLOC( float, Gia_ManCoNum(p) );
+            for ( i = 0; i < Gia_ManCoNum(p); i++ )
+                pPars->pTimesReq[i] = Tim_ManGetCoRequired( pManTime, i );
+        }
     }
     ABC_FREE( p->pCellStr );
     Vec_IntFreeP( &p->vConfigs );
@@ -3065,6 +3075,8 @@ Gia_Man_t * Gia_ManPerformMappingInt( Gia_Man_t * p, If_Par_t * pPars )
         pNew = Gia_ManFromIfAig( pIfMan );
     else
         pNew = Gia_ManFromIfLogic( pIfMan );
+    // propagate origin mapping from input GIA through IF mapper to output GIA
+    Gia_ManOriginsDupIf( pNew, p, pIfMan );
     if ( p->vCiArrs || p->vCoReqs )
     {
         If_Obj_t * pIfObj = NULL;
@@ -3160,6 +3172,7 @@ Gia_Man_t * Gia_ManPerformSopBalance( Gia_Man_t * p, int nCutNum, int nRelaxRati
     pIfMan = Gia_ManToIf( p, pPars );
     If_ManPerformMapping( pIfMan );
     pNew = Gia_ManFromIfAig( pIfMan );
+    Gia_ManOriginsDupIf( pNew, p, pIfMan );
     If_ManStop( pIfMan );
     Gia_ManTransferTiming( pNew, p );
     // transfer name
@@ -3193,6 +3206,7 @@ Gia_Man_t * Gia_ManPerformDsdBalance( Gia_Man_t * p, int nLutSize, int nCutNum, 
         If_DsdManAllocIsops( pIfMan->pIfDsdMan, pPars->nLutSize );
     If_ManPerformMapping( pIfMan );
     pNew = Gia_ManFromIfAig( pIfMan );
+    Gia_ManOriginsDupIf( pNew, p, pIfMan );
     If_ManStop( pIfMan );
     Gia_ManTransferTiming( pNew, p );
     // transfer name
@@ -3298,6 +3312,7 @@ Gia_Man_t * Gia_ManDupHashMapping( Gia_Man_t * p )
         Vec_IntPush( vMapping, Abc_Lit2Var(pObj->Value) );
     }
     pNew->vMapping = vMapping;
+    Gia_ManOriginsDup( pNew, p );
     return pNew;
 }
 
@@ -3377,6 +3392,7 @@ Gia_Man_t * Gia_ManDupUnhashMapping( Gia_Man_t * p )
     }
     Vec_IntFree( vMap );
     pNew->vMapping = vMapping;
+    Gia_ManOriginsDup( pNew, p );
     return pNew;
 }
 
